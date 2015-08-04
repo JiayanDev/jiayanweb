@@ -1,0 +1,196 @@
+.dairy-header{
+	margin: 5px 0 8px;
+	background-color: #F4F4F4;
+	padding: 8px 15px;
+}
+.dairy-header>div{
+	margin-bottom: 3px;
+	line-height: 20px;
+	padding-top: 3px;
+}
+
+.dairy-previous{
+	margin: 15px 0 40px;
+	border-top: 1px solid #ddd;
+	border-bottom: 1px solid #ddd;
+	padding: 5px 13px;
+}
+
+.dairy-previous h1{
+	font-size: 12px;
+	top: -5px;
+	background-color: #fff;
+	z-index: 200;
+	padding: 0 8px;
+	left: 50%;
+	margin-left: -32px;
+}
+.dairy-previous .post-item-gallery li{
+	width: 80px;
+	height: 80px;
+}
+
+.dairy-item-frame:first-child{
+	margin-top: 30px;
+}
+.dairy-item-frame:last-child{
+	padding-bottom: 0px;
+}
+.dairy-item-frame{
+	margin-top: 8px;
+	padding-top: 45px;
+  	border-left: 2px solid #ddd;
+  	padding-bottom: 35px;
+}
+.dairy-item-cnt{margin-top: -75px;}
+.dairy-list .dairy-item-main{
+	margin-left: 12px;
+	background-color: #F4F4F4;
+}
+.dairy-item-main{
+	padding: 0 10px 5px;
+}
+
+.left.dairy-item-arrow{
+	top: 19px;
+	left: 4px;
+	border-width: 8px 8px 8px 0;
+	border-right-color: #F4F4F4;
+}
+.up.dairy-item-arrow{
+	top: -6px;
+	left: 20px;
+	margin-left: -8px;
+	border-width: 0px 7px 7px;
+	border-bottom-color: #F4F4F4;
+}
+
+.dairy-item-arrow{
+	position: absolute;
+	width: 0;
+	height: 0;
+	border-color: transparent;
+	border-style: solid;
+}
+.dairy-item-round{
+	border: 2px solid #ddd;
+	width: 5px;
+	height: 4px;
+	border-radius: 50%;
+	top: -8px;
+	left: -6px;
+}
+.post-item-header span{left:0px;top: 18px;}
+.post-item-gallery{margin:9px 0;}
+
+.dairy-header-value{
+	color: #F06;
+	margin-left: 5px;
+}
+.dairy-header-value-item{
+	margin-right: 5px;
+	border: 1px solid;
+	border-radius: 10px;
+	padding: 3px 5px;
+ }
+
+.dairy-tip{color: #F06;padding: 8px;background-color: #F4F4F4;}
+.dairy-tip span{top:7px;right: 3px;}
+.dairy-tip a{
+	color: #F0A;
+    text-decoration: none;
+}
+
+/*日记详情*/
+.dairy-detail .post-item-gallery li{width: 80px;height: 80px;}
+.dairy-detail{
+	padding-bottom: 8px;
+}
+.comment-item{
+	border-top: 1px solid #ddd;
+	padding: 14px 0;
+}
+.comment-profile.profile img{width: 25px;height: 25px;}
+.comment-profile.profile .text{margin: 0 10px 0px 35px;}
+.comment-profile .small{top: 7px;right: 3px;}
+.comment-item-content, .comment-reply{
+	margin-left: 35px;
+}
+.comment-item-content{
+  	padding: 5px 10px 10px 0;
+}
+.comment-reply-list{
+	background-color: #F4F4F4;
+  	padding: 10px;
+}
+.comment-reply-item{line-height: 19px; }
+
+/*评论*/
+
+
+/*-----The sprites----*/
+.dairy-icon{
+  display: inline-block;
+  *zoom: 1;
+  vertical-align: middle;
+  background: url(../img/dairy-icon.png) -9999px -9999px no-repeat;
+  margin-right: 5px;
+  margin-top: -2px;
+}
+
+.icon-comment {
+  width: 16px;
+  height: 16px;
+  background-position: 0 0;
+}
+
+.icon-date {
+  width: 16px;
+  height: 16px;
+  background-position: -26px 0;
+}
+
+.icon-doctor {
+  width: 16px;
+  height: 16px;
+  background-position: -52px 0;
+}
+
+.icon-hospital {
+  width: 14px;
+  height: 16px;
+  background-position: -78px 0;
+}
+
+.icon-price {
+  width: 16px;
+  height: 16px;
+  background-position: -102px 0;
+}
+
+.icon-project {
+  width: 16px;
+  height: 15px;
+  background-position: -128px 0;
+}
+
+.icon-star-empty {
+  width: 18px;
+  height: 19px;
+  background-position: -154px 0;
+  margin-top: -6px;
+}
+
+.icon-star-half {
+  width: 18px;
+  height: 19px;
+  background-position: -182px 0;
+  margin-top: -6px;
+}
+
+.icon-star {
+  width: 18px;
+  height: 19px;
+  background-position: -210px 0;
+  margin-top: -6px;
+}

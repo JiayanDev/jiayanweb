@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1"> -->
+    <meta name="viewport" content="width=device-width, height=device-height,initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>日记本详情</title>
+
+    <!-- Bootstrap -->
+    <!-- <link rel="stylesheet" href="../asset/css/bootstrap.min.css"> -->
+    <!-- <link rel="stylesheet" href="../asset/css/font-awesome.min.css"> -->
+
+    <link type="text/css" rel="stylesheet" href="../asset/css/frame.css" />
+    <link type="text/css" rel="stylesheet" href="../asset/css/common.css" />
+    <link type="text/css" rel="stylesheet" href="../asset/css/dairy.css" />
+</head>
+
+<body>
+    <div class="page">
+        <!-- 头部 -->
+        <div class="header">
+            <a id="goBack" class="none go-back"></a>
+            <span>日记本</span>
+        </div>
+
+        <!-- 内容 -->
+        <div class="content">
+
+            <!-- 头像 -->
+            <div class="profile dairy-profile" id="profilePanel">
+            </div>
+
+            <!-- 头部 -->
+            <div class="dairy-header" id="headerPanel">
+                
+            </div>
+
+            <div class="dairy-previous relative">
+                <h1 class="absolute">以前的我</h1>
+                <div class="post-item-gallery">
+                    <ul id="previousPhotoes">
+                        
+                    </ul>
+                </div> 
+            </div>
+
+            <!-- 日记列表 -->
+            <div class="container dairy-list" id="postList">
+               
+            </div>
+        </div>
+    </div>
+    <!-- page -->
+
+    <!-- 各种模板 -->
+
+    <!-- dairy -->
+    <script type="text/tpl" id="tplForPost">
+    <a href="diary.html?id={%= o.id %}">
+    <div class="dairy-item-frame relative">
+        <div class="dairy-item-round absolute"></div>
+        <div class="dairy-item-cnt relative">
+            <div class="left dairy-item-arrow"></div>
+            <div class="dairy-item-main">
+                <div class="post-item-header relative">
+                    <span class="small absolute">{%= window.G_formatTime(o.createTime) %}</span>
+                    恢复期第{%= o.day %}天
+                </div>
+                <div class="post-item-content">
+                    <p class="post-item-text">
+                        {%= o.content %}
+                    </p>
+                    <div class="post-item-gallery">
+                        <ul>
+                           {%
+                                !!o.photoes && $.each( o.photoes, function(i, photo) {
+                            %}
+                                <li>
+                                    <img src="{%= photo %}">
+                                </li>
+                            {%
+                                });
+                            %}
+                        </ul>
+                    </div>
+                </div>
+                <div class="post-item-footer">
+                    <span class="small">{%= o.likeCount %}</span>&nbsp;<img class="icon-like" src="../asset/img/like.png">&nbsp;&nbsp;
+                    <span class="small">{%= o.commentCount %}</span>&nbsp;<img class="icon-comment" src="../asset/img/comment.png">
+                </div>
+            </div>
+        </div>
+   </div>
+   </a>
+    </script>
+
+    <!-- header -->
+    <script type="text/tpl" id="tplForHeader">
+        <div>
+            <i class="dairy-icon icon-project"></i>
+            <span>项目</span>
+            <span class="dairy-header-value">
+            {%  
+                if( !!o.categoryIds ){
+                for (var i = o.categoryIds.length - 1; i >= 0; i--) {
+                    var category = o.categoryIds[i];
+            %}
+                <span class="dairy-header-value-item">{%= category.name %}</span>
+            {%
+                }}
+            %}
+            </span>
+        </div>
+        <div>
+            <i class="dairy-icon icon-date"></i>
+            <span>日期</span>
+            <span class="dairy-header-value">
+                <span>{%= o.operationTime?window.G_formatTime(o.operationTime):"" %}</span>
+            </span>
+        </div>
+        <div>
+            <i class="dairy-icon icon-hospital"></i>
+            <span>医院</span>
+            <span class="dairy-header-value">
+                <span>{%= o.hospitalName %}</span>
+            </span>
+        </div>
+        <div>
+            <i class="dairy-icon icon-doctor"></i>
+            <span>医生</span>
+            <span class="dairy-header-value">
+                <span>{%= o.doctorName %}</span>
+            </span>
+        </div>
+        <div>
+            <i class="dairy-icon icon-price"></i>
+            <span>价格</span>
+            <span class="dairy-header-value">
+            <span>{%= o.price %}</span>
+            </span>
+        </div>
+        <div>
+            <i class="dairy-icon icon-comment"></i>
+            <span>整体评价</span>
+            <span class="dairy-header-comment">
+                <i class="dairy-icon icon-star"></i>
+                <i class="dairy-icon icon-star-half"></i>
+                <i class="dairy-icon icon-star-empty"></i>
+            </span>
+        </div>
+    </script>
+
+    <script src="../script/lib/require.js"></script>
+    <script type="text/javascript">
+
+    require.config({
+        baseUrl: "../script",
+        paths: {
+            // "zepto": "../script/lib/zepto", //@note 以JS结尾的会忽略baseUrl
+            "jquery": "../script/lib/jquery.min", //@note 以JS结尾的会忽略baseUrl
+            "commJs": "../script/comm/comm",
+            "tmpl":"../script/lib/tmpl"
+        }
+    });
+    require(["dairyheader"], function(mod) {
+        mod.setup();
+    });
+
+    </script>
+    <!-- 各种模板 END -->
+</body>
+
+</html>

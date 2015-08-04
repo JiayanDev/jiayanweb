@@ -1,0 +1,156 @@
+/* http://meyerweb.com/eric/tools/css/reset/
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+main, menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, main, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+
+/* Don't kill focus outline for keyboard users: http://24ways.org/2009/dont-lose-your-focus */
+a:hover, a:active {
+    outline: none;
+}
+
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+a{text-decoration: none;}
+/*reset end*/
+
+
+body{font-family: "Helvetica Neue",Helvetica,Arial,"Hiragino Sans GB","Hiragino Sans GB W3","WenQuanYi Micro Hei",sans-serif;font-size: 14px;}
+.small{font-size: 9px;line-height: 9px;color: #333;font-weight: normal !important;}
+.relative{position: relative;}
+.absolute{position: absolute;}
+.profile a{
+	display: block;
+	float: left;
+}
+.profile img{
+	width: 35px;
+ 	height: 35px;
+  	border-radius: 3px;
+}
+.profile p{
+	/*font-weight:bold;*/
+	line-height: 25px; 
+}
+.profile .text{margin:0 10px 0px 40px;padding-bottom:5px;}
+.icon-like, .icon-comment{width: 12px;}
+.nickname{color: #F0A;}
+.color-border-left{
+	border-left: 2px solid;
+}
+
+.upload-plus{
+	width:54px;height:54px;border: 3px solid #CCC;text-align: center;line-height: 51px;color: #CCC;font-size: 40px;
+}
+.upload-plus i{
+
+}
+.upload-file-input{
+	width:100%;height:100%;left:0;position:absolute;top:0;opacity:0;
+}
+.post-item-gallery ul{overflow: hidden;}
+.post-item-gallery li{
+	float:left;margin-right:7px;list-style-type:none;position:relative;width: 60px;height: 60px;
+}
+.post-item-gallery li img{
+	width: 100%;
+	height: 100%;
+}
+
+/*post*/
+.post-item-header{
+	padding: 10px;
+	text-align: center;
+	font-size: 1em;
+	color: #555;
+	font-weight: bolder;
+	line-height: 20px;
+	border-bottom: 1px solid #DDD8D8;
+}
+.post-item-text{margin-top: 8px;}
+.post-item-footer{text-align: right;margin-top: 17px;}
+
+/*btton*/
+.btn{border:none;}
+.btn-link, .btn-link:active, .btn-link:focus, .btn-link:hover{border-color:transparent;}
+.btn-link, .btn-link.active, .btn-link:active, .btn-link[disabled], fieldset[disabled] .btn-link{
+	background-color: transparent;
+  	-webkit-box-shadow: none;
+  	box-shadow: none;
+}
+.btn-link{
+	font-weight: 400;
+  	color: #337ab7;
+  	border-radius: 0;
+}
+.btn-danger{background-color: #008AFF;color: #fff;}
+.btn{
+	display: inline-block;
+	padding: 3px 5px;
+	margin-bottom: 0;
+	font-size: 14px;
+	font-weight: 400;
+	line-height: 1.42857143;
+	text-align: center;
+	white-space: nowrap;
+	vertical-align: middle;
+	-ms-touch-action: manipulation;
+	touch-action: manipulation;
+	cursor: pointer;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	background-image: none;
+	border: 1px solid transparent;
+	border-radius: 4px;
+}
+
+/*input*/
+.form-control{
+	width: 100%;
+  	border: 1px solid #ddd;
+  	border-radius: 3px;
+  	padding-left: 5px;
+  	height: 30px;
+}
+

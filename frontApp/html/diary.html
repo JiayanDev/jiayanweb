@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1"> -->
+    <meta name="viewport" content="width=device-width, height=device-height,initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>日记</title>
+
+    <!-- Bootstrap -->
+    <!-- <link rel="stylesheet" href="../asset/css/bootstrap.min.css"> -->
+    <!-- <link rel="stylesheet" href="../asset/css/font-awesome.min.css"> -->
+
+    <link type="text/css" rel="stylesheet" href="../asset/css/frame.css" />
+    <link type="text/css" rel="stylesheet" href="../asset/css/common.css" />
+    <link type="text/css" rel="stylesheet" href="../asset/css/dairy.css" />
+</head>
+<style type="text/css">
+    div 
+    {
+         cursor: pointer;
+    }
+</style>
+<body>
+    <div class="page">
+        <!-- 头部 -->
+        <div class="header">
+            <a id="goBack" class="none go-back"></a>
+            <span>恢复期第13天</span>
+        </div>
+
+        <!-- 内容 -->
+        <div class="content">
+
+            <!-- 头像 -->
+            <div class="profile dairy-profile" id="profilePanel">
+            </div>
+
+            <!-- 头部 -->
+            <div class="dairy-header" id="headerPanel">
+                
+            </div>
+                
+            <!-- 日记 -->
+            <div class="dairy-detail">
+                <div class="dairy-item-main">
+                    <div class="post-item-content">
+                        <div class="post-item-gallery">
+                            <ul id="gallery">
+                                
+                            </ul>
+                        </div>
+                        <p class="post-item-text" id="postContent">
+                            
+                        </p>
+                    </div>
+                    <div class="post-item-footer">
+                        <span class="small" id="likeCount">12</span>&nbsp;<img class="icon-like" id="likeIcon" src="../asset/img/like.png">&nbsp;&nbsp;
+                        <span class="small" id="commentCount">23</span>&nbsp;<img class="icon-comment" id="commentIcon" src="../asset/img/comment.png">
+                    </div>
+                </div>
+            </div>
+
+            <!-- 评论 -->
+            <div class="comment-list" id="commentList">
+                 
+
+            </div>
+        </div>
+    </div>
+    <!-- page -->
+
+    <!-- 各种模板 -->
+    <script type="text/tpl" id="tplForHeader">
+        <div>
+            <i class="dairy-icon icon-project"></i>
+            <span>项目</span>
+            <span class="dairy-header-value">
+            {%
+                for (var i = o.categories.length - 1; i >= 0; i--) {
+                    var category = o.categories[i];
+            %}
+                <span class="dairy-header-value-item">{%= category.name %}</span>
+            {%
+                }
+            %}
+            </span>
+        </div>
+        <div>
+            <i class="dairy-icon icon-date"></i>
+            <span>日期</span>
+            <span class="dairy-header-value">
+                <span>{%= window.G_formatTime(o.operationTime)%}</span>
+            </span>
+        </div>
+        <div>
+            <i class="dairy-icon icon-hospital"></i>
+            <span>医院</span>
+            <span class="dairy-header-value">
+                <span>{%= o.hospitalName %}</span>
+            </span>
+        </div>
+        <div>
+            <i class="dairy-icon icon-doctor"></i>
+            <span>医生</span>
+            <span class="dairy-header-value">
+                <span>{%= o.doctorName %}</span>
+            </span>
+        </div>
+        <div>
+            <i class="dairy-icon icon-price"></i>
+            <span>价格</span>
+            <span class="dairy-header-value">
+            <span>{%= o.price %}</span>
+            </span>
+        </div>
+        <div>
+            <i class="dairy-icon icon-comment"></i>
+            <span>整体评价</span>
+            <span class="dairy-header-comment">
+                <i class="dairy-icon icon-star"></i>
+                <i class="dairy-icon icon-star-half"></i>
+                <i class="dairy-icon icon-star-empty"></i>
+            </span>
+        </div>
+    </script>
+
+    <script type="text/tpl" id="tplForComment">
+    <div class="comment-item">
+        <div class="profile comment-profile relative">
+            <a><img src="{%= o.pictrue %}"></a>
+            <div class="text">
+                <p class="nickname">{%= o.userName %}</p>
+            </div>
+            <span class="absolute small">{%= window.G_formatTime(o.createTime) %}</span>
+        </div>
+
+        <div class="comment-item-content commentForPost" data-id="{%= o.id %}" data-userid="{%= o.userId %}" data-username="{%= o.userName %}">
+            <div>{%= o.content %}</div>
+        </div>
+
+        
+        <div class="comment-reply relative {%= !o.comments|| !o.comments.length? 'none':'' %}">
+            <div class="up dairy-item-arrow"></div>
+            <div class="comment-reply-list commentReplyPanel"  id="commentReplyPanel_{%= o.id %}">
+
+            {%
+                if( !o.comments ){o.comments=[];}
+                for (var i = o.comments.length - 1; i >= 0; i--) {
+                    var comment = o.comments[i];
+            %}
+                <div class="comment-reply-item replyForPost" data-userid="{%= comment.userId %}" data-username="{%= comment.userName %}" data-id="{%= comment.id %}" id="replyPanel_{%= comment.id %}">
+                    <span class="nickname">{%= comment.userName %}</span>回复<span class="nickname">{%= comment.userName %}：</span>
+                    {%= comment.content %}
+                </div>
+            {%
+            }
+            %}
+            </div>
+        </div>
+    </div>
+    </script>
+    <!-- 各种模板 END -->
+
+    <script src="../script/lib/require.js"></script>
+    <script type="text/javascript">
+    require.config({
+        baseUrl: "../script",
+        paths: {
+            // "zepto": "../script/lib/zepto", //@note 以JS结尾的会忽略baseUrl
+            "jquery": "../script/lib/jquery.min", //@note 以JS结尾的会忽略baseUrl
+            "commJs": "../script/comm/comm",
+            "tmpl":"../script/lib/tmpl"
+        }
+    });
+    require(["dairy"], function(mod) {
+        mod.setup();
+    });
+    </script>
+</body>
+
+</html>

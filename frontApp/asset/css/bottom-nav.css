@@ -1,0 +1,52 @@
+.bottom-nav-item{
+	float: left;
+	width: 20%;
+	padding: 5px 0;
+	font-size: 9px;
+}
+.bottom-nav-item .icon{
+	height: 30px;
+	width: 30px;
+	margin: 0 auto 5px;
+	background-size: cover;
+}
+.bottom-nav-item .icon.icon-plus{
+	height: 45px;
+	width: 45px;
+}
+.bottom-nav-item .icon-plus{
+	background-image: url(../img/plus.png);
+}
+.bottom-nav-item .icon-plus.on{
+	background-image: url(../img/plus_on.png);
+}
+
+.bottom-nav-item .icon-topic{
+	background-image: url(../img/topic.png);
+}
+
+.bottom-nav-item .icon-topic.on{
+	background-image: url(../img/topic_on.png);
+}
+
+.bottom-nav-item .icon-activity{
+	background-image: url(../img/activity.png);
+}
+
+.bottom-nav-item .icon-activity.on{
+	background-image: url(../img/activity_on.png);
+}
+.bottom-nav-item .icon-help{
+	background-image: url(../img/help.png);
+}
+
+.bottom-nav-item .icon-help.on{
+	background-image: url(../img/help_on.png);
+}
+.bottom-nav-item .icon-contact{
+	background-image: url(../img/contact.png);
+}
+
+.bottom-nav-item .icon-contact.on{
+	background-image: url(../img/contact_on.png);
+}
