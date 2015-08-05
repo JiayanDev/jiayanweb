@@ -1,9 +1,9 @@
 define(["commJs"], function (comm) {
 
     function main() {
-        // comm.checkLogin(function(){
-        init();
-        // })
+        comm.checkLogin(function () {
+            init();
+        })
     }
 
     function init() {

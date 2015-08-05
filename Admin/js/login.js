@@ -25,10 +25,9 @@ define([ "commJs"], function(comm) {
 			data: param,
 			success: function (data) {
 				if (data.code = 0) {
-					localStorage.setItem(comm.AUTHORIZATION, data.token);
-
+					comm.token.set(data.token);
 				} else if (data.code = -36) {
-					localStorage.removeItem(AUTHORIZATION);
+					//localStorage.removeItem(AUTHORIZATION);
 				}
 				window.location.href = "agentList.html";
 			},
