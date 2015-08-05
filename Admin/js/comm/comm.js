@@ -283,6 +283,30 @@ define(["jquery", 'lib/tmpl'], function($, tmpl) {
         });
     }
 
+    function setupRichEditor (options) {
+        getFilePolicyAndSignature(function(data){
+            $('#richInputFileControl').data('policy', data.policy);
+            $('#richInputFileControl').data('signature', data.signature);
+            
+            require(['widget/bootstrap-wysiwyg'], function(){
+                $(options.el).wysiwyg();
+            });
+        });
+    }
+
+    function getFilePolicyAndSignature ( cb ) {
+        get({
+            url: "http://apptest.jiayantech.com/uploader/sign",
+            data:{
+                mod: "adminupload",
+                daddy:1
+            },
+            success:function  (data) {
+                cb(data);
+            }
+        });
+    }
+
     function showLoading(el){
         el.html('<p><i class="fa fa-spin fa-spinner"></i></p>');
     }
@@ -559,6 +583,7 @@ define(["jquery", 'lib/tmpl'], function($, tmpl) {
         buildSelector:buildSelector,
         buildMap:buildMap,
         isPhone:isPhone,
-        setupWorkspace:initWorkspace
+        setupWorkspace:initWorkspace,
+        setupRichEditor:setupRichEditor
     }
 });

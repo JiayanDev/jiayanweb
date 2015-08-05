@@ -1,4 +1,4 @@
-define([ "commJs", 'widget/bootstrap-wysiwyg'], function(comm) {
+define([ "commJs"], function(comm) {
 	var submitBtn = $('#_submit');
 
 	function main(){
@@ -8,27 +8,14 @@ define([ "commJs", 'widget/bootstrap-wysiwyg'], function(comm) {
     }
 
     function init () {
-    	getFilePolicyAndSignature();
+ 		setupRichEditor();
 		bindEvent();
 		getList();
     }
 
     function setupRichEditor(){
-        $('#description').wysiwyg();
-    }
-
-    function getFilePolicyAndSignature () {
-    	comm.io.get({
-    		url: "http://apptest.jiayantech.com/uploader/sign",
-    		data:{
-    			mod: "topic",
-    			daddy:1
-    		},
-    		success:function  (data) {
-    			$('#richInputFileControl').data('policy', data.policy);
-    			$('#richInputFileControl').data('signature', data.signature);
-    			setupRichEditor();
-    		}
+    	comm.setupRichEditor({
+    		el: $('#description')
     	});
     }
 
