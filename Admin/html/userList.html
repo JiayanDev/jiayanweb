@@ -1,0 +1,200 @@
+<!Doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>管理员列表</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap -->
+    <!-- <link rel="stylesheet" href="http://cdn.bootcss.com/twitter-bootstrap/3.0.3/css/bootstrap.min.css"> -->
+    <link rel="stylesheet" href="../statics/css/bootstrap.min.css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="http://cdn.bootcss.com/html5shiv/3.7.0/html5shiv.min.js"></script>
+    <script src="http://cdn.bootcss.com/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+    <link href="../statics/css/font-awesome.min.css" rel="stylesheet">
+    <link href="../statics/css/admin.css" rel="stylesheet">
+    <link href="../statics/css/animate.min.css" rel="stylesheet">
+</head>
+<style type="text/css"></style>
+<body>
+<div>
+    <nav class="navbar navbar-inverse navbar-lg" role="navigation"
+         style="padding: 0 180px;border-radius:0;background-color:#428BCA;min-height:10px;border-color:#428BCA;">
+        <!-- Navbar content -->
+        <div class="navbar-header" id="header">
+            <a class="navbar-brand" href="#" style="color:#fff;padding-top:15px;padding-bottom:15px;">美丽天使App</a>
+        </div>
+        <div class="collapse navbar-collapse" style="background-color:#428BCA">
+            <ul class="nav navbar-nav" id="firNav">
+
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+         <span class="sellerInfo">
+            <span id="sellerName"></span>
+            <a href="#" id="logout"><i class=""></i>退出</a>
+         </span>
+    </nav>
+</div>
+
+<div class="container container-bg bounce animated none" id="createPanel" style="min-height:150px;">
+    <div class="container-sm">
+        <div class="page-header">
+            <h4>添加管理员</h4>
+        </div>
+        <form class="form-horizontal">
+            <div class="form-group">
+                <label class="col-sm-2 control-label">帐号名</label>
+
+                <div class="col-sm-4 award-input-cnt">
+                    <input id='create-name' type="text" class="form-control input-sm _itemName" placeholder="帐号名">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">密码</label>
+
+                <div class="col-sm-4 award-input-cnt">
+                    <input id='create-psw' type="text" class="form-control input-sm _itemName" placeholder="密码">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">确认密码</label>
+
+                <div class="col-sm-4 award-input-cnt">
+                    <input id='create-psw2' type="text" class="form-control input-sm _itemName" placeholder="确认密码">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="create-role" class="col-sm-2 control-label">权限类型</label>
+
+                <div class="col-sm-3">
+                    <select id='create-role' class="form-control">
+                        <option value="normal">normal</option>
+                        <option value="admin">admin</option>
+                    </select>
+                </div>
+            </div>
+        </form>
+        <div class="row right">
+            <button class="btn btn-danger" id="create-submit">保存</button>
+        </div>
+        <div id="create-formMsg" class="text-danger"></div>
+    </div>
+</div>
+
+<div class="container container-bg bounce animated none" id="editPanel" style="min-height:150px;">
+    <div class="container-sm">
+        <div class="page-header">
+            <h4>修改权限</h4>
+        </div>
+        <form class="form-horizontal">
+            <div class="form-group">
+                <label class="col-sm-2 control-label">帐号名</label>
+                <div class="col-sm-4 award-input-cnt">
+                    <input id='edit-name' type="text" class="form-control input-sm _itemName" disabled="true" value="帐号名name">
+                </div>
+
+                <label class="col-sm-2 control-label">权限类型</label>
+                <div class="col-sm-3">
+                    <select id='edit-role' class="form-control">
+                        <option value="normal">normal</option>
+                        <option value="admin">admin</option>
+                    </select>
+                </div>
+            </div>
+        </form>
+        <div class="row right">
+            <button class="btn btn-danger" id="edit-submit">保存</button>
+        </div>
+        <div id="formMsg" class="text-danger"></div>
+    </div>
+</div>
+
+<div class="container container-bg bounce animated" id="listPanel">
+    <div>
+        <!-- 列表 -->
+        <div class="list-panel item-list-panel">
+            <!-- <button class="btn" id="addNt"><i class="icon-plus"></i>录入排队编号类型</button> -->
+            <div class="input-append" style="margin-bottom:19px;">
+                <input style="border:1px solid #ccc;border-radius:4px;line-height:1.8;padding-left:4px;" type="text"
+                       id="userId" placeholder="管理员ID">
+                <button class="btn btn-sm" id="btnUserSearch">查询</button>
+                <button class="btn btn-warning btn-sm btn-right" id="_add">添加管理员</button>
+            </div>
+            <div id="_list">
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th class="th-border">编号</th>
+                        <th class="th-border">帐号名</th>
+                        <th class="th-border">角色</th>
+                        <th class="th-border">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td colspan="6" style="text-align:center;"><i class="fa fa-spinner fa-spin"></i>正在加载...</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!-- 排队类型管理结束 -->
+</div>
+</div>
+
+<script type="text/tpl" id="tplList">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th class="th-border">编号</th>
+                <th class="th-border">帐号名</th>
+                <th class="th-border">角色</th>
+                <th class="th-border">操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            {%
+                if( !!o && o.length > 0){
+                for(var i=0,len=o.length; i< len;i++){
+                    var row = o[i];
+            %}
+            <tr>
+                <td>{%= row.id %}</td>
+                <td>{%= row.name %}</td>
+                <td>{%= row.role %}</td>
+                <td>
+                    <a href="#" class="_grant" data-id="{%= row.id %}" data-name="{%= row.name %}" data-role="{%= row.role %}">
+                        修改权限
+                    </a>
+                    <a href="#" class="_delete" data-id="{%= row.id %}">删除</a>
+                </td>
+            </tr>
+            {% }}else{ %}
+                <td colspan="7" style="text-align:center;">{%= typeof o.msg!= 'undefined'? o.msg:'列表为空了' %}</td>
+            {% } %}
+        </tbody>
+    </table>
+</script>
+
+<script src="../js/lib/require.js"></script>
+
+<script type="text/javascript">
+    require.config({
+        baseUrl: "../js",
+        paths: {
+            "jquery": "lib/jquery.min",   //@note 以JS结尾的会忽略baseUrl
+            "commJs": "comm/comm",
+            "bootstrap": "lib/bootstrap.min"
+        }
+    });
+    require(["userList"], function (mod) {
+        mod.setup();
+    });
+</script>
+</body>
+</html>

@@ -55,6 +55,7 @@ body,html{background-color: #f6f8f8;}
     background-color: #2B70AC;
 }
 .center{text-align: center;}
+.right{text-align: right;}
 .navbar-inverse .navbar-nav#firNav>li>a{color:#FFF;}
 .sellerInfo{position: absolute;top:14px;right: 105px;}
 .sellerInfo span, .sellerInfo a, .sellerInfo i{color: #fff;}

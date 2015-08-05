@@ -4,7 +4,9 @@
  * @date    2015-4-14
  * @todo  alertMsg confirm
  */
-define(["jquery", 'lib/tmpl'], function($, tmpl) {
+define(["jquery", 'lib/tmpl'], function ($, tmpl) {
+    const AUTHORIZATION= "AUTHORIZATION";
+
     var $confirmEl = null,
         BASEPATH = '../index.php/api/';
 
@@ -51,11 +53,11 @@ define(["jquery", 'lib/tmpl'], function($, tmpl) {
                 successFn(d, conf);
                 (!!$el) && $el.html(oldVal).data('requesting', false);
             },
-            error: function() {
+            error: function (e) {
                 if (typeof conf.error == 'function') {
-                    conf.error('系统错误');
+                    conf.error('系统错误: ' + JSON.stringify(e));
                 } else {
-                    alertMsg('系统错误');
+                    alertMsg('系统错误: ' + JSON.stringify(e));
                 }
                 (!!$el) && $el.html(oldVal).data('requesting', false);
             }
@@ -75,11 +77,11 @@ define(["jquery", 'lib/tmpl'], function($, tmpl) {
             success: function(d) {
                 successFn(d, conf);
             },
-            error: function() {
+            error: function (e) {
                 if (typeof conf.error == 'function') {
-                    conf.error('系统错误');
+                    conf.error('系统错误: ' + JSON.stringify(e));
                 } else {
-                    alertMsg('系统错误');
+                    alertMsg('系统错误: ' + JSON.stringify(e));
                 }
             }
         });
@@ -167,9 +169,7 @@ define(["jquery", 'lib/tmpl'], function($, tmpl) {
         '</p>'
         ].join('');
     }
-
-
-
+    
     function dialog( options ){
     	require( ['bootstrap'], function(){
     		buildDialog(options);
@@ -355,27 +355,29 @@ define(["jquery", 'lib/tmpl'], function($, tmpl) {
         });
     }
 
-    function setupAdminNav(){
-        require(['bootstrap'], function(){
+    function setupAdminNav() {
+        require(['bootstrap'], function () {
             var nav = [
-                {label:"日记列表", url:"diaryList"},
-                {label:"话题列表", url:"topicList"}
-                // {label:"抽奖管理", url:"createLottery", sub:[{
-                //     url: 'lotterylist',
-                //     label:'抽奖列表'
-                // },{
-                //     url: 'createLottery',
-                //     label:'创建抽奖'
-                // }]}
-            ],
-            cur = getCur( nav ),
-            html = [],
-            tpl = '<li class="{ACTIVE}"><a href="{URL}.html">{LABEL}</a></li>',
-            tplWithSub = '<li class="dropdown {ACTIVE}">'+
-                    '<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{LABEL}<span class="caret"></span></a>'+
-                    '<ul class="dropdown-menu" role="menu">{SUBNAV}</ul>'+
-                '</li>',
-            tplSub = '<li><a href="{URL}.html">{LABEL}</a></li>';
+                    {label: "管理员列表", url: "userList"},
+                    {label: "日记列表", url: "diaryList"},
+                    {label: "话题列表", url: "topicList"},
+                    {label: "活动列表", url: "eventList"}
+                    // {label:"抽奖管理", url:"createLottery", sub:[{
+                    //     url: 'lotterylist',
+                    //     label:'抽奖列表'
+                    // },{
+                    //     url: 'createLottery',
+                    //     label:'创建抽奖'
+                    // }]}
+                ],
+                cur = getCur(nav),
+                html = [],
+                tpl = '<li class="{ACTIVE}"><a href="{URL}.html">{LABEL}</a></li>',
+                tplWithSub = '<li class="dropdown {ACTIVE}">' +
+                    '<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{LABEL}<span class="caret"></span></a>' +
+                    '<ul class="dropdown-menu" role="menu">{SUBNAV}</ul>' +
+                    '</li>',
+                tplSub = '<li><a href="{URL}.html">{LABEL}</a></li>';
 
             $.each( nav, function(){
                 var active = cur == this.url?'active': '';
@@ -596,15 +598,23 @@ define(["jquery", 'lib/tmpl'], function($, tmpl) {
         window.G_ENV = window.location.host.indexOf('test')>0? 'test':'release';
     }
 
+    function getToken() {
+        localStorage.setItem(AUTHORIZATION, data.token);
+    }
+
+    function setToken(token) {
+        localStorage.setItem(AUTHORIZATION, token);
+    }
+
     return {
     	constant: {
     		HOSPITAL_ID: 1,
             ENV:window.G_ENV
     	},
-        config:{BASEPATH:'http://apptest.jiayantech.com/my_admin/'},
-        io:{
-            get:get,
-            post:post
+        config: {BASEPATH: 'http://admintest.jiayantech.com/my_admin/'},
+        io: {
+            get: get,
+            post: post
         },
         utils: {
             setupFileLoader: setupFileLoader,

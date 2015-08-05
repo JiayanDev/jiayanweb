@@ -21,9 +21,15 @@ define([ "commJs"], function(comm) {
 	function login(){
 		var param = getLoginParam();
 		comm.io.post({
-			url: '/api/login',
-			data:param,
-			success:function(){
+			url: '/user/login',
+			data: param,
+			success: function (data) {
+				if (data.code = 0) {
+					localStorage.setItem(comm.AUTHORIZATION, data.token);
+
+				} else if (data.code = -36) {
+					localStorage.removeItem(AUTHORIZATION);
+				}
 				window.location.href = "agentList.html";
 			},
 			error:function(msg){
