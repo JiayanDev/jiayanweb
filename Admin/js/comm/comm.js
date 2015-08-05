@@ -283,13 +283,50 @@ define(["jquery", 'lib/tmpl'], function($, tmpl) {
         });
     }
 
+    function setupRichEditorToolBar(options){
+        var tpl = ['<div class="btn-toolbar" data-role="editor-toolbar" data-target="#'+options.targetElementId+'">',
+            '<div class="btn-group">',
+                '<a class="btn btn-default" data-edit="fontSize 5" title="标题（大字）">标题</a>',
+                '<a class="btn btn-default" data-edit="fontSize 2" title="正文">正文</a>',
+            '</div>',
+            '<div class="btn-group">',
+                '<a class="btn btn-default" data-edit="bold" title="加粗 (Ctrl/Cmd+B)"><i class="fa fa-bold"></i></a>',
+                '<a class="btn btn-default" data-edit="italic" title="斜体 (Ctrl/Cmd+I)"><i class="fa fa-italic"></i></a>',
+                '<a class="btn btn-default" data-edit="strikethrough" title="Strikethrough"><i class="fa fa-strikethrough"></i></a>',
+                '<a class="btn btn-default" data-edit="underline" title="下划线 (Ctrl/Cmd+U)"><i class="fa fa-underline"></i></a>',
+            '</div>',
+            '<div class="btn-group">',
+                '<a class="btn btn-default" data-edit="insertunorderedlist" title="列表"><i class="fa fa-list-ul"></i></a>',
+                '<a class="btn btn-default" data-edit="insertorderedlist" title="数字列表"><i class="fa fa-list-ol"></i></a>',
+            '</div>',
+            '<div class="btn-group relative">',
+                '<a class="btn btn-default" title="插入图片" id="pictureBtn"><i class="fa fa-photo"></i></a>',
+                '<input type="file" id="richInputFileControl" data-role="magic-overlay" data-target="#pictureBtn" data-edit="insertImage" name="file" data-url="http://v0.api.upyun.com/jiayanimg/" style="opacity: 0; position: absolute; top: 0px; left: 0px; width: 41px; height: 30px;"/>',
+            '</div>',
+            '<div class="btn-group">',
+                '<button type="button" class="btn btn-default" data-toggle="dropdown">',
+                    '颜色',
+                    '<span class="caret"></span>',
+                  '</button>',
+                '<div class="dropdown-menu">',
+                    '<a class="color-block" href="#" data-edit="foreColor #ff0000" title="字体红色" style="background-color:#ff0000;"></a>',
+                    '<a class="color-block" href="#" data-edit="foreColor #000" title="字体黑色" style="background-color:#000;"></a>',
+                '</div>',
+            '</div>',
+        '</div>'].join('');
+
+        $(options.toolbarContainer).html(tpl);
+    }
+
     function setupRichEditor (options) {
+        setupRichEditorToolBar( options );
         getFilePolicyAndSignature(function(data){
+
             $('#richInputFileControl').data('policy', data.policy);
             $('#richInputFileControl').data('signature', data.signature);
             
             require(['widget/bootstrap-wysiwyg'], function(){
-                $(options.el).wysiwyg();
+                $('#'+options.targetElementId).wysiwyg();
             });
         });
     }
