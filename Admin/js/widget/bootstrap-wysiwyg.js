@@ -157,12 +157,17 @@ define(["jquery", "commJs", "lib/jquery.hotkeys"], function(_, comm){
 				                saveSelection();
 			            	});
 			            },
+			            formData:{
+			            	policy: $('#richInputFileControl').data('policy'),
+			            	signature: $('#richInputFileControl').data('signature')
+			            },
 			            callback: function(resp) {
 			            	restoreSelection();
-			                var imgUrl = (resp && resp.data && resp.data.url) || '';
+			                var imgUrl = (resp && resp.url) || '';
 			                var dataUrl = uploader.data('lastimagedataurl');
+			                var prefix = "http://jiayanimg.b0.upaiyun.com/";
 
-			                $('img[src="'+dataUrl+'"]').attr('src', imgUrl);
+			                $('img[src="'+dataUrl+'"]').attr('src', prefix+imgUrl);
 			                saveSelection();
 			            },
 			            error: function(resp) {

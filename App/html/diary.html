@@ -163,10 +163,17 @@
     </script>
     <!-- 各种模板 END -->
 
-    <script src="../script/lib/require.js"></script>
+    <script src="http://jiayanstatics.b0.upaiyun.com/app/script/lib/require.js"></script>
     <script type="text/javascript">
+    
+    var BASE_URL = "http://jiayanstatics.b0.upaiyun.com/app/script";
+
+    if( window.location.host.indexOf('apptest') > -1 ){
+        BASE_URL = "../script";
+    }
+
     require.config({
-        baseUrl: "../script",
+        baseUrl: BASE_URL,
         paths: {
             // "zepto": "../script/lib/zepto", //@note 以JS结尾的会忽略baseUrl
             "jquery": "../script/lib/jquery.min", //@note 以JS结尾的会忽略baseUrl

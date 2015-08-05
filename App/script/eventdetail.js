@@ -15,7 +15,7 @@ define(["commJs"], function(comm) {
 	function loadData (id) {
 		comm.io.get({
 			
-			// url: comm.config.BASEPATH+"event/detail",
+			// url: comm.config.BASEPATH+"event/detail",  //s
 			url: "http://apptest.jiayantech.com/event/detail",
 			data:{
 				id: id,
