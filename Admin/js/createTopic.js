@@ -59,7 +59,7 @@ define([ "commJs", 'widget/bootstrap-wysiwyg'], function(comm) {
     function getParam(){
     	var param = {};
     	$.each(['description'], function(i,key) {
-    		param[key] = $('#'+key).val();
+    		param[key] = $('#'+key).html();
     	})
     	return param;
     }
