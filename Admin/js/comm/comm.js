@@ -247,7 +247,7 @@ define(["jquery", 'lib/tmpl'], function($, tmpl) {
                         var resp = data.jqXHR.responseJSON;
                         var code = typeof resp.ret == 'undefined'? resp.code: resp.ret;
 
-                        if (code == 0) {
+                        if (code == 0 || code == 200) {
                             typeof callback === 'function' && callback(resp, e, data);
                         } else {
                             typeof errorFn === 'function' && errorFn(resp, e, data);
