@@ -318,6 +318,7 @@ define(["jquery", 'lib/tmpl'], function($, tmpl) {
         $(options.toolbarContainer).html(tpl);
     }
 
+    
     function setupRichEditor (options) {
         setupRichEditorToolBar( options );
         getFilePolicyAndSignature(function(data){
@@ -325,7 +326,7 @@ define(["jquery", 'lib/tmpl'], function($, tmpl) {
             $('#richInputFileControl').data('policy', data.policy);
             $('#richInputFileControl').data('signature', data.signature);
             
-            require(['widget/bootstrap-wysiwyg'], function(){
+            require(['widget/bootstrap-wysiwyg', 'bootstrap'], function(){
                 $('#'+options.targetElementId).wysiwyg();
             });
         });
