@@ -13,11 +13,14 @@ define(["commJs"], function (comm) {
     }
 
     function getList() {
+        var data = {};
+        var id = $("#userId").val();
+        if (id) {
+            data["id"] = id;
+        }
         comm.io.get({
             url: comm.config.BASEPATH + 'user/list',
-            data: {
-                daddy: 8
-            },
+            data: data,
             success: function (d) {
                 renderList(d);
             }
@@ -31,11 +34,6 @@ define(["commJs"], function (comm) {
             renderTo: "#_list",
             isTableList: true
         });
-    }
-
-    function renderDetail(id) {
-        var el = $('<div style="border:2px solid #555;width:322px;height:568px;margin:0 auto;"><iframe style="width:318px;height:568px;border:none;" src="http://app.jiayantech.com/app/html/dairy.html?id=' + id + '"></div>');
-        return el;
     }
 
     function bindEvent() {
@@ -55,9 +53,20 @@ define(["commJs"], function (comm) {
                 return false;
             } else if ($t.hasClass('_delete')) {
                 var id = $t.data('id');
-
+                comm.confirm({
+                    el: $t,
+                    content: '确定删除该该用户吗？',
+                    placement: 'left',
+                    onYES: function () {
+                        remove(id);
+                    }
+                });
                 return false;
             }
+        });
+
+        $('#btnUserSearch').click(function () {
+            getList();
         });
 
         $('#_add').click(function () {
@@ -68,8 +77,8 @@ define(["commJs"], function (comm) {
             }, 1000);
         });
 
-        $('.close').click(function () {
-            closePanel('#createPanel');
+        $('.close').click(function (e) {
+            closePanel($(e.target).parent());
             return false;
         });
 
@@ -84,6 +93,9 @@ define(["commJs"], function (comm) {
         });
     }
 
+    /**
+     * 创建用户
+     */
     function create() {
         var name = $('#create-name').val();
         var role = $('#create-role').val();
@@ -111,7 +123,7 @@ define(["commJs"], function (comm) {
         }
 
         var data = {
-            daddy: 8,
+            psw: md5(psw),
             name: name,
             role: role
         };
@@ -119,7 +131,7 @@ define(["commJs"], function (comm) {
             url: comm.config.BASEPATH + 'user/create',
             data: data,
             success: function () {
-                closePanel('#editPanel');
+                closePanel($('#createPanel'));
                 getList();
             }
         });
@@ -132,7 +144,7 @@ define(["commJs"], function (comm) {
         var id = $("#editPanel").data("id");
         var role = $('#edit-role').val();
         var data = {
-            daddy: 8,
+            //daddy: 8,
             id: id,
             role: role
         };
@@ -140,14 +152,27 @@ define(["commJs"], function (comm) {
             url: comm.config.BASEPATH + 'user/grant',
             data: data,
             success: function () {
-                closePanel('#editPanel');
+                closePanel($('#editPanel'));
                 getList();
             }
         });
     }
 
-    function closePanel(id) {
-        var el = $(id);
+    function remove(id) {
+        var id = $("#editPanel").data("id");
+        var data = {
+            id: id
+        };
+        comm.io.post({
+            url: comm.config.BASEPATH + 'user/remove',
+            data: data,
+            success: function () {
+                getList();
+            }
+        });
+    }
+
+    function closePanel(el) {
         el.addClass('bounce').addClass('animated');
         setTimeout(function () {
             el.addClass('none');

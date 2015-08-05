@@ -1,44 +1,42 @@
-define([ "commJs"], function(comm) {
+define(["commJs"], function (comm) {
 
-	function main(){
-		bindEvent();
-	}
+    function main() {
+        bindEvent();
+    }
 
-	function bindEvent(){
-		$('#loginBtn').click(function(){
-			$('#loginMsg').html('');
-			login();
-		});
-	}
+    function bindEvent() {
+        $('#loginBtn').click(function () {
+            $('#loginMsg').html('');
+            login();
+        });
+    }
 
-	function getLoginParam(){
-		return {
-			userName: $('#name').val(),
-			psw: md5($('#password').val())
-		};
-	}
+    function getLoginParam() {
+        return {
+            name: $('#name').val(),
+            psw: md5($('#password').val())
+        };
+    }
 
-	function login(){
-		var param = getLoginParam();
-		comm.io.post({
-			url: '/user/login',
-			data: param,
-			success: function (data) {
-				if (data.code = 0) {
-					comm.token.set(data.token);
-				} else if (data.code = -36) {
-					//localStorage.removeItem(AUTHORIZATION);
-				}
-				window.location.href = "agentList.html";
-			},
-			error:function(msg){
-				$('#loginMsg').html(msg||'登录失败');
-			},
-			el: $('#loginBtn')
-		});
-	}
-	
-	return {
-		main:main
-	}
+    function login() {
+        var param = getLoginParam();
+        comm.io.post({
+            url: comm.config.BASEPATH + 'user/login',
+            data: param,
+            success: function (data, code) {
+                if (code == 0) {
+                    comm.token.set(data.token);
+                    window.location = "userList.html";
+                }
+            },
+            error: function (msg) {
+                $('#loginMsg').html(msg || '登录失败');
+            },
+            el: $('#loginBtn')
+        });
+    }
+
+    return {
+        main: main
+    }
 })

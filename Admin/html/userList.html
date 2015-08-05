@@ -41,6 +41,7 @@
 </div>
 
 <div class="container container-bg bounce animated none" id="createPanel" style="min-height:150px;">
+    <a class="btn btn-right close">X</a>
     <div class="container-sm">
         <div class="page-header">
             <h4>添加管理员</h4>
@@ -55,25 +56,24 @@
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label">密码</label>
-
                 <div class="col-sm-4 award-input-cnt">
-                    <input id='create-psw' type="text" class="form-control input-sm _itemName" placeholder="密码">
+                    <input id='create-psw' type="password" class="form-control input-sm _itemName" placeholder="密码">
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label">确认密码</label>
 
                 <div class="col-sm-4 award-input-cnt">
-                    <input id='create-psw2' type="text" class="form-control input-sm _itemName" placeholder="确认密码">
+                    <input id='create-psw2' type="password" class="form-control input-sm _itemName" placeholder="确认密码">
                 </div>
             </div>
             <div class="form-group">
                 <label for="create-role" class="col-sm-2 control-label">权限类型</label>
-
                 <div class="col-sm-3">
                     <select id='create-role' class="form-control">
                         <option value="normal">normal</option>
                         <option value="admin">admin</option>
+                        <option value="super">super</option>
                     </select>
                 </div>
             </div>
@@ -86,6 +86,7 @@
 </div>
 
 <div class="container container-bg bounce animated none" id="editPanel" style="min-height:150px;">
+    <a class="btn btn-right close">X</a>
     <div class="container-sm">
         <div class="page-header">
             <h4>修改权限</h4>
@@ -102,6 +103,7 @@
                     <select id='edit-role' class="form-control">
                         <option value="normal">normal</option>
                         <option value="admin">admin</option>
+                        <option value="super">super</option>
                     </select>
                 </div>
             </div>
@@ -181,6 +183,7 @@
     </table>
 </script>
 
+<script src="../js/lib/md5.js"></script>
 <script src="../js/lib/require.js"></script>
 
 <script type="text/javascript">
