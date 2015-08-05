@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1"> -->
+    <meta name="viewport" content="width=device-width, height=device-height,initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>活动详情</title>
+
+    <!-- Bootstrap -->
+    <!-- <link rel="stylesheet" href="../asset/css/bootstrap.min.css"> -->
+    <!-- <link rel="stylesheet" href="../asset/css/font-awesome.min.css"> -->
+
+    <link type="text/css" rel="stylesheet" href="../asset/css/frame.css" />
+    <link type="text/css" rel="stylesheet" href="../asset/css/common.css" />
+    <link type="text/css" rel="stylesheet" href="../asset/css/dairy.css" />
+</head>
+<style type="text/css">
+    div 
+    {
+         cursor: pointer;
+    }
+</style>
+<body>
+    <div class="page">
+
+        <!-- 内容 -->
+        <div class="content">
+
+            <!-- 头像 -->
+            <div class="profile dairy-profile" id="profilePanel">
+            </div>
+
+            <!-- 头部 -->
+            <div class="dairy-header" id="headerPanel">
+                
+            </div>
+                
+            <!-- 日记 -->
+            <div class="dairy-detail" id="eventDetail">
+
+            </div>
+            <button id="applyment">报名</button>
+        </div>
+    </div>
+    <!-- page -->
+
+    <!-- 各种模板 -->
+    <script type="text/tpl"></script>
+    <!-- 各种模板 END -->
+
+    <script src="../script/lib/require.js"></script>
+    <script type="text/javascript">
+    require.config({
+        baseUrl: "../script",
+        paths: {
+            // "zepto": "../script/lib/zepto", //@note 以JS结尾的会忽略baseUrl
+            "jquery": "../script/lib/jquery.min", //@note 以JS结尾的会忽略baseUrl
+            "commJs": "../script/comm/comm",
+            "tmpl":"../script/lib/tmpl"
+        }
+    });
+    require(["eventdetail"], function(mod) {
+        mod.setup();
+    });
+    </script>
+</body>
+
+</html>

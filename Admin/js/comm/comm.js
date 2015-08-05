@@ -538,7 +538,7 @@ define(["jquery", 'lib/tmpl'], function($, tmpl) {
     		HOSPITAL_ID: 1,
             ENV:window.G_ENV
     	},
-        config:{BASEPATH:'http://app.jiayantech.com:9188/my_admin/'},
+        config:{BASEPATH:'http://apptest.jiayantech.com/my_admin/'},
         io:{
             get:get,
             post:post
