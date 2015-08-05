@@ -1,7 +1,7 @@
 <!Doctype html>
 <html lang="en"><head>
     <meta charset="utf-8">
-    <title>创建活动</title>
+    <title>创建话题</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Bootstrap -->
     <!-- <link rel="stylesheet" href="http://cdn.bootcss.com/twitter-bootstrap/3.0.3/css/bootstrap.min.css"> -->
@@ -78,7 +78,7 @@
                               </div>
                               <div class="btn-group relative">
                                 <a class="btn btn-default" title="插入图片" id="pictureBtn"><i class="fa fa-photo"></i></a>
-                                <input type="file" data-role="magic-overlay" data-target="#pictureBtn" data-edit="insertImage" name="image" data-url="/api/uploadImage/" style="opacity: 0; position: absolute; top: 0px; left: 0px; width: 41px; height: 30px;"/>
+                                <input type="file" id="richInputFileControl" data-role="magic-overlay" data-target="#pictureBtn" data-edit="insertImage" name="file" data-url="http://v0.api.upyun.com/jiayanimg/" style="opacity: 0; position: absolute; top: 0px; left: 0px; width: 41px; height: 30px;"/>
                             </div>
                             <div class="btn-group">
                                 <button type="button" class="btn btn-default" data-toggle="dropdown">
@@ -92,7 +92,7 @@
                             </div>
                           </div>
                         </div>
-                        <div id="description" style="margin-top:15px;border:1px solid #ddd;border-radius:4px;height:100px;padding:5px;overflow:auto;">活动描述</div>
+                        <div id="description" style="margin-top:15px;border:1px solid #ddd;border-radius:4px;height:400px;padding:5px;overflow:auto;">输入活动现场描述</div>
                     </div>
                   </div>
                 </form>
@@ -183,7 +183,7 @@
             "bootstrap": "lib/bootstrap.min"
         }
       }); 
-      require( ["topic"], function( mod ){
+      require( ["createTopic"], function( mod ){
             mod.main();
       }); 
     </script>

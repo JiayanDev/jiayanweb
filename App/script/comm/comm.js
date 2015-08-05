@@ -5,7 +5,7 @@
  * @todo  alertMsg confirm
  */
 define(['tmpl', 'jquery'], function(tmpl, $) {
-    var BASEPATH = 'http://app.jiayantech.com:9188/',
+    var BASEPATH = 'http://app.jiayantech.com/',
         userId,
         userName,
         _private = {},
@@ -966,6 +966,7 @@ define(['tmpl', 'jquery'], function(tmpl, $) {
                         typeof beforeSubmit === 'function' && beforeSubmit(e, data);
                         data.submit();
                     },
+                    formData: options.formData,
                     done: function(e, data) {
                         var resp = data.jqXHR.responseJSON;
                         var code = typeof resp.ret == 'undefined'? resp.code: resp.ret;
