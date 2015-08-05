@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>创建抽奖</title>
+    <title>活动列表</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Bootstrap -->
     <!-- <link rel="stylesheet" href="http://cdn.bootcss.com/twitter-bootstrap/3.0.3/css/bootstrap.min.css"> -->
@@ -55,26 +55,60 @@
     .award-plus i {
         line-height: 115px;
     }
+
+    .article-row {
+        max-width: 700px;
+        margin: 0 auto;
+    }
+
+    .gallery {
+        list-style-type: none;
+        margin-bottom: 10px;
+        overflow: auto;
+        padding-left: 0px;
+    }
+
+    .gallery li img {
+        height: 100px;
+    }
+
+    .gallery li {
+        float: left;
+        margin-right: 10px;
+        list-style-type: none;
+    }
+
+    .uploader-placeholder {
+        width: 50px;
+        height: 50px;
+        border: 1px dashed #333;
+    }
+
+    .uploader-placeholder i {
+        line-height: 50px;
+        font-size: 2em;
+    }
 </style>
 <body>
-<nav class="navbar navbar-inverse navbar-lg" role="navigation"
-     style="padding: 0 180px;border-radius:0;background-color:#428BCA;min-height:10px;border-color:#428BCA;">
-    <!-- Navbar content -->
-    <div class="navbar-header" id="header">
-        <a class="navbar-brand" href="#" style="color:#fff;padding-top:15px;padding-bottom:15px;">美丽天使</a>
-    </div>
-    <div class="collapse navbar-collapse" style="background-color:#428BCA">
-        <ul class="nav navbar-nav" id="firNav">
+<div>
+    <nav class="navbar navbar-inverse navbar-lg" role="navigation"
+         style="padding: 0 180px;border-radius:0;background-color:#428BCA;min-height:10px;border-color:#428BCA;">
+        <!-- Navbar content -->
+        <div class="navbar-header" id="header">
+            <a class="navbar-brand" href="#" style="color:#fff;padding-top:15px;padding-bottom:15px;">美丽天使App</a>
+        </div>
+        <div class="collapse navbar-collapse" style="background-color:#428BCA">
+            <ul class="nav navbar-nav" id="firNav">
 
-        </ul>
-    </div>
-    <!-- /.navbar-collapse -->
-
-       <span class="sellerInfo">
-          <span id="sellerName"></span>
-          <a href="#" id="logout"><i class=""></i>退出</a>
-       </span>
-</nav>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+         <span class="sellerInfo">
+            <span id="sellerName"></span>
+            <a href="#" id="logout"><i class=""></i>退出</a>
+         </span>
+    </nav>
+</div>
 
 <div class="container container-bg bounce animated" id="createPanel" style="min-height:150px;">
     <div class="container-sm">
@@ -216,42 +250,104 @@
     </div>
 </div>
 
-<script type="text/tpl" id="tplitem">
-        <div class="col-sm-3 award-item _awardItem">
-            <button type="button" class="close _close" aria-label="Close"><span aria-hidden="true" class="_close">&times;</span></button>
-
-            <div class="form-group row">
-                <label class="col-sm-5 control-label" style="padding-top:20px;">奖品名称</label>
-                <div class="col-sm-7 award-input-cnt">
-                    <span class="_showAward"></span>&nbsp;&nbsp;
-                    <a href="#" class="_selItem">选择奖品</a>
-                </div>
-            </div>
-            <div class="form-group row none">
-                <label class="col-sm-5 control-label">奖品名称</label>
-                <div class="col-sm-7 award-input-cnt">
-                    <input type="text" class="form-control input-sm _itemName" placeholder="奖品名称">
-                </div>
-            </div>
-            <div class="form-group row none">
-                <label class="col-sm-5 control-label">itemID</label>
-                <div class="col-sm-7 award-input-cnt">
-                    <input type="text" class="form-control input-sm _itemId" placeholder="itemID">
-                </div>
-            </div>
-            <div class="form-group row none">
-                <label class="col-sm-5 control-label">projectID</label>
-                <div class="col-sm-7 award-input-cnt">
-                    <input type="text" class="form-control input-sm _projectId" placeholder="projectId">
-                </div>
-            </div>
-            <div class="form-group row">
-                <label class="col-sm-5 control-label">数量</label>
-                <div class="col-sm-7 award-input-cnt">
-                    <input type="text" class="form-control input-sm _count" placeholder="此奖品数量">
-                </div>
-            </div>
+<div class="container container-bg bounce animated" id="listPanel">
+    <div>
+        <div class="page-header">
+            <strong>已创建的活动</strong>
+            <button class="btn btn-warning btn-sm btn-right" id="_add">添加活动</button>
         </div>
+        <div id="_list" style="max-width:700px;margin:0 auto;">
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th class="th-border">编号</th>
+                    <th class="th-border">昵称</th>
+                    <th class="th-border">手机</th>
+                    <th class="th-border">标题</th>
+                    <th class="th-border">项目</th>
+                    <th class="th-border">医院</th>
+                    <th class="th-border">医生</th>
+                    <th class="th-border">开始时间</th>
+                    <th class="th-border">报名人数</th>
+                    <th class="th-border">操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <td colspan="6" style="text-align:center;"><i class="fa fa-spin fa-spinner"></i></td>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script type="text/tpl" id="tplList">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th class="th-border">编号</th>
+                <th class="th-border">昵称</th>
+                <th class="th-border">手机</th>
+                <th class="th-border">标题</th>
+                <th class="th-border">项目</th>
+                <th class="th-border">医院</th>
+                <th class="th-border">医生</th>
+                <th class="th-border">开始时间</th>
+                <th class="th-border">报名人数</th>
+                <th class="th-border">操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            {%
+                if( !!o && o.length > 0){
+                for(var i=0,len=o.length; i< len;i++){
+                    var row = o[i];
+            %}
+            <tr>
+                <td>{%= row.id %}</td>
+                <td style="width:20%">{%= row.name %}</td>
+                <td>{%= window.G_formatTime(row.startTime) %}</td>
+                <td>{%= window.G_formatTime(row.createTime) %}</td>
+                <td>
+                  <a href="#" class="_qrcode" data-id="{%= row.id %}">查看二维码</a>
+                </td>
+                <td>
+                  <a href="#" class="_detail" data-id="{%= row.id %}">详情</a>
+                </td>
+            </tr>
+            {% }}else{ %}
+                <td colspan="6" style="text-align:center;">{%= typeof o.msg!= 'undefined'? o.msg:'列表为空了' %}</td>
+            {% } %}
+        </tbody>
+    </table>
+</script>
+
+<script type="text/tpl" id="tplDetail">
+    <div class="row">
+        <div class="col-lg-12">
+            <dl class="dl-horizontal">
+                <dt>活动名称</dt>
+                <dd>{%= o.name %}</dd>
+                <dt>开始时间</dt>
+                <dd>{%= window.G_formatTime(o.startTime) %}</dd>
+                <dt>活动地址</dt>
+                <dd>{%= o.location %}</dd>
+                <dt>创建时间</dt>
+                <dd>{%= window.G_formatTime(o.createTime) %}</dd>
+                <dt>问卷</dt>
+                <dd><a target="_blank" id="questAction" class="btn btn-warning btn-sm">查看问卷</a></dd>
+                <dt>抽奖</dt>
+                <dd><a target="_blank" id="lotteryAction" class="btn btn-warning btn-sm">查看抽奖信息</a></dd>
+                <dt></dt>
+                <dd><a target="_blank" href="joinAct.html?actId={%=o.id%}" class="btn btn-warning btn-sm">查看报名名单</a></dd>
+            </dl>
+        </div>
+        <div class="col-lg-12">
+        <div class="page-header" style="margin-top:0px;">
+            <strong>活动描述</strong>
+        </div>
+            <div id="detail_description" style="max-height:400px;overflow:auto;"></div>
+        </div>
+    </div>
 
 </script>
 
@@ -266,7 +362,7 @@
             "bootstrap": "lib/bootstrap.min"
         }
     });
-    require(["createLottery"], function (mod) {
+    require(["eventList"], function (mod) {
         mod.main();
     });
 </script>

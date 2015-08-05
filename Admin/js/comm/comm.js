@@ -4,16 +4,18 @@
  * @date    2015-4-14
  * @todo  alertMsg confirm
  */
-define(["jquery", 'lib/tmpl'], function($, tmpl) {
+define(["jquery", 'lib/tmpl'], function ($, tmpl) {
+    const AUTHORIZATION= "AUTHORIZATION";
+
     var $confirmEl = null,
         BASEPATH = '../index.php/api/';
 
     function successFn(d, conf) {
-        var code  = typeof d.code === 'undefined'? d.ret: d.code;
+        var code = typeof d.code === 'undefined' ? d.ret : d.code;
 
         if (code >= 0) {
             if (typeof conf.success == 'function') {
-                conf.success(d.data||d.date, code);
+                conf.success(d.data || d.date, code);
             } else {
                 showMsg(d.msg || '操作成功');
             }
@@ -47,15 +49,15 @@ define(["jquery", 'lib/tmpl'], function($, tmpl) {
         $.extend(config, {
             type: 'POST',
             dataType: 'json',
-            success: function(d) {
+            success: function (d) {
                 successFn(d, conf);
                 (!!$el) && $el.html(oldVal).data('requesting', false);
             },
-            error: function() {
+            error: function (e) {
                 if (typeof conf.error == 'function') {
-                    conf.error('系统错误');
+                    conf.error('系统错误: ' + JSON.stringify(e));
                 } else {
-                    alertMsg('系统错误');
+                    alertMsg('系统错误: ' + JSON.stringify(e));
                 }
                 (!!$el) && $el.html(oldVal).data('requesting', false);
             }
@@ -72,14 +74,14 @@ define(["jquery", 'lib/tmpl'], function($, tmpl) {
         $.extend(config, {
             type: 'GET',
             dataType: 'json',
-            success: function(d) {
+            success: function (d) {
                 successFn(d, conf);
             },
-            error: function() {
+            error: function (e) {
                 if (typeof conf.error == 'function') {
-                    conf.error('系统错误');
+                    conf.error('系统错误: ' + JSON.stringify(e));
                 } else {
-                    alertMsg('系统错误');
+                    alertMsg('系统错误: ' + JSON.stringify(e));
                 }
             }
         });
@@ -101,16 +103,16 @@ define(["jquery", 'lib/tmpl'], function($, tmpl) {
             data = [data];
         }
 
-        if( isTableList ){
+        if (isTableList) {
             var h = tmpl(tpl, data);
             html.push(h);
-        }else{
-            $.each(data, function() {
+        } else {
+            $.each(data, function () {
                 var h = tmpl(tpl, this);
                 html.push(h);
             });
         }
-        
+
         if (typeof config.renderTo == 'string') {
             el = $(config.renderTo);
         } else {
@@ -124,62 +126,61 @@ define(["jquery", 'lib/tmpl'], function($, tmpl) {
         return el;
     }
 
-    function confirm(options){
-        if( !options.el ){
+    function confirm(options) {
+        if (!options.el) {
             return false;
         }
-        require(['bootstrap'], function(){
+        require(['bootstrap'], function () {
             buildConfirm(options);
         });
     }
 
-    function buildConfirm(options){
+    function buildConfirm(options) {
         options.el.popover({
-            title:options.title,
-            content:getConfirmContent(options.content),
+            title: options.title,
+            content: getConfirmContent(options.content),
             html: true,
-            placement: options.placement||'right'
+            placement: options.placement || 'right'
         }).popover('show');
-        $('._confirm_ok').click(function(){
+        $('._confirm_ok').click(function () {
             options.onYES && options.onYES({
-                unload: function(){
+                unload: function () {
                     options.el.popover('hide');
                     options.el.popover('destroy')
                 },
                 target: $(this)
             });
         });
-        $('._confirm_no').click(function(){
+        $('._confirm_no').click(function () {
             options.el.popover('hide');
             options.el.popover('destroy');
         })
 
     }
 
-    function getConfirmContent( content ){
+    function getConfirmContent(content) {
         return [
-        '<div>',
+            '<div>',
             content,
-        '</div>',
-        '<p style="border-top: 1px solid #ddd;padding-top: 10px;">',
+            '</div>',
+            '<p style="border-top: 1px solid #ddd;padding-top: 10px;">',
             '<button class="_confirm_ok btn btn-sm btn-danger">确定</button>&nbsp;&nbsp;',
             '<button class="_confirm_no btn btn-sm">取消</button>',
-        '</p>'
+            '</p>'
         ].join('');
     }
 
 
+    function dialog(options) {
+        require(['bootstrap'], function () {
+            buildDialog(options);
+        });
+    }
 
-    function dialog( options ){
-    	require( ['bootstrap'], function(){
-    		buildDialog(options);
-    	});
-    }		
-
-    function getDialogFrameTpl(){
-    	return ['<div class="modal fade" id="modalFrame">',
+    function getDialogFrameTpl() {
+        return ['<div class="modal fade" id="modalFrame">',
             '<div class="modal-dialog">',
-        	'<div class="modal-content">',
+            '<div class="modal-content">',
             ' <div class="modal-header">',
             '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>',
             '<h4 class="modal-title">对话框</h4>',
@@ -196,29 +197,29 @@ define(["jquery", 'lib/tmpl'], function($, tmpl) {
         ].join('');
     }
 
-    function buildDialog( options ){
-    	var tpl = getDialogFrameTpl();
-    	var frame = $('#modalFrame');
+    function buildDialog(options) {
+        var tpl = getDialogFrameTpl();
+        var frame = $('#modalFrame');
 
-    	if(frame.length>0){
+        if (frame.length > 0) {
             frame.remove();
-    	}
+        }
         frame = $(tpl).appendTo($('body'));
 
         frame.on('show.bs.modal', function (event) {
-    		var modal = $(this);
+            var modal = $(this);
             options.title && modal.find('.modal-title').html(options.title);
 
-    		typeof options.onLoad == 'function' && options.onLoad({
-    			content: modal.find('.modal-body'),
-    			dialog: {
-    				hide: function(){
+            typeof options.onLoad == 'function' && options.onLoad({
+                content: modal.find('.modal-body'),
+                dialog: {
+                    hide: function () {
                         modal.modal('hide');
                     },
-    				target: modal
-    			}
-    		});
-    	});
+                    target: modal
+                }
+            });
+        });
         frame.modal();
     }
 
@@ -231,20 +232,20 @@ define(["jquery", 'lib/tmpl'], function($, tmpl) {
             beforeSubmit = options.beforeSubmit,
             callback = options.callback,
             errorFn = options.error,
-            widget = options.widget||'fileuploader';
+            widget = options.widget || 'fileuploader';
 
-        require(['widget/'+widget], function(){
-            if( widget == 'fileuploader'){
+        require(['widget/' + widget], function () {
+            if (widget == 'fileuploader') {
                 $el.fileupload({
                     dataType: 'json',
-                    add: function(e, data) {
+                    add: function (e, data) {
                         // data.context = $('<p/>').text('Uploading...').appendTo(document.body);
                         typeof beforeSubmit === 'function' && beforeSubmit(e, data);
                         data.submit();
                     },
-                    done: function(e, data) {
+                    done: function (e, data) {
                         var resp = data.jqXHR.responseJSON;
-                        var code = typeof resp.ret == 'undefined'? resp.code: resp.ret;
+                        var code = typeof resp.ret == 'undefined' ? resp.code : resp.ret;
 
                         if (code == 0) {
                             typeof callback === 'function' && callback(resp, e, data);
@@ -253,188 +254,191 @@ define(["jquery", 'lib/tmpl'], function($, tmpl) {
                         }
                     }
                 });
-            }else{
+            } else {
                 $el.localResizeIMG({
-                     // width: 100,
-                     quality: 0.5,
-                     before: beforeSubmit,
-                     success: function (result) {
+                    // width: 100,
+                    quality: 0.5,
+                    before: beforeSubmit,
+                    success: function (result) {
                         var img = new Image();
                         img.src = result.base64;
 
                         // @todo canvas
-                        $.post( BASEPATH + 'Fileentity/canvas', {
+                        $.post(BASEPATH + 'Fileentity/canvas', {
                             // uploadfile: result.base64
                             uploadfile: result.base64.substr(22)
-                        }, function(data){
-                            if(data.ret == 0 ){
+                        }, function (data) {
+                            if (data.ret == 0) {
                                 callback(data);
-                            }else{
-                                errorFn( data );
+                            } else {
+                                errorFn(data);
                             }
                         }, 'json');
 
-                     // $('body').append(img);
-                     // console.log(result);
-                     }
-                }); 
+                        // $('body').append(img);
+                        // console.log(result);
+                    }
+                });
             }
         });
     }
 
-    function showLoading(el){
+    function showLoading(el) {
         el.html('<p><i class="fa fa-spin fa-spinner"></i></p>');
     }
 
-    function bindEvent(){
-        $('#logout').click(function(){
+    function bindEvent() {
+        $('#logout').click(function () {
             window.location.href = "login.html";
         });
     }
 
-    function setupAdminNav(){
-        require(['bootstrap'], function(){
+    function setupAdminNav() {
+        require(['bootstrap'], function () {
             var nav = [
-                {label:"日记列表", url:"diaryList"},
-                {label:"话题列表", url:"topicList"}
-                // {label:"抽奖管理", url:"createLottery", sub:[{
-                //     url: 'lotterylist',
-                //     label:'抽奖列表'
-                // },{
-                //     url: 'createLottery',
-                //     label:'创建抽奖'
-                // }]}
-            ],
-            cur = getCur( nav ),
-            html = [],
-            tpl = '<li class="{ACTIVE}"><a href="{URL}.html">{LABEL}</a></li>',
-            tplWithSub = '<li class="dropdown {ACTIVE}">'+
-                    '<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{LABEL}<span class="caret"></span></a>'+
-                    '<ul class="dropdown-menu" role="menu">{SUBNAV}</ul>'+
-                '</li>',
-            tplSub = '<li><a href="{URL}.html">{LABEL}</a></li>';
+                    {label: "管理员列表", url: "userList"},
+                    {label: "日记列表", url: "diaryList"},
+                    {label: "话题列表", url: "topicList"},
+                    {label: "活动列表", url: "eventList"}
+                    // {label:"抽奖管理", url:"createLottery", sub:[{
+                    //     url: 'lotterylist',
+                    //     label:'抽奖列表'
+                    // },{
+                    //     url: 'createLottery',
+                    //     label:'创建抽奖'
+                    // }]}
+                ],
+                cur = getCur(nav),
+                html = [],
+                tpl = '<li class="{ACTIVE}"><a href="{URL}.html">{LABEL}</a></li>',
+                tplWithSub = '<li class="dropdown {ACTIVE}">' +
+                    '<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{LABEL}<span class="caret"></span></a>' +
+                    '<ul class="dropdown-menu" role="menu">{SUBNAV}</ul>' +
+                    '</li>',
+                tplSub = '<li><a href="{URL}.html">{LABEL}</a></li>';
 
-            $.each( nav, function(){
-                var active = cur == this.url?'active': '';
+            $.each(nav, function () {
+                var active = cur == this.url ? 'active' : '';
 
-                if( window.G_ENV == 'release' && window.G_ORG_ID == 1 && this.mod =='qudao' ){
+                if (window.G_ENV == 'release' && window.G_ORG_ID == 1 && this.mod == 'qudao') {
                     return;
                 }
 
-                if( !this.sub ){
-                    html.push( fillString( tpl, $.extend(this, {active:active})) );
-                }else{
+                if (!this.sub) {
+                    html.push(fillString(tpl, $.extend(this, {active: active})));
+                } else {
                     var subList = [];
                     var active = '';
 
-                    $.each( this.sub, function(){
-                        if( active != 'active' ){
-                            active = cur == this.url?'active': '';
+                    $.each(this.sub, function () {
+                        if (active != 'active') {
+                            active = cur == this.url ? 'active' : '';
                         }
-                        subList.push( fillString( tplSub, $.extend(this, {active:active})) );
+                        subList.push(fillString(tplSub, $.extend(this, {active: active})));
                     });
 
-                    html.push( fillString(tplWithSub, $.extend( this, {
+                    html.push(fillString(tplWithSub, $.extend(this, {
                         subnav: subList.join(''),
-                        active:active
+                        active: active
                     })));
                 }
             });
 
-            $('#firNav').html( html.join('') );
+            $('#firNav').html(html.join(''));
         })
     }
 
-    function getCur( nav ){
+    function getCur(nav) {
         var cur = 'agentList';
 
-        $.each(nav,function(){
-            if( this.sub ){
-                $.each( this.sub, function(){
-                    if( location.href.indexOf(this.url) > -1 ){
+        $.each(nav, function () {
+            if (this.sub) {
+                $.each(this.sub, function () {
+                    if (location.href.indexOf(this.url) > -1) {
                         cur = this.url;
                         return false;
                     }
                 });
-            }else if( location.href.indexOf(this.url) > -1 ){
+            } else if (location.href.indexOf(this.url) > -1) {
                 cur = this.url;
                 return false;
             }
         });
         return cur;
     }
-     /**
+
+    /**
      * 格式化模板
      * @param  {string} tpl  原始模板
      * @param  {string} data 填充数据
      * @return {string}      返回字符串
      */
     function fillString(tpl, data) {
-        $.each(data, function(k, val) {
+        $.each(data, function (k, val) {
             var r = new RegExp('{' + k.toUpperCase() + '}', 'g');
             tpl = tpl.replace(r, val);
         });
         return tpl;
     }
 
-    function checkLogin(callback){
+    function checkLogin(callback) {
         get({
             url: '/api/fastlogin',
-            data:{},
-            success:function(d){
+            data: {},
+            success: function (d) {
                 window.G_ORG_ID = d.orgId;
                 window.G_ADMIN_NAME = d.userName;
                 callback();
                 initWorkspace();
             },
-            error:function(){
+            error: function () {
                 window.location.href = 'login.html';
             }
         })
     }
 
-    function datetimepicker(options){
+    function datetimepicker(options) {
         options = options || {};
 
         var el = options.el;
-        if( !el ){
+        if (!el) {
             alert('日历控件初始化失败');
             return false;
         }
 
         // require(['widget/bootstrap-datetimepicker.min','widget/bootstrap-datetimepicker.zh-CN'], function(){
-        require(['widget/bootstrap-datetimepicker.min'], function(){
-            require(['widget/bootstrap-datetimepicker.zh-CN'], function(){
-                options.minView = options.minView||'month';
+        require(['widget/bootstrap-datetimepicker.min'], function () {
+            require(['widget/bootstrap-datetimepicker.zh-CN'], function () {
+                options.minView = options.minView || 'month';
 
                 el.datetimepicker({
-                    format: options.format||"yyyy - MM - dd",
-                    fontAwesome:true,
+                    format: options.format || "yyyy - MM - dd",
+                    fontAwesome: true,
                     language: 'zh-CN',
                     minView: options.minView,
-                    autoclose:true
-                }).on('changeDate', function(ev){
-                    var gapHours = 1000*60*60*8;
+                    autoclose: true
+                }).on('changeDate', function (ev) {
+                    var gapHours = 1000 * 60 * 60 * 8;
                     var dateVal = ev.date.valueOf() - gapHours;
                     // var dateVal = ev.date.valueOf();
 
-                    if( options.minView == 'month'){
+                    if (options.minView == 'month') {
                         var d = new Date(dateVal);
                         d.setHours(0);
                         dateVal = d.setMinutes(0)
                         dateVal = d.setSeconds(0);
                     }
-                    if( options.minView == 'day' ){
+                    if (options.minView == 'day') {
                         var d = new Date(dateVal);
                         dateVal = d.setMinutes(0);
                         dateVal = d.setSeconds(0);
                     }
-                    if( options.minView == 'hour' ){
+                    if (options.minView == 'hour') {
                         var d = new Date(dateVal);
                         dateVal = d.setSeconds(0);
                     }
                     ev.date.val = dateVal;
-                    !!options.onChangeDate && options.onChangeDate( ev );
+                    !!options.onChangeDate && options.onChangeDate(ev);
                 });
             })
         });
@@ -446,7 +450,7 @@ define(["jquery", 'lib/tmpl'], function($, tmpl) {
         var map = {};
 
         if (hashes.length > 0) {
-            $.each(hashes, function(idx, val) {
+            $.each(hashes, function (idx, val) {
                 var temp = val.split('=');
                 if (temp.length == 2) {
                     map[temp[0]] = temp[1];
@@ -466,98 +470,106 @@ define(["jquery", 'lib/tmpl'], function($, tmpl) {
         el = el || $('body');
         var html = '<div class="alert alert-uestc">' + msg + '</div>';
         var alertEl = $(html).prependTo(el);
-        setTimeout(function() {
+        setTimeout(function () {
             alertEl.remove();
         }, 1024);
     }
 
     function showMsg(msg, el) {
-        msg = '<i class="fa fa-check-circle fa-2x"></i>&nbsp;&nbsp;'+msg;
+        msg = '<i class="fa fa-check-circle fa-2x"></i>&nbsp;&nbsp;' + msg;
         alert(msg, el, 'success');
     }
 
     function alertMsg(msg, el) {
-         msg = '<i class="fa fa-times-circle fa-2x"></i>&nbsp;&nbsp;' +msg;
+        msg = '<i class="fa fa-times-circle fa-2x"></i>&nbsp;&nbsp;' + msg;
         alert(msg, el, 'danger');
     }
 
-    function buildSelector(options){
+    function buildSelector(options) {
 
         var selectTagHead = '<select class="form-control">',
-            selectTagEnd ='</select>',
+            selectTagEnd = '</select>',
             html = [selectTagHead],
             data = options.data;
 
-        $.each(data, function(){
-            html.push('<option value="'+ this.id +'">'+this.name||this.id+'</option>');
+        $.each(data, function () {
+            html.push('<option value="' + this.id + '">' + this.name || this.id + '</option>');
         });
-        html.push( selectTagEnd );
+        html.push(selectTagEnd);
         var el = $(html.join(''));
-        el.on('change', function(){
-            options.onChange && options.onChange( el.val() );
+        el.on('change', function () {
+            options.onChange && options.onChange(el.val());
         });
 
         return el;
     }
 
-    function buildMap(d){
+    function buildMap(d) {
         var map = {};
 
-        $.each(d, function(){
+        $.each(d, function () {
             map[this.id] = this.name;
         });
         return map;
     }
 
 
-    window.G_formatTime = function(val){
-        var d = new Date( Math.floor( val * 1000 ) );
+    window.G_formatTime = function (val) {
+        var d = new Date(Math.floor(val * 1000));
         return [
-            d.getFullYear(),
-            d.getMonth()+1,
-            d.getDate()
-        ].join('-')+' '+[
-            d.getHours(),
-            d.getMinutes()
-        ].join(':');
+                d.getFullYear(),
+                d.getMonth() + 1,
+                d.getDate()
+            ].join('-') + ' ' + [
+                d.getHours(),
+                d.getMinutes()
+            ].join(':');
     }
 
-    function isPhone(num){
+    function isPhone(num) {
         var partten = /^1[3,5]\d{9}$/;
         return partten.test(num);
     }
 
-    function initWorkspace(){
+    function initWorkspace() {
         setupAdminNav();
         bindEvent();
-        window.G_ENV = window.location.host.indexOf('test')>0? 'test':'release';
+        window.G_ENV = window.location.host.indexOf('test') > 0 ? 'test' : 'release';
+    }
+
+    function getToken() {
+        localStorage.setItem(comm.AUTHORIZATION, data.token);
+    }
+
+    function setToken(token) {
+        localStorage.setItem(AUTHORIZATION, token);
     }
 
     return {
-    	constant: {
-    		HOSPITAL_ID: 1,
-            ENV:window.G_ENV
-    	},
-        config:{BASEPATH:'http://app.jiayantech.com:9188/my_admin/'},
-        io:{
-            get:get,
-            post:post
+        constant: {
+            HOSPITAL_ID: 1,
+            ENV: window.G_ENV,
+        },
+        config: {BASEPATH: 'http://admintest.jiayantech.com/my_admin/'},
+        io: {
+            get: get,
+            post: post
         },
         utils: {
             setupFileLoader: setupFileLoader,
             datetimepicker: datetimepicker
         },
-    	render:render,
-    	dialog:dialog,
-        confirm:confirm,
+        render: render,
+        dialog: dialog,
+        confirm: confirm,
         showLoading: showLoading,
-        checkLogin:checkLogin,
+        checkLogin: checkLogin,
         hashMng: hashMng,
-        showMsg:showMsg,
-        alertMsg:alertMsg,
-        buildSelector:buildSelector,
-        buildMap:buildMap,
-        isPhone:isPhone,
-        setupWorkspace:initWorkspace
+        showMsg: showMsg,
+        alertMsg: alertMsg,
+        buildSelector: buildSelector,
+        buildMap: buildMap,
+        isPhone: isPhone,
+        setupWorkspace: initWorkspace
     }
 });
