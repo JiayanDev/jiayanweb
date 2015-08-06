@@ -374,6 +374,7 @@ define(["jquery", 'lib/tmpl'], function ($, tmpl) {
                     {label: "管理员列表", url: "userList"},
                     {label: "日记列表", url: "diaryList"},
                     {label: "话题列表", url: "topicList"},
+                    {label: "创建话题", url: "createTopic"},
                     {label: "活动列表", url: "eventList"}
                     // {label:"抽奖管理", url:"createLottery", sub:[{
                     //     url: 'lotterylist',
