@@ -2,9 +2,9 @@ define([ "commJs"], function(comm) {
 	var submitBtn = $('#_submit');
 
 	function main(){
-        // comm.checkLogin(function(){
+        comm.checkLogin(function(){
             init();
-        // })
+        })
     }
 
     function init () {
@@ -55,7 +55,7 @@ define([ "commJs"], function(comm) {
 
 
     return {
-    	main:init
+    	main:main
     };
 
 });

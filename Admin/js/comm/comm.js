@@ -249,8 +249,8 @@ define(["jquery", 'lib/tmpl'], function ($, tmpl) {
             errorFn = options.error,
             widget = options.widget || 'fileuploader';
 
-        getFilePolicyAndSignature({mod: options.mod}, function (policyData) {
-
+        getFilePolicyAndSignature({mod:options.mod}, function(policyData) {
+            
             require(['widget/' + widget], function () {
                 if (widget == 'fileuploader') {
                     $el.fileupload({
@@ -360,19 +360,19 @@ define(["jquery", 'lib/tmpl'], function ($, tmpl) {
     }
 
     function getFilePolicyAndSignature(options, cb) {
-        var env = window.G_ENV == 'release' ? '' : 'test';
+        var env = window.G_ENV == 'release'? '':'test';
 
         get({
-            url: "http://admin" + env + ".jiayantech.com/uploader/sign",
+            url: "http://admin"+env+".jiayantech.com/my_admin/uploader/sign",
             data: {
                 //daddy: 1,
-                mod: options.mod || "adminupload"
+                mod: options.mod||"adminupload"
             },
             success: function (data) {
                 cb(data);
             },
-            error: function (msg) {
-                alertMsg(msg || "获取图片上传的token失败");
+            error:function  (msg) {
+                alertMsg(msg||"获取图片上传的token失败");
             }
         });
     }
