@@ -362,7 +362,7 @@ define(["jquery", 'lib/tmpl'], function ($, tmpl) {
         var env = window.G_ENV == 'release'? '':'test';
 
         get({
-            url: "http://admin"+env+".jiayantech.com/uploader/sign",
+            url: "http://admin"+env+".jiayantech.com/my_admin/uploader/sign",
             data: {
                 //daddy: 1,
                 mod: options.mod||"adminupload"
