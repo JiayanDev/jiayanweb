@@ -10,6 +10,7 @@ define(["jquery", 'lib/tmpl'], function ($, tmpl) {
     const CONFIG_VERSION = "configVersion";
     const PROJECT_CONFIG = "projectConfig";
     const BASE_SERVER_PATH = 'http://admintest.jiayantech.com/my_admin/';
+    const BASE_IMAGE_SERVER_SHOW_PATH = "http://jiayanimg.b0.upaiyun.com/";
 
     var $confirmEl = null,
         BASEPATH = '../index.php/api/';
@@ -248,8 +249,8 @@ define(["jquery", 'lib/tmpl'], function ($, tmpl) {
             errorFn = options.error,
             widget = options.widget || 'fileuploader';
 
-        getFilePolicyAndSignature({mod:options.mod}, function(policyData) {
-            
+        getFilePolicyAndSignature({mod: options.mod}, function (policyData) {
+
             require(['widget/' + widget], function () {
                 if (widget == 'fileuploader') {
                     $el.fileupload({
@@ -359,19 +360,19 @@ define(["jquery", 'lib/tmpl'], function ($, tmpl) {
     }
 
     function getFilePolicyAndSignature(options, cb) {
-        var env = window.G_ENV == 'release'? '':'test';
+        var env = window.G_ENV == 'release' ? '' : 'test';
 
         get({
-            url: "http://admin"+env+".jiayantech.com/uploader/sign",
+            url: "http://admin" + env + ".jiayantech.com/uploader/sign",
             data: {
                 //daddy: 1,
-                mod: options.mod||"adminupload"
+                mod: options.mod || "adminupload"
             },
             success: function (data) {
                 cb(data);
             },
-            error:function  (msg) {
-                alertMsg(msg||"获取图片上传的token失败");
+            error: function (msg) {
+                alertMsg(msg || "获取图片上传的token失败");
             }
         });
     }
@@ -690,7 +691,10 @@ define(["jquery", 'lib/tmpl'], function ($, tmpl) {
             HOSPITAL_ID: 1,
             ENV: window.G_ENV
         },
-        config: {BASEPATH: BASE_SERVER_PATH},
+        config: {
+            BASEPATH: BASE_SERVER_PATH,
+            BASE_IMAGE_PATH: BASE_IMAGE_SERVER_SHOW_PATH
+        },
         io: {
             get: get,
             post: post

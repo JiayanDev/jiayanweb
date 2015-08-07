@@ -43,10 +43,15 @@ define(["jquery", "commJs", 'widget/bootstrap-wysiwyg'], function (_, comm) {
             },
             callback: function (resp) {
                 // $('#photo_file').val(data);都没必要存在了
-                var imgUrl = (resp && resp.data && resp.data.url) || '';
-                appendImageList(imgUrl);
-                imageList.push(imgUrl);
-                $loadingEl.addClass('none');
+                var imgUrl = (resp && resp.url) || null;
+                if (imgUrl) {
+                    imgUrl = comm.config.BASE_IMAGE_PATH + imgUrl;
+                    appendImageList(imgUrl);
+                    imageList.push(imgUrl);
+                    $loadingEl.addClass('none');
+                } else {
+                    fileMsg.html('imgUrl==null');
+                }
             },
             error: function (resp) {
                 fileMsg.html((resp && resp.msg) || '文件上传失败');
@@ -56,6 +61,9 @@ define(["jquery", "commJs", 'widget/bootstrap-wysiwyg'], function (_, comm) {
 
     function appendImageList(imgUrl) {
         var imgListEl = $('#imageList');
+        imgListEl.removeClass("none");
+        //imgListEl.append('<li><img src="../statics/img/addimage-empty.png"></li>');
+
         imgListEl.append('<li><img src="' + imgUrl + '"></li>');
         return imageList;
     }
@@ -92,6 +100,7 @@ define(["jquery", "commJs", 'widget/bootstrap-wysiwyg'], function (_, comm) {
 
             if ($t.hasClass('_edit')) {
                 var id = $t.data('id');
+                var row = JSON.parse($t.data('row'));
                 comm.dialog({
                     onLoad: function (options) {
                         getQrcode(id, function (d) {
