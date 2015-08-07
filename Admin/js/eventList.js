@@ -26,7 +26,7 @@ define(["jquery", "commJs", 'widget/bootstrap-wysiwyg'], function (_, comm) {
 
     function setupRichEditor() {
         comm.setupRichEditor({
-            targetElementId: 'event-detail',
+            targetElementId: 'event-description',
             toolbarContainer: $('#richEditorToolBar')
         });
     }
