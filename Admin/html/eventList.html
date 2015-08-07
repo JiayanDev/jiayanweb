@@ -98,9 +98,7 @@
             <a class="navbar-brand" href="#" style="color:#fff;padding-top:15px;padding-bottom:15px;">美丽天使App</a>
         </div>
         <div class="collapse navbar-collapse" style="background-color:#428BCA">
-            <ul class="nav navbar-nav" id="firNav">
-
-            </ul>
+            <ul class="nav navbar-nav" id="firNav"></ul>
         </div>
         <!-- /.navbar-collapse -->
          <span class="sellerInfo">
@@ -110,138 +108,158 @@
     </nav>
 </div>
 
-<div class="container container-bg bounce animated" id="createPanel" style="min-height:150px;">
+<div class="container container-bg bounce animated none" id="editPanel" style="min-height:150px;">
+    <div class="page-header" style="margin-top: 0">
+        <a class="btn btn-right close">X</a>
+        <h3 class="center">编辑活动信息</h3>
+    </div>
     <div class="container-sm">
         <div class="page-header">
-            <h4>基本信息</h4>
+            <h4>个人信息</h4>
         </div>
         <form class="form-horizontal">
             <div class="form-group">
-                <label for="name" class="col-sm-2 control-label">活动名称</label>
+                <label class="col-sm-2 control-label">昵称</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" id="user-name" placeholder="昵称">
+                </div>
 
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" id="title" placeholder="活动名称">
+                <label class="col-sm-2 control-label">手机号码</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" id="user-phone" placeholder="手机号码">
                 </div>
             </div>
+        </form>
 
+        <div class="page-header">
+            <h4>活动信息</h4>
+        </div>
+        <form class="form-horizontal">
             <div class="form-group">
-                <label for="name" class="col-sm-2 control-label">编辑活动内容</label>
-
-                <div class="col-sm-10" id="selectorWrap">
-                    <!-- 跳去创建话题页面 -->
+                <label class="col-sm-2 control-label">活动名称</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="event-title" placeholder="活动名称">
                 </div>
             </div>
-
-
             <div class="form-group">
-                <label for="type" class="col-sm-2 control-label">抽奖类型</label>
+                <label class="col-sm-2 control-label">封面图片</label>
+                <ul id="imageList" class="col-sm-2 gallery none">
+                    <!--<li><img src="../statics/img/addimage-empty.png"></li>-->
+                </ul>
+                <div class="col-sm-1">
+                    <div class="uploader-placeholder center">
+                        <i class="fa fa-plus"></i>
+                    </div>
+                    <input type="file" style="width:50px;height:50px;left:10px;"
+                           id="thumberUploader" name="image" class="uploader" data-url="/api/uploadImage/">
 
+                    <p class="loading none">
+                        <i class="fa fa-spin fa-spinner"></i>
+                    </p>
+                    <p id="fileMsg"></p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">描述</label>
                 <div class="col-sm-10">
-                    <select id='type' class="form-control">
-                        <option value="snap">抢拍</option>
-                        <option value="auto">名单池里抽奖</option>
-                        <option value="normal">用户扫码抽奖</option>
+                    <textarea class="form-control" id="event-description" placeholder="描述"></textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">项目</label>
+                <div class="col-sm-10">
+                    <select id="event-categories" class="form-control" multiple=”multiple” size="3">
+                        <option value="1">全切双眼皮</option>
+                        <option value="2">注射隆鼻</option>
+                        <option value="3">瘦脸</option>
+                        <option value="4">隆胸</option>
                     </select>
                 </div>
             </div>
-
             <div class="form-group">
-                <label for="name" class="col-sm-2 control-label">描述</label>
-
+                <label class="col-sm-2 control-label">医院</label>
                 <div class="col-sm-10">
-                    <textarea class="form-control" id="description" placeholder="描述"></textarea>
+                    <select id="event-hospital" class="form-control">
+                        <option value="1">向西医院</option>
+                        <option value="2">向东医院</option>
+                        <option value="3">向北医院</option>
+                    </select>
                 </div>
             </div>
-
+            <div class="form-group">
+                <label class="col-sm-2 control-label">医生</label>
+                <div class="col-sm-10">
+                    <select  id="event-doctor" class="form-control">
+                        <option value="1">李晓东 主任医师</option>
+                        <option value="2">小彬 傻冒医师</option>
+                        <option value="3">小灵 傻x医师</option>
+                    </select>
+                </div>
+            </div>
             <div class="form-group" id="timeSelector">
                 <label for="startTime" class="col-sm-2 control-label">开始时间</label>
-
                 <div class="col-sm-10 input-group">
                     <input type="text" class="form-control" id="startTime" placeholder="活动开始时间（线下抽奖可以不填写）">
-
                     <div class="input-group-addon"><i class="fa fa-th"></i></div>
                 </div>
             </div>
-
-
-            <!-- <div id="type-option none"> -->
-            <div class="form-group none" id="rateWrap">
-                <label for="rate" class="col-sm-2 control-label">中奖概率(%)</label>
-
-                <div class="col-sm-10">
-                    <select class="form-control" id="rate">
-                        <option value="0.5">50</option>
-                        <option value="1">100</option>
-                        <option value="0.1">10</option>
-                        <option value="0.2">20</option>
-                        <option value="0.3">30</option>
-                        <option value="0.4">40</option>
-                        <option value="0.6">60</option>
-                        <option value="0.7">70</option>
-                        <option value="0.8">80</option>
-                        <option value="0.9">90</option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label for="name" class="col-sm-2 control-label">领奖上限</label>
-
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" id="perUserGetCount" placeholder="每个用户每天最多可抽多少次奖">
-                </div>
-            </div>
-            <!-- </div> -->
         </form>
 
         <div class="page-header">
             <h4>编辑活动</h4>
         </div>
-        <div class="award-panel row form-horizontal" id="awardPanel">
-            <div class="col-sm-3 award-item _awardItem" style="padding-top:15px;">
-                <div class="form-group row">
-                    <label class="col-sm-5 control-label">奖品名称</label>
-
-                    <div class="col-sm-7 award-input-cnt">
-                        <span class="_showAward"></span>&nbsp;&nbsp;
-                        <a href="#" class="_selItem">选择奖品</a>
+        <form class="form-horizontal">
+            <div class="form-group">
+                <label for="startTime" class="col-sm-2 control-label">活动详情</label>
+                <div class="col-sm-10">
+                    <div>
+                        <div class="btn-toolbar" data-role="editor-toolbar" data-target="#description">
+                            <div class="btn-group">
+                                <a class="btn btn-default" data-edit="fontSize 5" title="标题（大字）">标题</a>
+                                <a class="btn btn-default" data-edit="fontSize 2" title="正文">正文</a>
+                            </div>
+                            <div class="btn-group">
+                                <a class="btn btn-default" data-edit="bold" title="加粗 (Ctrl/Cmd+B)"><i
+                                        class="fa fa-bold"></i></a>
+                                <a class="btn btn-default" data-edit="italic" title="斜体 (Ctrl/Cmd+I)"><i
+                                        class="fa fa-italic"></i></a>
+                                <a class="btn btn-default" data-edit="strikethrough" title="Strikethrough"><i
+                                        class="fa fa-strikethrough"></i></a>
+                                <a class="btn btn-default" data-edit="underline" title="下划线 (Ctrl/Cmd+U)"><i
+                                        class="fa fa-underline"></i></a>
+                            </div>
+                            <div class="btn-group">
+                                <a class="btn btn-default" data-edit="insertunorderedlist" title="列表"><i
+                                        class="fa fa-list-ul"></i></a>
+                                <a class="btn btn-default" data-edit="insertorderedlist" title="数字列表"><i
+                                        class="fa fa-list-ol"></i></a>
+                            </div>
+                            <div class="btn-group relative">
+                                <a class="btn btn-default" title="插入图片" id="pictureBtn"><i class="fa fa-photo"></i></a>
+                                <input type="file" data-role="magic-overlay" data-target="#pictureBtn"
+                                       data-edit="insertImage" name="image" data-url="/api/uploadImage/"
+                                       style="opacity: 0; position: absolute; top: 0px; left: 0px; width: 41px; height: 30px;"/>
+                            </div>
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-default" data-toggle="dropdown">
+                                    颜色
+                                    <span class="caret"></span>
+                                </button>
+                                <div class="dropdown-menu">
+                                    <a class="color-block" href="#" data-edit="foreColor #ff0000" title="字体红色"
+                                       style="background-color:#ff0000;"></a>
+                                    <a class="color-block" href="#" data-edit="foreColor #000" title="字体黑色"
+                                       style="background-color:#000;"></a>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div class="form-group row none">
-                    <label class="col-sm-5 control-label">奖品名称</label>
-
-                    <div class="col-sm-7 award-input-cnt">
-                        <input type="text" class="form-control input-sm _itemName" placeholder="奖品名称">
-                    </div>
-                </div>
-                <div class="form-group row none">
-                    <label class="col-sm-5 control-label">itemID</label>
-
-                    <div class="col-sm-7 award-input-cnt">
-                        <input type="text" class="form-control input-sm _itemId" placeholder="itemID">
-                    </div>
-                </div>
-                <div class="form-group row none">
-                    <label class="col-sm-5 control-label">projectID</label>
-
-                    <div class="col-sm-7 award-input-cnt">
-                        <input type="text" class="form-control input-sm _projectId" placeholder="projectId">
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label class="col-sm-5 control-label">数量</label>
-
-                    <div class="col-sm-7 award-input-cnt">
-                        <input type="text" class="form-control input-sm _count" placeholder="此奖品数量">
+                    <div id="description"
+                         style="margin-top:15px;border:1px solid #ddd;border-radius:4px;height:100px;padding:5px;overflow:auto;">
                     </div>
                 </div>
             </div>
-            <div class="col-sm-3 award-item award-plus" id="_addItem">
-                <div>
-                    <i class="fa fa-plus fa-4x"></i>
-                </div>
-            </div>
-        </div>
+        </form>
 
         <div class="row center">
             <button class="btn btn-danger" id="_submit">保存</button>
@@ -256,7 +274,7 @@
             <strong>已创建的活动</strong>
             <button class="btn btn-warning btn-sm btn-right" id="_add">添加活动</button>
         </div>
-        <div id="_list" style="max-width:700px;margin:0 auto;">
+        <div id="_list" style="max-width:1000px;margin:0 auto;">
             <table class="table table-hover">
                 <thead>
                 <tr>
@@ -304,14 +322,18 @@
             %}
             <tr>
                 <td>{%= row.id %}</td>
-                <td style="width:20%">{%= row.name %}</td>
-                <td>{%= window.G_formatTime(row.startTime) %}</td>
-                <td>{%= window.G_formatTime(row.createTime) %}</td>
+                <td>{%= row.userName %}</td>
+                <td>{%= row.phone %}</td>
+                <td>{%= row.title %}</td>
+                <td>{%= row.categoryIds %}</td>
+                <td>{%= row.hospitalName %}</td>
+                <td>{%= row.doctorName %}</td>
+                <td>{%= window.G_formatTime(row.beginTime) %}</td>
+                <td>{%= row.applymentCount||('0') %}</td>
                 <td>
-                  <a href="#" class="_qrcode" data-id="{%= row.id %}">查看二维码</a>
-                </td>
-                <td>
-                  <a href="#" class="_detail" data-id="{%= row.id %}">详情</a>
+                    <a href="#" class="_grant" data-id="{%= row.id %}" data-name="{%= row.name %}" data-role="{%= row.role %}">
+                        编辑
+                    </a>
                 </td>
             </tr>
             {% }}else{ %}
