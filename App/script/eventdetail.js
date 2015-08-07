@@ -23,6 +23,7 @@ define(["commJs"], function(comm) {
 			},
 			success:function(data){
 				render(data);
+				hideNativeLoading();
 			}
 		});
 	}
@@ -47,6 +48,12 @@ define(["commJs"], function(comm) {
 		$('#eventDetail').html(JSON.stringify(
 			data
 		));
+	}
+
+	function hideNativeLoading () {
+		comm.io.call({
+			action:"hideLoading"
+		});
 	}
 
 	function getId () {
