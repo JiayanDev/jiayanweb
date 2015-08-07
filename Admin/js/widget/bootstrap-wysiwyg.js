@@ -157,10 +157,10 @@ define(["jquery", "commJs", "lib/jquery.hotkeys"], function(_, comm){
 				                saveSelection();
 			            	});
 			            },
-			            formData:{
-			            	policy: $('#richInputFileControl').data('policy'),
-			            	signature: $('#richInputFileControl').data('signature')
-			            },
+			            // formData:{
+			            // 	policy: $('#richInputFileControl').data('policy'),
+			            // 	signature: $('#richInputFileControl').data('signature')
+			            // },
 			            callback: function(resp) {
 			            	restoreSelection();
 			                var imgUrl = (resp && resp.url) || '';

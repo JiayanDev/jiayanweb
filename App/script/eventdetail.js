@@ -1,5 +1,5 @@
 define(["commJs"], function(comm) {
-
+	var cacheEventData = {};
 
 	function init(){
 		var id = getId();
@@ -23,8 +23,15 @@ define(["commJs"], function(comm) {
 			},
 			success:function(data){
 				render(data);
+				cacheData(data);
 				hideNativeLoading();
 			}
+		});
+	}
+
+	function cacheData (data) {
+		$.each(['hospitalName', 'doctorName', 'beginTime', 'category'], function (i, key) {
+			cacheEventData[key] = data[key]
 		});
 	}
 
@@ -39,7 +46,8 @@ define(["commJs"], function(comm) {
 		comm.io.call({
 			action: "applymentEvent",
 			data:{
-				id: getId()
+				id: getId(),
+				eventInfo: cacheEventData
 			}
 		});
 	}

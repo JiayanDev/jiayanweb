@@ -248,53 +248,59 @@ define(["jquery", 'lib/tmpl'], function ($, tmpl) {
             errorFn = options.error,
             widget = options.widget || 'fileuploader';
 
-        require(['widget/' + widget], function () {
-            if (widget == 'fileuploader') {
-                $el.fileupload({
-                    dataType: 'json',
-                    add: function (e, data) {
-                        // data.context = $('<p/>').text('Uploading...').appendTo(document.body);
-                        typeof beforeSubmit === 'function' && beforeSubmit(e, data);
-                        data.submit();
-                    },
-                    formData: options.formData,
-                    done: function (e, data) {
-                        var resp = data.jqXHR.responseJSON;
-                        var code = typeof resp.ret == 'undefined' ? resp.code : resp.ret;
+        getFilePolicyAndSignature({mod:options.mod}, function(policyData) {
+            
+            require(['widget/' + widget], function () {
+                if (widget == 'fileuploader') {
+                    $el.fileupload({
+                        dataType: 'json',
+                        add: function (e, data) {
+                            // data.context = $('<p/>').text('Uploading...').appendTo(document.body);
+                            typeof beforeSubmit === 'function' && beforeSubmit(e, data);
+                            data.submit();
+                        },
+                        formData: {
+                            policy: policyData.policy,
+                            signature: policyData.signature
+                        },
+                        done: function (e, data) {
+                            var resp = data.jqXHR.responseJSON;
+                            var code = typeof resp.ret == 'undefined' ? resp.code : resp.ret;
 
-                        if (code == 0 || code == 200) {
-                            typeof callback === 'function' && callback(resp, e, data);
-                        } else {
-                            typeof errorFn === 'function' && errorFn(resp, e, data);
-                        }
-                    }
-                });
-            } else {
-                $el.localResizeIMG({
-                    // width: 100,
-                    quality: 0.5,
-                    before: beforeSubmit,
-                    success: function (result) {
-                        var img = new Image();
-                        img.src = result.base64;
-
-                        // @todo canvas
-                        $.post(BASEPATH + 'Fileentity/canvas', {
-                            // uploadfile: result.base64
-                            uploadfile: result.base64.substr(22)
-                        }, function (data) {
-                            if (data.ret == 0) {
-                                callback(data);
+                            if (code == 0 || code == 200) {
+                                typeof callback === 'function' && callback(resp, e, data);
                             } else {
-                                errorFn(data);
+                                typeof errorFn === 'function' && errorFn(resp, e, data);
                             }
-                        }, 'json');
+                        }
+                    });
+                } else {
+                    $el.localResizeIMG({
+                        // width: 100,
+                        quality: 0.5,
+                        before: beforeSubmit,
+                        success: function (result) {
+                            var img = new Image();
+                            img.src = result.base64;
 
-                        // $('body').append(img);
-                        // console.log(result);
-                    }
-                });
-            }
+                            // @todo canvas
+                            $.post(BASEPATH + 'Fileentity/canvas', {
+                                // uploadfile: result.base64
+                                uploadfile: result.base64.substr(22)
+                            }, function (data) {
+                                if (data.ret == 0) {
+                                    callback(data);
+                                } else {
+                                    errorFn(data);
+                                }
+                            }, 'json');
+
+                            // $('body').append(img);
+                            // console.log(result);
+                        }
+                    });
+                }
+            });
         });
     }
 
@@ -335,27 +341,37 @@ define(["jquery", 'lib/tmpl'], function ($, tmpl) {
 
 
     function setupRichEditor(options) {
+        // setupRichEditorToolBar(options);
+        // getFilePolicyAndSignature(function (data) {
+
+        //     $('#richInputFileControl').data('policy', data.policy);
+        //     $('#richInputFileControl').data('signature', data.signature);
+
+        //     require(['widget/bootstrap-wysiwyg', 'bootstrap'], function () {
+        //         $('#' + options.targetElementId).wysiwyg();
+        //     });
+        // });
+
         setupRichEditorToolBar(options);
-        getFilePolicyAndSignature(function (data) {
-
-            $('#richInputFileControl').data('policy', data.policy);
-            $('#richInputFileControl').data('signature', data.signature);
-
-            require(['widget/bootstrap-wysiwyg', 'bootstrap'], function () {
-                $('#' + options.targetElementId).wysiwyg();
-            });
+        require(['widget/bootstrap-wysiwyg', 'bootstrap'], function () {
+            $('#' + options.targetElementId).wysiwyg();
         });
     }
 
-    function getFilePolicyAndSignature(cb) {
+    function getFilePolicyAndSignature(options, cb) {
+        var env = window.G_ENV == 'release'? '':'test';
+
         get({
-            url: "http://apptest.jiayantech.com/uploader/sign",
+            url: "http://app"+env+".jiayantech.com/uploader/sign",
             data: {
                 //daddy: 1,
-                mod: "adminupload"
+                mod: options.mod||"adminupload"
             },
             success: function (data) {
                 cb(data);
+            },
+            error:function  (msg) {
+                alertMsg(msg||"获取图片上传的token失败");
             }
         });
     }
