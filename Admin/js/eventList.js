@@ -5,9 +5,9 @@ define(["jquery", "commJs", 'widget/bootstrap-wysiwyg'], function (_, comm) {
         pickedDate;
 
     function main() {
-        //comm.checkLogin(function(){
-        init();
-        //});
+        comm.checkLogin(function () {
+            init();
+        });
     }
 
     function init() {
@@ -20,8 +20,15 @@ define(["jquery", "commJs", 'widget/bootstrap-wysiwyg'], function (_, comm) {
         getList();
     }
 
+    //function setupRichEditor() {
+    //    $('#event-description').wysiwyg();
+    //}
+
     function setupRichEditor() {
-        $('#description').wysiwyg();
+        comm.setupRichEditor({
+            targetElementId: 'event-detail',
+            toolbarContainer: $('#richEditorToolBar')
+        });
     }
 
     function setupFileLoader() {
@@ -100,7 +107,7 @@ define(["jquery", "commJs", 'widget/bootstrap-wysiwyg'], function (_, comm) {
         });
 
         $('#_add').click(function () {
-            var el = $('#createPanel');
+            var el = $('#editPanel');
             el.addClass('bounce').addClass('animated').removeClass('none');
             setTimeout(function () {
                 el.removeClass('bounce').removeClass('animated')
@@ -108,15 +115,15 @@ define(["jquery", "commJs", 'widget/bootstrap-wysiwyg'], function (_, comm) {
         });
 
         $('.close').click(function () {
-            var el = $('#createPanel');
+            var el = $('#editPanel');
             el.addClass('bounce').addClass('animated');
             setTimeout(function () {
                 el.addClass('none');
-                $('#description').height(100);
+                $('#event-description').height(100);
             }, 1000);
         });
 
-        $('#description').on('focus', function () {
+        $('#event-detail').on('focus', function () {
             $(this).animate({
                 height: 400
             });
@@ -142,7 +149,7 @@ define(["jquery", "commJs", 'widget/bootstrap-wysiwyg'], function (_, comm) {
             param[field] = $.trim($('#' + field).val());
         });
         param['startTime'] = pickedDate;
-        param['description'] = $('#description').html();
+        param['description'] = $('#event-description').html();
         param['image'] = JSON.stringify(imageList);
         param['orgId'] = window.G_ORG_ID;
 
@@ -151,7 +158,7 @@ define(["jquery", "commJs", 'widget/bootstrap-wysiwyg'], function (_, comm) {
 
     function getList(id, callback) {
         comm.io.get({
-            url: comm.config.BASEPATH+'event/list',
+            url: comm.config.BASEPATH + 'event/list',
             data: {
                 orgId: window.G_ORG_ID,
                 activityId: id
@@ -294,7 +301,7 @@ define(["jquery", "commJs", 'widget/bootstrap-wysiwyg'], function (_, comm) {
             $('#' + field).val('');
         });
         $('#imageList').html('');
-        $('#description').html('');
+        $('#event-description').html('');
         imageList = [];
     }
 

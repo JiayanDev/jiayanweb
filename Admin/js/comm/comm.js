@@ -7,6 +7,8 @@
 define(["jquery", 'lib/tmpl'], function ($, tmpl) {
     const CODE_OVERDUE = -36;
     const AUTHORIZATION = "AUTHORIZATION";
+    const CONFIG_VERSION = "configVersion";
+    const PROJECT_CONFIG = "projectConfig";
     const BASE_SERVER_PATH = 'http://admintest.jiayantech.com/my_admin/';
 
     var $confirmEl = null,
@@ -97,7 +99,7 @@ define(["jquery", 'lib/tmpl'], function ($, tmpl) {
         var token = getToken();
         if (token) {
             request.setRequestHeader(AUTHORIZATION, token);
-        }else{
+        } else {
             //window.location = 'login.html';
         }
     }
@@ -460,8 +462,13 @@ define(["jquery", 'lib/tmpl'], function ($, tmpl) {
     function checkLogin(callback) {
         post({
             url: BASE_SERVER_PATH + 'user/quick_login',
-            data: {},
-            success: function (d) {
+            data: {
+                configVersion: getConfigVersion()
+            },
+            success: function (d, code) {
+                if (code == 0) {
+                    setLoginConfig(d);
+                }
                 window.G_ORG_ID = d.orgId;
                 window.G_ADMIN_NAME = d.userName;
                 callback();
@@ -613,12 +620,53 @@ define(["jquery", 'lib/tmpl'], function ($, tmpl) {
         window.G_ENV = window.location.host.indexOf('test') > 0 ? 'test' : 'release';
     }
 
+
     function getToken() {
-        return localStorage.getItem(AUTHORIZATION);
+        return getLocalStorageValue(AUTHORIZATION, '');
     }
 
     function setToken(token) {
         localStorage.setItem(AUTHORIZATION, token);
+    }
+
+    function getConfigVersion() {
+        return getLocalStorageValue(CONFIG_VERSION, 0);
+    }
+
+    function setConfigVersion(value) {
+        localStorage.setItem(CONFIG_VERSION, value);
+    }
+
+    function getProjectConfig() {
+        var value = getLocalStorageValue(PROJECT_CONFIG, null);
+        if (value) {
+            return JSON.parse(value);
+        }
+        return null;
+    }
+
+    function setProjectConfig(data) {
+        if (data.version) {
+            setConfigVersion(data.version);
+        }
+        localStorage.setItem(PROJECT_CONFIG, JSON.stringify(data));
+    }
+
+    function setLoginConfig(data) {
+        if (data.token) {
+            setToken(data.token);
+        }
+        if (data.projectConfig) {
+            setProjectConfig(data.projectConfig);
+        }
+    }
+
+    function getLocalStorageValue(key, def) {
+        var value = localStorage.getItem(key);
+        if (!value) {
+            return def;
+        }
+        return value;
     }
 
     return {
@@ -635,9 +683,10 @@ define(["jquery", 'lib/tmpl'], function ($, tmpl) {
             setupFileLoader: setupFileLoader,
             datetimepicker: datetimepicker
         },
-        token: {
-            get: getToken,
-            set: setToken
+        login: {
+            getVersion: getConfigVersion,
+            get: getProjectConfig,
+            set: setLoginConfig
         },
         render: render,
         dialog: dialog,

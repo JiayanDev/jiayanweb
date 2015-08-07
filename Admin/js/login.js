@@ -14,7 +14,8 @@ define(["commJs"], function (comm) {
     function getLoginParam() {
         return {
             name: $('#name').val(),
-            psw: md5($('#password').val())
+            psw: md5($('#password').val()),
+            configVersion: comm.login.getVersion()
         };
     }
 
@@ -25,7 +26,7 @@ define(["commJs"], function (comm) {
             data: param,
             success: function (data, code) {
                 if (code == 0) {
-                    comm.token.set(data.token);
+                    comm.login.set(data);
                     window.location = "userList.html";
                 }
             },
