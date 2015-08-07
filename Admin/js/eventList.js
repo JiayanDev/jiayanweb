@@ -90,9 +90,8 @@ define(["jquery", "commJs", 'widget/bootstrap-wysiwyg'], function (_, comm) {
                 return false;
             }
 
-            if ($t.hasClass('_qrcode')) {
+            if ($t.hasClass('_edit')) {
                 var id = $t.data('id');
-
                 comm.dialog({
                     onLoad: function (options) {
                         getQrcode(id, function (d) {
