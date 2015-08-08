@@ -1,0 +1,198 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>美丽天使管理端接口测试</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap -->
+    <!-- <link rel="stylesheet" href="http://cdn.bootcss.com/twitter-bootstrap/3.0.3/css/bootstrap.min.css"> -->
+    <link rel="stylesheet" href="../statics/css/bootstrap.min.css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="http://cdn.bootcss.com/html5shiv/3.7.0/html5shiv.min.js"></script>
+    <script src="http://cdn.bootcss.com/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+    <link href="../statics/css/admin.css" rel="stylesheet">
+    <link href="../statics/css/font-awesome.min.css" rel="stylesheet">
+    <link href="../statics/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+    <link href="../statics/css/animate.min.css" rel="stylesheet">
+</head>
+<body>
+
+<div style="margin: 50px 50px">
+    <label for="product_search">Product Search: </label>
+    <input id="product_search" type="text" data-provide="typeahead">
+</div>
+
+<script src="../js/lib/jquery.min.js"></script>
+<script src="../js/lib/bootstrap-typeahead.js"></script>
+
+<script src="../js/lib/require.js"></script>
+
+<script type="text/javascript">
+    require.config({
+        baseUrl: "../js",
+        paths: {
+            "jquery": "lib/jquery.min",   //@note 以JS结尾的会忽略baseUrl
+            "commJs": "comm/comm",
+            "bootstrap": "lib/bootstrap.min"
+        }
+    });
+    var comm;
+    require(["search"], function (mod) {
+        mod.main();
+         comm = mod.comm;
+    });
+
+    $('#product_search').typeahead({
+        source: function (query, process) {
+            var params = {query: query};
+//                $.post('@Url.Action("AjaxService")', parameter, function (data) {
+//                    process(data);
+//                });
+//                get("http://admintest.jiayantech.com/my_admin/user/list", params, function (data) {
+//                    process(data);
+//                });
+            comm.io.get({
+                url: "http://admintest.jiayantech.com/my_admin/user/list",
+                data: {},
+                success: function (d) {
+                    //callback(d);
+                    //process(d);
+                    process(JSON.parse('["Deluxe Bicycle", "Super Deluxe Trampoline", "Super Duper Scooter"]'));
+                }
+            });
+        }
+    });
+</script>
+
+<!--<script src="../js/lib/jquery.min.js"></script>-->
+<!--<script src="../js/lib/bootstrap-typeahead.js"></script>-->
+<!--<script>-->
+    <!--$(document).ready(function ($) {-->
+        <!--// Workaround for bug in mouse item selection-->
+        <!--$.fn.typeahead.Constructor.prototype.blur = function () {-->
+            <!--var that = this;-->
+            <!--setTimeout(function () {-->
+                <!--that.hide()-->
+            <!--}, 250);-->
+        <!--};-->
+
+<!--//        $('#product_search').typeahead({-->
+<!--//            source: function (query, process) {-->
+<!--//                return ["Deluxe Bicycle", "Super Deluxe Trampoline", "Super Duper Scooter"];-->
+<!--//            }-->
+<!--//        });-->
+
+        <!--$('#product_search').typeahead({-->
+            <!--source: function (query, process) {-->
+                <!--var params = {query: query};-->
+<!--//                $.post('@Url.Action("AjaxService")', parameter, function (data) {-->
+<!--//                    process(data);-->
+<!--//                });-->
+<!--//                get("http://admintest.jiayantech.com/my_admin/user/list", params, function (data) {-->
+<!--//                    process(data);-->
+<!--//                });-->
+                <!--get({-->
+                    <!--url: "http://admintest.jiayantech.com/my_admin/user/list",-->
+                    <!--data: {},-->
+                    <!--success: function (d) {-->
+                        <!--//callback(d);-->
+                        <!--//process(d);-->
+                        <!--process(JSON.parse('["Deluxe Bicycle", "Super Deluxe Trampoline", "Super Duper Scooter"]'));-->
+                    <!--}-->
+                <!--});-->
+            <!--}-->
+        <!--});-->
+
+        <!--function get(conf) {-->
+            <!--var config = {};-->
+            <!--$.extend(config, conf);-->
+            <!--$.extend(config, {-->
+                <!--type: 'GET',-->
+                <!--dataType: 'json',-->
+                <!--beforeSend: setRequestHeader,-->
+                <!--success: function (d) {-->
+                    <!--successFn(d, conf);-->
+                <!--},-->
+                <!--error: function (e) {-->
+                    <!--if (typeof conf.error == 'function') {-->
+                        <!--conf.error('系统错误: ' + JSON.stringify(e));-->
+                    <!--} else {-->
+                        <!--alertMsg('系统错误: ' + JSON.stringify(e));-->
+                    <!--}-->
+                <!--}-->
+            <!--});-->
+            <!--// config.data && (config.data.r = Math.random());-->
+            <!--return $.ajax(config);-->
+        <!--}-->
+
+        <!--function setRequestHeader(request) {-->
+            <!--var token = getToken();-->
+            <!--if (token) {-->
+                <!--request.setRequestHeader(AUTHORIZATION, token);-->
+            <!--} else {-->
+                <!--//window.location = 'login.html';-->
+            <!--}-->
+        <!--}-->
+
+        <!--const CODE_OVERDUE = -36;-->
+        <!--const AUTHORIZATION = "AUTHORIZATION";-->
+
+        <!--function getToken() {-->
+            <!--return getLocalStorageValue(AUTHORIZATION, '');-->
+        <!--}-->
+
+
+        <!--function getLocalStorageValue(key, def) {-->
+            <!--var value = localStorage.getItem(key);-->
+            <!--if (!value) {-->
+                <!--return def;-->
+            <!--}-->
+            <!--return value;-->
+        <!--}-->
+
+        <!--function successFn(d, conf) {-->
+            <!--var code = typeof d.code === 'undefined' ? d.ret : d.code;-->
+            <!--if (code >= 0) {-->
+                <!--if (typeof conf.success == 'function') {-->
+                    <!--conf.success(d.data || d.date, code);-->
+                <!--} else {-->
+                    <!--showMsg(d.msg || '操作成功');-->
+                <!--}-->
+            <!--} else if (code == CODE_OVERDUE) {-->
+                <!--localStorage.removeItem(AUTHORIZATION);-->
+                <!--window.location = 'login.html';-->
+            <!--} else {-->
+                <!--if (typeof conf.error == 'function') {-->
+                    <!--conf.error(d.msg || '系统错误');-->
+                <!--} else {-->
+                    <!--showMsg(d.msg || '系统错误');-->
+                <!--}-->
+            <!--}-->
+        <!--}-->
+
+        <!--function showMsg(msg, el) {-->
+            <!--msg = '<i class="fa fa-check-circle fa-2x"></i>&nbsp;&nbsp;' + msg;-->
+            <!--alert(msg, el, 'success');-->
+        <!--}-->
+
+        <!--/**-->
+         <!--* 弹出层-->
+         <!--* @param  {[type]} el  弹出层父元素，用于定们-->
+         <!--* @todo fade in out-->
+         <!--*/-->
+        <!--function alert(msg, el, type) {-->
+            <!--// el = el || $('#msg_placeholder');-->
+            <!--el = el || $('body');-->
+            <!--var html = '<div class="alert alert-uestc">' + msg + '</div>';-->
+            <!--var alertEl = $(html).prependTo(el);-->
+            <!--setTimeout(function () {-->
+                <!--alertEl.remove();-->
+            <!--}, 1024);-->
+        <!--}-->
+    <!--})-->
+<!--</script>-->
+</body>
+</html>
