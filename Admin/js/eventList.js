@@ -8,6 +8,7 @@ define(["jquery", "commJs", 'widget/bootstrap-wysiwyg'], function (_, comm) {
         comm.checkLogin(function () {
             init();
         });
+        return comm;
     }
 
     function init() {
@@ -21,12 +22,12 @@ define(["jquery", "commJs", 'widget/bootstrap-wysiwyg'], function (_, comm) {
     }
 
     //function setupRichEditor() {
-    //    $('#event-description').wysiwyg();
+    //    $('#description').wysiwyg();
     //}
 
     function setupRichEditor() {
         comm.setupRichEditor({
-            targetElementId: 'event-description',
+            targetElementId: 'description',
             toolbarContainer: $('#richEditorToolBar')
         });
     }
@@ -70,10 +71,18 @@ define(["jquery", "commJs", 'widget/bootstrap-wysiwyg'], function (_, comm) {
 
     function bindEvent() {
         submitBtn.click(function () {
-            var param = getParam();
+            var params = getParam();
 
-            if (param) {
-                doSubmit(param);
+            var el = $('#editPanel');
+            var id = el.data('id');
+
+            if (id) {
+                var row_str = el.data('row');
+                var row = JSON.parse(row_str);
+                params = $.extend(params, {id: id});
+                doSubmit("event/update", params, "更新成功");
+            } else {
+                doSubmit("event/create", params, "添加成功");
             }
         });
 
@@ -99,36 +108,35 @@ define(["jquery", "commJs", 'widget/bootstrap-wysiwyg'], function (_, comm) {
             }
 
             if ($t.hasClass('_edit')) {
+                $("#panelTitle").html("编辑活动信息");
                 var id = $t.data('id');
-                var row = JSON.parse($t.data('row'));
-                comm.dialog({
-                    onLoad: function (options) {
-                        getQrcode(id, function (d) {
-                            var el = renderQrcode(d);
-                            options.content.append(el);
-                        });
-                    },
-                    title: "活动二维码"
-                });
+                var row_str = $t.attr('data-row');
+                var row = JSON.parse(row_str);
+                $('#userName').val(row.userName);
+                $('#phone').val(row.phone);
+                $('#title').val(row.title);
+                $('#hospital').val(row.hospitalName);
+                $('#doctor').val(row.doctorName);
+                $('#beginTime').val(row.beginTime);
+                $('#event-phone').val(row.phone);
+
+                var el = $('#editPanel');
+                el.data("row", row_str);
+                el.data("id", id);
+
+                openPanel();
                 return false;
             }
         });
 
         $('#_add').click(function () {
-            var el = $('#editPanel');
-            el.addClass('bounce').addClass('animated').removeClass('none');
-            setTimeout(function () {
-                el.removeClass('bounce').removeClass('animated')
-            }, 1000);
+            $("#panelTitle").html("添加活动信息");
+            resetForm();
+            openPanel();
         });
 
         $('.close').click(function () {
-            var el = $('#editPanel');
-            el.addClass('bounce').addClass('animated');
-            setTimeout(function () {
-                el.addClass('none');
-                $('#event-description').height(100);
-            }, 1000);
+            closePanel();
         });
 
         $('#event-detail').on('focus', function () {
@@ -138,14 +146,31 @@ define(["jquery", "commJs", 'widget/bootstrap-wysiwyg'], function (_, comm) {
         });
     }
 
-    function doSubmit(param) {
+    function openPanel() {
+        var el = $('#editPanel');
+        el.addClass('bounce').addClass('animated').removeClass('none');
+        setTimeout(function () {
+            el.removeClass('bounce').removeClass('animated')
+        }, 1000);
+    }
+
+    function closePanel() {
+        var el = $('#editPanel');
+        el.addClass('bounce').addClass('animated');
+        setTimeout(function () {
+            el.addClass('none');
+            $('#description').height(100);
+        }, 1000);
+    }
+
+    function doSubmit(action, param, msg) {
         comm.io.post({
-            url: '/act/createActivity',
+            url: comm.config.BASEPATH + action,
             data: param,
             success: function () {
-                resetForm();
+                closePanel();
                 getList();
-                comm.showMsg('添加成功')
+                comm.showMsg(msg);
             }
         });
     }
@@ -153,13 +178,12 @@ define(["jquery", "commJs", 'widget/bootstrap-wysiwyg'], function (_, comm) {
     function getParam() {
         var param = {};
 
-        $.each(['name', 'location', 'url'], function (idx, field) {
+        $.each(['userName', 'phone', 'title'], function (idx, field) {
             param[field] = $.trim($('#' + field).val());
         });
-        param['startTime'] = pickedDate;
-        param['description'] = $('#event-description').html();
-        param['image'] = JSON.stringify(imageList);
-        param['orgId'] = window.G_ORG_ID;
+        //param['beginTime'] = pickedDate;
+        //param['desc'] = $('#description').html();
+        //param['coverImg'] = JSON.stringify(imageList);
 
         return validate(param);
     }
@@ -274,43 +298,48 @@ define(["jquery", "commJs", 'widget/bootstrap-wysiwyg'], function (_, comm) {
     }
 
     var handler = {
-        name: function (val) {
+        userName: function (val) {
             if (0 == val.length) {
-                formMsgEl.html('请输入活动名称')
+                formMsgEl.html('请输入用户呢称')
                 return false;
             }
         },
-        description: function (val) {
+        phone: function (val) {
             if (0 == val.length) {
-                formMsgEl.html('请输入活动简介')
-                return false;
-            }
-            // if( val.length > 30 ){
-            //     formMsgEl.html('活动简介不能超过30个字。');
-            //     return false;
-            // }
-        },
-        startTime: function (val) {
-            if (0 == val.length) {
-                formMsgEl.html('请输入文章链接');
-                return false;
-            }
-        },
-        location: function (val) {
-            if (0 == val.length) {
-                formMsgEl.html('请输入活动地址');
+                formMsgEl.html('请输入用户手机号码')
                 return false;
             }
         }
+        //,
+        //desc: function (val) {
+        //    if (0 == val.length) {
+        //        formMsgEl.html('请输入活动简介')
+        //        return false;
+        //    }
+        //    // if( val.length > 30 ){
+        //    //     formMsgEl.html('活动简介不能超过30个字。');
+        //    //     return false;
+        //    // }
+        //},
+        //beginTime: function (val) {
+        //    if (0 == val.length) {
+        //        formMsgEl.html('请选择活动开始时间');
+        //        return false;
+        //    }
+        //}
     };
 
     function resetForm() {
-        $.each(['name', 'location', 'startTime', 'url'], function (idx, field) {
+        $.each(['userName', 'phone', 'title', 'categories', 'hospital', 'doctor', 'beginTime'], function (idx, field) {
             $('#' + field).val('');
         });
         $('#imageList').html('');
-        $('#event-description').html('');
+        $('#description').html('');
+        var el = $('#editPanel');
+        el.removeAttr("data-id");
+        el.removeAttr("data-row");
         imageList = [];
+        //closePanel();
     }
 
     function setupDateSel() {
