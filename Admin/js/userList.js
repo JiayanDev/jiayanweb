@@ -159,7 +159,6 @@ define(["commJs"], function (comm) {
     }
 
     function remove(id) {
-        var id = $("#editPanel").data("id");
         var data = {
             id: id
         };

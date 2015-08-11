@@ -9,11 +9,70 @@ define(["jquery", 'lib/tmpl'], function ($, tmpl) {
     const AUTHORIZATION = "AUTHORIZATION";
     const CONFIG_VERSION = "configVersion";
     const PROJECT_CONFIG = "projectConfig";
-    const BASE_SERVER_PATH = 'http://admintest.jiayantech.com/my_admin/';
+    const BASE_SERVER_PATH = 'http://admintest.jiayantech.com/';
+    const BASE_API_SERVER_PATH = BASE_SERVER_PATH + 'my_admin/';
     const BASE_IMAGE_SERVER_SHOW_PATH = "http://jiayanimg.b0.upaiyun.com/";
 
     var $confirmEl = null,
         BASEPATH = '../index.php/api/';
+
+    function setupAdminNav() {
+        require(['bootstrap'], function () {
+            var nav = [
+                    {label: "管理员列表", url: "userList"},
+                    {label: "医院列表", url: "hospitalList"},
+                    {label: "医生列表", url: "doctorList"},
+                    {label: "日记列表", url: "diaryList"},
+                    {label: "话题列表", url: "topicList"},
+                    {label: "创建话题", url: "createTopic"},
+                    {label: "活动列表", url: "eventList"}
+                    // {label:"抽奖管理", url:"createLottery", sub:[{
+                    //     url: 'lotterylist',
+                    //     label:'抽奖列表'
+                    // },{
+                    //     url: 'createLottery',
+                    //     label:'创建抽奖'
+                    // }]}
+                ],
+                cur = getCur(nav),
+                html = [],
+                tpl = '<li class="{ACTIVE}"><a href="{URL}.html">{LABEL}</a></li>',
+                tplWithSub = '<li class="dropdown {ACTIVE}">' +
+                    '<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{LABEL}<span class="caret"></span></a>' +
+                    '<ul class="dropdown-menu" role="menu">{SUBNAV}</ul>' +
+                    '</li>',
+                tplSub = '<li><a href="{URL}.html">{LABEL}</a></li>';
+
+            $.each(nav, function () {
+                var active = cur == this.url ? 'active' : '';
+
+                if (window.G_ENV == 'release' && window.G_ORG_ID == 1 && this.mod == 'qudao') {
+                    return;
+                }
+
+                if (!this.sub) {
+                    html.push(fillString(tpl, $.extend(this, {active: active})));
+                } else {
+                    var subList = [];
+                    var active = '';
+
+                    $.each(this.sub, function () {
+                        if (active != 'active') {
+                            active = cur == this.url ? 'active' : '';
+                        }
+                        subList.push(fillString(tplSub, $.extend(this, {active: active})));
+                    });
+
+                    html.push(fillString(tplWithSub, $.extend(this, {
+                        subnav: subList.join(''),
+                        active: active
+                    })));
+                }
+            });
+
+            $('#firNav').html(html.join(''));
+        })
+    }
 
     function successFn(d, conf) {
         var code = typeof d.code === 'undefined' ? d.ret : d.code;
@@ -93,6 +152,21 @@ define(["jquery", 'lib/tmpl'], function ($, tmpl) {
             }
         });
         // config.data && (config.data.r = Math.random());
+        return $.ajax(config);
+    }
+
+    //get json 请求封装
+    function getJson(url, success) {
+        var config = {};
+        $.extend(config, {
+            url: url,
+            type: 'GET',
+            dataType: 'json',
+            success: success,
+            error: function (e) {
+                alertMsg('系统错误: ' + JSON.stringify(e));
+            }
+        });
         return $.ajax(config);
     }
 
@@ -249,8 +323,8 @@ define(["jquery", 'lib/tmpl'], function ($, tmpl) {
             errorFn = options.error,
             widget = options.widget || 'fileuploader';
 
-        getFilePolicyAndSignature({mod:options.mod}, function(policyData) {
-            
+        getFilePolicyAndSignature({mod: options.mod}, function (policyData) {
+
             require(['widget/' + widget], function () {
                 if (widget == 'fileuploader') {
                     $el.fileupload({
@@ -360,19 +434,19 @@ define(["jquery", 'lib/tmpl'], function ($, tmpl) {
     }
 
     function getFilePolicyAndSignature(options, cb) {
-        var env = window.G_ENV == 'release'? '':'test';
+        var env = window.G_ENV == 'release' ? '' : 'test';
 
         get({
-            url: "http://admin"+env+".jiayantech.com/my_admin/uploader/sign",
+            url: "http://admin" + env + ".jiayantech.com/my_admin/uploader/sign",
             data: {
                 //daddy: 1,
-                mod: options.mod||"adminupload"
+                mod: options.mod || "adminupload"
             },
             success: function (data) {
                 cb(data);
             },
-            error:function  (msg) {
-                alertMsg(msg||"获取图片上传的token失败");
+            error: function (msg) {
+                alertMsg(msg || "获取图片上传的token失败");
             }
         });
     }
@@ -385,62 +459,6 @@ define(["jquery", 'lib/tmpl'], function ($, tmpl) {
         $('#logout').click(function () {
             window.location.href = "login.html";
         });
-    }
-
-    function setupAdminNav() {
-        require(['bootstrap'], function () {
-            var nav = [
-                    {label: "管理员列表", url: "userList"},
-                    {label: "日记列表", url: "diaryList"},
-                    {label: "话题列表", url: "topicList"},
-                    {label: "创建话题", url: "createTopic"},
-                    {label: "活动列表", url: "eventList"}
-                    // {label:"抽奖管理", url:"createLottery", sub:[{
-                    //     url: 'lotterylist',
-                    //     label:'抽奖列表'
-                    // },{
-                    //     url: 'createLottery',
-                    //     label:'创建抽奖'
-                    // }]}
-                ],
-                cur = getCur(nav),
-                html = [],
-                tpl = '<li class="{ACTIVE}"><a href="{URL}.html">{LABEL}</a></li>',
-                tplWithSub = '<li class="dropdown {ACTIVE}">' +
-                    '<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{LABEL}<span class="caret"></span></a>' +
-                    '<ul class="dropdown-menu" role="menu">{SUBNAV}</ul>' +
-                    '</li>',
-                tplSub = '<li><a href="{URL}.html">{LABEL}</a></li>';
-
-            $.each(nav, function () {
-                var active = cur == this.url ? 'active' : '';
-
-                if (window.G_ENV == 'release' && window.G_ORG_ID == 1 && this.mod == 'qudao') {
-                    return;
-                }
-
-                if (!this.sub) {
-                    html.push(fillString(tpl, $.extend(this, {active: active})));
-                } else {
-                    var subList = [];
-                    var active = '';
-
-                    $.each(this.sub, function () {
-                        if (active != 'active') {
-                            active = cur == this.url ? 'active' : '';
-                        }
-                        subList.push(fillString(tplSub, $.extend(this, {active: active})));
-                    });
-
-                    html.push(fillString(tplWithSub, $.extend(this, {
-                        subnav: subList.join(''),
-                        active: active
-                    })));
-                }
-            });
-
-            $('#firNav').html(html.join(''));
-        })
     }
 
     function getCur(nav) {
@@ -478,7 +496,7 @@ define(["jquery", 'lib/tmpl'], function ($, tmpl) {
 
     function checkLogin(callback) {
         post({
-            url: BASE_SERVER_PATH + 'user/quick_login',
+            url: BASE_API_SERVER_PATH + 'user/quick_login',
             data: {
                 configVersion: getConfigVersion()
             },
@@ -686,17 +704,48 @@ define(["jquery", 'lib/tmpl'], function ($, tmpl) {
         return value;
     }
 
+    function option(el, action, query, process) {
+        var params = {blurName: query};
+        comm.io.get({
+            url: comm.config.BASEPATH + action,
+            data: params,
+            success: function (d) {
+                var results = $.map(d, function (item) {
+                    return item.id + ":" + item.name;
+                });
+                process(results);
+                el.data("id", "");
+            }
+        });
+    }
+
+    function highlighter(query, item) {
+        var query = query.replace(/[\-\[\]{}()*+?.,\\\^$|#\s]/g, '\\$&');
+        var strSplits = item.split(':');
+        return strSplits[1].replace(new RegExp('(' + query + ')', 'ig'), function ($1, match) {
+            return '<strong>' + match + '</strong>'
+        })
+    }
+
+    function updater(el, item) {
+        var strSplits = item.split(':');
+        el.data("id", strSplits[0]);
+        return strSplits[1];
+    }
+
     return {
         constant: {
             HOSPITAL_ID: 1,
             ENV: window.G_ENV
         },
         config: {
-            BASEPATH: BASE_SERVER_PATH,
+            BASE_SERVER_PATH: BASE_SERVER_PATH,
+            BASEPATH: BASE_API_SERVER_PATH,
             BASE_IMAGE_PATH: BASE_IMAGE_SERVER_SHOW_PATH
         },
         io: {
             get: get,
+            getJson: getJson,
             post: post
         },
         utils: {
@@ -705,8 +754,13 @@ define(["jquery", 'lib/tmpl'], function ($, tmpl) {
         },
         login: {
             getVersion: getConfigVersion,
-            get: getProjectConfig,
+            getProjects: getProjectConfig,
             set: setLoginConfig
+        },
+        option: option,
+        typeahead: {
+            highlighter: highlighter,
+            updater: updater
         },
         render: render,
         dialog: dialog,
