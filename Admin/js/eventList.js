@@ -1,3 +1,8 @@
+/**
+ * @author janson
+ * @date    2015-08-11
+ * @todo  event manager
+ */
 define(["jquery", "commJs", 'widget/bootstrap-wysiwyg'], function (_, comm) {
     var submitBtn = $('#_submit'),
         formMsgEl = $('#formMsg'),
@@ -32,21 +37,21 @@ define(["jquery", "commJs", 'widget/bootstrap-wysiwyg'], function (_, comm) {
         for (var topKey in topCategories) {
             var topCategory = topCategories[topKey];
             categoryMap[topCategory.id] = topCategory.name;
-            $("#categories").append('<optgroup label="-' + topCategory.name + '" data-max-options="2">');
+            //$("#categories").append('<optgroup label="-' + topCategory.name + '" data-max-options="2">');
             var subCategories = topCategory.sub;
             for (var subKey in subCategories) {
                 var sub2Category = subCategories[subKey];
                 categoryMap[sub2Category.id] = sub2Category.name;
-                $("#categories").append('<optgroup label="-' + sub2Category.name + '" data-max-options="2" style="margin-left:15px">');
+                //$("#categories").append('<optgroup label="-' + sub2Category.name + '" data-max-options="2" style="margin-left:15px">');
                 var categories = sub2Category.sub;
                 for (var key in categories) {
                     var category = categories[key];
                     categoryMap[category.id] = category.name;
-                    $("#categories").append("<option value='" + category.id + "' style='margin-left:30px'>" + category.name + "</option>");
+                    $("#categories").append("<option value='" + category.id + "'>" + topCategory.name + ">>" + sub2Category.name + ">>" + category.name + "</option>");
                 }
-                $("#categories").append('</optgroup>');
+                //$("#categories").append('</optgroup>');
             }
-            $("#categories").append('</optgroup>');
+            //$("#categories").append('</optgroup>');
         }
     }
 
@@ -149,12 +154,12 @@ define(["jquery", "commJs", 'widget/bootstrap-wysiwyg'], function (_, comm) {
                         $('#phoneNum').val(row.phone);
                         $('#title').val(row.title);
                         $("#categories option").each(function () {
-                            $(this).selected = false;
+                            $(this).removeAttr("selected");
                         });
                         var categoryIds = row.categoryIds;
                         if (categoryIds && categoryIds.length > 0) {
                             for (var key in categoryIds) {
-                                $("#categories option[value=" + categoryIds[key] + "]").selected = true;
+                                $("#categories option[value=" + categoryIds[key] + "]").attr("selected", "selected");
                             }
                         }
                         $('#hospital').val(row.hospitalName);
@@ -217,6 +222,7 @@ define(["jquery", "commJs", 'widget/bootstrap-wysiwyg'], function (_, comm) {
     }
 
     function closePanel() {
+        resetForm();
         var el = $('#editPanel');
         el.addClass('bounce').addClass('animated');
         setTimeout(function () {
@@ -346,7 +352,7 @@ define(["jquery", "commJs", 'widget/bootstrap-wysiwyg'], function (_, comm) {
         });
         $('#imageList').html('');
         $('#description').html('');
-        //$('#userId').removeAttr("disabled");
+        $('#categories option').removeAttr("selected");
         var el = $('#editPanel');
         el.data("row", "");
         el.data("id", "");

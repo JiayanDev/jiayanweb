@@ -1,11 +1,11 @@
 /**
  * @author janson
  * @date    2015-08-11
- * @todo  hospital manager
+ * @todo  homepage manager
  */
 define(["commJs"], function (comm) {
     var formMsgEl = $('#formMsg'),
-        regionData;
+        coverImg = null;
 
     function main() {
         comm.checkLogin(function () {
@@ -15,19 +15,54 @@ define(["commJs"], function (comm) {
 
     function init() {
         comm.setupWorkspace();
-        getArea();
+        coverImg = null;
+        setupFileLoader();
         getList();
         bindEvent();
     }
 
+    function setupFileLoader() {
+        var $loadingEl = $('.loading'),
+            fileMsg = $('#fileMsg');
+
+        comm.utils.setupFileLoader({
+            el: '#thumberUploader',
+            beforeSubmit: function (e, data) {
+                fileMsg.html('');
+                $loadingEl.removeClass('none');
+            },
+            callback: function (resp) {
+                var imgUrl = (resp && resp.url) || null;
+                if (imgUrl) {
+                    imgUrl = comm.config.BASE_IMAGE_PATH + imgUrl;
+                    appendImageList(imgUrl);
+                    coverImg = imgUrl;
+                    $loadingEl.addClass('none');
+                } else {
+                    fileMsg.html('imgUrl==null');
+                }
+            },
+            error: function (resp) {
+                fileMsg.html((resp && resp.msg) || '文件上传失败');
+            }
+        });
+    }
+
+    function appendImageList(imgUrl) {
+        var imgListEl = $('#imageList');
+        imgListEl.removeClass("none");
+        imgListEl.html('');
+        imgListEl.append('<li><img src="' + imgUrl + '"' + 'style="vertical-align:middle;"></li>');
+    }
+
     function getList() {
         var data = {};
-        var id = $("#hospitalId").val();
+        var id = $("#homepageId").val();
         if (id) {
             data["id"] = id;
         }
         comm.io.get({
-            url: comm.config.BASEPATH + 'hospital/list',
+            url: comm.config.BASEPATH + 'homepage/list',
             data: data,
             success: function (d) {
                 renderList(d);
@@ -48,19 +83,17 @@ define(["commJs"], function (comm) {
         $('body').click(function (evt) {
             var $t = $(evt.target);
             if ($t.hasClass('_edit')) {
-                openPanel("编辑医院");
+                openPanel("编辑首页运营");
+                $('#item').hide();
 
                 var id = $t.data('id');
                 var row_str = $t.attr('data-row');
                 var row = JSON.parse(row_str);
 
-                $('#name').val(row.name);
-                $('#province').val(row.province);
-                provinceChange(row.city, row.district);
-                //$('#city').val(row.city);
-                //$('#district').val(row.district);
-                $('#addr').val(row.addr);
-                $('#contactPhone').val(row.contactPhone);
+                $('#title').val(row.title);
+                //$('#itemType').val(row.type);
+                if (row.coverImg && row.coverImg != "undefined") appendImageList(row.coverImg);
+                $('#desc').val(row.desc);
                 $('#status').val(row.status);
 
                 var el = $('#editPanel');
@@ -87,7 +120,8 @@ define(["commJs"], function (comm) {
         });
 
         $('#_add').click(function () {
-            openPanel("添加医院");
+            openPanel("添加首页运营");
+            $('#item').show();
         });
 
         $('.close').click(function (e) {
@@ -103,81 +137,12 @@ define(["commJs"], function (comm) {
                 var row_str = el.data('row');
                 var row = JSON.parse(row_str);
                 params = $.extend(params, {id: id});
-                doSubmit("hospital/update", params, "更新成功");
+                doSubmit("poster/update", params, "更新成功");
             } else {
-                doSubmit("hospital/create", params, "添加成功");
+                doSubmit("homepage/create", params, "添加成功");
             }
             return false;
         });
-
-        // 切换省份
-        $("#province").change(function () {
-            provinceChange();
-        });
-        // 切换城市
-        $("#city").change(function () {
-            cityChange();
-        });
-    }
-
-    function getArea() {
-        comm.io.getJson(comm.config.BASE_SERVER_PATH + 'statics/region.json', function (data) {
-            regionData = data;
-            $("#province").empty();
-            for (var key in data) {
-                var province = data[key];
-                $("#province").append("<option value='" + province.provName + "'>" + province.provName + "</option>");
-            }
-            $("#province").val(regionData[0].provName);
-            provinceChange();
-        });
-    }
-
-    function provinceChange(cityName, regionName) {
-        if (!regionData) return;
-        var index = $("#province ").get(0).selectedIndex;
-        var cities = regionData[index].cities;
-        $("#city").empty();
-        for (var key in cities) {
-            var city = cities[key];
-            if (key = 0) {
-                $("#city").append("<option selected='selected' value='" + city.cityName + "'>" + city.cityName + "</option>");
-            } else {
-                $("#city").append("<option value='" + city.cityName + "'>" + city.cityName + "</option>");
-            }
-        }
-        if (cityName) {
-            $('#city').val(cityName);
-        } else {
-            $('#city').val(cities[0].cityName);
-        }
-        cityChange(regionName);
-    }
-
-    function cityChange(regionName) {
-        if (!regionData) return;
-        var provinceIndex = $("#province").get(0).selectedIndex;
-        var index = $("#city").get(0).selectedIndex;
-        var regions = regionData[provinceIndex].cities[index].regions;
-        $("#district").empty();
-        if (regions.length > 0) {
-            $("#district").show();
-            for (var key in regions) {
-                var region = regions[key];
-                if (key = 0) {
-                    $("#district").append("<option selected='selected' value='" + region.regionName + "'>" + region.regionName + "</option>");
-                } else {
-                    $("#district").append("<option value='" + region.regionName + "'>" + region.regionName + "</option>");
-                }
-            }
-            if (regionName) {
-                $('#district').val(regionName);
-            } else {
-                $('#district').val(regions[0].regionName);
-            }
-        } else {
-            $("#district").hide();
-        }
     }
 
     function doSubmit(action, param, msg) {
@@ -188,19 +153,6 @@ define(["commJs"], function (comm) {
                 closePanel();
                 getList();
                 comm.showMsg(msg);
-            }
-        });
-    }
-
-    function remove(id) {
-        var data = {
-            id: id
-        };
-        comm.io.post({
-            url: comm.config.BASEPATH + 'hospital/remove',
-            data: data,
-            success: function () {
-                getList();
             }
         });
     }
@@ -237,7 +189,7 @@ define(["commJs"], function (comm) {
     var handler = {
         name: function (val) {
             if (0 == val.length) {
-                formMsgEl.html('请输入医院名称')
+                formMsgEl.html('请输入首页运营名称')
                 return false;
             }
         },
@@ -249,7 +201,7 @@ define(["commJs"], function (comm) {
         }
     };
 
-    var fields = ['name', 'province', 'city', 'district', 'addr', 'contactPhone'];
+    var fields = ['title', 'itemType', 'itemId', 'desc', 'status'];
 
     function getParam() {
         var param = {};
@@ -259,18 +211,18 @@ define(["commJs"], function (comm) {
                 param[field] = $.trim($('#' + field).val());
             }
         });
+        if (coverImg) {
+            param["coverImg"] = coverImg;
+        }
         return validate(param);
     }
 
     function resetForm() {
-        //$.each(fields.concat('status'), function (idx, field) {
-        //    $('#' + field).val('');
-        //});
         $.each(fields, function (idx, field) {
             $('#' + field).val('');
         });
-        $('#province').val(regionData[0].provName);
-        provinceChange();
+        $('#imageList').html('');
+        coverImg = null;
         var el = $('#editPanel');
         el.data("row", "");
         el.data("id", "");

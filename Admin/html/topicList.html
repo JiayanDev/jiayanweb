@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>日记列表</title>
+    <title>话题</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Bootstrap -->
     <!-- <link rel="stylesheet" href="http://cdn.bootcss.com/twitter-bootstrap/3.0.3/css/bootstrap.min.css"> -->
@@ -40,15 +40,38 @@
     </nav>
 </div>
 
+<div class="container container-bg bounce animated none" id="createPanel" style="min-height:150px;padding-top:20px;">
+    <button type="button" class="close _close" aria-label="Close"><span aria-hidden="true" class="_close">&times;</span></button>
+
+    <div class="row article-row">
+        <div>
+            <form class="form-horizontal">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">话题内容</label>
+                    <div class="col-sm-10">
+                        <div id="richEditorToolBar">
+                        </div>
+                        <div id="content" style="margin-top:15px;border:1px solid #ddd;border-radius:4px;height:400px;padding:5px;overflow:auto;">输入活动现场描述</div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="row center">
+        <button class="btn btn-danger" id="_submit">保存话题</button>
+    </div>
+    <div id="formMsg" class="text-danger"></div>
+</div>
+
 <div class="container container-bg bounce animated" id="container">
     <div>
         <!-- 列表 -->
         <div class="list-panel item-list-panel">
-            <!-- <button class="btn" id="addNt"><i class="icon-plus"></i>录入排队编号类型</button> -->
             <div class="input-append" style="margin-bottom:19px;">
                 <input style="border:1px solid #ccc;border-radius:4px;line-height:1.8;padding-left:4px;" type="text"
-                       id="diaryId" placeholder="输入ID">
-                <button class="btn btn-sm" id="angentNameBtn">查询</button>
+                       id="doctorId" placeholder="输入ID">
+                <button class="btn btn-sm" id="btnSearch">查询</button>
+                <button class="btn btn-warning btn-sm btn-right" id="_add">添加</button>
             </div>
             <div id="_list">
                 <table class="table table-hover">
@@ -89,6 +112,16 @@
             </thead>
             <tbody>
                 {%
+                    function trim(str) {
+                        var objString = str;
+                        var objLength = objString.length;
+                        var num = 30;
+                        if (objLength > num) {
+                            objString = objString.substring(0, num) + "...";
+                        }
+                        return objString;
+                    }
+
                     if( !!o && o.length > 0){
                     for(var i=0,len=o.length; i< len;i++){
                         var row = o[i];
@@ -97,7 +130,7 @@
                     <td>{%= row.id %}</td>
                     <td>{%= row.userName %}</td>
                     <td>{%= row.userId %}</td>
-                    <td style="width:20%">{%= row.content %}</td>
+                    <td style="width:20%">{%= trim(row.content) %}</td>
                     <td>
                     {%
                         row.photoes && $.each( row.photoes, function(i, url){
@@ -145,7 +178,7 @@
             "bootstrap": "lib/bootstrap.min"
         }
     });
-    require(["diaryList"], function (mod) {
+    require(["topicList"], function (mod) {
         mod.setup();
     });
 </script>

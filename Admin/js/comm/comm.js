@@ -9,8 +9,12 @@ define(["jquery", 'lib/tmpl'], function ($, tmpl) {
     const AUTHORIZATION = "AUTHORIZATION";
     const CONFIG_VERSION = "configVersion";
     const PROJECT_CONFIG = "projectConfig";
-    const BASE_SERVER_PATH = 'http://admintest.jiayantech.com/';
+
+    var env = window.G_ENV == 'release' ? '' : 'test';
+
+    const BASE_SERVER_PATH = 'http://admin' + env + '.jiayantech.com/';
     const BASE_API_SERVER_PATH = BASE_SERVER_PATH + 'my_admin/';
+    const BASE_APP_SERVER_PATH = 'http://app' + env + '.jiayantech.com/';
     const BASE_IMAGE_SERVER_SHOW_PATH = "http://jiayanimg.b0.upaiyun.com/";
 
     var $confirmEl = null,
@@ -19,20 +23,24 @@ define(["jquery", 'lib/tmpl'], function ($, tmpl) {
     function setupAdminNav() {
         require(['bootstrap'], function () {
             var nav = [
-                    {label: "管理员列表", url: "userList"},
-                    {label: "医院列表", url: "hospitalList"},
-                    {label: "医生列表", url: "doctorList"},
-                    {label: "日记列表", url: "diaryList"},
-                    {label: "话题列表", url: "topicList"},
-                    {label: "创建话题", url: "createTopic"},
-                    {label: "活动列表", url: "eventList"}
-                    // {label:"抽奖管理", url:"createLottery", sub:[{
-                    //     url: 'lotterylist',
-                    //     label:'抽奖列表'
-                    // },{
-                    //     url: 'createLottery',
-                    //     label:'创建抽奖'
-                    // }]}
+                    {label: "管理员", url: "userList"},
+                    {label: "医院", url: "hospitalList"},
+                    {label: "医生", url: "doctorList"},
+                    {label: "日记", url: "diaryList"},
+                    {label: "话题", url: "topicList"},
+                    {label: "活动", url: "eventList"},
+                    {
+                        label: "运营",
+                        sub: [
+                            {
+                                url: 'homepageList',
+                                label: '首页展示'
+                            },
+                            {
+                                url: 'recommendTopicList',
+                                label: '推荐话题'
+                            }]
+                    }
                 ],
                 cur = getCur(nav),
                 html = [],
@@ -41,7 +49,7 @@ define(["jquery", 'lib/tmpl'], function ($, tmpl) {
                     '<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{LABEL}<span class="caret"></span></a>' +
                     '<ul class="dropdown-menu" role="menu">{SUBNAV}</ul>' +
                     '</li>',
-                tplSub = '<li><a href="{URL}.html">{LABEL}</a></li>';
+                tplSub = '<li><a href="{URL}.html">{LABEL}{ACTIVE}</a></li>';
 
             $.each(nav, function () {
                 var active = cur == this.url ? 'active' : '';
@@ -60,7 +68,8 @@ define(["jquery", 'lib/tmpl'], function ($, tmpl) {
                         if (active != 'active') {
                             active = cur == this.url ? 'active' : '';
                         }
-                        subList.push(fillString(tplSub, $.extend(this, {active: active})));
+                        var subActive = cur == this.url ? ' √' : '';
+                        subList.push(fillString(tplSub, $.extend(this, {active: subActive})));
                     });
 
                     html.push(fillString(tplWithSub, $.extend(this, {
@@ -462,7 +471,7 @@ define(["jquery", 'lib/tmpl'], function ($, tmpl) {
     }
 
     function getCur(nav) {
-        var cur = 'agentList';
+        var cur = 'userList';
 
         $.each(nav, function () {
             if (this.sub) {
@@ -741,6 +750,7 @@ define(["jquery", 'lib/tmpl'], function ($, tmpl) {
         config: {
             BASE_SERVER_PATH: BASE_SERVER_PATH,
             BASEPATH: BASE_API_SERVER_PATH,
+            BASE_APP_SERVER_PATH: BASE_APP_SERVER_PATH,
             BASE_IMAGE_PATH: BASE_IMAGE_SERVER_SHOW_PATH
         },
         io: {

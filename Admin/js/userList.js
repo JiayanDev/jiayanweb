@@ -1,3 +1,8 @@
+/**
+ * @author janson
+ * @date    2015-08-11
+ * @todo  user admin manager
+ */
 define(["commJs"], function (comm) {
 
     function main() {

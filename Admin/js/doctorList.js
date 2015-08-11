@@ -1,3 +1,8 @@
+/**
+ * @author janson
+ * @date    2015-08-11
+ * @todo  doctor manager
+ */
 define(["commJs"], function (comm) {
     var formMsgEl = $('#formMsg'),
         photoUrl = null;

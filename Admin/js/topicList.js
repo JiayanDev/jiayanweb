@@ -8,15 +8,17 @@ define(["commJs"], function (comm) {
 
     function init() {
         comm.setupWorkspace();
-        getList();
         bindEvent();
+        setupRichEditor();
+        bindCreateEvent();
+        getList();
     }
 
     function getList() {
         comm.io.get({
             url: comm.config.BASEPATH + 'post/list',
             data: {
-                type: 'diary'
+                type: 'topic'
             },
             success: function (d) {
                 renderList(d);
@@ -110,7 +112,6 @@ define(["commJs"], function (comm) {
                     });
                 }
 
-
                 return false;
             }
 
@@ -141,6 +142,85 @@ define(["commJs"], function (comm) {
             error: function (msg) {
                 comm.utils.alertMsg(msg);
             }
+        });
+    }
+
+    //////////////create
+    function setupRichEditor() {
+        comm.setupRichEditor({
+            targetElementId: 'content',
+            toolbarContainer: $('#richEditorToolBar')
+        });
+    }
+
+    var submitBtn = $('#_submit');
+
+    function bindCreateEvent() {
+        submitBtn.click(function () {
+            var param = getParam();
+
+            if (param) {
+                doSubmit(param);
+            }
+            return false;
+        });
+
+        $('#_add').click(function () {
+            openPanel("添加推荐话题运营");
+            $('#item').show();
+            return false;
+        });
+
+        $('.close').click(function (e) {
+            closePanel();
+            return false;
+        });
+    }
+
+    function openPanel(title) {
+        resetForm();
+        $("#panelTitle").html(title);
+        var el = $('#createPanel');
+        el.addClass('bounce').addClass('animated').removeClass('none');
+        setTimeout(function () {
+            el.removeClass('bounce').removeClass('animated')
+        }, 1000);
+    }
+
+    function closePanel() {
+        var el = $('#createPanel');
+        el.addClass('bounce').addClass('animated');
+        setTimeout(function () {
+            el.addClass('none');
+        }, 1000);
+    }
+
+    function doSubmit(data) {
+        comm.io.post({
+            url: comm.config.BASEPATH + 'topic/create',
+            data: data,
+            success: function () {
+                closePanel();
+                getList();
+                comm.showMsg("添加成功");
+            }
+        })
+    }
+
+    var fields = ['content'];
+
+    function getParam() {
+        var param = {};
+        $.each(fields, function (i, key) {
+            param[key] = $('#' + key).html();
+        });
+        param["photoUrls"] = "[]";
+        return param;
+    }
+
+    function resetForm() {
+        $.each(fields, function (idx, field) {
+            $('#' + field).val('');
         });
     }
 
