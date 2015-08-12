@@ -153,6 +153,7 @@
                         <th class="th-border">编号</th>
                         <th class="th-border">标题</th>
                         <th class="th-border">类型</th>
+                        <th class="th-border">对象id</th>
                         <th class="th-border">用户名</th>
                         <th class="th-border">状态</th>
                         <th class="th-border">操作</th>
@@ -178,6 +179,7 @@
                 <th class="th-border">编号</th>
                 <th class="th-border">标题</th>
                 <th class="th-border">类型</th>
+                <th class="th-border">对象id</th>
                 <th class="th-border">用户名</th>
                 <th class="th-border">状态</th>
                 <th class="th-border">操作</th>
@@ -193,6 +195,7 @@
                 <td>{%= row.id %}</td>
                 <td>{%= row.title %}</td>
                 <td>{%= row.type %}</td>
+                <td>{%= row.eventId || row.topicId || row.diaryId %}</td>
                 <td>{%= row.userName %}</td>
                 <td>{%= row.status %}</td>
                 <td>

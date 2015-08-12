@@ -95,6 +95,7 @@ define(["commJs"], function (comm) {
                 if (row.coverImg && row.coverImg != "undefined") appendImageList(row.coverImg);
                 $('#desc').val(row.desc);
                 $('#status').val(row.status);
+                $('#order').val(row.order);
 
                 var el = $('#editPanel');
                 el.data("row", row_str);
@@ -201,7 +202,7 @@ define(["commJs"], function (comm) {
         }
     };
 
-    var fields = ['title', 'itemType', 'itemId', 'desc', 'status'];
+    var fields = ['title', 'itemType', 'itemId', 'desc', 'status', "order"];
 
     function getParam() {
         var param = {};
@@ -221,6 +222,7 @@ define(["commJs"], function (comm) {
         $.each(fields, function (idx, field) {
             $('#' + field).val('');
         });
+        $("#status").get(0).selectedIndex = 0;
         $('#imageList').html('');
         coverImg = null;
         var el = $('#editPanel');

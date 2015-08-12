@@ -220,6 +220,7 @@ define(["commJs"], function (comm) {
         $.each(fields, function (idx, field) {
             $('#' + field).val('');
         });
+        $("#status").get(0).selectedIndex = 0;
         $('#imageList').html('');
         coverImg = null;
         var el = $('#editPanel');
