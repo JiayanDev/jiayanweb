@@ -362,13 +362,8 @@ define(["jquery", "commJs", 'widget/bootstrap-wysiwyg'], function (_, comm) {
 
             itemValue = !!desc&&desc.length > i ? desc[i]:{};
 
-            console.info(itemValue);
-
             $item.find('._detailKey').val( itemValue.key||'');
             $item.find('._detailValue').html( itemValue.value || '');
-
-            // $item.find('._detailKey').val( '');
-            // $item.find('._detailValue').html( '');
         });
     }
 
