@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>管理员</title>
+    <title>首页展示</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Bootstrap -->
     <!-- <link rel="stylesheet" href="http://cdn.bootcss.com/twitter-bootstrap/3.0.3/css/bootstrap.min.css"> -->
@@ -18,7 +18,35 @@
     <link href="../statics/css/admin.css" rel="stylesheet">
     <link href="../statics/css/animate.min.css" rel="stylesheet">
 </head>
-<style type="text/css"></style>
+<style type="text/css">
+    .gallery {
+        list-style-type: none;
+        margin-bottom: 10px;
+        overflow: auto;
+        padding-left: 0px;
+    }
+
+    .gallery li img {
+        height: 100px;
+    }
+
+    .gallery li {
+        float: left;
+        margin-right: 10px;
+        list-style-type: none;
+    }
+
+    .uploader-placeholder {
+        width: 50px;
+        height: 50px;
+        border: 1px dashed #333;
+    }
+
+    .uploader-placeholder i {
+        line-height: 50px;
+        font-size: 2em;
+    }
+</style>
 <body>
 <div>
     <nav class="navbar navbar-inverse navbar-lg" role="navigation"
@@ -40,76 +68,85 @@
     </nav>
 </div>
 
-<div class="container container-bg bounce animated none" id="createPanel" style="min-height:150px;">
-    <a class="btn btn-right close">X</a>
-    <div class="container-sm">
-        <div class="page-header">
-            <h4>添加管理员</h4>
-        </div>
-        <form class="form-horizontal">
-            <div class="form-group">
-                <label class="col-sm-2 control-label">帐号名</label>
-
-                <div class="col-sm-4 award-input-cnt">
-                    <input id='create-name' type="text" class="form-control input-sm _itemName" placeholder="帐号名">
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label">密码</label>
-                <div class="col-sm-4 award-input-cnt">
-                    <input id='create-psw' type="password" class="form-control input-sm _itemName" placeholder="密码">
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label">确认密码</label>
-
-                <div class="col-sm-4 award-input-cnt">
-                    <input id='create-psw2' type="password" class="form-control input-sm _itemName" placeholder="确认密码">
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="create-role" class="col-sm-2 control-label">权限类型</label>
-                <div class="col-sm-3">
-                    <select id='create-role' class="form-control">
-                        <option value="normal">normal</option>
-                        <option value="admin">admin</option>
-                        <option value="super">super</option>
-                    </select>
-                </div>
-            </div>
-        </form>
-        <div class="row right">
-            <button class="btn btn-danger" id="create-submit">保存</button>
-        </div>
-        <div id="create-formMsg" class="text-danger"></div>
-    </div>
-</div>
-
 <div class="container container-bg bounce animated none" id="editPanel" style="min-height:150px;">
     <a class="btn btn-right close">X</a>
+
     <div class="container-sm">
         <div class="page-header">
-            <h4>修改权限</h4>
+            <h4 id="panelTitle">添加首页</h4>
         </div>
         <form class="form-horizontal">
             <div class="form-group">
-                <label class="col-sm-2 control-label">帐号名</label>
-                <div class="col-sm-4 award-input-cnt">
-                    <input id='edit-name' type="text" class="form-control input-sm _itemName" disabled="true" value="帐号名name">
-                </div>
+                <label class="col-sm-2 control-label">标题</label>
 
-                <label class="col-sm-2 control-label">权限类型</label>
+                <div class="col-sm-10 award-input-cnt">
+                    <input id='title' type="text" class="form-control input-sm _itemName" placeholder="标题">
+                </div>
+            </div>
+
+            <div id="item" class="form-group">
+                <label class="col-sm-2 control-label">类型</label>
+
                 <div class="col-sm-3">
-                    <select id='edit-role' class="form-control">
-                        <option value="normal">normal</option>
-                        <option value="admin">admin</option>
-                        <option value="super">super</option>
+                    <select id='itemType' class="form-control">
+                        <option value="event">event</option>
+                        <option value="topic">topic</option>
+                        <option value="diary">diary</option>
                     </select>
+                </div>
+                <label class="col-sm-2 control-label">对象id</label>
+                <div class="col-sm-4 award-input-cnt">
+                    <input id='itemId' type="text" class="form-control input-sm _itemName" placeholder="对象id">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">图片</label>
+                <div class="col-sm-1">
+                    <div class="uploader-placeholder center">
+                        <i class="fa fa-plus"></i>
+                    </div>
+                    <input type="file" style="width:50px;height:50px;left:10px;"
+                           id="thumberUploader" name="file" class="uploader"
+                           data-url="http://v0.api.upyun.com/jiayanimg/">
+
+                    <p class="loading none">
+                        <i class="fa fa-spin fa-spinner"></i>
+                    </p>
+
+                    <p id="fileMsg"></p>
+                </div>
+                <ul id="imageList" class="col-sm-2 gallery none"></ul>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">描述</label>
+
+                <div class="col-sm-10 award-input-cnt">
+                    <input id='desc' type="text" class="form-control input-sm _itemName" placeholder="描述">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">状态</label>
+
+                <div class="col-sm-3">
+                    <select id='status' class="form-control">
+                        <option value="待发布" selected="selected">待发布</option>
+                        <option value="发布">发布</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">顺序</label>
+
+                <div class="col-sm-4 award-input-cnt">
+                    <input id='order' type="number" class="form-control input-sm _itemName" placeholder="顺序">
                 </div>
             </div>
         </form>
         <div class="row right">
-            <button class="btn btn-danger" id="edit-submit">保存</button>
+            <button class="btn btn-danger" id="_submit">保存</button>
         </div>
         <div id="formMsg" class="text-danger"></div>
     </div>
@@ -122,8 +159,8 @@
             <!-- <button class="btn" id="addNt"><i class="icon-plus"></i>录入排队编号类型</button> -->
             <div class="input-append" style="margin-bottom:19px;">
                 <input style="border:1px solid #ccc;border-radius:4px;line-height:1.8;padding-left:4px;" type="text"
-                       id="userId" placeholder="输入ID">
-                <button class="btn btn-sm" id="btnUserSearch">查询</button>
+                       id="doctorId" placeholder="输入ID">
+                <button class="btn btn-sm" id="btnSearch">查询</button>
                 <button class="btn btn-warning btn-sm btn-right" id="_add">添加</button>
             </div>
             <div id="_list">
@@ -131,8 +168,12 @@
                     <thead>
                     <tr>
                         <th class="th-border">编号</th>
-                        <th class="th-border">帐号名</th>
-                        <th class="th-border">角色</th>
+                        <th class="th-border">标题</th>
+                        <th class="th-border">类型</th>
+                        <th class="th-border">对象id</th>
+                        <th class="th-border">用户名</th>
+                        <th class="th-border">状态</th>
+                        <th class="th-border">顺序</th>
                         <th class="th-border">操作</th>
                     </tr>
                     </thead>
@@ -154,8 +195,12 @@
         <thead>
             <tr>
                 <th class="th-border">编号</th>
-                <th class="th-border">帐号名</th>
-                <th class="th-border">角色</th>
+                <th class="th-border">标题</th>
+                <th class="th-border">类型</th>
+                <th class="th-border">对象id</th>
+                <th class="th-border">用户名</th>
+                <th class="th-border">状态</th>
+                <th class="th-border">顺序</th>
                 <th class="th-border">操作</th>
             </tr>
         </thead>
@@ -167,13 +212,19 @@
             %}
             <tr>
                 <td>{%= row.id %}</td>
-                <td>{%= row.name %}</td>
-                <td>{%= row.role %}</td>
+                <td>{%= row.title %}</td>
+                <td>{%= row.type %}</td>
+                <td>{%= row.eventId || row.topicId || row.diaryId %}</td>
+                <td>{%= row.userName %}</td>
+                <td>{%= row.status %}</td>
+                <td>{%= row.order %}</td>
                 <td>
-                    <a href="#" class="_grant" data-id="{%= row.id %}" data-name="{%= row.name %}" data-role="{%= row.role %}">
-                        修改权限
-                    </a>
-                    <a href="#" class="_delete" data-id="{%= row.id %}">删除</a>
+                    <a href="#" class="_edit" data-id="{%= row.id %}" data-row='{%= JSON.stringify(row) %}'>编辑</a>
+
+                    {% if(row.status!='发布'){ %}
+                        <a href="#" class="_delete" data-id="{%= row.id %}">删除</a>
+                    {% } %}
+
                 </td>
             </tr>
             {% }}else{ %}
@@ -181,9 +232,10 @@
             {% } %}
         </tbody>
     </table>
+
+
 </script>
 
-<script src="../js/lib/md5.js"></script>
 <script src="../js/lib/require.js"></script>
 
 <script type="text/javascript">
@@ -195,7 +247,7 @@
             "bootstrap": "lib/bootstrap.min"
         }
     });
-    require(["userList"], function (mod) {
+    require(["homepageList"], function (mod) {
         mod.setup();
     });
 </script>

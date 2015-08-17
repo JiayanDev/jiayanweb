@@ -1,18 +1,27 @@
+/**
+ * @author janson
+ * @date    2015-08-11
+ * @todo  event manager
+ */
 define(["jquery", "commJs", 'widget/bootstrap-wysiwyg'], function (_, comm) {
     var submitBtn = $('#_submit'),
         formMsgEl = $('#formMsg'),
-        imageList = [],
+    //imageList = [],
+        coverImg = null,
         pickedDate;
 
     function main() {
         comm.checkLogin(function () {
             init();
         });
+        return comm;
     }
 
     function init() {
-        imageList = [];
+        //imageList = [];
+        coverImg = null;
         comm.setupWorkspace();
+        setupCategories();
         setupFileLoader();
         bindEvent();
         setupDateSel();
@@ -20,13 +29,35 @@ define(["jquery", "commJs", 'widget/bootstrap-wysiwyg'], function (_, comm) {
         getList();
     }
 
-    //function setupRichEditor() {
-    //    $('#event-description').wysiwyg();
-    //}
+    var categoryMap = {};
+
+    function setupCategories() {
+        $("#categories").empty();
+        var topCategories = comm.login.getProjects().data;
+        for (var topKey in topCategories) {
+            var topCategory = topCategories[topKey];
+            categoryMap[topCategory.id] = topCategory.name;
+            //$("#categories").append('<optgroup label="-' + topCategory.name + '" data-max-options="2">');
+            var subCategories = topCategory.sub;
+            for (var subKey in subCategories) {
+                var sub2Category = subCategories[subKey];
+                categoryMap[sub2Category.id] = sub2Category.name;
+                //$("#categories").append('<optgroup label="-' + sub2Category.name + '" data-max-options="2" style="margin-left:15px">');
+                var categories = sub2Category.sub;
+                for (var key in categories) {
+                    var category = categories[key];
+                    categoryMap[category.id] = category.name;
+                    $("#categories").append("<option value='" + category.id + "'>" + topCategory.name + ">>" + sub2Category.name + ">>" + category.name + "</option>");
+                }
+                //$("#categories").append('</optgroup>');
+            }
+            //$("#categories").append('</optgroup>');
+        }
+    }
 
     function setupRichEditor() {
         comm.setupRichEditor({
-            targetElementId: 'event-description',
+            targetElementId: 'description',
             toolbarContainer: $('#richEditorToolBar')
         });
     }
@@ -47,7 +78,8 @@ define(["jquery", "commJs", 'widget/bootstrap-wysiwyg'], function (_, comm) {
                 if (imgUrl) {
                     imgUrl = comm.config.BASE_IMAGE_PATH + imgUrl;
                     appendImageList(imgUrl);
-                    imageList.push(imgUrl);
+                    //imageList.push(imgUrl);
+                    coverImg = imgUrl;
                     $loadingEl.addClass('none');
                 } else {
                     fileMsg.html('imgUrl==null');
@@ -64,16 +96,24 @@ define(["jquery", "commJs", 'widget/bootstrap-wysiwyg'], function (_, comm) {
         imgListEl.removeClass("none");
         //imgListEl.append('<li><img src="../statics/img/addimage-empty.png"></li>');
 
-        imgListEl.append('<li><img src="' + imgUrl + '"></li>');
-        return imageList;
+        imgListEl.html('');
+        imgListEl.append('<li><img src="' + imgUrl + '"' + 'style="vertical-align:middle;"></li>');
+        //return imageList;
     }
 
     function bindEvent() {
         submitBtn.click(function () {
-            var param = getParam();
-
-            if (param) {
-                doSubmit(param);
+            var el = $('#editPanel');
+            var id = el.data('id');
+            if (id) {
+                var params = getParam();
+                var row_str = el.data('row');
+                var row = JSON.parse(row_str);
+                params = $.extend(params, {id: id});
+                doSubmit("event/update", params, "更新成功");
+            } else {
+                var params = getParam();
+                doSubmit("event/create", params, "添加成功");
             }
         });
 
@@ -99,36 +139,73 @@ define(["jquery", "commJs", 'widget/bootstrap-wysiwyg'], function (_, comm) {
             }
 
             if ($t.hasClass('_edit')) {
+                resetForm();
+                $('#item-topic').show();
+                $("#panelTitle").html("编辑活动信息");
                 var id = $t.data('id');
-                var row = JSON.parse($t.data('row'));
-                comm.dialog({
-                    onLoad: function (options) {
-                        getQrcode(id, function (d) {
-                            var el = renderQrcode(d);
-                            options.content.append(el);
-                        });
+                comm.io.get({
+                    url: comm.config.BASEPATH + 'event/detail',
+                    data: {
+                        id: id
                     },
-                    title: "活动二维码"
+                    success: function (row) {
+                        //$('#userId').attr("disabled", true);
+                        //$('#userId').val(row.userId);
+                        $('#userName').val(row.userName);
+                        $('#phoneNum').val(row.phone);
+                        $('#title').val(row.title);
+                        $("#categories option").each(function () {
+                            $(this).removeAttr("selected");
+                        });
+                        var categoryIds = row.categoryIds;
+                        if (categoryIds && categoryIds.length > 0) {
+                            for (var key in categoryIds) {
+                                $("#categories option[value=" + categoryIds[key] + "]").attr("selected", "selected");
+                            }
+                        }
+                        $('#hospital').val(row.hospitalName);
+                        $('#doctor').val(row.doctorName);
+                        $('#beginTime').val(window.G_formatTime(row.beginTime));
+                        $('#phone').val(row.phone);
+                        if (row.coverImg && row.coverImg != "undefined") appendImageList(row.coverImg);
+                        $('#bindTopicId').val(row.bindTopicId);
+                        $('#description').html(row.desc);
+                        var el = $('#editPanel');
+                        el.data("row", JSON.stringify(row));
+                        el.data("id", id);
+
+                        openPanel();
+                    }
                 });
+                //$("#panelTitle").html("编辑活动信息");
+                //var id = $t.data('id');
+                //var row_str = $t.attr('data-row');
+                //var row = JSON.parse(row_str);
+                //$('#userName').val(row.userName);
+                //$('#phone').val(row.phone);
+                //$('#title').val(row.title);
+                //$('#hospital').val(row.hospitalName);
+                //$('#doctor').val(row.doctorName);
+                //$('#beginTime').val(row.beginTime);
+                //$('#event-phone').val(row.phone);
+                //
+                //var el = $('#editPanel');
+                //el.data("row", row_str);
+                //el.data("id", id);
+                //
+                //openPanel();
                 return false;
             }
         });
 
         $('#_add').click(function () {
-            var el = $('#editPanel');
-            el.addClass('bounce').addClass('animated').removeClass('none');
-            setTimeout(function () {
-                el.removeClass('bounce').removeClass('animated')
-            }, 1000);
+            $("#panelTitle").html("添加活动信息");
+            resetForm();
+            openPanel();
         });
 
         $('.close').click(function () {
-            var el = $('#editPanel');
-            el.addClass('bounce').addClass('animated');
-            setTimeout(function () {
-                el.addClass('none');
-                $('#event-description').height(100);
-            }, 1000);
+            closePanel();
         });
 
         $('#event-detail').on('focus', function () {
@@ -138,30 +215,34 @@ define(["jquery", "commJs", 'widget/bootstrap-wysiwyg'], function (_, comm) {
         });
     }
 
-    function doSubmit(param) {
-        comm.io.post({
-            url: '/act/createActivity',
-            data: param,
-            success: function () {
-                resetForm();
-                getList();
-                comm.showMsg('添加成功')
-            }
-        });
+    function openPanel() {
+        var el = $('#editPanel');
+        el.addClass('bounce').addClass('animated').removeClass('none');
+        setTimeout(function () {
+            el.removeClass('bounce').removeClass('animated')
+        }, 1000);
     }
 
-    function getParam() {
-        var param = {};
+    function closePanel() {
+        resetForm();
+        var el = $('#editPanel');
+        el.addClass('bounce').addClass('animated');
+        setTimeout(function () {
+            el.addClass('none');
+            $('#description').height(100);
+        }, 1000);
+    }
 
-        $.each(['name', 'location', 'url'], function (idx, field) {
-            param[field] = $.trim($('#' + field).val());
+    function doSubmit(action, param, msg) {
+        comm.io.post({
+            url: comm.config.BASEPATH + action,
+            data: param,
+            success: function () {
+                closePanel();
+                getList();
+                comm.showMsg(msg);
+            }
         });
-        param['startTime'] = pickedDate;
-        param['description'] = $('#event-description').html();
-        param['image'] = JSON.stringify(imageList);
-        param['orgId'] = window.G_ORG_ID;
-
-        return validate(param);
     }
 
     function getList(id, callback) {
@@ -175,6 +256,18 @@ define(["jquery", "commJs", 'widget/bootstrap-wysiwyg'], function (_, comm) {
                 if (callback) {
                     callback(d);
                 } else {
+                    for (var key in d) {
+                        var item = d[key];
+                        var categoryIds = item.categoryIds;
+                        if (categoryIds && categoryIds.length > 0) {
+                            var name = "";
+                            for (var idKey in categoryIds) {
+                                var id = categoryIds[idKey]
+                                name += categoryMap[id] + " ";
+                            }
+                            item.categoryName = name;
+                        }
+                    }
                     renderList(d);
                 }
             }
@@ -190,44 +283,6 @@ define(["jquery", "commJs", 'widget/bootstrap-wysiwyg'], function (_, comm) {
         });
     }
 
-    function getQuest(actId) {
-        comm.io.get({
-            url: "/act/questionnaire",
-            data: {activityId: actId},
-            success: function (d) {
-                if (!!d && d.length > 0) {
-                    $('#questAction').attr('href', 'questionnaire.html?actId=' + actId)
-                        .html('创建问卷');
-                } else {
-                    $('#questAction').attr('href', 'questDetail.html?actId=' + actId);
-                }
-            }
-        })
-    }
-
-    function renderDetail(d) {
-        var el = $('<div></div>')
-        var el = comm.render({
-            tpl: "tplDetail",
-            data: d,
-            renderTo: el
-        });
-        el.find('#detail_description').html(d.description);
-        if (d.questionnaireId < 0) {
-            el.find('#questAction').attr('href', 'questionaire.html?actId=' + d.id)
-                .html('创建问卷');
-        } else {
-            el.find('#questAction').attr('href', 'questlist.html?id=' + d.questionnaireId);
-        }
-        if (d.lotteryId.length < 1) {
-            el.find('#lotteryAction').attr('href', 'createLottery.html?actId=' + d.id)
-                .html('创建抽奖');
-        } else {
-            el.find('#lotteryAction').attr('href', 'lotterylist.html?actId=' + d.id);
-        }
-        return el;
-    }
-
     function validate(param) {
         var flag = true;
         $.each(param, function (key, val) {
@@ -239,83 +294,84 @@ define(["jquery", "commJs", 'widget/bootstrap-wysiwyg'], function (_, comm) {
         return flag ? param : false;
     }
 
-    function getQrcode(id, callback) {
-        comm.io.get({
-            url: "/act/getActivityQrCode",
-            data: {activityId: id},
-            success: function (d) {
-                callback(d);
-            }
-        });
-    }
-
-    function renderQrcode(data) {
-        var el = $(['<div class="row">',
-            '<div class="center col-xs-6">',
-            '<p><strong class="text-danger">报名</strong>二维码<small class="text-info">用户扫一扫即可参与报名</small></p>',
-            '<div id="qrcode_join"></div>',
-            '</div>',
-            '<div class="center col-xs-6">',
-            '<p><strong class="text-danger">签到</strong>二维码<small class="text-info">用户现场扫一扫签到</small></p>',
-            '<div id="qrcode_sign"></div>',
-            '</div>',
-            '</div>'].join(''));
-
-        appendQrcode(el.find('#qrcode_sign'), data.sign);
-        appendQrcode(el.find('#qrcode_join'), data.signUp);
-
-        return el;
-    }
-
-    function appendQrcode(el, url) {
-        el.html(
-            '<img style="width:200px; " src=' + url + '>'
-        ).css("text-align", 'center');
-    }
-
     var handler = {
-        name: function (val) {
+        userName: function (val) {
             if (0 == val.length) {
-                formMsgEl.html('请输入活动名称')
+                formMsgEl.html('请输入用户呢称')
                 return false;
             }
         },
-        description: function (val) {
+        phone: function (val) {
             if (0 == val.length) {
-                formMsgEl.html('请输入活动简介')
-                return false;
-            }
-            // if( val.length > 30 ){
-            //     formMsgEl.html('活动简介不能超过30个字。');
-            //     return false;
-            // }
-        },
-        startTime: function (val) {
-            if (0 == val.length) {
-                formMsgEl.html('请输入文章链接');
-                return false;
-            }
-        },
-        location: function (val) {
-            if (0 == val.length) {
-                formMsgEl.html('请输入活动地址');
+                formMsgEl.html('请输入用户手机号码');
                 return false;
             }
         }
     };
 
+    var fields = ['userName', 'phoneNum', 'title', 'bindTopicId'];
+
+    function getParam() {
+        var param = {};
+        $.each(fields, function (idx, field) {
+            var val = $.trim($('#' + field).val());
+            if (val) param[field] = val;
+        });
+
+        var categoryIds = [];
+        $("#categories option:selected").each(function () {
+            categoryIds.push($(this).val());
+        });
+
+        if (categoryIds.length > 0) param["categoryIds"] = JSON.stringify(categoryIds);
+
+        var hospitalId = $('#hospital').data("id");
+        if (hospitalId) param["hospitalId"] = hospitalId;
+        var doctorId = $('#doctor').data("id");
+        if (doctorId) param["doctorId"] = doctorId;
+
+        param['beginTime'] = pickedDate;
+        param['desc'] = $('#description').html();
+        //param['coverImg'] = JSON.stringify(imageList);
+        if (coverImg) param['coverImg'] = coverImg;
+        return validate(param);
+    }
+
     function resetForm() {
-        $.each(['name', 'location', 'startTime', 'url'], function (idx, field) {
+        $.each(fields.concat(['categories', 'hospital', 'doctor', 'beginTime']), function (idx, field) {
             $('#' + field).val('');
         });
+        $('#hospital').data("id", "");
+        $('#hospital').removeAttr("data-id");
+        $('#doctor').data("id", "");
+        $('#doctor').removeAttr("data-id");
+        $('#item-topic').hide();
         $('#imageList').html('');
-        $('#event-description').html('');
-        imageList = [];
+        $('#description').html('');
+        $('#categories option').removeAttr("selected");
+        var el = $('#editPanel');
+        el.data("row", "");
+        el.data("id", "");
+        el.removeAttr("data-id");
+        el.removeAttr("data-row");
+        coverImg = null;
+        //imageList = [];
+        //closePanel();
     }
 
     function setupDateSel() {
+        //comm.utils.datetimepicker({
+        //    el: $("#timeSelector input"),
+        //    onChangeDate: function (ev) {
+        //        var val = ev.date.val;
+        //        pickedDate = Math.round(val / 1000);
+        //        console.log('时间', val);
+        //    }
+        //});
         comm.utils.datetimepicker({
             el: $("#timeSelector input"),
+            minView: 'hour',
+            format: 'yyyy - MM - dd hh:mm',
             onChangeDate: function (ev) {
                 var val = ev.date.val;
                 pickedDate = Math.round(val / 1000);
