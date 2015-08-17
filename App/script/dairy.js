@@ -38,6 +38,7 @@ define(["commJs"], function(comm) {
 				renderPost(data);
 				renderComment(data);
 				setNavigationBarTitle(data);
+				comm.utils.hideNativeLoading();
 			}
 		});
 	}

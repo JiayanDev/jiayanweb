@@ -78,11 +78,13 @@
             <span>项目</span>
             <span class="dairy-header-value">
             {%
-                for (var i = o.categories.length - 1; i >= 0; i--) {
-                    var category = o.categories[i];
+                if( !!o.categories ){
+                    for (var i = o.categories.length - 1; i >= 0; i--) {
+                        var category = o.categories[i];
             %}
                 <span class="dairy-header-value-item">{%= category.name %}</span>
             {%
+                    }
                 }
             %}
             </span>

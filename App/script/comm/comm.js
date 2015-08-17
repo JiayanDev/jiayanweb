@@ -5,8 +5,19 @@
  * @todo  alertMsg confirm
  */
 define(['tmpl', 'jquery'], function(tmpl, $) {
-    var BASEPATH = 'http://app.jiayantech.com/',
-        userId,
+    const CODE_OVERDUE = -36;
+    const AUTHORIZATION = "AUTHORIZATION";
+
+    var BASEPATH = 'http://app.jiayantech.com/';
+    window.G_ENV='product';
+
+
+    if(window.location.host.indexOf('apptest')>-1){
+       window.G_ENV = "test";
+       BASEPATH = 'http://apptest.jiayantech.com/';
+    }
+
+    var userId,
         userName,
         _private = {},
         cssLoadedCache = [];
@@ -95,6 +106,7 @@ define(['tmpl', 'jquery'], function(tmpl, $) {
         $.extend(config, {
             type: 'POST',
             dataType: 'json',
+            // beforeSend: setRequestHeader,
             success: function(d) {
                 successFn(d, conf);
                 (!!$el) && $el.html(oldVal).data('requesting', false);
@@ -155,6 +167,7 @@ define(['tmpl', 'jquery'], function(tmpl, $) {
         $.extend(config, {
             type: 'GET',
             dataType: 'json',
+            // beforeSend: setRequestHeader,
             success: function(d) {
                 hideLoading();
                 (!!$el) && $el.html(oldVal).data('requesting', false);
@@ -179,6 +192,23 @@ define(['tmpl', 'jquery'], function(tmpl, $) {
         config.param = undefined;
         // config.data && (config.data.r = Math.random());
         return $.ajax(config);
+    }
+
+    function setRequestHeader(request) {
+        var token = getToken();
+        if (token) {
+            request.setRequestHeader(AUTHORIZATION, token);
+        } else {
+            //window.location = 'login.html';
+        }
+    }
+
+    function getToken() {
+        return getLocalStorage(AUTHORIZATION, '');
+    }
+
+    function setToken(token) {
+        localStorage.setItem(AUTHORIZATION, token);
     }
 
     /**
@@ -1093,6 +1123,12 @@ define(['tmpl', 'jquery'], function(tmpl, $) {
         iframe = null;
     }
 
+    function hideNativeLoading () {
+        callNativeFun({
+            action:"hideLoading"
+        });
+    }
+
     return {
         io: {
             post: post,
@@ -1115,7 +1151,8 @@ define(['tmpl', 'jquery'], function(tmpl, $) {
             adjustImgAfterLoad:adjustImgAfterLoad,
             showLoading:showLoading,
             hideLoading:hideLoading,
-            setupPage: setupPage
+            setupPage: setupPage,
+            hideNativeLoading:hideNativeLoading
         },
         fillString: fillString,
         config: {

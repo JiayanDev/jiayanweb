@@ -55,7 +55,7 @@ define(["commJs"], function(comm) {
 	function render (data) {
 		$('#eventDetail').html(JSON.stringify(
 			data
-		));
+		)).append('<div style="margin-top:20px;"><a style="color:red;" href="timeline.html?id='+data.userId+'">进入美丽天使主页</a></div>');
 	}
 
 	function hideNativeLoading () {
