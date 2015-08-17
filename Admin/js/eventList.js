@@ -56,10 +56,14 @@ define(["jquery", "commJs", 'widget/bootstrap-wysiwyg'], function (_, comm) {
     }
 
     function setupRichEditor() {
-        comm.setupRichEditor({
-            targetElementId: 'description',
-            toolbarContainer: $('#richEditorToolBar')
-        });
+        $('._detailItem').each(function  () {
+            var $item = $(this);
+
+            comm.setupRichEditor({
+                target: $item.find('._detailValue'),
+                toolbarContainer: $item.find('.richEditorToolBar')
+            });
+        })
     }
 
     function setupFileLoader() {
@@ -169,7 +173,7 @@ define(["jquery", "commJs", 'widget/bootstrap-wysiwyg'], function (_, comm) {
                         $('#phone').val(row.phone);
                         if (row.coverImg && row.coverImg != "undefined") appendImageList(row.coverImg);
                         $('#bindTopicId').val(row.bindTopicId);
-                        $('#description').html(row.desc);
+                        resetDesc(row.desc);
                         var el = $('#editPanel');
                         el.data("row", JSON.stringify(row));
                         el.data("id", id);
@@ -331,10 +335,41 @@ define(["jquery", "commJs", 'widget/bootstrap-wysiwyg'], function (_, comm) {
         if (doctorId) param["doctorId"] = doctorId;
 
         param['beginTime'] = pickedDate;
-        param['desc'] = $('#description').html();
+        param['desc'] = getDesc();
         //param['coverImg'] = JSON.stringify(imageList);
         if (coverImg) param['coverImg'] = coverImg;
         return validate(param);
+    }
+
+    function getDesc () {
+        var desc = [];
+
+        $('._detailItem').each(function  () {
+            var $item = $(this);
+
+            desc.push({
+                key: $item.find('._detailKey').val(),
+                value: $item.find('._detailValue').html()
+            });
+        });
+        return JSON.stringify(desc);
+    }
+
+    function resetDesc ( desc ) {
+        
+        $('._detailItem').each(function(i, item) {
+            var $item = $(this);
+
+            itemValue = !!desc&&desc.length > i ? desc[i]:{};
+
+            console.info(itemValue);
+
+            $item.find('._detailKey').val( itemValue.key||'');
+            $item.find('._detailValue').html( itemValue.value || '');
+
+            // $item.find('._detailKey').val( '');
+            // $item.find('._detailValue').html( '');
+        });
     }
 
     function resetForm() {
@@ -347,7 +382,7 @@ define(["jquery", "commJs", 'widget/bootstrap-wysiwyg'], function (_, comm) {
         $('#doctor').removeAttr("data-id");
         $('#item-topic').hide();
         $('#imageList').html('');
-        $('#description').html('');
+        resetDesc();
         $('#categories option').removeAttr("selected");
         var el = $('#editPanel');
         el.data("row", "");
@@ -360,14 +395,6 @@ define(["jquery", "commJs", 'widget/bootstrap-wysiwyg'], function (_, comm) {
     }
 
     function setupDateSel() {
-        //comm.utils.datetimepicker({
-        //    el: $("#timeSelector input"),
-        //    onChangeDate: function (ev) {
-        //        var val = ev.date.val;
-        //        pickedDate = Math.round(val / 1000);
-        //        console.log('时间', val);
-        //    }
-        //});
         comm.utils.datetimepicker({
             el: $("#timeSelector input"),
             minView: 'hour',

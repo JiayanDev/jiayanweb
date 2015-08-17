@@ -402,7 +402,7 @@ define(["jquery", 'lib/tmpl'], function ($, tmpl) {
     }
 
     function setupRichEditorToolBar(options) {
-        var tpl = ['<div class="btn-toolbar" data-role="editor-toolbar" data-target="#' + options.targetElementId + '">',
+        var tpl = ['<div class="btn-toolbar" data-role="editor-toolbar" data-target="' + options.targetElementSel + '">',
             '<div class="btn-group">',
             '<a class="btn btn-default" data-edit="fontSize 5" title="标题（大字）">标题</a>',
             '<a class="btn btn-default" data-edit="fontSize 2" title="正文">正文</a>',
@@ -438,20 +438,16 @@ define(["jquery", 'lib/tmpl'], function ($, tmpl) {
 
 
     function setupRichEditor(options) {
-        // setupRichEditorToolBar(options);
-        // getFilePolicyAndSignature(function (data) {
+        var targetUniqueClass;
 
-        //     $('#richInputFileControl').data('policy', data.policy);
-        //     $('#richInputFileControl').data('signature', data.signature);
-
-        //     require(['widget/bootstrap-wysiwyg', 'bootstrap'], function () {
-        //         $('#' + options.targetElementId).wysiwyg();
-        //     });
-        // });
+        
+        targetUniqueClass = 'targetUniqueClass'+ (+new Date) + Math.round((Math.random()*100))
+        options.targetElementSel = '.'+targetUniqueClass;
+        options.target.addClass(targetUniqueClass);
 
         setupRichEditorToolBar(options);
         require(['widget/bootstrap-wysiwyg', 'bootstrap'], function () {
-            $('#' + options.targetElementId).wysiwyg();
+            $(options.target).wysiwyg();
         });
     }
 
