@@ -15,7 +15,7 @@ define([ "commJs"], function(comm) {
 
     function setupRichEditor(){
     	comm.setupRichEditor({
-    		targetElementId: 'description',
+    		target: $('#description'),
     		toolbarContainer:$('#richEditorToolBar')
     	});
     }

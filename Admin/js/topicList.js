@@ -174,7 +174,7 @@ define(["commJs"], function (comm) {
     //////////////create
     function setupRichEditor() {
         comm.setupRichEditor({
-            targetElementId: 'content',
+            target: $('#content'),
             toolbarContainer: $('#richEditorToolBar')
         });
     }

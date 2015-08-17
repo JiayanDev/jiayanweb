@@ -443,7 +443,7 @@ define(["jquery", 'lib/tmpl'], function ($, tmpl) {
         
         targetUniqueClass = 'targetUniqueClass'+ (+new Date) + Math.round((Math.random()*100))
         options.targetElementSel = '.'+targetUniqueClass;
-        options.target.addClass(targetUniqueClass);
+        $(options.target).addClass(targetUniqueClass);
 
         setupRichEditorToolBar(options);
         require(['widget/bootstrap-wysiwyg', 'bootstrap'], function () {
