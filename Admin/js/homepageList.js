@@ -109,7 +109,7 @@ define(["commJs"], function (comm) {
                     content: '确定删除吗？',
                     placement: 'left',
                     onYES: function () {
-                        remove(id);
+                        comm.io.postId('poster/remove', id, getList);
                     }
                 });
                 return false;

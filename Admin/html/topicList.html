@@ -40,8 +40,11 @@
     </nav>
 </div>
 
-<div class="container container-bg bounce animated none" id="createPanel" style="min-height:150px;padding-top:20px;">
+<div class="container container-bg bounce animated none" id="editPanel" style="min-height:150px;padding-top:20px;">
     <button type="button" class="close _close" aria-label="Close"><span aria-hidden="true" class="_close">&times;</span></button>
+    <div class="page-header center">
+        <h3 id="panelTitle">添加首页</h3>
+    </div>
 
     <div class="row article-row">
         <div>
@@ -58,7 +61,7 @@
         </div>
     </div>
     <div class="row center">
-        <button class="btn btn-danger" id="_submit">保存话题</button>
+        <button class="btn btn-danger" id="_submit">保存</button>
     </div>
     <div id="formMsg" class="text-danger"></div>
 </div>
@@ -150,12 +153,12 @@
                         {%
                             }else{
                         %}
-                            <a href="#" class="_verify" data-id="{%= row.id %}" data-status="通过">不通过</a> &nbsp;&nbsp;
+                            <a href="#" class="_verify" data-id="{%= row.id %}" data-status="通过">不通过</a>
                             <a href="#" class="_verify" data-id="{%= row.id %}" data-status="不通过">通过</a>
                         {%
                             }
                         %}
-                        &nbsp;&nbsp;
+                        <a href="#" class="_edit" data-id="{%= row.id %}" data-row='{%= JSON.stringify(row) %}'>编辑</a>
                     	<a href="#" class="_detail" data-id="{%= row.id %}">详情</a>
                     </td>
                 </tr>
@@ -164,7 +167,6 @@
                 {% } %}
             </tbody>
         </table>
-
 </script>
 
 <script src="../js/lib/require.js"></script>

@@ -63,7 +63,8 @@ define(["commJs"], function (comm) {
                     content: '确定删除该该用户吗？',
                     placement: 'left',
                     onYES: function () {
-                        remove(id);
+                        comm.io.postId('user/remove', id, getList);
+                        //remove(id);
                     }
                 });
                 return false;

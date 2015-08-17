@@ -179,6 +179,19 @@ define(["jquery", 'lib/tmpl'], function ($, tmpl) {
         return $.ajax(config);
     }
 
+    function postId(action, id, callback) {
+        var data = {
+            id: id
+        };
+        post({
+            url: BASE_API_SERVER_PATH + action,
+            data: data,
+            success: function () {
+                if (callback) callback();
+            }
+        });
+    }
+
     function setRequestHeader(request) {
         var token = getToken();
         if (token) {
@@ -756,7 +769,8 @@ define(["jquery", 'lib/tmpl'], function ($, tmpl) {
         io: {
             get: get,
             getJson: getJson,
-            post: post
+            post: post,
+            postId: postId
         },
         utils: {
             setupFileLoader: setupFileLoader,

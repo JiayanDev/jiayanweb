@@ -57,9 +57,7 @@ define(["commJs"], function (comm) {
                     title: "日记详情"
                 });
                 return false;
-            }
-
-            if ($t.hasClass('_verify')) {
+            } else if ($t.hasClass('_verify')) {
                 var status = $t.data('status');
                 var postId = $t.data('id');
 
@@ -113,6 +111,33 @@ define(["commJs"], function (comm) {
                 }
 
                 return false;
+            } else if ($t.hasClass('_edit')) {
+                var id = $t.data('id');
+
+                comm.io.get({
+                    url: comm.config.BASEPATH + 'post/detail',
+                    data: {
+                        id: id
+                    },
+                    success: function (row) {
+                        openPanel("编辑话题");
+                        $('#content').html(row.content);
+                        var el = $('#editPanel');
+                        el.data("row", JSON.stringify(row));
+                        el.data("id", id);
+                    }
+                });
+
+                //var row_str = $t.attr('data-row');
+                //var row = JSON.parse(row_str);
+                //
+                //$('#content').val(row.content);
+                //
+                //var el = $('#editPanel');
+                //el.data("row", row_str);
+                //el.data("id", id);
+
+                return false;
             }
 
             // 审核
@@ -126,8 +151,9 @@ define(["commJs"], function (comm) {
     function tdContent(postId, status, antiStuats) {
         var h = [
             '<a href="#" class="_verify" data-id="' + postId + '" data-status="' + status + '">' + antiStuats + '</a>',
+            '<a href="#" class="_edit" data-id="' + postId + '">编辑</a>',
             '<a href="#" class="_detail" data-id="' + postId + '">详情</a>'
-        ].join('&nbsp;&nbsp;');
+        ].join('&nbsp;');
 
         return h;
     }
@@ -157,16 +183,22 @@ define(["commJs"], function (comm) {
 
     function bindCreateEvent() {
         submitBtn.click(function () {
-            var param = getParam();
-
-            if (param) {
-                doSubmit(param);
+            var params = getParam();
+            var el = $('#editPanel');
+            var id = el.data('id');
+            if (id) {
+                var row_str = el.data('row');
+                var row = JSON.parse(row_str);
+                params = $.extend(params, {id: id});
+                doSubmit("post/update", params, "更新成功");
+            } else {
+                doSubmit("topic/create", params, "添加成功");
             }
             return false;
         });
 
         $('#_add').click(function () {
-            openPanel("添加推荐话题运营");
+            openPanel("添加话题");
             $('#item').show();
             return false;
         });
@@ -180,7 +212,7 @@ define(["commJs"], function (comm) {
     function openPanel(title) {
         resetForm();
         $("#panelTitle").html(title);
-        var el = $('#createPanel');
+        var el = $('#editPanel');
         el.addClass('bounce').addClass('animated').removeClass('none');
         setTimeout(function () {
             el.removeClass('bounce').removeClass('animated')
@@ -188,23 +220,23 @@ define(["commJs"], function (comm) {
     }
 
     function closePanel() {
-        var el = $('#createPanel');
+        var el = $('#editPanel');
         el.addClass('bounce').addClass('animated');
         setTimeout(function () {
             el.addClass('none');
         }, 1000);
     }
 
-    function doSubmit(data) {
+    function doSubmit(action, param, msg) {
         comm.io.post({
-            url: comm.config.BASEPATH + 'topic/create',
-            data: data,
+            url: comm.config.BASEPATH + action,
+            data: param,
             success: function () {
                 closePanel();
                 getList();
-                comm.showMsg("添加成功");
+                comm.showMsg(msg);
             }
-        })
+        });
     }
 
     var fields = ['content'];
@@ -219,9 +251,12 @@ define(["commJs"], function (comm) {
     }
 
     function resetForm() {
-        $.each(fields, function (idx, field) {
-            $('#' + field).val('');
-        });
+        $('#content').html("");
+        var el = $('#editPanel');
+        el.data("row", "");
+        el.data("id", "");
+        el.removeAttr("data-id");
+        el.removeAttr("data-row");
     }
 
     return {

@@ -140,6 +140,7 @@ define(["jquery", "commJs", 'widget/bootstrap-wysiwyg'], function (_, comm) {
 
             if ($t.hasClass('_edit')) {
                 resetForm();
+                $('#item-topic').show();
                 $("#panelTitle").html("编辑活动信息");
                 var id = $t.data('id');
                 comm.io.get({
@@ -167,6 +168,7 @@ define(["jquery", "commJs", 'widget/bootstrap-wysiwyg'], function (_, comm) {
                         $('#beginTime').val(window.G_formatTime(row.beginTime));
                         $('#phone').val(row.phone);
                         if (row.coverImg && row.coverImg != "undefined") appendImageList(row.coverImg);
+                        $('#bindTopicId').val(row.bindTopicId);
                         $('#description').html(row.desc);
                         var el = $('#editPanel');
                         el.data("row", JSON.stringify(row));
@@ -307,22 +309,11 @@ define(["jquery", "commJs", 'widget/bootstrap-wysiwyg'], function (_, comm) {
         }
     };
 
+    var fields = ['userName', 'phoneNum', 'title', 'bindTopicId'];
+
     function getParam() {
         var param = {};
-        //if (create) {
-        //    $.each(['userName', 'title'], function (idx, field) {
-        //        var val = $.trim($('#' + field).val());
-        //        if (val) param[field] = val;
-        //        //param[field] = $.trim($('#' + field).val());
-        //    });
-        //    param['phone'] = $.trim($('#phoneNum').val());
-        //} else {
-        //    $.each(['userName', 'phoneNum', 'title'], function (idx, field) {
-        //        var val = $.trim($('#' + field).val());
-        //        if (val) param[field] = val;
-        //    });
-        //}
-        $.each(['userName', 'phoneNum', 'title'], function (idx, field) {
+        $.each(fields, function (idx, field) {
             var val = $.trim($('#' + field).val());
             if (val) param[field] = val;
         });
@@ -347,9 +338,14 @@ define(["jquery", "commJs", 'widget/bootstrap-wysiwyg'], function (_, comm) {
     }
 
     function resetForm() {
-        $.each(['userName', 'phoneNum', 'title', 'categories', 'hospital', 'doctor', 'beginTime'], function (idx, field) {
+        $.each(fields.concat(['categories', 'hospital', 'doctor', 'beginTime']), function (idx, field) {
             $('#' + field).val('');
         });
+        $('#hospital').data("id", "");
+        $('#hospital').removeAttr("data-id");
+        $('#doctor').data("id", "");
+        $('#doctor').removeAttr("data-id");
+        $('#item-topic').hide();
         $('#imageList').html('');
         $('#description').html('');
         $('#categories option').removeAttr("selected");

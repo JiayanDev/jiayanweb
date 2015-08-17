@@ -200,6 +200,9 @@
                 <td>{%= row.status %}</td>
                 <td>
                     <a href="#" class="_edit" data-id="{%= row.id %}" data-row='{%= JSON.stringify(row) %}'>编辑</a>
+                    {% if(row.status!='发布'){ %}
+                        <a href="#" class="_delete" data-id="{%= row.id %}">删除</a>
+                    {% } %}
                 </td>
             </tr>
             {% }}else{ %}
