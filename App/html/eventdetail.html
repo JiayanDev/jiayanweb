@@ -31,16 +31,12 @@
             <div class="event-panel">
                 <!-- 头部 -->
                 <div class="event-header" id="headerPanel">
-                    <img src="http://jiayanimg.b0.upaiyun.com/test/adminupload/1/712ba634fbb8c613c444e30ca3ba177d8331a292399c4f0b.png"></img>
+                    <img src=""></img>
                 </div>
 
                 <!-- 头像 -->
                 <div class="profile relative" id="profilePanel">
-                    <a href="timeline.html?id=507"><img src="http://jiayanimg.b0.upaiyun.com/test/adminupload/1/932b0ed23f9c8afbfd4bbad4d9a1a880a7921ebeaf9e123d.jpg"></a>
-                    <div class="text">
-                        <p class="nickname">志颖</p>
-                    </div>
-                    <span class="status absolute">活动结束</span>
+                    
                 </div>
             </div>
 
@@ -48,8 +44,8 @@
                 <div>
                     <i class="icon icon-project"></i>
                     <span class="gray-text-x2 key">项目</span>
-                    <span class="dairy-header-value">
-                        <span class="dairy-header-value-item">全切开双眼皮</span>
+                    <span class="dairy-header-value" id="categoryList">
+                        
                     </span>
                 </div>
 
@@ -58,7 +54,8 @@
                     <i class="icon icon-doctor"></i>
                     <span class="gray-text-x2 key">医生</span>
                     <span class="dairy-header-value">
-                        <span>鹏爱医院</span>
+                        <span id="hospitalName"></span>
+                        <span id="doctorName"></span>
                     </span>
                 </div>
 
@@ -66,7 +63,7 @@
                     <i class="icon icon-date"></i>
                     <span class="gray-text-x2 key">时间</span>
                     <span class="dairy-header-value">
-                        <span>08.09 星期六 下午 14:10-16:10</span>
+                        <span id="beginTime"></span>
                     </span>
                 </div>
 
@@ -74,12 +71,12 @@
                 <div>
                     <i class="icon icon-enroll"></i>
                     <span class="gray-text-x2 key">报名</span>
-                    <span class="dairy-header-value">
+                    <span class="dairy-header-value" id="applyment">
                         限额30人 已报名18人
                     </span>
                 </div>
 
-                <div class="applyment-list relative">
+                <div class="applyment-list relative" id="applymentList">
                     <img src="http://jiayanimg.b0.upaiyun.com/test/adminupload/1/932b0ed23f9c8afbfd4bbad4d9a1a880a7921ebeaf9e123d.jpg"> 
                     <img src="http://jiayanimg.b0.upaiyun.com/test/adminupload/1/932b0ed23f9c8afbfd4bbad4d9a1a880a7921ebeaf9e123d.jpg">
                     <span class="absolute">2</span>
@@ -93,11 +90,11 @@
 
             <div class="event-panel">
                 <h2 class="gray-text-x2 center title">现场情况</h2>
-                <div>
+                <div id="eventTopic">
                     11朋框架革是朝思暮想百工工11，朋框架革是朝，思暮想百工工11朋框架革是朝思暮想百工工11朋框架革是朝思暮想百工工11，朋框架革是朝，思暮想百工工11朋框架革是朝思暮想百工工
                 </div>
                 <div class="btn-panel">
-                    <button class="btn">查看更多</button>
+                    <a class="btn" id="eventTopicMore">查看更多</a>
                 </div>
             </div>
 
@@ -122,21 +119,21 @@
                     <h2 class="gray-text-x2 center title">伴美评价</h2>
                     <div class="comment-star-row">
                         <span>美丽天使配合度</span>
-                        <span>
+                        <span id="mltsstar">
                             <i class="icon icon-star"></i>
                             <i class="icon icon-star-empty"></i>
                         </span>
                     </div>
                     <div class="comment-star-row">
                         <span>主治医生配合度</span>
-                        <span>
+                        <span id="zzysstar">
                             <i class="icon icon-star"></i>
                             <i class="icon icon-star-empty"></i>
                         </span>
                     </div>
                 </div>
 
-                <div>
+                <div id="commentList">
                     <div class="event-comment-item">
                         <div>
                             <div class="profile comment-profile relative">
@@ -179,16 +176,17 @@
             </div>
 
             <div class="event-panel">
-                <div class="event-desc-nav">
+                <div class="event-desc-nav" id="eventDescNav">
                     <span class="cur">项目介绍</span>
                     <span>报名流程</span>
                     <span>医生医院</span>
                 </div>
                 
-                <div class="event-desc-content">
-                    腾讯体育8月14日讯 美国男篮迷你集训营今日将迎来最后且最重要的一项赛事——队内分组对抗赛,由于34人大名单中的许多球员无法出战,美国男篮紧急召集..腾讯体育8月14日讯 美国男篮迷你集训营今日将迎来最后且最重要的一项赛事——队内分组对抗赛,由于34人大名单中的许多球员无法出战,美国男篮紧急召集..
+                <div id="eventDescContent">
+                    <div class="event-desc-content">
+                        腾讯体育8月14日讯 美国男篮迷你集训营今日将迎来最后且最重要的一项赛事——队内分组对抗赛,由于34人大名单中的许多球员无法出战,美国男篮紧急召集..腾讯体育8月14日讯 美国男篮迷你集训营今日将迎来最后且最重要的一项赛事——队内分组对抗赛,由于34人大名单中的许多球员无法出战,美国男篮紧急召集..
+                    </div>
                 </div>
-
             </div>
 
             <div class="event-panel event-recomm-panel">
@@ -217,7 +215,20 @@
     <!-- page -->
 
     <!-- 各种模板 -->
-    <script type="text/tpl"></script>
+    <script type="text/tpl" id="tplForComment">
+    <div class="event-comment-item">
+        <div class="profile comment-profile relative">
+            <a><img src="{%= o.avatar %}"></a>
+            <div class="text">
+                <p class="nickname-gray">{%= o.nickname %}</p>
+                <span class="small gray-text-x2">{%= o.createTime %}</span>
+            </div>
+            <span class="like-panel absolute">
+                <i class="icon icon-like {%= o.hasLike?'on':''%}"></i>
+            </span>
+        </div>
+    </div>
+    </script>
     <!-- 各种模板 END -->
 
     <script src="http://jiayanstatics.b0.upaiyun.com/app/script/lib/require.js"></script>
