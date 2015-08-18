@@ -2,51 +2,48 @@ define(["commJs"], function(comm) {
 	var cacheEventData = {};
 
 	function init(){
-		var id = getId();
+		var userId = getUserId();
 
-		if( id ){
-			loadData(id)
+		if( userId ){
+			loadData(userId);
 		}else{
 			// 获取当前用户
 		}
+		bindEvent();
 	}
 
 	function loadData (id) {
 		comm.io.get({
 			// url: comm.config.BASEPATH+"event/detail",  //s
-			url: comm.config.BASEPATH+"topic/getTopic",
+			url: "http://apptest.jiayantech.com/post/timeline",
 			data:{
-				topicId:id,
-				daddy:8
+				daddy:id
 			},
 			success:function(data){
 				render(data);
-				cacheData(data);
 				hideNativeLoading();
 			}
 		});
 	}
 
-	function getUserInfo () {
-		comm.io.call({
-			action:"getUserInfo",
-			success:"onGetUserInfo",
-			error:"onGetUserInfoError",
+
+
+	function bindEvent(){
+		$('#addPost').click(function(){
+			addPost();
 		});
 	}
 
-	window.G_onGetUserInfo = function (data) {
-		alert('成功'+JSON.stringify(data));
-	}
-
-	window.G_onGetUserInfoError = function  (data) {
-		alert(data);
+	function addPost () {
+		comm.io.call({
+			action: "addPost"
+		});
 	}
 
 	function render (data) {
-		$('#topicdetail').html(JSON.stringify(
+		$('#timeline').html(JSON.stringify(
 			data
-		));
+		))
 	}
 
 	function hideNativeLoading () {
@@ -55,7 +52,7 @@ define(["commJs"], function(comm) {
 		});
 	}
 
-	function getId () {
+	function getUserId () {
 		var hash = comm.hashMng();
 		var id = hash.id;
 		return id;	

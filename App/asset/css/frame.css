@@ -15,7 +15,7 @@
 	font-size: 1.5em;
 }
 
-.content{padding: 8px;}
+/*.content{padding: 8px;}*/
 .comment-panel, .footer{
 	position: fixed;
 	bottom: 0px;
@@ -27,8 +27,8 @@
 	text-align: center;
 }
 .page{
-	padding:55px 0 65px;
+	padding:0;
 	background-color: #FFF;
-	color: #555;
+	color: #3a3a3a;
 }
 
