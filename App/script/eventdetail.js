@@ -21,10 +21,40 @@ define(["commJs"], function(comm) {
 			},
 			success:function(data){
 				render(data);
+				getUserTimeline(data);
 				cacheData(data);
 				hideNativeLoading();
 			}
 		});
+	}
+
+	function getUserTimeline (data) {
+		var userId = data.userId;
+		comm.io.get({
+			url:comm.config.BASEPATH+'post/timeline',
+			data: {
+				id: userId
+			},
+			success:function(data){
+				renderLastestPost(data, userId);
+			}
+		});
+	}
+
+	function renderLastestPost (data, userId) {
+		if( !!data && data.length ){
+			data = data[0];
+			$('#postContent').html( data.content );
+
+			var imgList = [];
+
+			$.each( data.photoes, function  (i, photo) {
+				imgList.push('<li><img src="'+photo+'"></li>');
+			});
+
+			$('#gallery').html( imgList.join('') );
+			$('#timelinePanel a').attr('href', "timeline.html?id="+userId)
+		}
 	}
 
 	function cacheData (data) {
@@ -63,7 +93,20 @@ define(["commJs"], function(comm) {
 	}
 
 	function renderTopic (data) {
-		$('#eventTopicMore').attr('topic.html?id='+data.bindTopicId);
+		loadTopic( data.bindTopicId );
+		$('#eventTopicMore').attr('href', 'topic.html?id='+data.bindTopicId);
+	}
+
+	function loadTopic (bindTopicId) {
+		comm.io.get({
+			url:comm.config.BASEPATH+'post/detail',
+			data:{
+				postId: bindTopicId
+			},
+			success:function  (data) {
+				$('#eventTopic').html(data.content||'空内容');
+			}
+		})
 	}
 
 	function renderCategory (data) {
