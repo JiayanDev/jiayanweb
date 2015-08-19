@@ -170,6 +170,14 @@ define(["commJs"], function(comm) {
 
 		$('#eventDescNav').html(navHtml.join(''));
 		$('#eventDescContent').html(contentHtml.join(''));
+
+		require(['widget/touchslide'], function  (ts) {
+			new ts.TouchSlide({ 
+				slideCell:"#eventDescPanel",
+				titCell:".hd span",
+				titOnClassName:"cur"
+			});
+		});
 	}
 
 	function renderComment(data){
