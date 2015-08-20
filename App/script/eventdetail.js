@@ -6,6 +6,7 @@ define(["commJs"], function(comm) {
 
 		if( id ){
 			loadData(id);
+			loadRelativeEvent(id);
 		}else{
 			// 提示不存在
 		}
@@ -26,6 +27,18 @@ define(["commJs"], function(comm) {
 				hideNativeLoading();
 			}
 		});
+	}
+
+	function loadRelativeEvent (id) {
+		comm.io.get({
+			url: comm.config.BASEPATH+'related/event/list',
+			data:{
+				eventId:id
+			},
+			success:function  (data) {
+				renderRelativeEvent(data);
+			}
+		})
 	}
 
 	function getUserTimeline (data) {
@@ -55,6 +68,20 @@ define(["commJs"], function(comm) {
 			$('#gallery').html( imgList.join('') );
 			$('#timelinePanel a').attr('href', "timeline.html?id="+userId)
 		}
+	}
+
+	function renderRelativeEvent (data) {
+		var html = [];
+
+		$.each(data,function  () {
+			html.push(['<a href="eventdetail.html?id='+this.eventId+'">',
+						'<div>',
+		                        '<img src="'+this.posterImg+'">',
+		                '</div>',
+		    '</a>'].join(''));
+		});
+
+		$('#relatedEventList').html( html.join('') );
 	}
 
 	function cacheData (data) {
