@@ -324,7 +324,7 @@ define(["jquery", "commJs", 'widget/bootstrap-wysiwyg'], function (_, comm) {
 
         var categoryIds = [];
         $("#categories option:selected").each(function () {
-            categoryIds.push($(this).val());
+            categoryIds.push(parseInt($(this).val()));
         });
 
         if (categoryIds.length > 0) param["categoryIds"] = JSON.stringify(categoryIds);
