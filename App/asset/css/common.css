@@ -84,6 +84,7 @@ body{font-family: "Helvetica Neue",Helvetica,Arial,"Hiragino Sans GB","Hiragino 
     height: 35px;
     border-radius: 50%;
 }
+.profile .text{min-height: 30px;}
 .profile p{
 	/*font-weight:bold;*/
 	line-height: 35px;

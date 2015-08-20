@@ -67,11 +67,49 @@ define(["jquery", "commJs", 'widget/bootstrap-wysiwyg'], function (_, comm) {
     }
 
     function setupFileLoader() {
-        var $loadingEl = $('.loading'),
-            fileMsg = $('#fileMsg');
+        setupCoverImg();
+        setupCoverWithTxtImg();
+    }
+
+    function setupCoverImg () {
+        var $el = $('#thumberUploader'),
+            $closest = $el.closest('.col-sm-1'),
+            $loadingEl = $closest.find('.loading'),
+            fileMsg = $closest.find('.fileMsg');
 
         comm.utils.setupFileLoader({
-            el: '#thumberUploader',
+            el: $el,
+            beforeSubmit: function (e, data) {
+                fileMsg.html('');
+                $loadingEl.removeClass('none');
+            },
+            callback: function (resp) {
+                // $('#photo_file').val(data);都没必要存在了
+                var imgUrl = (resp && resp.url) || null;
+                if (imgUrl) {
+                    imgUrl = comm.config.BASE_IMAGE_PATH + imgUrl;
+                    appendImageList(imgUrl);
+                    //imageList.push(imgUrl);
+                    coverImg = imgUrl;
+                    $loadingEl.addClass('none');
+                } else {
+                    fileMsg.html('imgUrl==null');
+                }
+            },
+            error: function (resp) {
+                fileMsg.html((resp && resp.msg) || '文件上传失败');
+            }
+        });
+    }
+
+    function setupCoverWithTxtImg () {
+        var $el = $('#thumberWithTxtUploader'),
+            $closest = $el.closest('.col-sm-1'),
+            $loadingEl = $closest.find('.loading'),
+            fileMsg = $closest.find('.fileMsg');
+
+        comm.utils.setupFileLoader({
+            el: $el,
             beforeSubmit: function (e, data) {
                 fileMsg.html('');
                 $loadingEl.removeClass('none');
@@ -324,7 +362,7 @@ define(["jquery", "commJs", 'widget/bootstrap-wysiwyg'], function (_, comm) {
 
         var categoryIds = [];
         $("#categories option:selected").each(function () {
-            categoryIds.push(parseInt($(this).val()));
+            categoryIds.push(1*$(this).val());
         });
 
         if (categoryIds.length > 0) param["categoryIds"] = JSON.stringify(categoryIds);
