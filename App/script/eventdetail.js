@@ -3,19 +3,21 @@ define(["commJs"], function(comm) {
 
 	function init(){
 		var id = getId();
+		// hideNativeLoading();
 
 		if( id ){
 			loadData(id);
 			loadRelativeEvent(id);
 		}else{
 			// 提示不存在
+			comm.utils.hideNativeLoading();
+			comm.utils.alertMsg('id 不存在')
 		}
 		bindEvent();
 	}
 
 	function loadData (id) {
 		comm.io.get({
-			
 			url: comm.config.BASEPATH+"event/detail",  //s
 			data:{
 				id: id
@@ -23,8 +25,12 @@ define(["commJs"], function(comm) {
 			success:function(data){
 				render(data);
 				getUserTimeline(data);
+				comm.utils.hideNativeLoading();
 				cacheData(data);
-				hideNativeLoading();
+			},
+			error:function  (msg) {
+				comm.utils.hideNativeLoading();
+				comm.utils.alertMsg('请求出错')
 			}
 		});
 	}

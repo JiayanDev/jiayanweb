@@ -1124,6 +1124,11 @@ define(['tmpl', 'jquery'], function(tmpl, $) {
     }
 
     function hideNativeLoading () {
+        // setTimeout(function  () {
+        //     callNativeFun({
+        //         action:"hideLoading"
+        //     });
+        // }, 100);
         callNativeFun({
             action:"hideLoading"
         });
