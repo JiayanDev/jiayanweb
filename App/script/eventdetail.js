@@ -98,7 +98,7 @@ define(["commJs"], function(comm) {
 
 
 	function bindEvent(){
-		$('#applyment').click(function(){
+		$('#applymentBtn').click(function(){
 			applyment();
 		});
 	}
@@ -151,14 +151,23 @@ define(["commJs"], function(comm) {
 	}
 
 	function renderHeaderProfile (data) {
-		var tpl = ['<a href="timeline.html?id={ID}"><img src="{AVATAR}"></a>',
+		var tpl = ['<a href="#"><img src="{AVATAR}"></a>',
 	        '<div class="text">',
-	            '<p class="nickname">{NAME}</p>',
+	            '<span class="nickname">{DOCTORNAME}</span>',
+	            '&nbsp;<span>{TITLE}</span>',
+	            '&nbsp;<span>{HOSPITALNAME}</span>',
 	        '</div>',
 	        '<span class="status absolute">{STATUS}</span>'
 	        ].join('');
 
-	    var h = comm.fillString(tpl, $.extend(data.userInfo, {status:data.status}));
+	    var doctor = !!data.doctor? JSON.parse(data.doctor):{},
+	    	title = doctor.title,
+	    	h = comm.fillString(tpl, $.extend(data.userInfo, {
+	    		status:data.status, 
+	    		title: title,
+	    		doctorName:data.doctorName, 
+	    		hospitalName:data.hospitalName
+	    	}));
 
 	    $('#profilePanel').html(h);
 	    $('#headerPanel img').attr('src', data.coverImg);
@@ -166,8 +175,8 @@ define(["commJs"], function(comm) {
 
 	function renderEventInfo (data) {
 		renderCategory(data);
-		$('#hospitalName').html(data.hospitalName);
-		$('#doctorName').html(data.doctorName);
+		// $('#hospitalName').html(data.hospitalName);
+		$('#userName').html(data.userName);
 		$('#beginTime').html( formatTime(data.beginTime) );
 		$('#applyment').html('限额30人 已报名'+data.applymentList.length+'人');
 		renderApplymentList(data.applymentList);

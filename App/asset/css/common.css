@@ -86,7 +86,7 @@ body{font-family: "Helvetica Neue",Helvetica,Arial,"Hiragino Sans GB","Hiragino 
     border-radius: 50%;
 }
 .profile .text{min-height: 30px;text-align: left;}
-.profile p{
+.profile p, .profile .nickname{
 	/*font-weight:bold;*/
 	line-height: 35px;
     font-size: 21px;
@@ -104,6 +104,7 @@ body{font-family: "Helvetica Neue",Helvetica,Arial,"Hiragino Sans GB","Hiragino 
     height: 21px;
     display: inline-block;
     margin-bottom: -4px;
+    background-size: cover;
 }
 .icon2x{width: 42px;height: 42px;}
 .icon-right{
