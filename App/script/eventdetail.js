@@ -3,19 +3,21 @@ define(["commJs"], function(comm) {
 
 	function init(){
 		var id = getId();
+		// hideNativeLoading();
 
 		if( id ){
 			loadData(id);
 			loadRelativeEvent(id);
 		}else{
 			// 提示不存在
+			comm.utils.hideNativeLoading();
+			comm.utils.alertMsg('id 不存在')
 		}
 		bindEvent();
 	}
 
 	function loadData (id) {
 		comm.io.get({
-			
 			url: comm.config.BASEPATH+"event/detail",  //s
 			data:{
 				id: id
@@ -23,8 +25,12 @@ define(["commJs"], function(comm) {
 			success:function(data){
 				render(data);
 				getUserTimeline(data);
+				comm.utils.hideNativeLoading();
 				cacheData(data);
-				hideNativeLoading();
+			},
+			error:function  (msg) {
+				comm.utils.hideNativeLoading();
+				comm.utils.alertMsg('请求出错')
 			}
 		});
 	}
@@ -92,7 +98,7 @@ define(["commJs"], function(comm) {
 
 
 	function bindEvent(){
-		$('#applyment').click(function(){
+		$('#applymentBtn').click(function(){
 			applyment();
 		});
 	}
@@ -145,14 +151,23 @@ define(["commJs"], function(comm) {
 	}
 
 	function renderHeaderProfile (data) {
-		var tpl = ['<a href="timeline.html?id={ID}"><img src="{AVATAR}"></a>',
+		var tpl = ['<a href="#"><img src="{AVATAR}"></a>',
 	        '<div class="text">',
-	            '<p class="nickname">{NAME}</p>',
+	            '<span class="nickname">{DOCTORNAME}</span>',
+	            '&nbsp;<span>{TITLE}</span>',
+	            '&nbsp;<span>{HOSPITALNAME}</span>',
 	        '</div>',
 	        '<span class="status absolute">{STATUS}</span>'
 	        ].join('');
 
-	    var h = comm.fillString(tpl, $.extend(data.userInfo, {status:data.status}));
+	    var doctor = !!data.doctor? JSON.parse(data.doctor):{},
+	    	title = doctor.title,
+	    	h = comm.fillString(tpl, $.extend(data.userInfo, {
+	    		status:data.status, 
+	    		title: title,
+	    		doctorName:data.doctorName, 
+	    		hospitalName:data.hospitalName
+	    	}));
 
 	    $('#profilePanel').html(h);
 	    $('#headerPanel img').attr('src', data.coverImg);
@@ -160,8 +175,8 @@ define(["commJs"], function(comm) {
 
 	function renderEventInfo (data) {
 		renderCategory(data);
-		$('#hospitalName').html(data.hospitalName);
-		$('#doctorName').html(data.doctorName);
+		// $('#hospitalName').html(data.hospitalName);
+		$('#userName').html(data.userName);
 		$('#beginTime').html( formatTime(data.beginTime) );
 		$('#applyment').html('限额30人 已报名'+data.applymentList.length+'人');
 		renderApplymentList(data.applymentList);

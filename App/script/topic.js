@@ -9,11 +9,11 @@ define(["commJs"], function(comm) {
 		}else{
 			// 获取当前用户
 		}
+		bindEvent();
 	}
 
 	function loadData (id) {
 		comm.io.get({
-			// url: comm.config.BASEPATH+"event/detail",  //s
 			url: comm.config.BASEPATH+"topic/getTopic",
 			data:{
 				topicId:id,
@@ -21,9 +21,31 @@ define(["commJs"], function(comm) {
 			},
 			success:function(data){
 				render(data);
-				cacheData(data);
+				if( data.commentCount ){
+					loadComment(id);
+				}
 				hideNativeLoading();
 			}
+		});
+	}
+
+	function loadComment (id) {
+		comm.io.get({
+			url: comm.config.BASEPATH + "/post/getCommentList",
+			data:{
+				postId:id
+			},
+			success:function  (data) {
+				renderComment(data);
+			}
+		});
+	}
+
+	function renderComment (data) {
+		comm.render({
+			tpl:"tplComment",
+			data:data,
+			renderTo:$('#commentList')
 		});
 	}
 
@@ -44,10 +66,179 @@ define(["commJs"], function(comm) {
 	}
 
 	function render (data) {
-		$('#topicdetail').html(JSON.stringify(
-			data
-		));
+		
+		$('#topicContent').html(data.content);
+		$('#likeCount').html(data.likeCount)
+		$('#commentCount').html(data.commentCount)
+		$('#createon').html(data.createTime)
+
+		var img = [];
+		var imgData = data.photoes;
+
+		if( !!imgData ){
+			imgData = JSON.parse(imgData);
+			$.each( imgData, function  (i, photo) {
+				img.push('<img src="'+photo+'">');
+			});
+			
+			$('#topicImg').html(img.join(''));
+		}
 	}
+
+	function bindEvent () {
+		$('div').attr('onclick', "");
+
+		// @TODO::等上线后用tap事件
+		$('body').on('click', function(evt) {
+			var $t = $(evt.target),
+				eId = evt.target.id;
+
+			if( eId == 'likeIcon'){
+				isCancel = $t.hasClass('on');
+				$t.toggleClass('on');
+				doLike(isCancel);
+				var likeCount = 1*$('#likeCount').html();
+				var gap = gap * (isCancel?-1:1);
+				$('#likeCount').html(likeCount+gap);
+			}
+
+			if( eId== 'commentIcon' ){
+				// 评论日记
+				openComment({
+					toUserId: $t.data('userid'),
+					toUserName: $t.data('username'),
+					subject: 'diary',
+					subjectId: getId()
+				});
+				return false;
+			}
+
+			var commentEl = $t.closest('.commentForPost, .replyForPost');
+			if(  commentEl.length > 0 ){
+				console.log('commentForPost or replyForPost');
+				openComment({
+					toUserName: commentEl.data('username'),
+					toUserId: commentEl.data('userid'),
+					subject:'comment',
+					subjectId: commentEl.data('id')
+				});
+				return false;
+			}
+
+			var isGalleryImg = $t.closest('#topicImg').length > 0;
+			var thisImg = $t.attr('src');
+			if( thisImg && isGalleryImg ){
+				var imgList = [];
+				var index = 0;
+
+				$('#gallery img').each(function( i ) {
+					if( this.src == thisImg ){
+						index = i;
+					}
+					imgList.push(this.src);
+				});
+
+				comm.io.call({
+					action:"playImg",
+					data: {
+						imgList: imgList,
+						defaultIndex:index
+					}
+				});
+			}
+		});
+	}
+
+	function renderCommentOnNativeCallback(data){
+		if( typeof data.code !='undefined' ) data = data.data;
+		var insertedEl = false;
+
+		if( data.subject == 'diary' ){
+			insertedEl = renderComment({comments:[data]});
+		}else{
+			insertedEl = appendOneReply( data );
+		}
+
+		if( insertedEl ){
+			bottomScrollTo(insertedEl);
+		}
+	}
+
+	function appendOneReply( data ){
+		var subjectId = data.subjectId;
+		var insertedEl = false;
+
+		var tpl = [
+			'<div class="comment-reply-item replyForPost" data-userid="'+data.userId+'" data-id="'+data.id+'" id="replyPanel_'+data.id+'">',
+                '<span class="nickname">'+(data.userName||'美丽天使')+'</span>回复<span class="nickname">'+(data.toUserName||'美丽天使')+'：</span>',
+                data.content,
+            '</div>'
+		].join('');
+
+		if( subjectId ){
+
+			var commentReplyPanel = findCommentReplyPanel(subjectId);
+
+			if( commentReplyPanel ){
+				commentReplyPanel.parent().removeClass('none');
+				insertedEl = $(tpl).appendTo(commentReplyPanel);
+			}
+		}
+		return insertedEl;
+	}
+
+	function findCommentReplyPanel (subjectId) {
+		var commentReplyPanel = $('#commentReplyPanel_'+subjectId);
+
+		if( commentReplyPanel.length ){
+			return commentReplyPanel;
+		}else{
+			var replyPanel = $('#replyPanel_' + subjectId );
+			if(replyPanel){
+				commentReplyPanel = replyPanel.closest('.commentReplyPanel');
+				if( commentReplyPanel ){
+					return commentReplyPanel;
+				}
+			}
+		}
+		return false;
+	}
+
+
+	function bottomScrollTo (el) {
+		var pos = el.offset();
+		var posY = pos.top-170;
+		$("html, body").animate({ scrollTop: posY }, "normal");
+	}
+
+	window.G_scrollTo = bottomScrollTo;
+
+
+	function openComment(options){
+		// 测试
+		if( isDebug() ){
+			comm.io.call({
+				action: 'testForCallNativePleaseGiveBackWhatIHadSend',
+				data: options,
+				success: 'testForCallNativeConsoleLogWhatRev',
+				error: 'testForCallNativeError'
+			});
+		}else{
+			comm.io.call({
+				action:'openCommentPanel',
+				data: options,
+				success: 'renderPostComment',
+				error:'errorForCallNavtive'
+			});
+		}
+	}
+
+	window.G_errorForCallNavtive = function(data) {
+		// console.log( 'error from native', data );
+		alert('native resp error\n'+JSON.stringify(data));
+	}
+
+	window.G_renderPostComment = renderCommentOnNativeCallback;
 
 	function hideNativeLoading () {
 		comm.io.call({

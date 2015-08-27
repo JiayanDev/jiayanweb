@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <!-- <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1"> -->
     <meta name="viewport" content="width=device-width, height=device-height,initial-scale=1, maximum-scale=1, user-scalable=no">
-    <title>个人主页</title>
+    <title>话题</title>
 
     <!-- Bootstrap -->
     <!-- <link rel="stylesheet" href="../asset/css/bootstrap.min.css"> -->
@@ -14,6 +14,7 @@
 
     <link type="text/css" rel="stylesheet" href="../asset/css/frame.css" />
     <link type="text/css" rel="stylesheet" href="../asset/css/common.css" />
+    <link type="text/css" rel="stylesheet" href="../asset/css/topic.css" />
 </head>
 <style type="text/css">
     div 
@@ -28,24 +29,132 @@
         <div class="content">
 
             <!-- 头像 -->
-            <div class="profile dairy-profile" id="profilePanel">
+            <div class="topic-panel">
+                <div id="profilePanel">
+                    <div class="profile comment-profile relative">
+                        <a><img src="http://jiayanimg.b0.upaiyun.com/test/adminupload/1/932b0ed23f9c8afbfd4bbad4d9a1a880a7921ebeaf9e123d.jpg"></a>
+                        <div class="text">
+                            <p class="nickname-gray">啃先生</p>
+                            <span class="small gray-text-x2">2015-8-10 14:20</span>
+                        </div>
+                    </div>
+                </div>
+                    
+                <!-- 内容 -->
+                <div class="topic-detail" id="topicContent">
+
+                </div>
+
+                <div class="topic-img" id="topicImg">
+                    
+                </div>
+
+                <div class="gray-text-x2 relative">
+                    <span id="likeCount"></span>人赞过&nbsp;
+                    <span id="commentCount"></span>人评论过
+                    <div class="gray-text-x2 absolute date" id="createon">
+                       
+                    </div>
+                </div>
+
             </div>
 
-            <!-- 头部 -->
-            <div class="dairy-header" id="headerPanel">
-                
-            </div>
-                
-            <!-- 日记 -->
-            <div class="dairy-detail" id="topicdetail">
 
+
+            <div class="topic-panel topic-comment-panel" id="commentList">
+                <div class="event-comment-item">
+                    <div class="profile comment-profile relative">
+                        <a><img src="http://jiayanimg.b0.upaiyun.com/test/adminupload/1/932b0ed23f9c8afbfd4bbad4d9a1a880a7921ebeaf9e123d.jpg"></a>
+                        <div class="text">
+                            <p class="nickname">啃先生</p>
+                            <span class="small gray-text-x2">2015-8-10 14:20</span>
+                        </div>
+                        <span class="date-panel absolute gray-text-x2">
+                            08-21
+                        </span>
+                    </div>
+
+                    <div class="comment-item-content commentForPost" data-id="515" data-userid="485" data-username="hahah">
+                        <div>haha</div>
+                    </div>
+
+                    <div class="comment-reply relative">
+                        <div class="up post-item-arrow"></div>
+                        <div class="comment-reply-list commentReplyPanel"  id="commentReplyPanel_1">
+                            <div class="comment-reply-item replyForPost" data-userid="22" data-username="林" data-id="12" id="replyPanel_12">
+                                <span class="nickname">林</span>回复<span class="nickname">哎呀：</span>
+                                nani
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="event-comment-item">
+                    <div class="profile comment-profile relative">
+                        <a><img src="http://jiayanimg.b0.upaiyun.com/test/adminupload/1/932b0ed23f9c8afbfd4bbad4d9a1a880a7921ebeaf9e123d.jpg"></a>
+                        <div class="text">
+                            <p class="nickname">啃先生</p>
+                            <span class="small gray-text-x2">2015-8-10 14:20</span>
+                        </div>
+                        <span class="date-panel absolute gray-text-x2">
+                            08-21
+                        </span>
+                    </div>
+                    <div class="comment-item-content commentForPost" data-id="515" data-userid="485" data-username="hahah">
+                        <div>haha</div>
+                    </div>
+
+                    <div class="comment-reply relative">
+                        <div class="up post-item-arrow"></div>
+                        <div class="comment-reply-list commentReplyPanel"  id="commentReplyPanel_1">
+                            <div class="comment-reply-item replyForPost" data-userid="22" data-username="林" data-id="12" id="replyPanel_12">
+                                <span class="nickname">林</span>回复<span class="nickname">哎呀：</span>
+                                nani
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
     <!-- page -->
 
     <!-- 各种模板 -->
-    <script type="text/tpl"></script>
+    <script type="text/tpl" id="tplComment">
+    <div class="event-comment-item">
+        <div class="profile comment-profile relative">
+            <a><img src="{%= o.avatar %}"></a>
+            <div class="text">
+                <p class="nickname">{%= o.userName %}</p>
+                <span class="small gray-text-x2">{%= o.createTime %}</span>
+            </div>
+            <span class="date-panel absolute gray-text-x2">
+                {%= o.createTime %}
+            </span>
+        </div>
+        <div class="comment-item-content commentForPost" data-id="{%= o.id %}" data-userid="{%= o.userId %}" data-username="{%= o.userName %}">
+            <div>{%= o.content %}</div>
+        </div>
+
+        <div class="comment-reply relative {%= !o.comments|| !o.comments.length? 'none':'' %}">
+            <div class="up post-item-arrow"></div>
+            <div class="comment-reply-list commentReplyPanel"  id="commentReplyPanel_{%= o.id %}">
+
+            {%
+                if( !o.comments ){o.comments=[];}
+                for (var i = o.comments.length - 1; i >= 0; i--) {
+                    var comment = o.comments[i];
+            %}
+                <div class="comment-reply-item replyForPost" data-userid="{%= comment.userId %}" data-username="{%= comment.userName %}" data-id="{%= comment.id %}" id="replyPanel_{%= comment.id %}">
+                    <span class="nickname">{%= comment.userName %}</span>回复<span class="nickname">{%= comment.userName %}：</span>
+                    {%= comment.content %}
+                </div>
+            {%
+            }
+            %}
+            </div>
+        </div>
+    </div>
+    </script>
     <!-- 各种模板 END -->
 
     <script src="http://jiayanstatics.b0.upaiyun.com/app/script/lib/require.js"></script>

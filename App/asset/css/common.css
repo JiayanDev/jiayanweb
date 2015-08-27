@@ -28,6 +28,7 @@ footer, header, hgroup, main, menu, nav, section {
 }
 body {
 	line-height: 1;
+  /*-webkit-font-smoothing:antialiased;*/
 }
 ol, ul {
 	list-style: none;
@@ -84,12 +85,13 @@ body{font-family: "Helvetica Neue",Helvetica,Arial,"Hiragino Sans GB","Hiragino 
     height: 35px;
     border-radius: 50%;
 }
-.profile .text{min-height: 30px;}
-.profile p{
+.profile .text{min-height: 30px;text-align: left;}
+.profile p, .profile .nickname{
 	/*font-weight:bold;*/
 	line-height: 35px;
     font-size: 21px;
 }
+.profile .date-panel{right: 0;top: 22px;}
 .icon-like, .icon-comment{width: 12px;}
 .nickname{color: #FF5A60;}
 .color-border-left{
@@ -102,6 +104,7 @@ body{font-family: "Helvetica Neue",Helvetica,Arial,"Hiragino Sans GB","Hiragino 
     height: 21px;
     display: inline-block;
     margin-bottom: -4px;
+    background-size: cover;
 }
 .icon2x{width: 42px;height: 42px;}
 .icon-right{
