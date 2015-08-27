@@ -23,10 +23,10 @@ define(["commJs"], function(comm) {
 				id: id
 			},
 			success:function(data){
+				cacheData(data);
 				render(data);
 				getUserTimeline(data);
 				comm.utils.hideNativeLoading();
-				cacheData(data);
 			},
 			error:function  (msg) {
 				comm.utils.hideNativeLoading();
@@ -91,9 +91,11 @@ define(["commJs"], function(comm) {
 	}
 
 	function cacheData (data) {
-		$.each(['hospitalName', 'doctorName', 'beginTime', 'categoryIds'], function (i, key) {
+		$.each(['id','hospitalName', 'doctorName', 'beginTime', 'categoryIds'], function (i, key) {
 			cacheEventData[key] = data[key]
 		});
+		cacheEventData['angelUserInfo'] = data['userInfo'];
+		console.log(cacheEventData);
 	}
 
 
@@ -162,7 +164,7 @@ define(["commJs"], function(comm) {
 
 	    var doctor = !!data.doctor? JSON.parse(data.doctor):{},
 	    	title = doctor.title,
-	    	h = comm.fillString(tpl, $.extend(data.userInfo, {
+	    	h = comm.fillString(tpl, $.extend({}, data.userInfo, {
 	    		status:data.status, 
 	    		title: title,
 	    		doctorName:data.doctorName, 
