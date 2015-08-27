@@ -6,8 +6,7 @@
 define(["jquery", "commJs", 'widget/bootstrap-wysiwyg'], function (_, comm) {
     var submitBtn = $('#_submit'),
         formMsgEl = $('#formMsg'),
-    //imageList = [],
-        coverImg = null,
+        imgs = {},
         pickedDate;
 
     function main() {
@@ -18,7 +17,6 @@ define(["jquery", "commJs", 'widget/bootstrap-wysiwyg'], function (_, comm) {
     }
 
     function init() {
-        //imageList = [];
         coverImg = null;
         comm.setupWorkspace();
         setupCategories();
@@ -56,7 +54,7 @@ define(["jquery", "commJs", 'widget/bootstrap-wysiwyg'], function (_, comm) {
     }
 
     function setupRichEditor() {
-        $('._detailItem').each(function  () {
+        $('._detailItem').each(function () {
             var $item = $(this);
 
             comm.setupRichEditor({
@@ -67,15 +65,15 @@ define(["jquery", "commJs", 'widget/bootstrap-wysiwyg'], function (_, comm) {
     }
 
     function setupFileLoader() {
-        setupCoverImg();
-        setupCoverWithTxtImg();
+        setupImg($('#coverImgThumberUploader'));
+        setupImg($('#posterImgThumberUploader'));
     }
 
-    function setupCoverImg () {
-        var $el = $('#thumberUploader'),
-            $closest = $el.closest('.col-sm-1'),
+    function setupImg($el) {
+        var $closest = $el.closest('.col-sm-1'),
             $loadingEl = $closest.find('.loading'),
-            fileMsg = $closest.find('.fileMsg');
+            fileMsg = $closest.find('.fileMsg'),
+            gallery = $el.closest('.form-group').find('ul.gallery');
 
         comm.utils.setupFileLoader({
             el: $el,
@@ -84,13 +82,10 @@ define(["jquery", "commJs", 'widget/bootstrap-wysiwyg'], function (_, comm) {
                 $loadingEl.removeClass('none');
             },
             callback: function (resp) {
-                // $('#photo_file').val(data);都没必要存在了
                 var imgUrl = (resp && resp.url) || null;
                 if (imgUrl) {
                     imgUrl = comm.config.BASE_IMAGE_PATH + imgUrl;
-                    appendImageList(imgUrl);
-                    //imageList.push(imgUrl);
-                    coverImg = imgUrl;
+                    appendImage(gallery, imgUrl);
                     $loadingEl.addClass('none');
                 } else {
                     fileMsg.html('imgUrl==null');
@@ -102,45 +97,12 @@ define(["jquery", "commJs", 'widget/bootstrap-wysiwyg'], function (_, comm) {
         });
     }
 
-    function setupCoverWithTxtImg () {
-        var $el = $('#thumberWithTxtUploader'),
-            $closest = $el.closest('.col-sm-1'),
-            $loadingEl = $closest.find('.loading'),
-            fileMsg = $closest.find('.fileMsg');
-
-        comm.utils.setupFileLoader({
-            el: $el,
-            beforeSubmit: function (e, data) {
-                fileMsg.html('');
-                $loadingEl.removeClass('none');
-            },
-            callback: function (resp) {
-                // $('#photo_file').val(data);都没必要存在了
-                var imgUrl = (resp && resp.url) || null;
-                if (imgUrl) {
-                    imgUrl = comm.config.BASE_IMAGE_PATH + imgUrl;
-                    appendImageList(imgUrl);
-                    //imageList.push(imgUrl);
-                    coverImg = imgUrl;
-                    $loadingEl.addClass('none');
-                } else {
-                    fileMsg.html('imgUrl==null');
-                }
-            },
-            error: function (resp) {
-                fileMsg.html((resp && resp.msg) || '文件上传失败');
-            }
-        });
-    }
-
-    function appendImageList(imgUrl) {
-        var imgListEl = $('#imageList');
-        imgListEl.removeClass("none");
-        //imgListEl.append('<li><img src="../statics/img/addimage-empty.png"></li>');
-
-        imgListEl.html('');
-        imgListEl.append('<li><img src="' + imgUrl + '"' + 'style="vertical-align:middle;"></li>');
-        //return imageList;
+    function appendImage(imgEl, imgUrl) {
+        imgEl.removeClass("none");
+        imgEl.html('');
+        imgEl.append('<li><img src="' + imgUrl + '"' + 'style="vertical-align:middle;"></li>');
+        var id = imgEl.attr("id");
+        imgs[id] = imgUrl;
     }
 
     function bindEvent() {
@@ -183,6 +145,8 @@ define(["jquery", "commJs", 'widget/bootstrap-wysiwyg'], function (_, comm) {
             if ($t.hasClass('_edit')) {
                 resetForm();
                 $('#item-topic').show();
+                $('#item-posterImg').show();
+                $('#item-status').show();
                 $("#panelTitle").html("编辑活动信息");
                 var id = $t.data('id');
                 comm.io.get({
@@ -209,8 +173,10 @@ define(["jquery", "commJs", 'widget/bootstrap-wysiwyg'], function (_, comm) {
                         $('#doctor').val(row.doctorName);
                         $('#beginTime').val(window.G_formatTime(row.beginTime));
                         $('#phone').val(row.phone);
-                        if (row.coverImg && row.coverImg != "undefined") appendImageList(row.coverImg);
+                        if (row.coverImg && row.coverImg != "undefined") appendImage($("#coverImg"), row.coverImg);
+                        if (row.posterImg && row.posterImg != "undefined") appendImage($("#posterImg"), row.posterImg);
                         $('#bindTopicId').val(row.bindTopicId);
+                        $('#status').val(row.status);
                         resetDesc(row.desc);
                         var el = $('#editPanel');
                         el.data("row", JSON.stringify(row));
@@ -351,7 +317,7 @@ define(["jquery", "commJs", 'widget/bootstrap-wysiwyg'], function (_, comm) {
         }
     };
 
-    var fields = ['userName', 'phoneNum', 'title', 'bindTopicId'];
+    var fields = ['userName', 'phoneNum', 'title', 'bindTopicId', 'status'];
 
     function getParam() {
         var param = {};
@@ -362,7 +328,7 @@ define(["jquery", "commJs", 'widget/bootstrap-wysiwyg'], function (_, comm) {
 
         var categoryIds = [];
         $("#categories option:selected").each(function () {
-            categoryIds.push(1*$(this).val());
+            categoryIds.push(1 * $(this).val());
         });
 
         if (categoryIds.length > 0) param["categoryIds"] = JSON.stringify(categoryIds);
@@ -374,15 +340,14 @@ define(["jquery", "commJs", 'widget/bootstrap-wysiwyg'], function (_, comm) {
 
         param['beginTime'] = pickedDate;
         param['desc'] = getDesc();
-        //param['coverImg'] = JSON.stringify(imageList);
-        if (coverImg) param['coverImg'] = coverImg;
+        $.extend(param, imgs);
         return validate(param);
     }
 
-    function getDesc () {
+    function getDesc() {
         var desc = [];
 
-        $('._detailItem').each(function  () {
+        $('._detailItem').each(function () {
             var $item = $(this);
 
             desc.push({
@@ -393,15 +358,15 @@ define(["jquery", "commJs", 'widget/bootstrap-wysiwyg'], function (_, comm) {
         return JSON.stringify(desc);
     }
 
-    function resetDesc ( desc ) {
-        
-        $('._detailItem').each(function(i, item) {
+    function resetDesc(desc) {
+
+        $('._detailItem').each(function (i, item) {
             var $item = $(this);
 
-            itemValue = !!desc&&desc.length > i ? desc[i]:{};
+            itemValue = !!desc && desc.length > i ? desc[i] : {};
 
-            $item.find('._detailKey').val( itemValue.key||'');
-            $item.find('._detailValue').html( itemValue.value || '');
+            $item.find('._detailKey').val(itemValue.key || '');
+            $item.find('._detailValue').html(itemValue.value || '');
         });
     }
 
@@ -414,7 +379,12 @@ define(["jquery", "commJs", 'widget/bootstrap-wysiwyg'], function (_, comm) {
         $('#doctor').data("id", "");
         $('#doctor').removeAttr("data-id");
         $('#item-topic').hide();
-        $('#imageList').html('');
+        $('#item-posterImg').hide();
+        $('#item-status').hide();
+        $('#coverImg').html('');
+        $('#posterImg').html('');
+        //$("#status").get(0).selectedIndex = 0;
+        imgs = {};
         resetDesc();
         $('#categories option').removeAttr("selected");
         var el = $('#editPanel');
@@ -422,9 +392,6 @@ define(["jquery", "commJs", 'widget/bootstrap-wysiwyg'], function (_, comm) {
         el.data("id", "");
         el.removeAttr("data-id");
         el.removeAttr("data-row");
-        coverImg = null;
-        //imageList = [];
-        //closePanel();
     }
 
     function setupDateSel() {

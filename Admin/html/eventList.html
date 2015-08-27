@@ -120,11 +120,11 @@
         </div>
         <form class="form-horizontal">
             <!--<div class="form-group">-->
-                <!--<label class="col-sm-2 control-label">用户id</label>-->
+            <!--<label class="col-sm-2 control-label">用户id</label>-->
 
-                <!--<div class="col-sm-4">-->
-                    <!--<input type="text" class="form-control" id="userId" placeholder="用户id">-->
-                <!--</div>-->
+            <!--<div class="col-sm-4">-->
+            <!--<input type="text" class="form-control" id="userId" placeholder="用户id">-->
+            <!--</div>-->
             <!--</div>-->
             <div class="form-group">
                 <label class="col-sm-2 control-label">昵称</label>
@@ -160,7 +160,7 @@
                         <i class="fa fa-plus"></i>
                     </div>
                     <input type="file" style="width:50px;height:50px;left:10px;"
-                           id="thumberUploader" name="file" class="uploader"
+                           id="coverImgThumberUploader" name="file" class="uploader"
                            data-url="http://v0.api.upyun.com/jiayanimg/">
 
                     <p class="loading none">
@@ -169,25 +169,26 @@
 
                     <p class="fileMsg"></p>
                 </div>
-                <ul id="imageList" class="col-sm-2 gallery none"></ul>
+                <ul id="coverImg" class="col-sm-2 gallery none"></ul>
             </div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label">封面图片（带文字）</label>
+            <div id="item-posterImg" class="form-group">
+                <label class="col-sm-2 control-label">海报图片</br>(带文字)</label>
 
                 <div class="col-sm-1">
                     <div class="uploader-placeholder center">
                         <i class="fa fa-plus"></i>
                     </div>
                     <input type="file" style="width:50px;height:50px;left:10px;"
-                           id="thumberWithTxtUploader" name="file" class="uploader"
+                           id="posterImgThumberUploader" name="file" class="uploader"
                            data-url="http://v0.api.upyun.com/jiayanimg/">
+
                     <p class="loading none">
                         <i class="fa fa-spin fa-spinner"></i>
                     </p>
 
                     <p class="fileMsg"></p>
                 </div>
-                <ul id="imageList" class="col-sm-2 gallery none"></ul>
+                <ul id="posterImg" class="col-sm-2 gallery none"></ul>
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label">项目</label>
@@ -208,14 +209,16 @@
                 <!--</select>-->
                 <!--</div>-->
                 <div class="col-sm-10">
-                    <input id="hospital" type="text" class="form-control" placeholder="输入医院进行搜索" data-provide="typeahead"/>
+                    <input id="hospital" type="text" class="form-control" placeholder="输入医院进行搜索"
+                           data-provide="typeahead"/>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label">医生</label>
 
                 <div class="col-sm-10">
-                    <input id="doctor" type="text" class="form-control" placeholder="输入医生进行搜索" data-provide="typeahead"/>
+                    <input id="doctor" type="text" class="form-control" placeholder="输入医生进行搜索"
+                           data-provide="typeahead"/>
                 </div>
             </div>
             <div class="form-group" id="timeSelector">
@@ -229,8 +232,23 @@
             </div>
             <div id="item-topic" class="form-group">
                 <label class="col-sm-2 control-label">话题id</label>
+
                 <div class="col-sm-4 award-input-cnt">
                     <input id='bindTopicId' type="text" class="form-control input-sm _itemName" placeholder="话题id">
+                </div>
+            </div>
+            <div id="item-status" class="form-group">
+                <label class="col-sm-2 control-label">状态</label>
+                <div class="col-sm-3">
+                    <select id='status' class="form-control">
+                        <option value="待审核" selected="selected">待审核</option>
+                        <option value="审核通过">审核通过</option>
+                        <option value="审核不通过">审核不通过</option>
+                        <option value="发布">发布</option>
+                        <option value="报名人数已满">报名人数已满</option>
+                        <option value="报名截止">报名截止</option>
+                        <option value="报名结束">报名结束</option>
+                    </select>
                 </div>
             </div>
         </form>
@@ -243,6 +261,7 @@
             <div class="_detailItem">
                 <div class="form-group">
                     <label class="col-sm-2 control-label">标题</label>
+
                     <div class="col-sm-4 award-input-cnt">
                         <input type="text" class="form-control input-sm _detailKey" placeholder="标题">
                     </div>
@@ -250,44 +269,7 @@
 
                 <div class="form-group">
                     <label class="col-sm-2 control-label">描述</label>
-                    <div class="col-sm-10">
-                        <div class="richEditorToolBar"></div>
-                        <div class="_detailValue" 
-                             style="margin-top:15px;border:1px solid #ddd;border-radius:4px;height:250px;padding:5px;overflow:auto;">
-                            输入活动现场描述
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="_detailItem">
-                <div class="form-group">
-                    <label class="col-sm-2 control-label">标题</label>
-                    <div class="col-sm-4 award-input-cnt">
-                        <input type="text" class="form-control input-sm _detailKey" placeholder="标题">
-                    </div>
-                </div>
 
-                <div class="form-group">
-                    <label class="col-sm-2 control-label">描述</label>
-                    <div class="col-sm-10">
-                        <div class="richEditorToolBar"></div>
-                        <div class="_detailValue"
-                             style="margin-top:15px;border:1px solid #ddd;border-radius:4px;height:250px;padding:5px;overflow:auto;">
-                            输入活动现场描述
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="_detailItem">
-                <div class="form-group">
-                    <label class="col-sm-2 control-label">标题</label>
-                    <div class="col-sm-4 award-input-cnt">
-                        <input type="text" class="form-control input-sm _detailKey" placeholder="标题">
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label class="col-sm-2 control-label">描述</label>
                     <div class="col-sm-10">
                         <div class="richEditorToolBar"></div>
                         <div class="_detailValue"
@@ -325,6 +307,7 @@
                     <th class="th-border">医生</th>
                     <th class="th-border">开始时间</th>
                     <th class="th-border">报名人数</th>
+                    <th class="th-border">状态</th>
                     <th class="th-border">操作</th>
                 </tr>
                 </thead>
@@ -349,6 +332,7 @@
                 <th class="th-border">医生</th>
                 <th class="th-border">开始时间</th>
                 <th class="th-border">报名人数</th>
+                <th class="th-border">状态</th>
                 <th class="th-border">操作</th>
             </tr>
         </thead>
@@ -369,6 +353,7 @@
                 <td>{%= row.doctorName %}</td>
                 <td>{%= window.G_formatTime(row.beginTime) %}</td>
                 <td>{%= row.applymentCount||('0') %}</td>
+                <td>{%= row.status %}</td>
                 <td>
                     <a href="#" class="_edit" data-id="{%= row.id %}" data-row='{%= row_str %}'>
                         编辑
@@ -380,6 +365,7 @@
             {% } %}
         </tbody>
     </table>
+
 
 </script>
 
@@ -410,6 +396,7 @@
             <div id="detail_description" style="max-height:400px;overflow:auto;"></div>
         </div>
     </div>
+
 
 </script>
 
