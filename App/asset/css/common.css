@@ -43,9 +43,10 @@ q:before, q:after {
 }
 
 /* Don't kill focus outline for keyboard users: http://24ways.org/2009/dont-lose-your-focus */
-a:hover, a:active {
+a:hover, a:active, a:visited {
     outline: none;
 }
+a{color: #3a3a3a;}
 
 table {
 	border-collapse: collapse;

@@ -61,13 +61,21 @@ define(["commJs"], function(comm) {
 	}
 
 	function renderLastestPost (data, userId) {
+		var post = false;
 		if( !!data && data.length ){
-			data = data[0];
-			$('#postContent').html( data.content );
+			$.each( data, function  () {
+				if(this.type!='event'){
+					post = this;
+					return false;
+				}
+			});
+			if( !post )return false;
+
+			$('#postContent').html( post.content );
 
 			var imgList = [];
 
-			$.each( data.photoes, function  (i, photo) {
+			$.each( post.photoes, function  (i, photo) {
 				imgList.push('<li><img src="'+photo+'"></li>');
 			});
 
@@ -88,6 +96,9 @@ define(["commJs"], function(comm) {
 		});
 
 		$('#relatedEventList').html( html.join('') );
+		if( html.length ){
+			$('#relatedEventList').parent().removeClass('none');
+		}
 	}
 
 	function cacheData (data) {
@@ -119,17 +130,13 @@ define(["commJs"], function(comm) {
 		renderHeaderProfile(data);
 		renderEventInfo(data);
 		renderTopic(data);
-		renderDetailDesc(data);
 		renderComment(data);
-
-		$('#eventDetail').html(JSON.stringify(
-			data
-		)).append('<div style="margin-top:20px;"><a style="color:red;" href="timeline.html?id='+data.userId+'">进入美丽天使主页</a></div>');
 	}
 
 	function renderTopic (data) {
 		loadTopic( data.bindTopicId );
 		$('#eventTopicMore').attr('href', 'topic.html?id='+data.bindTopicId);
+		$('#eventIntroLink').attr('href', 'eventintro.html?id='+data.id);
 	}
 
 	function loadTopic (bindTopicId) {
@@ -162,13 +169,15 @@ define(["commJs"], function(comm) {
 	        '<span class="status absolute">{STATUS}</span>'
 	        ].join('');
 
-	    var doctor = !!data.doctor? JSON.parse(data.doctor):{},
+	    var doctor = !!data.doctor?data.doctor:{},
+	    	hospital = !!data.hospital?data.hospital:{},
 	    	title = doctor.title,
-	    	h = comm.fillString(tpl, $.extend({}, data.userInfo, {
+	    	h = comm.fillString(tpl, $.extend({}, {
 	    		status:data.status, 
+	    		avatar:doctor.avatar,
 	    		title: title,
-	    		doctorName:data.doctorName, 
-	    		hospitalName:data.hospitalName
+	    		doctorName:doctor.name, 
+	    		hospitalName: hospital.name
 	    	}));
 
 	    $('#profilePanel').html(h);
@@ -186,7 +195,7 @@ define(["commJs"], function(comm) {
 	}
 
 	function formatTime(time){
-		return time;
+		return window.G_formatTime(time);
 	}
 
 	function renderApplymentList (data) {
@@ -229,6 +238,9 @@ define(["commJs"], function(comm) {
 
 		if( !commentLength )return;
 
+		if(commentLength>2){
+			data.commentList.length = 2;
+		}
 		var $el = $('<div></div');
 		comm.render({
 			tpl:'tplForComment',
@@ -238,7 +250,7 @@ define(["commJs"], function(comm) {
 
 		if( commentLength > 2 ){
 			$el.append(['<div class="btn-panel">',
-	                        '<button class="btn">更多评论('+commentLength+')</button>',
+	                        '<a class="btn" href="eventcomment.html?id='+data.id+'">更多评论('+commentLength+')</a>',
 	                    '</div>'].join(''));
 		}
 		renderStar(data);

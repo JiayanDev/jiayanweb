@@ -128,7 +128,7 @@
 	width: 32%;
 	box-sizing:border-box;
 }
-.event-desc-content{padding-top: 15px;}
+.event-desc-content{padding-top: 15px;padding-bottom:10px;}
 .event-desc-nav span.cur{
 	color: #ff5a60;
 	border-bottom: 2px solid #ff5a60;

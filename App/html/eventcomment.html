@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1"> -->
+    <meta name="viewport" content="width=device-width, height=device-height,initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>活动评论</title>
+
+    <!-- Bootstrap -->
+    <!-- <link rel="stylesheet" href="../asset/css/bootstrap.min.css"> -->
+    <!-- <link rel="stylesheet" href="../asset/css/font-awesome.min.css"> -->
+
+    <link type="text/css" rel="stylesheet" href="../asset/css/frame.css" />
+    <link type="text/css" rel="stylesheet" href="../asset/css/common.css" />
+    <link type="text/css" rel="stylesheet" href="../asset/css/event.css" />
+</head>
+<style type="text/css">
+    div 
+    {
+         cursor: pointer;
+    }
+    body{background-color: #F6F6F6;}
+    .content .event-panel{padding: 0 9px;}
+</style>
+<body>
+    <div class="page">
+
+        <!-- 内容 -->
+        <div class="content">
+            <div class="event-panel">
+                <div id="commentList">
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- page -->
+
+    <!-- 各种模板 -->
+    <script type="text/tpl" id="tplForComment">
+    <div class="event-comment-item">
+        <div class="profile comment-profile relative">
+            <a><img src="{%= o.userInfo.avatar %}"></a>
+            <div class="text">
+                <p class="nickname-gray">{%= o.userInfo.name||o.userInfo.nickname||'用户' %}</p>
+                <span class="small gray-text-x2">{%= o.createTime %}</span>
+            </div>
+            <span class="like-panel absolute">
+                <i class="icon icon-like {%= o.hasLike?'on':''%}"></i>
+            </span>
+        </div>
+        <div class="comment-item-content commentForPost" data-id="{%= o.id %}" data-userid="{%= o.userInfo.id %}" data-username="{%= o.userInfo.name %}">
+            <div>{%= o.content %}</div>
+        </div>
+    </div>
+    </script>
+    <!-- 各种模板 END -->
+
+    <script src="http://jiayanstatics.b0.upaiyun.com/app/script/lib/require.js"></script>
+    <script type="text/javascript">
+    var BASE_URL = "http://jiayanstatics.b0.upaiyun.com/app/script";
+
+    if( window.location.host.indexOf('apptest') > -1 ){
+        BASE_URL = "../script";
+    }
+
+    require.config({
+        baseUrl: BASE_URL,
+        paths: {
+            // "zepto": "../script/lib/zepto", //@note 以JS结尾的会忽略baseUrl
+            "jquery": "../script/lib/jquery.min", //@note 以JS结尾的会忽略baseUrl
+            "commJs": "../script/comm/comm",
+            "tmpl":"../script/lib/tmpl"
+        }
+    });
+    require(["eventcomment"], function(mod) {
+        mod.setup();
+    });
+    </script>
+</body>
+
+</html>

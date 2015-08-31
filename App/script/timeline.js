@@ -41,9 +41,11 @@ define(["commJs"], function(comm) {
 	}
 
 	function render (data) {
-		$('#timeline').html(JSON.stringify(
-			data
-		))
+		comm.render({
+			tpl:'tplForTimeline',
+			data: data,
+			renderTo: $('#timeline')
+		});
 	}
 
 	function hideNativeLoading () {

@@ -14,10 +14,9 @@ define(["commJs"], function(comm) {
 
 	function loadData (id) {
 		comm.io.get({
-			url: comm.config.BASEPATH+"topic/getTopic",
+			url: comm.config.BASEPATH+"post/detail",
 			data:{
-				topicId:id,
-				daddy:8
+				postId:id
 			},
 			success:function(data){
 				render(data);

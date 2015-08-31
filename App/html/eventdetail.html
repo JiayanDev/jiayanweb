@@ -21,6 +21,7 @@
     {
          cursor: pointer;
     }
+    #eventIntroLink{display: block;}
 </style>
 <body>
     <div class="page">
@@ -84,8 +85,10 @@
             </div>
 
             <div class="event-panel relative">
-                活动详情
-                <span class="go-detail absolute"><i class="icon icon-right"></i></span>
+                <a id="eventIntroLink">
+                    活动详情
+                    <span class="go-detail absolute"><i class="icon icon-right"></i></span>
+                </a>
             </div>
 
             <div class="event-panel">
@@ -172,26 +175,12 @@
                         </div>
                     </div>
                     <div class="btn-panel">
-                        <button class="btn">更多评论(12)</button>
+                        <a class="btn" id="moreCommentLink">更多评论(12)</a>
                     </div>
                 </div>
             </div>
 
-            <div class="event-panel" id="eventDescPanel">
-                <div class="event-desc-nav hd" id="eventDescNav">
-                    <span>项目介绍</span>
-                    <span>报名流程</span>
-                    <span>医生医院</span>
-                </div>
-                
-                <div id="eventDescContent" class="bd">
-                    <div class="event-desc-content">
-                        腾讯体育8月14日讯 美国男篮迷你集训营今日将迎来最后且最重要的一项赛事——队内分组对抗赛,由于34人大名单中的许多球员无法出战,美国男篮紧急召集..腾讯体育8月14日讯 美国男篮迷你集训营今日将迎来最后且最重要的一项赛事——队内分组对抗赛,由于34人大名单中的许多球员无法出战,美国男篮紧急召集..
-                    </div>
-                </div>
-            </div>
-
-            <div class="event-panel event-recomm-panel">
+            <div class="event-panel event-recomm-panel none">
                 <h2 class="gray-text-x2 center title">活动推荐</h2>
                 <div id="relatedEventList">
                     <div>
@@ -222,14 +211,17 @@
     <script type="text/tpl" id="tplForComment">
     <div class="event-comment-item">
         <div class="profile comment-profile relative">
-            <a><img src="{%= o.avatar %}"></a>
+            <a><img src="{%= o.userInfo.avatar %}"></a>
             <div class="text">
-                <p class="nickname-gray">{%= o.nickname %}</p>
+                <p class="nickname-gray">{%= o.userInfo.name||o.userInfo.nickname||'用户' %}</p>
                 <span class="small gray-text-x2">{%= o.createTime %}</span>
             </div>
             <span class="like-panel absolute">
                 <i class="icon icon-like {%= o.hasLike?'on':''%}"></i>
             </span>
+        </div>
+        <div class="comment-item-content commentForPost" data-id="{%= o.id %}" data-userid="{%= o.userInfo.id %}" data-username="{%= o.userInfo.name %}">
+            <div>{%= o.content %}</div>
         </div>
     </div>
     </script>

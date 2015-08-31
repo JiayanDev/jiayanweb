@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <!-- <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1"> -->
     <meta name="viewport" content="width=device-width, height=device-height,initial-scale=1, maximum-scale=1, user-scalable=no">
-    <title>个人主页</title>
+    <title>个人主页</title>                             
 
     <!-- Bootstrap -->
     <!-- <link rel="stylesheet" href="../asset/css/bootstrap.min.css"> -->
@@ -14,6 +14,7 @@
 
     <link type="text/css" rel="stylesheet" href="../asset/css/frame.css" />
     <link type="text/css" rel="stylesheet" href="../asset/css/common.css" />
+    <link type="text/css" rel="stylesheet" href="../asset/css/timeline.css" />
 </head>
 <style type="text/css">
     div 
@@ -28,25 +29,156 @@
         <div class="content">
 
             <!-- 头像 -->
-            <div class="profile dairy-profile" id="profilePanel">
-            </div>
+            <!-- <div class="profile dairy-profile" id="profilePanel">
 
-            <!-- 头部 -->
-            <div class="dairy-header" id="headerPanel">
+            </div> -->
                 
-            </div>
-                
-            <!-- 日记 -->
-            <div class="dairy-detail" id="timeline">
+            <!-- timeline -->
+            <div class="" id="timeline">
+                <div class="my-row">
+                <!-- 头像 -->
+                    <div class="my-row-profile">
+                      <div>
+                        <div class="day">28</div>
+                        <div class="month">3月</div>
+                        <span></span>
+                      </div>
+                    </div>
+                    <div class="my-row-content">
+                        <div class="my-row-content-head">
+                            <div>
+                                <i class="icon icon-enroll"></i>
+                                <span class="gray-text-x2 key">天使</span>
+                                <span class="dairy-header-value">
+                                    <span id="userName">www</span>
+                                </span>
+                            </div>
 
+                            <div>
+                                <i class="icon icon-project"></i>
+                                <span class="gray-text-x2 key">项目</span>
+                                <span class="dairy-header-value" id="categoryList"><span class="dairy-header-value-item">激光隆胸</span><span class="dairy-header-value-item">激光抗衰老</span><span class="dairy-header-value-item">激光美白</span></span>
+                            </div>
+
+
+                            <div>
+                                <i class="icon icon-date"></i>
+                                <span class="gray-text-x2 key">时间</span>
+                                <span class="dairy-header-value">
+                                    <span id="beginTime">2015-8-22 15:55</span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="my-row">
+                    <div class="my-row-profile">
+                      <div>
+                        <div class="day">28</div>
+                        <div class="month">3月</div>
+                        <span></span>
+                      </div>
+                    </div>
+                    <div class="my-row-content">
+                        <div class="my-row-content-head">
+                            <div class="topic-detail">
+                                lala工咗工苛加要要要圾人 做数学
+                            </div>
+
+                            <div class="topic-img">
+                                <img src="http://jiayanimg.b0.upaiyun.com/test/adminupload/1/932b0ed23f9c8afbfd4bbad4d9a1a880a7921ebeaf9e123d.jpg">
+                                <img src="http://jiayanimg.b0.upaiyun.com/test/adminupload/1/932b0ed23f9c8afbfd4bbad4d9a1a880a7921ebeaf9e123d.jpg">
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <button id="addPost">添加日记</button>
+            <a id="addPost" class="add-post">+</a>
         </div>
     </div>
     <!-- page -->
 
     <!-- 各种模板 -->
-    <script type="text/tpl"></script>
+    <script type="text/tpl" id="tplForTimeline">
+    {% var _d = new Date(o.createTime*1000); %}
+
+    <div class="my-row">
+        <div class="my-row-profile">
+          <div>
+            <div class="day">{%= _d.getDate() %}</div>
+            <div class="month">{%= (_d.getMonth() + 1) %}月</div>
+            <span></span>
+          </div>
+        </div>
+        <div class="my-row-content">
+        {%
+            if(o.type != 'event'){
+        %}
+            <a href="topic.html?id={%= o.id %}">
+                <div class="my-row-content-head">
+                    <div class="topic-detail">
+                        {%= o.content %}
+                    </div>
+
+                    <div class="topic-img">
+                    {%  
+                        !o.photoes && (o.photoes = []);
+                        for ( var i = o.photoes.length - 1; i >= 0; i--) {
+                            var photo = o.photoes[i];
+                    %}
+                        <img src="{%=photo%}">
+                    {%
+                        }
+                    %}
+                    </div>
+                </div>
+            </a>
+        {%
+            }else{
+        %}
+            <a href="eventdetail.html?id={%= o.id %}">
+                <div class="my-row-content-head">
+                    <div>
+                        <i class="icon icon-user"></i>
+                        <span class="gray-text-x2 key">天使</span>
+                        <span class="dairy-header-value">
+                            <span>{%= o.userName %}</span>
+                        </span>
+                    </div>
+
+                    <div>
+                        <i class="icon icon-project"></i>
+                        <span class="gray-text-x2 key">项目</span>
+                        <span class="dairy-header-value" id="categoryList">
+                            {%
+                                !!o.categoryIds && $.each( o.categoryIds, function  () {
+                                    var categoryItem = this;      
+                            %}
+                                <span class="dairy-header-value-item">{%= categoryItem.name %}</span>
+
+                            {%
+                                });
+                            %}
+                        </span>
+                    </div>
+
+
+                    <div>
+                        <i class="icon icon-doctor"></i>
+                        <span class="gray-text-x2 key">时间</span>
+                        <span class="dairy-header-value">
+                            <span>{%= o.doctorName %}</span>
+                        </span>
+                    </div>
+                </div>
+            </a>
+        {%
+            }
+        %}
+        </div>
+    </div>
+    </script>
     <!-- 各种模板 END -->
 
     <script src="http://jiayanstatics.b0.upaiyun.com/app/script/lib/require.js"></script>
