@@ -338,11 +338,13 @@
 
 <div class="container container-bg bounce animated" id="listPanel">
     <div>
-        <div class="page-header">
-            <strong>已创建的活动</strong>
+        <div class="input-append" style="margin-bottom:19px;">
+            <input style="border:1px solid #ccc;border-radius:4px;line-height:1.8;padding-left:4px;" type="text"
+                   id="_id" placeholder="输入ID">
+            <button class="btn btn-sm" id="_search">查询</button>
             <button class="btn btn-warning btn-sm btn-right" id="_add">添加</button>
         </div>
-        <div id="_list" style="max-width:1000px;margin:0 auto;">
+        <div id="_list">
             <table class="table table-hover">
                 <thead>
                 <tr>
