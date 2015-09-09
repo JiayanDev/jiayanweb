@@ -371,6 +371,7 @@ define(["jquery", "commJs", 'widget/bootstrap-wysiwyg'], function (_, comm) {
 
     function resetDesc(desc) {
 
+        !!desc && (desc=JSON.parse(desc));
         $('._detailItem').each(function (i, item) {
             var $item = $(this);
 
