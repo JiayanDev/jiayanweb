@@ -1,26 +1,32 @@
 .content{background-color: #f6f6f6;padding-bottom: 60px;}
 .event-panel{
-	margin-bottom: 9px;
+	margin-bottom: 10px;
 	background-color: #FFF;
-	border-top: 1px solid #ddd;
-	border-bottom: 1px solid #ddd;
+	border-top: 1px solid #d9d9d9;
+	border-bottom: 1px solid #d9d9d9;
 	padding: 15px 12px;
-	line-height: 1.6em;
 }
 .event-panel:first-child{border-top: none;}
-.event-panel .title{margin-bottom: 20px;}
+.event-panel .title{margin-bottom: 12px;font-size: 1.1em;}
 .event-recomm-panel .title{margin-bottom: 9px;}
 .event-panel:first-child{padding: 0;}
 .event-recomm-panel{padding: 15px 0 0 0;}
 .event-panel:first-child .profile{
 	padding-left: 15px;
 }
-.event-header img, .event-recomm-panel img{width: 100%;}
+.event-header{
+	height: 258px;
+}
+.event-header img, .event-recomm-panel img{
+	width: 100%;
+    width: 100%;
+    object-fit:cover;
+}
 .event-recomm-panel img{margin-top: 9px;}
 .profile .status{
 	right: 0;
-    top: 10px;
-    padding: 10px 10px 10px 20px;
+    top: 0;
+    padding: 5px 10px 5px 20px;
     background-color: #C7C2C2;
     border-radius: 20px 0 0 20px;
     color: #FFF;
@@ -128,7 +134,7 @@
 	width: 32%;
 	box-sizing:border-box;
 }
-.event-desc-content{padding-top: 15px;padding-bottom:10px;}
+.event-desc-content{padding:15px 14px 10px;}
 .event-desc-nav span.cur{
 	color: #ff5a60;
 	border-bottom: 2px solid #ff5a60;

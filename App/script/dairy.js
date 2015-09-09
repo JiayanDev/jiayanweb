@@ -87,8 +87,6 @@ define(["commJs"], function(comm) {
 			var $t = $(evt.target),
 				eId = evt.target.id;
 
-			console.log('body click', 'target:', $t );
-
 			if( eId == 'likeIcon'){
 				isCancel = $t.hasClass('on');
 				$t.toggleClass('on');
@@ -121,13 +119,13 @@ define(["commJs"], function(comm) {
 				return false;
 			}
 
-			var isGalleryImg = $t.closest('#gallery').length > 0;
+			var isGalleryImg = $t.closest('#topicImg').length > 0;
 			var thisImg = $t.attr('src');
 			if( thisImg && isGalleryImg ){
 				var imgList = [];
 				var index = 0;
 
-				$('#gallery img').each(function( i ) {
+				$('#topicImg img').each(function( i ) {
 					if( this.src == thisImg ){
 						index = i;
 					}

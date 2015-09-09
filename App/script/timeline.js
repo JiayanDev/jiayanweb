@@ -22,6 +22,7 @@ define(["commJs"], function(comm) {
 			success:function(data){
 				render(data);
 				hideNativeLoading();
+				showHeaderInfo(data);
 			}
 		});
 	}
@@ -43,7 +44,7 @@ define(["commJs"], function(comm) {
 	function render (data) {
 		comm.render({
 			tpl:'tplForTimeline',
-			data: data,
+			data: data.timeline,
 			renderTo: $('#timeline')
 		});
 	}
@@ -65,6 +66,15 @@ define(["commJs"], function(comm) {
 		
 		return hash.debug==1;
 	}
+
+	function showHeaderInfo (data) {
+		comm.io.call({
+			action:"showUserProfileHeader",
+			data: data.user
+		});
+	}
+
+
 
 	return {setup:init}
 });

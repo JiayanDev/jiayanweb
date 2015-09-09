@@ -41,11 +41,14 @@ define(["commJs"], function(comm) {
 	}
 
 	function renderComment (data) {
+		var $el = $('<div></div>');
+
 		comm.render({
 			tpl:"tplComment",
 			data:data,
-			renderTo:$('#commentList')
+			renderTo:$el
 		});
+		return $el.children().appendTo($('#commentList'));
 	}
 
 	function getUserInfo () {
@@ -69,13 +72,13 @@ define(["commJs"], function(comm) {
 		$('#topicContent').html(data.content);
 		$('#likeCount').html(data.likeCount)
 		$('#commentCount').html(data.commentCount)
-		$('#createon').html(data.createTime)
+		$('#createon').html(window.G_formatTime(data.createTime))
 
 		var img = [];
 		var imgData = data.photoes;
 
 		if( !!imgData ){
-			imgData = JSON.parse(imgData);
+			// imgData = JSON.parse(imgData);
 			$.each( imgData, function  (i, photo) {
 				img.push('<img src="'+photo+'">');
 			});
@@ -130,7 +133,7 @@ define(["commJs"], function(comm) {
 				var imgList = [];
 				var index = 0;
 
-				$('#gallery img').each(function( i ) {
+				$('#topicImg img').each(function( i ) {
 					if( this.src == thisImg ){
 						index = i;
 					}

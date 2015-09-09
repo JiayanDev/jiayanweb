@@ -146,7 +146,7 @@ define(["commJs"], function(comm) {
 				postId: bindTopicId
 			},
 			success:function  (data) {
-				$('#eventTopic').html(data.content||'空内容');
+				$('#eventTopic').html(window.clipString(data.content||'空内容', 250));
 			}
 		})
 	}
@@ -161,12 +161,12 @@ define(["commJs"], function(comm) {
 
 	function renderHeaderProfile (data) {
 		var tpl = ['<a href="#"><img src="{AVATAR}"></a>',
-	        '<div class="text">',
+	        '<div class="relative text">',
 	            '<span class="nickname">{DOCTORNAME}</span>',
 	            '&nbsp;<span>{TITLE}</span>',
 	            '&nbsp;<span>{HOSPITALNAME}</span>',
-	        '</div>',
-	        '<span class="status absolute">{STATUS}</span>'
+	        	'<span class="status absolute">{STATUS}</span>',
+	        '</div>'
 	        ].join('');
 
 	    var doctor = !!data.doctor?data.doctor:{},

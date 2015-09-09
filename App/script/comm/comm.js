@@ -59,7 +59,7 @@ define(['tmpl', 'jquery'], function(tmpl, $) {
         len = len || 6;
         str = str || '';
         if (str.length > len) {
-            str = str.substring(0, len) + '..';
+            str = str.substring(0, len) + '...';
         }
         return str;
     }
