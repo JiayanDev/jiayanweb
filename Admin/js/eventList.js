@@ -176,7 +176,9 @@ define(["jquery", "commJs", 'widget/bootstrap-wysiwyg'], function (_, comm) {
                         if (row.coverImg && row.coverImg != "undefined") appendImage($("#coverImg"), row.coverImg);
                         if (row.posterImg && row.posterImg != "undefined") appendImage($("#posterImg"), row.posterImg);
                         $('#bindTopicId').val(row.bindTopicId);
-                        $('#status').val(row.status);
+
+                        comm.status.edit(row.status);
+
                         resetDesc(row.desc);
                         var el = $('#editPanel');
                         el.data("row", JSON.stringify(row));
@@ -206,10 +208,15 @@ define(["jquery", "commJs", 'widget/bootstrap-wysiwyg'], function (_, comm) {
             }
         });
 
+        $('#_search').click(function () {
+            getList();
+        });
+
         $('#_add').click(function () {
             $("#panelTitle").html("添加活动信息");
             resetForm();
             openPanel();
+            comm.status.hide();
         });
 
         $('.close').click(function () {
@@ -254,12 +261,16 @@ define(["jquery", "commJs", 'widget/bootstrap-wysiwyg'], function (_, comm) {
     }
 
     function getList(id, callback) {
+        var data = {};
+        if (!id){
+            id = $("#_id").val();
+        }
+        if (id) {
+            data["id"] = id;
+        }
         comm.io.get({
             url: comm.config.BASEPATH + 'event/list',
-            data: {
-                orgId: window.G_ORG_ID,
-                activityId: id
-            },
+            data: data,
             success: function (d) {
                 if (callback) {
                     callback(d);

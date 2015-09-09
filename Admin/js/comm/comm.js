@@ -750,6 +750,33 @@ define(["jquery", 'lib/tmpl'], function ($, tmpl) {
         el.data("id", strSplits[0]);
         return strSplits[1];
     }
+    
+    
+    function editStatus(status){
+        $('#status').show();
+        $('#status').empty();
+        if ("发布" == status) {
+            $('#status').append('<option value="审核不通过">审核不通过</option>');
+        } else if ("审核通过" == status) {
+            $('#status').append('<option value="审核不通过">审核不通过</option>');
+            $('#status').append('<option value="发布">发布</option>');
+        } else if ("审核不通过" == status) {
+            $('#status').append('<option value="审核通过">审核通过</option>');
+        }else if ("待审核" == status) {
+            $('#status').append('<option value="审核通过">审核通过</option>');
+            $('#status').append('<option value="审核不通过">审核不通过</option>');$('#status').append('<option value="发布">发布</option>');
+        }else {
+            $('#status').append('<option value="审核通过">审核通过</option>');
+            $('#status').append('<option value="审核不通过">审核不通过</option>');
+            $('#status').append('<option value="发布">发布</option>');
+        }
+        $('#status').val(status);
+    }
+
+    function hideStatus(){
+        $('#status').hide();
+        $('#status').empty();
+    }
 
     return {
         constant: {
@@ -794,6 +821,10 @@ define(["jquery", 'lib/tmpl'], function ($, tmpl) {
         buildMap: buildMap,
         isPhone: isPhone,
         setupWorkspace: initWorkspace,
-        setupRichEditor: setupRichEditor
+        setupRichEditor: setupRichEditor,
+        status: {
+            hide: hideStatus,
+            edit: editStatus
+        }
     }
 });

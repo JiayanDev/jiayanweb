@@ -71,7 +71,7 @@ define(["commJs"], function (comm) {
             }
         });
 
-        $('#btnUserSearch').click(function () {
+        $('#_search').click(function () {
             getList();
         });
 
