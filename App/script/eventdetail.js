@@ -146,7 +146,9 @@ define(["commJs"], function(comm) {
 				postId: bindTopicId
 			},
 			success:function  (data) {
-				$('#eventTopic').html(window.clipString(data.content||'空内容', 250));
+				var html = window.clipString(data.content||'空内容', 300);
+				html = html.replace(/<img.*>/ig, "");
+				$('#eventTopic').html( html );
 			}
 		})
 	}
@@ -237,6 +239,8 @@ define(["commJs"], function(comm) {
 		var commentLength = data.commentList.length;
 
 		if( !commentLength )return;
+
+		$('#commentPanel').removeClass('none');
 
 		if(commentLength>2){
 			data.commentList.length = 2;
