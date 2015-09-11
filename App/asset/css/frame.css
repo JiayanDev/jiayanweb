@@ -30,5 +30,6 @@
 	padding:0;
 	background-color: #FFF;
 	color: #3a3a3a;
+	-webkit-font-smoothing:antialiased;
 }
 

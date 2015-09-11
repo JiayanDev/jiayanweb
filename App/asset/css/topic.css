@@ -18,11 +18,11 @@
     height: 70px;
     object-fit: cover;
 }
-
 .topic-detail{
 	margin: 9px 0;
 	/*padding: 5px;*/
 }
+.line-1x{line-height: 1 !important;}
 .left.post-item-arrow{
 	top: 19px;
 	left: 4px;
@@ -44,7 +44,10 @@
 	border-color: transparent;
 	border-style: solid;
 }
+.no-comment{
+	text-align: center;
 
+}
 .comment-item-content{
   	padding: 5px 10px 10px 35px;
 }
@@ -55,7 +58,7 @@
 	background-color: #F4F4F4;
   	padding: 10px;
 }
-.comment-reply-item{line-height: 19px; }
+.comment-reply-list .nickname{margin: 0 5px;}
 .event-comment-item {
     padding-bottom: 15px;
     border-bottom: 1px solid #ddd;

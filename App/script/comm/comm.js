@@ -1085,7 +1085,7 @@ define(['tmpl', 'jquery'], function(tmpl, $) {
     window.G_formatTime = function(val){
         var d = new Date( Math.floor( val * 1000 ) );
         return [
-            d.getFullYear(),
+            // d.getFullYear(),
             d.getMonth()+1,
             d.getDate()
         ].join('-')+' '+[

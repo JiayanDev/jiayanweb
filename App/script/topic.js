@@ -41,14 +41,18 @@ define(["commJs"], function(comm) {
 	}
 
 	function renderComment (data) {
-		var $el = $('<div></div>');
+		if( !!data && data.length ){
+			var $el = $('<div></div>');
 
-		comm.render({
-			tpl:"tplComment",
-			data:data,
-			renderTo:$el
-		});
-		return $el.children().appendTo($('#commentList'));
+			comm.render({
+				tpl:"tplComment",
+				data:data,
+				renderTo:$el
+			});
+			return $el.children().appendTo($('#commentList'));
+		}else{
+			$('._nocomment').removeClass('none');
+		}
 	}
 
 	function getUserInfo () {
@@ -73,6 +77,7 @@ define(["commJs"], function(comm) {
 		$('#likeCount').html(data.likeCount)
 		$('#commentCount').html(data.commentCount)
 		$('#createon').html(window.G_formatTime(data.createTime))
+		renderAuthor(data);
 
 		var img = [];
 		var imgData = data.photoes;
@@ -85,6 +90,23 @@ define(["commJs"], function(comm) {
 			
 			$('#topicImg').html(img.join(''));
 		}
+	}
+
+	function renderAuthor (data) {
+		var tpl = ['<a>',
+			'<img src="{AVATAR}">',
+		 '</a>',
+         '<div class="text">',
+                '<p class="nickname-gray">{USERNAME}</p>',
+                '<span class="small gray-text-x2">{GENDER} {PROVINCE}{CITY}</span>',
+        '</div>'].join('');
+
+        data.gender = {1:'男', 0:'女'}[data.gender]||'';
+        data.province = data.province||'';
+        data.city = data.city||'';
+
+        var html = comm.fillString( tpl, data);
+        $('#author').html(html);
 	}
 
 	function bindEvent () {
@@ -104,7 +126,7 @@ define(["commJs"], function(comm) {
 				$('#likeCount').html(likeCount+gap);
 			}
 
-			if( eId== 'commentIcon' ){
+			if( eId== 'commentBtn' ){
 				// 评论日记
 				openComment({
 					toUserId: $t.data('userid'),

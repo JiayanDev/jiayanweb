@@ -19,7 +19,7 @@
 }
 .event-header img, .event-recomm-panel img{
 	width: 100%;
-    width: 100%;
+    height: 100%;
     object-fit:cover;
 }
 .event-recomm-panel img{margin-top: 9px;}

@@ -31,12 +31,8 @@
             <!-- 头像 -->
             <div class="topic-panel">
                 <div id="profilePanel">
-                    <div class="profile comment-profile relative">
-                        <a><img src="http://jiayanimg.b0.upaiyun.com/test/adminupload/1/932b0ed23f9c8afbfd4bbad4d9a1a880a7921ebeaf9e123d.jpg"></a>
-                        <div class="text">
-                            <p class="nickname-gray">啃先生</p>
-                            <span class="small gray-text-x2">2015-8-10 14:20</span>
-                        </div>
+                    <div class="profile comment-profile relative" id="author">
+                        
                     </div>
                 </div>
                     
@@ -62,32 +58,12 @@
 
 
             <div class="topic-panel topic-comment-panel" id="commentList">
-                <!-- <div class="event-comment-item">
-                    <div class="profile comment-profile relative">
-                        <a><img src="http://jiayanimg.b0.upaiyun.com/test/adminupload/1/932b0ed23f9c8afbfd4bbad4d9a1a880a7921ebeaf9e123d.jpg"></a>
-                        <div class="text">
-                            <p class="nickname">啃先生</p>
-                            <span class="small gray-text-x2">2015-8-10 14:20</span>
-                        </div>
-                        <span class="date-panel absolute gray-text-x2">
-                            08-21
-                        </span>
+                <div class="no-comment none _nocomment">
+                    <img src="../asset/img/nocomment.png">
+                    <div class="btn-panel">
+                        <button class="btn" id="commentBtn">抢沙发</button>
                     </div>
-
-                    <div class="comment-item-content commentForPost" data-id="515" data-userid="485" data-username="hahah">
-                        <div>haha</div>
-                    </div>
-
-                    <div class="comment-reply relative">
-                        <div class="up post-item-arrow"></div>
-                        <div class="comment-reply-list commentReplyPanel"  id="commentReplyPanel_1">
-                            <div class="comment-reply-item replyForPost" data-userid="22" data-username="林" data-id="12" id="replyPanel_12">
-                                <span class="nickname">林</span>回复<span class="nickname">哎呀：</span>
-                                nani
-                            </div>
-                        </div>
-                    </div>
-                </div> -->
+                </div>
             </div>
         </div>
     </div>
@@ -99,8 +75,8 @@
         <div class="profile comment-profile relative">
             <a><img src="{%= o.avatar %}"></a>
             <div class="text">
-                <p class="nickname">{%= o.userName %}</p>
-                <span class="small gray-text-x2">{%= window.G_formatTime(o.createTime) %}</span>
+                <p class="nickname line-1x">{%= o.userName %}</p>
+                <span class="small-text gray-text-x2">{%= {0:'女', 1:'男'}[o.gender]||'' %} {%= (o.province||'')+(o.city||'') %}</span>
             </div>
             <span class="date-panel absolute gray-text-x2">
                 {%= window.G_formatTime(o.createTime) %}

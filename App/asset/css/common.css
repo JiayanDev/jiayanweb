@@ -133,6 +133,7 @@ body{font-family: "Helvetica Neue",Helvetica,Arial,"Hiragino Sans GB","Hiragino 
 .post-item-footer{text-align: right;margin-top: 17px;}
 
 /*btton*/
+.btn-panel{text-align: center;margin-top: 20px;}
 .btn{border:none;}
 .btn-link, .btn-link:active, .btn-link:focus, .btn-link:hover{border-color:transparent;}
 .btn-link, .btn-link.active, .btn-link:active, .btn-link[disabled], fieldset[disabled] .btn-link{
