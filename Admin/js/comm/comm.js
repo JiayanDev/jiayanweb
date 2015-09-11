@@ -29,6 +29,7 @@ define(["jquery", 'lib/tmpl'], function ($, tmpl) {
                     {label: "日记", url: "diaryList"},
                     {label: "话题", url: "topicList"},
                     {label: "活动", url: "eventList"},
+                    {label: "伴美", url: "companyList"},
                     {
                         label: "运营",
                         sub: [
