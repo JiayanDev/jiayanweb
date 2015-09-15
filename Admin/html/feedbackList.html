@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>伴美</title>
+    <title>反馈</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Bootstrap -->
     <!-- <link rel="stylesheet" href="http://cdn.bootcss.com/twitter-bootstrap/3.0.3/css/bootstrap.min.css"> -->
@@ -47,21 +47,18 @@
             <!-- <button class="btn" id="addNt"><i class="icon-plus"></i>录入排队编号类型</button> -->
             <div class="input-append" style="margin-bottom:19px;">
                 <input style="border:1px solid #ccc;border-radius:4px;line-height:1.8;padding-left:4px;" type="text"
-                       id="_eventId" placeholder="输入活动ID">
-                <button class="btn btn-sm" id="angentNameBtn">查询</button>
+                       id="_id" placeholder="输入ID">
+                <button class="btn btn-sm" id="_search">查询</button>
             </div>
             <div id="_list">
                 <table class="table table-hover">
                     <thead>
                     <tr>
                         <th class="th-border">编号</th>
-                        <th class="th-border">用户名</th>
                         <th class="th-border">用户ID</th>
-                        <th class="th-border">描述</th>
-                        <th class="th-border">活动ID</th>
+                        <th class="th-border">内容</th>
+                        <th class="th-border">联系</th>
                         <th class="th-border">创建时间</th>
-                        <th class="th-border">状态</th>
-                        <th class="th-border">操作</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -82,13 +79,10 @@
             <thead>
                 <tr>
                     <th class="th-border">编号</th>
-                    <th class="th-border">用户名</th>
                     <th class="th-border">用户ID</th>
-                    <th class="th-border">描述</th>
-                    <th class="th-border">活动ID</th>
+                    <th class="th-border">内容</th>
+                    <th class="th-border">联系</th>
                     <th class="th-border">创建时间</th>
-                    <th class="th-border">状态</th>
-                    <th class="th-border">操作</th>
                 </tr>
             </thead>
             <tbody>
@@ -99,34 +93,17 @@
                 %}
                 <tr>
                     <td>{%= row.id %}</td>
-                    <td>{%= row.userName %}</td>
                     <td>{%= row.userId %}</td>
-                    <td style="width:20%">{%= row.desc %}</td>
-                    <td>{%= row.eventId %}</td>
+                    <td style="width:20%">{%= row.content %}</td>
+                    <td>{%= row.contact %}</td>
                     <td>{%= window.G_formatTime(row.createTime) %}</td>
-                    <td name="status">{%= row.status %}</td>
-                    <td>
-                        {% 
-                            if( row.status != "待审核"){
-                        %}
-                        <a href="#" class="_verify" data-id="{%= row.id %}" data-status="{%= row.status %}">{%= {"审核不通过":"通过", "审核通过":"不通过"}[row.status] %}</a>
-                        {%
-                            }else{
-                        %}
-                            <a href="#" class="_verify" data-id="{%= row.id %}" data-status="审核通过">不通过</a> &nbsp;&nbsp;
-                            <a href="#" class="_verify" data-id="{%= row.id %}" data-status="审核不通过">通过</a>
-                        {%
-                            }
-                        %}
-                        &nbsp;&nbsp;
-                    	<a href="#" class="_detail" data-id="{%= row.id %}">详情</a>
-                    </td>
                 </tr>
                 {% }}else{ %}
                     <td colspan="7" style="text-align:center;">{%= typeof o.msg!= 'undefined'? o.msg:'列表为空了' %}</td>
                 {% } %}
             </tbody>
         </table>
+
 
 </script>
 
@@ -141,7 +118,7 @@
             "bootstrap": "lib/bootstrap.min"
         }
     });
-    require(["companyList"], function (mod) {
+    require(["feedbackList"], function (mod) {
         mod.setup();
     });
 </script>
