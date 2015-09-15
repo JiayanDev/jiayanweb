@@ -47,6 +47,11 @@ define(["commJs"], function(comm) {
 			data: data.timeline,
 			renderTo: $('#timeline')
 		});
+
+		comm.io.call({
+			action:"setNavigationBarTitle",
+			data: {"title":'个人主页'}
+		});
 	}
 
 	function hideNativeLoading () {

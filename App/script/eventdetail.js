@@ -14,6 +14,11 @@ define(["commJs"], function(comm) {
 			comm.utils.alertMsg('id 不存在')
 		}
 		bindEvent();
+
+		comm.io.call({
+			action:"setNavigationBarTitle",
+			data: {"title":'活动详情'}
+		});
 	}
 
 	function loadData (id) {
@@ -62,6 +67,8 @@ define(["commJs"], function(comm) {
 
 	function renderLastestPost (data, userId) {
 		var post = false;
+		var data = data.timeline;
+
 		if( !!data && data.length ){
 			$.each( data, function  () {
 				if(this.type!='event'){

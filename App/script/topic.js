@@ -10,6 +10,13 @@ define(["commJs"], function(comm) {
 			// 获取当前用户
 		}
 		bindEvent();
+		
+		var title = '话题详情';
+		title = window.location.href.indexOf('topic.html')>0?title: '日志详情';
+		comm.io.call({
+			action:"setNavigationBarTitle",
+			data: {"title":title}
+		});
 	}
 
 	function loadData (id) {
@@ -20,8 +27,11 @@ define(["commJs"], function(comm) {
 			},
 			success:function(data){
 				render(data);
+				setPostDetailData(data);
 				if( data.commentCount ){
 					loadComment(id);
+				}else{
+					$('._nocomment').removeClass('none');
 				}
 				hideNativeLoading();
 			}
@@ -50,8 +60,6 @@ define(["commJs"], function(comm) {
 				renderTo:$el
 			});
 			return $el.children().appendTo($('#commentList'));
-		}else{
-			$('._nocomment').removeClass('none');
 		}
 	}
 
@@ -177,6 +185,10 @@ define(["commJs"], function(comm) {
 		if( typeof data.code !='undefined' ) data = data.data;
 		var insertedEl = false;
 
+		var commentCountEl = $('#commentCount');
+		var commentCount = commentCountEl.html();
+		commentCountEl.html( ++commentCount );
+
 		if( data.subject == 'diary' ){
 			insertedEl = renderComment({comments:[data]});
 		}else{
@@ -228,6 +240,14 @@ define(["commJs"], function(comm) {
 		return false;
 	}
 
+	function setPostDetailData (data) {
+		data = data||{};
+		data.comments = undefined;
+		comm.io.call({
+			action:"postDetailData",
+			data:data
+		});
+	}
 
 	function bottomScrollTo (el) {
 		var pos = el.offset();
@@ -257,12 +277,26 @@ define(["commJs"], function(comm) {
 		}
 	}
 
+	function switchLike () {
+		data = data||{};
+		var like = data.hasLike;
+		var likeCountEl = $('#likeCount');
+		var likeCount = likeCountEl.html();
+
+		like? ++likeCount: --likeCount;
+
+		likeCount<0?0:likeCount;
+
+		likeCountEl.html( likeCount );
+	}
+
 	window.G_errorForCallNavtive = function(data) {
 		// console.log( 'error from native', data );
 		alert('native resp error\n'+JSON.stringify(data));
 	}
 
 	window.G_renderPostComment = renderCommentOnNativeCallback;
+	window.G_switchLike = switchLike;
 
 	function hideNativeLoading () {
 		comm.io.call({
