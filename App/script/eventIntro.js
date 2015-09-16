@@ -11,6 +11,11 @@ define(["commJs"], function(comm) {
 			comm.utils.hideNativeLoading();
 			comm.utils.alertMsg('id 不存在')
 		}
+
+		comm.io.call({
+			action:"setNavigationBarTitle",
+			data: {"title":'活动介绍'}
+		});
 	}
 
 	function loadData (id) {
