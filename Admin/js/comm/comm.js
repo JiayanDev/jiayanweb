@@ -233,11 +233,63 @@ define(["jquery", 'lib/tmpl'], function ($, tmpl) {
             el = config.renderTo;
         }
         if (html.length > 0) {
-            el.html(html.join(''));
+            el.html(html.join('') + getPagination(9, 20));
         } else {
             // emptyTips(el);
         }
         return el;
+    }
+
+    function getPagination(index, size) {
+        var args = getUrlArgObject();
+        var path = window.location.pathname;
+        var maxShowSize = 7;
+        var halfShowSize = Math.floor(maxShowSize / 2);
+        var leftShowSize = Math.min(index - 1, halfShowSize);
+        var rightShowSize = Math.min(size - index, halfShowSize);
+        args['index'] = index - leftShowSize;
+        var arr = new Array('<div class="center">', '<ul class="pagination">', '<li><a href="' + (path + getUrlArgStr(args)) + '">&lt;&lt;</a></li>');
+        for (var i = index - leftShowSize; i < index + rightShowSize + 1; i++) {
+            args['index'] = i;
+            if (i == index) {
+                arr[i + 3] = '<li class="active"><a href="' + (path + getUrlArgStr(args)) + '">' + i + '</a></li>';
+            } else {
+                arr[i + 3] = '<li><a href="' + (path + getUrlArgStr(args)) + '">' + i + '</a></li>';
+            }
+        }
+        arr[arr.length] = '<li><a href="' + (path + getUrlArgStr(args)) + '">&gt;&gt;</a></li>';
+        arr[arr.length] = '</ul></div>';
+        return arr.join('');
+    }
+
+    function getUrlArgObject() {
+        var args = {};
+        var query = location.search.substr(1);//获取查询串
+        var pairs = query.split("&");//在逗号处断开
+        for (var i = 0; i < pairs.length; i++) {
+            var pos = pairs[i].indexOf('=');//查找key=value
+            if (pos == -1) {//如果没有找到就跳过
+                continue;
+            }
+            var key = pairs[i].substring(0, pos);//提取key
+            var value = pairs[i].substring(pos + 1);//提取value
+            args[key] = unescape(value);//存为属性
+        }
+        return args;//返回对象
+    }
+
+    function getUrlArgStr(args) {
+        var argsStr = '';
+        if (args) {
+            for (var key in args) {
+                var value = args[key];
+                argsStr += key + '=' + value + '&';
+            }
+            if (argsStr.length > 0) {
+                argsStr = '?' + argsStr.substring(0, argsStr.length - 1);
+            }
+        }
+        return argsStr;
     }
 
     function confirm(options) {
