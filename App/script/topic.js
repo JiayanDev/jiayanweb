@@ -3,11 +3,16 @@ define(["commJs"], function(comm) {
 
 	function init(){
 		var id = getId();
+		var isWebKit = comm.isWebKit();
 
 		if( id ){
-			loadData(id)
+			if( isWebKit ){
+				getUserInfo();
+			}else{
+				loadData();
+			}
 		}else{
-			// 获取当前用户
+			return false;
 		}
 		bindEvent();
 		
@@ -19,7 +24,8 @@ define(["commJs"], function(comm) {
 		});
 	}
 
-	function loadData (id) {
+	function loadData () {
+		var id = getId();
 		comm.io.get({
 			url: comm.config.BASEPATH+"post/detail",
 			data:{
@@ -59,7 +65,7 @@ define(["commJs"], function(comm) {
 				data:data,
 				renderTo:$el
 			});
-			return $el.children().appendTo($('#commentList'));
+			return $el.children().prependTo($('#commentList'));
 		}
 	}
 
@@ -72,7 +78,15 @@ define(["commJs"], function(comm) {
 	}
 
 	window.G_onGetUserInfo = function (data) {
-		alert('成功'+JSON.stringify(data));
+		if( !!data && data.code == 0 ){
+			var token = data.data.token;
+			comm.setToken(token);
+			loadData();
+			//alert('成功'+JSON.stringify(data));
+		}else{
+			comm.setToken('no login');
+			loadData();
+		}
 	}
 
 	window.G_onGetUserInfoError = function  (data) {
@@ -189,11 +203,13 @@ define(["commJs"], function(comm) {
 		var commentCount = commentCountEl.html();
 		commentCountEl.html( ++commentCount );
 
-		if( data.subject == 'diary' ){
-			insertedEl = renderComment({comments:[data]});
+		if( data.subject == 'diary' || data.subject == 'topic' ){
+			insertedEl = renderComment([data]);
 		}else{
 			insertedEl = appendOneReply( data );
 		}
+
+		$('._nocomment').addClass('none');
 
 		if( insertedEl ){
 			bottomScrollTo(insertedEl);
@@ -277,15 +293,18 @@ define(["commJs"], function(comm) {
 		}
 	}
 
-	function switchLike () {
+	function switchLike (data) {
 		data = data||{};
-		var like = data.hasLike;
+		if( data.code != 0  )return;
+		data = data.data;
+		if( !data )return;
+
 		var likeCountEl = $('#likeCount');
 		var likeCount = likeCountEl.html();
 
-		like? ++likeCount: --likeCount;
+		data.hasLike? ++likeCount: --likeCount;
 
-		likeCount<0?0:likeCount;
+		likeCount = likeCount<0?0:likeCount;
 
 		likeCountEl.html( likeCount );
 	}

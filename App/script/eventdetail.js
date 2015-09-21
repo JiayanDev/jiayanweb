@@ -169,25 +169,16 @@ define(["commJs"], function(comm) {
 	}
 
 	function renderHeaderProfile (data) {
-		var tpl = ['<a href="#"><img src="{AVATAR}"></a>',
+		var tpl = ['<a href="#"><img src="{DOCTORAVATAR}"></a>',
 	        '<div class="relative text">',
 	            '<span class="nickname">{DOCTORNAME}</span>',
-	            '&nbsp;<span>{TITLE}</span>',
+	            '&nbsp;<span>{DOCTORTITLE}</span>',
 	            '&nbsp;<span>{HOSPITALNAME}</span>',
 	        	'<span class="status absolute">{STATUS}</span>',
 	        '</div>'
 	        ].join('');
 
-	    var doctor = !!data.doctor?data.doctor:{},
-	    	hospital = !!data.hospital?data.hospital:{},
-	    	title = doctor.title,
-	    	h = comm.fillString(tpl, $.extend({}, {
-	    		status:data.status, 
-	    		avatar:doctor.avatar,
-	    		title: title,
-	    		doctorName:doctor.name, 
-	    		hospitalName: hospital.name
-	    	}));
+	    var h = comm.fillString(tpl, $.extend(data, {}));
 
 	    $('#profilePanel').html(h);
 	    $('#headerPanel img').attr('src', data.coverImg);
@@ -198,7 +189,7 @@ define(["commJs"], function(comm) {
 		// $('#hospitalName').html(data.hospitalName);
 		$('#userName').html(data.userName);
 		$('#beginTime').html( formatTime(data.beginTime) );
-		$('#applyment').html('限额30人 已报名'+data.applymentList.length+'人');
+		$('#applyment').html('限额30人 已报名'+(!!data.applymentList?data.applymentList.length:0)+'人');
 		renderApplymentList(data.applymentList);
 
 	}
@@ -210,10 +201,10 @@ define(["commJs"], function(comm) {
 	function renderApplymentList (data) {
 		var html = [];
 
-		data && data.length && $.each(data, function () {
+		!!data && data.length && $.each(data, function () {
 			html.push('<img src="'+this.avatar+'">');
 		});
-		if( data && data.length ){
+		if( !!data && data.length ){
 			html.push('<span class="absolute">'+data.length+'</span>');
 		}
 
@@ -280,10 +271,10 @@ define(["commJs"], function(comm) {
 		$('#mltsstar').html(html.join(''));
 
 		var html = [];
-		for (var i = 1*data.doctorSatisfyLevel; i > 0; i--) {
+		for (var i = 1*data.satisfyLevelToDoctor; i > 0; i--) {
 			html.push('<i class="icon icon-star"></i>');
 		}
-		for (var i = 5 - 1*data.doctorSatisfyLevel; i > 0; i--) {
+		for (var i = 5 - 1*data.satisfyLevelToDoctor; i > 0; i--) {
 			html.push('<i class="icon icon-star-empty"></i>');
 		}
 

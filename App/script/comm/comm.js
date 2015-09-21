@@ -106,7 +106,7 @@ define(['tmpl', 'jquery'], function(tmpl, $) {
         $.extend(config, {
             type: 'POST',
             dataType: 'json',
-            // beforeSend: setRequestHeader,
+            beforeSend: setRequestHeader,
             success: function(d) {
                 successFn(d, conf);
                 (!!$el) && $el.html(oldVal).data('requesting', false);
@@ -143,7 +143,7 @@ define(['tmpl', 'jquery'], function(tmpl, $) {
             if(typeof value != 'undefined')
                 newConf[key] = value;
         });
-        return $.ajax(newConf);
+        // return $.ajax(newConf);
     }
 
     //get请求封装
@@ -167,7 +167,7 @@ define(['tmpl', 'jquery'], function(tmpl, $) {
         $.extend(config, {
             type: 'GET',
             dataType: 'json',
-            // beforeSend: setRequestHeader,
+            beforeSend: setRequestHeader,
             success: function(d) {
                 hideLoading();
                 (!!$el) && $el.html(oldVal).data('requesting', false);
@@ -204,7 +204,7 @@ define(['tmpl', 'jquery'], function(tmpl, $) {
     }
 
     function getToken() {
-        return getLocalStorage(AUTHORIZATION, '');
+        return localStorage.getItem(AUTHORIZATION, '');
     }
 
     function setToken(token) {
@@ -782,6 +782,13 @@ define(['tmpl', 'jquery'], function(tmpl, $) {
         return isMob;
     }
 
+    function isWebKit () {
+        if (/jiayan/i.test(navigator.userAgent)) {
+            return true;
+        }else{
+            return false;
+        }
+    }
     var _navigationHelper = {
         // 返回按钮标题中的"< "
         _lessThan: '&lt;&nbsp;',
@@ -1190,6 +1197,8 @@ define(['tmpl', 'jquery'], function(tmpl, $) {
         showBottomNav: showBottomNav,
         hideBottomNav: hideBottomNav,
         toLocation: toLocation,
-        swipeDel:swipeDel
+        swipeDel:swipeDel,
+        setToken:setToken,
+        isWebKit:isWebKit
     };
 });
