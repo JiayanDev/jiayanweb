@@ -184,7 +184,7 @@ define(["commJs"], function (comm) {
         el.addClass('bounce').addClass('animated');
         setTimeout(function () {
             el.addClass('none');
-        }, 1000);
+        }, 300);
     }
 
     function validate(param) {
