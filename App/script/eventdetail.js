@@ -109,10 +109,18 @@ define(["commJs"], function(comm) {
 	}
 
 	function cacheData (data) {
+		var userInfo = {
+			'name':data.userName,
+			'nickname': data.userName,
+			'phone':data.userPhone,
+			'avatar':data.userAvatar
+		};
+
 		$.each(['id','hospitalName', 'doctorName', 'beginTime', 'categoryIds'], function (i, key) {
 			cacheEventData[key] = data[key]
 		});
-		cacheEventData['angelUserInfo'] = data['userInfo'];
+
+		cacheEventData['angelUserInfo'] = userInfo;
 		console.log(cacheEventData);
 	}
 
