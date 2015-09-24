@@ -57,7 +57,7 @@ h2{font-weight: normal;}
 /*reset end*/
 
 
-body{font-family: "Helvetica Neue",Helvetica,Arial,"Hiragino Sans GB","Hiragino Sans GB W3","WenQuanYi Micro Hei",sans-serif;font-size: 1em;line-height: 1.5;}
+body{font-family: "Helvetica Neue",Helvetica,Arial,"Hiragino Sans GB","Hiragino Sans GB W3","WenQuanYi Micro Hei",sans-serif;font-size: .9em;line-height: 1.3;}
 .relative{position: relative;}
 .absolute{position: absolute;}
 
@@ -101,8 +101,8 @@ body{font-family: "Helvetica Neue",Helvetica,Arial,"Hiragino Sans GB","Hiragino 
 
 /*icon*/
 .icon{
-    width: 21px;
-    height: 21px;
+    width: 16px;
+    height: 16px;
     display: inline-block;
     margin-bottom: -4px;
     background-size: cover;
@@ -115,6 +115,7 @@ body{font-family: "Helvetica Neue",Helvetica,Arial,"Hiragino Sans GB","Hiragino 
 .post-item-gallery ul{overflow: hidden;}
 .post-item-gallery li{
 	float:left;margin-right:7px;list-style-type:none;position:relative;width: 60px;height: 60px;
+  margin-bottom: 7px;
 }
 .post-item-gallery li img{
 	width: 100%;

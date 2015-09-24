@@ -79,6 +79,9 @@ define(["commJs"], function(comm) {
 		});
 	}
 
+	window.G_showAddPostButton = function  () {
+		$('#addPost').removeClass('none');
+	}
 
 
 	return {setup:init}

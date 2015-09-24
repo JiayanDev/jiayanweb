@@ -2,12 +2,13 @@
 .topic-panel {
     padding: 12px 10px;
     background-color: #FFF;
-	border-top: 1px solid #ddd;
-	border-bottom: 1px solid #ddd;
+	/*border-top: 1px solid #ddd;*/
+	/*border-bottom: 1px solid #ddd;*/
 }
 
 .topic-comment-panel{
 	margin-top: 12px;
+	border-bottom: none;
 }
 .date{right: 8px;top: 0;}
 .topic-img{margin: 9px 0;}
@@ -61,10 +62,10 @@
 .comment-reply-list .nickname{margin: 0 5px;}
 .event-comment-item {
     padding-bottom: 15px;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid #eee;
     margin-bottom: 9px;
 }
 .event-comment-item:last-child {
-    border-bottom: none;
+    /*border-bottom: none;*/
     padding-bottom: 0;
 }

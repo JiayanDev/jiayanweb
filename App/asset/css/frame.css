@@ -1,4 +1,4 @@
-.none{display: none;}
+.none{display: none !important;}
 
 .header{
 	position: fixed;
