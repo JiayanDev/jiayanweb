@@ -164,9 +164,6 @@ define(["commJs"], function (comm) {
             data: data,
             success: function (data) {
                 cb && cb();
-            },
-            error: function (msg) {
-                comm.utils.alertMsg(msg);
             }
         });
     }
@@ -224,7 +221,7 @@ define(["commJs"], function (comm) {
         el.addClass('bounce').addClass('animated');
         setTimeout(function () {
             el.addClass('none');
-        }, 1000);
+        }, 200);
     }
 
     function doSubmit(action, param, msg) {

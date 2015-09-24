@@ -137,9 +137,6 @@ define(["commJs"], function (comm) {
             data: data,
             success: function (data) {
                 cb && cb();
-            },
-            error: function (msg) {
-                comm.utils.alertMsg(msg);
             }
         });
     }

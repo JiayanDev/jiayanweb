@@ -146,6 +146,7 @@ define(["jquery", "commJs", 'widget/bootstrap-wysiwyg'], function (_, comm) {
                 resetForm();
                 $('#item-topic').show();
                 $('#item-posterImg').show();
+                $('#item-applymentLimit').show();
                 $('#item-status').show();
                 $("#panelTitle").html("编辑活动信息");
                 var id = $t.data('id');
@@ -173,6 +174,7 @@ define(["jquery", "commJs", 'widget/bootstrap-wysiwyg'], function (_, comm) {
                         $('#doctor').val(row.doctorName);
                         $('#beginTime').val(window.G_formatTime(row.beginTime));
                         $('#phone').val(row.phone);
+                        $('#applymentLimit').val(row.applymentLimit);
                         if (row.coverImg && row.coverImg != "undefined") appendImage($("#coverImg"), row.coverImg);
                         if (row.posterImg && row.posterImg != "undefined") appendImage($("#posterImg"), row.posterImg);
                         $('#bindTopicId').val(row.bindTopicId);
@@ -245,7 +247,7 @@ define(["jquery", "commJs", 'widget/bootstrap-wysiwyg'], function (_, comm) {
         setTimeout(function () {
             el.addClass('none');
             $('#description').height(100);
-        }, 1000);
+        }, 200);
     }
 
     function doSubmit(action, param, msg) {
@@ -271,10 +273,11 @@ define(["jquery", "commJs", 'widget/bootstrap-wysiwyg'], function (_, comm) {
         comm.io.get({
             url: comm.config.BASEPATH + 'event/list',
             data: data,
-            success: function (d) {
+            success: function (data) {
                 if (callback) {
-                    callback(d);
+                    callback(data);
                 } else {
+                    var d = $.isArray(data)? data: data['list'];
                     for (var key in d) {
                         var item = d[key];
                         var categoryIds = item.categoryIds;
@@ -287,7 +290,7 @@ define(["jquery", "commJs", 'widget/bootstrap-wysiwyg'], function (_, comm) {
                             item.categoryName = name;
                         }
                     }
-                    renderList(d);
+                    renderList(data);
                 }
             }
         });
@@ -328,7 +331,7 @@ define(["jquery", "commJs", 'widget/bootstrap-wysiwyg'], function (_, comm) {
         }
     };
 
-    var fields = ['userName', 'phoneNum', 'title', 'bindTopicId', 'status'];
+    var fields = ['userName', 'phoneNum', 'title', 'applymentLimit', 'bindTopicId', 'status'];
 
     function getParam() {
         var param = {};
@@ -392,6 +395,7 @@ define(["jquery", "commJs", 'widget/bootstrap-wysiwyg'], function (_, comm) {
         $('#doctor').removeAttr("data-id");
         $('#item-topic').hide();
         $('#item-posterImg').hide();
+        $('#item-applymentLimit').hide();
         $('#item-status').hide();
         $('#coverImg').html('');
         $('#posterImg').html('');

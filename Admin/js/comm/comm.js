@@ -146,6 +146,14 @@ define(["jquery", 'lib/tmpl'], function ($, tmpl) {
     //get请求封装
     function get(conf) {
         var config = {};
+        if (conf['url'].lastIndexOf('list') >= 0) {
+            var args = getUrlArgObject();
+            if (args['pageIndex']) {
+                var data = conf['data'];
+                if (!data) data = {};
+                data['pageIndex'] = args['pageIndex'];
+            }
+        }
         $.extend(config, conf);
         $.extend(config, {
             type: 'GET',
@@ -207,21 +215,23 @@ define(["jquery", 'lib/tmpl'], function ($, tmpl) {
         var tpl = config.tpl,
             html = [],
             isTableList = config.isTableList,
-            el,
-            data = config.data;
-
+            data = config.data,
+            list = data,
+            pageCount = 0,
+            el;
 
         var dataIsArr = $.isArray(data);
 
         if (!dataIsArr) {
-            data = [data];
+            list = data['list'];
+            pageCount = data['pageCount'];
         }
 
         if (isTableList) {
-            var h = tmpl(tpl, data);
+            var h = tmpl(tpl, list);
             html.push(h);
         } else {
-            $.each(data, function () {
+            $.each(list, function () {
                 var h = tmpl(tpl, this);
                 html.push(h);
             });
@@ -233,31 +243,44 @@ define(["jquery", 'lib/tmpl'], function ($, tmpl) {
             el = config.renderTo;
         }
         if (html.length > 0) {
-            el.html(html.join('') + getPagination(9, 20));
+            el.html(html.join('') + getPagination(pageCount));
         } else {
             // emptyTips(el);
         }
         return el;
     }
 
-    function getPagination(index, size) {
+    function getPagination(pageCount, pageIndex) {
+        if (!pageCount || pageCount <= 0) {
+            return '';
+        }
         var args = getUrlArgObject();
+        if (!pageIndex) {
+            pageIndex = args['pageIndex'];
+            if (pageIndex && typeof pageIndex == 'string') {
+                pageIndex = parseInt(pageIndex);
+            }
+            if (!pageIndex) {
+                pageIndex = 1;
+            }
+        }
         var path = window.location.pathname;
         var maxShowSize = 7;
         var halfShowSize = Math.floor(maxShowSize / 2);
-        var leftShowSize = Math.min(index - 1, halfShowSize);
-        var rightShowSize = Math.min(size - index, halfShowSize);
-        args['index'] = index - leftShowSize;
-        var arr = new Array('<div class="center">', '<ul class="pagination">', '<li><a href="' + (path + getUrlArgStr(args)) + '">&lt;&lt;</a></li>');
-        for (var i = index - leftShowSize; i < index + rightShowSize + 1; i++) {
-            args['index'] = i;
-            if (i == index) {
+        var leftShowSize = Math.min(pageIndex - 1, halfShowSize);
+        var rightShowSize = Math.min(pageCount - pageIndex, halfShowSize);
+        args['pageIndex'] = 1;
+        var arr = new Array('<div class="center">', '<ul class="pagination">', '<li><a href="' + (path + getUrlArgStr(args)) + '">首页</a></li>');
+        for (var i = pageIndex - leftShowSize; i < pageIndex + rightShowSize + 1; i++) {
+            args['pageIndex'] = i;
+            if (i == pageIndex) {
                 arr[i + 3] = '<li class="active"><a href="' + (path + getUrlArgStr(args)) + '">' + i + '</a></li>';
             } else {
                 arr[i + 3] = '<li><a href="' + (path + getUrlArgStr(args)) + '">' + i + '</a></li>';
             }
         }
-        arr[arr.length] = '<li><a href="' + (path + getUrlArgStr(args)) + '">&gt;&gt;</a></li>';
+        args['pageIndex'] = pageCount;
+        arr[arr.length] = '<li><a href="' + (path + getUrlArgStr(args)) + '">尾页</a></li>';
         arr[arr.length] = '</ul></div>';
         return arr.join('');
     }
