@@ -1,0 +1,121 @@
+.header-logo{display: block;width: 899px;margin: 10px auto;}
+.header-logo img{width: 110px;}
+.header-main-nav{background-color: #00b3d3;}
+.header-main-nav ul{overflow: auto;color:#FFF;width: 899px;margin: 0 auto;}
+.header-main-nav li{float: left;height: 2.5em;}
+.header-main-nav li a{
+    display: block;
+    color: #FFF;
+    padding: 0 20px;
+    line-height: 2.5;
+}
+.header-main-nav li a:hover{
+    background-color: #129EE0;
+}
+.header-main-nav li.active a{background-color: #129EE0;}
+
+
+.footer{
+	border-top: 1px solid #E8E9EB;
+    background-image: none;
+    padding-top: 0px;
+    text-align: center;
+    padding-top: 10px;
+}
+.footer .real-wrap {
+    width: 899px;
+    /*text-align: left;*/
+    margin: 0 auto;
+}
+.footer ul {
+    margin: 5px 0px 5px 10px;
+    /*background: transparent url(http://imgcache.qq.com/ac/www_tencent/public/styles/images/bg_footer_info.gif) no-repeat 5px 0;*/
+    padding-left: 26px;
+    min-height: 16px;
+    height: 16px;
+}
+.footer li {
+    display: inline;
+    border-right: 1px #C1D0D7 solid;
+    padding-right: 8px;
+    margin-right: 9px;
+    padding-bottom: 5px;
+    border-bottom: 1px dashed #C1D0D7;
+}
+.footer li.last{border-right: none;}
+.footer a, .footer a:link, .footer a:visited, .footer a:hover, .footer a:active {
+    color: #4691B9;
+    font-size: 12px;
+}
+a:visited {
+    color: #551a8b;
+}
+.footer p {
+    font-family: arial;
+    color: #A0B1BB;
+    font-size: 12px;
+    line-height: 24px;
+    /*width: 630px;*/
+    margin-bottom: 0px;
+    margin-left: 10px;
+    padding-left: 2px;
+    /*background: transparent url(http://imgcache.qq.com/ac/www_tencent/public/styles/images/line.gif) repeat-x top left;*/
+}
+
+/* http://meyerweb.com/eric/tools/css/reset/
+             v2.0 | 20110126
+   License: none (public domain)
+*/
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+main, menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, main, menu, nav, section {
+    display: block;
+}
+body {
+    line-height: 1;
+    color: #6C6A6B;
+  /*-webkit-font-smoothing:antialiased;*/
+}
+ol, ul {
+    list-style: none;
+}
+blockquote, q {
+    quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+    content: '';
+    content: none;
+}
+
+/* Don't kill focus outline for keyboard users: http://24ways.org/2009/dont-lose-your-focus */
+a:hover, a:active, a:visited {
+    outline: none;
+}
+a{color: #3a3a3a;}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+a{text-decoration: none;}
+h2{font-weight: normal;}
+/*reset end*/
