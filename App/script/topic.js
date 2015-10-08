@@ -95,7 +95,7 @@ define(["commJs"], function(comm) {
 
 	function render (data) {
 		
-		$('#topicContent').html(data.content);
+		$('#topicContent').html(data.content.replace(/\n/g, '<br />'));
 		$('#likeCount').html(data.likeCount)
 		$('#commentCount').html(data.commentCount)
 		$('#createon').html(window.G_formatTime(data.createTime))
