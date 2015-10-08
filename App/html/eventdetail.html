@@ -17,10 +17,10 @@
     <link type="text/css" rel="stylesheet" href="../asset/css/event.css" />
 </head>
 <style type="text/css">
-    div 
-    {
-         cursor: pointer;
-    }
+    /*div */
+    /*{*/
+         /*cursor: pointer;*/
+    /*}*/
     #eventIntroLink{display: block;}
 </style>
 <body>
@@ -32,7 +32,7 @@
             <div class="event-panel">
                 <!-- 头部 -->
                 <div class="event-header" id="headerPanel">
-                    <img src=""></img>
+                    <img src=""/>
                 </div>
 
                 <!-- 头像 -->
@@ -161,10 +161,10 @@
     <script type="text/tpl" id="tplForComment">
     <div class="event-comment-item">
         <div class="profile comment-profile relative">
-            <a><img src="{%= o.userAvatar %}"></a>
+            <a><img src="{%= o.avatar %}"></a>
             <div class="text">
                 <p class="nickname-gray">{%= o.userName||'用户' %}</p>
-                <span class="small-text gray-text-x2">{%= o.createTime %}</span>
+                <span class="small-text gray-text-x2">{%= window.G_formatTime(o.createTime) %}</span>
             </div>
             <span class="like-panel absolute">
                 <i class="icon icon-like {%= o.hasLike?'on':''%}"></i>

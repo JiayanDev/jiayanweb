@@ -446,6 +446,9 @@ define(['tmpl', 'jquery'], function(tmpl, $) {
     function fillString(tpl, data) {
         $.each(data, function(k, val) {
             var r = new RegExp('{' + k.toUpperCase() + '}', 'g');
+            if (val == null) {
+                val = '';
+            }
             tpl = tpl.replace(r, val);
         });
         return tpl;

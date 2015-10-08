@@ -93,6 +93,16 @@
             </thead>
             <tbody>
                 {%
+                    function trim(str) {
+                        var objString = str;
+                        var objLength = objString.length;
+                        var num = 30;
+                        if (objLength > num) {
+                            objString = objString.substring(0, num) + "...";
+                        }
+                        return objString;
+                    }
+
                     if( !!o && o.length > 0){
                     for(var i=0,len=o.length; i< len;i++){
                         var row = o[i];
@@ -101,7 +111,7 @@
                     <td>{%= row.id %}</td>
                     <td>{%= row.userName %}</td>
                     <td>{%= row.userId %}</td>
-                    <td style="width:20%">{%= row.content %}</td>
+                    <td style="width:20%">{%= trim(row.content) %}</td>
                     <td>
                     {%
                         row.photoes && $.each( row.photoes, function(i, url){

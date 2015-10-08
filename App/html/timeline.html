@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <!-- <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1"> -->
     <meta name="viewport" content="width=device-width, height=device-height,initial-scale=1, maximum-scale=1, user-scalable=no">
-    <title>个人主页</title>                             
+    <title>个人主页</title>
 
     <!-- Bootstrap -->
     <!-- <link rel="stylesheet" href="../asset/css/bootstrap.min.css"> -->
@@ -17,25 +17,29 @@
     <link type="text/css" rel="stylesheet" href="../asset/css/timeline.css" />
 </head>
 <style type="text/css">
-    div 
+    div
     {
          cursor: pointer;
     }
 </style>
 <body>
-    <div class="page">
+    <div class="page" style="height: 100%">
 
         <!-- 内容 -->
-        <div class="content">
+        <div class="content" style="height: 100%; background-color: #F6F6F6;">
 
             <!-- 头像 -->
             <!-- <div class="profile dairy-profile" id="profilePanel">
 
             </div> -->
-                
+
             <!-- timeline -->
             <div class="" id="timeline">
             </div>
+
+            <!--<div style="margin-top: 0; margin-bottom: 0; height: 10px; background-color: #F60000;">-->
+            <!--</div>-->
+
             <a id="addPost" class="add-post none">+</a>
         </div>
     </div>
@@ -57,7 +61,7 @@
         {%
             if(o.type != 'event'){
         %}
-            <a href="topic.html?id={%= o.id %}">
+            <a href="diary.html?id={%= o.id %}">
                 <div class="my-row-content-head">
                     <div class="topic-detail">
                         {%= o.content %}
@@ -125,7 +129,7 @@
 
     <script src="http://jiayanstatics.b0.upaiyun.com/app/script/lib/require.js"></script>
     <script type="text/javascript">
-    
+
     var BASE_URL = "http://jiayanstatics.b0.upaiyun.com/app/script";
 
     if( window.location.host.indexOf('apptest') > -1 ){
