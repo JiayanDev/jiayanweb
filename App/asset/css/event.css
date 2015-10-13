@@ -100,12 +100,12 @@
     border-bottom: 1px solid #eee;
     padding-bottom: 5px;
 }
-.event-comment-item{
+.event-applyment-item, .event-comment-item{
 	border-bottom: 1px solid #eee;
     padding-bottom: 9px;
     padding-top: 10px;
 }
-.event-comment-item:last-child{border-bottom: none;}
+.event-applyment-item:last-child, .event-comment-item:last-child{border-bottom: none;}
 .btn-panel{text-align: center;margin-top: 20px;}
 .enroll-panel{
     padding: 12px;
@@ -140,5 +140,6 @@
 	border-bottom: 2px solid #ff5a60;
 }
 
-.like-panel{right: 0;top: 15px;}
+.like-panel, .right-center{right: 0;top: 15px;}
 
+.create-time{color: #B9B9B7}

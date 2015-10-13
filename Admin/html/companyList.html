@@ -40,6 +40,37 @@
     </nav>
 </div>
 
+<div class="container container-bg bounce animated none" id="editPanel" style="min-height:150px;padding-top:20px;">
+    <button type="button" class="close _close" aria-label="Close"><span aria-hidden="true" class="_close">&times;</span></button>
+    <div class="page-header center">
+        <h3 id="panelTitle">编辑伴美</h3>
+    </div>
+
+    <div class="row article-row">
+        <div>
+            <form class="form-horizontal">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">用户名</label>
+                    <div class="col-sm-4 award-input-cnt">
+                        <input id='name' type="text" class="form-control input-sm" disabled="true" value="用户名">
+                    </div>
+
+                    <label class="col-sm-2 control-label">状态</label>
+                    <div class="col-sm-3">
+                        <select id='status' class="form-control">
+                            <option value="待评论" selected="selected">待评论</option>
+                        </select>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="row center">
+        <button class="btn btn-danger" id="_submit">保存</button>
+    </div>
+    <div id="formMsg" class="text-danger"></div>
+</div>
+
 <div class="container container-bg bounce animated" id="container">
     <div>
         <!-- 列表 -->
@@ -61,6 +92,7 @@
                         <th class="th-border">活动ID</th>
                         <th class="th-border">创建时间</th>
                         <th class="th-border">状态</th>
+                        <th class="th-border">更改状态</th>
                         <th class="th-border">操作</th>
                     </tr>
                     </thead>
@@ -88,6 +120,7 @@
                     <th class="th-border">活动ID</th>
                     <th class="th-border">创建时间</th>
                     <th class="th-border">状态</th>
+                    <th class="th-border">更改状态</th>
                     <th class="th-border">操作</th>
                 </tr>
             </thead>
@@ -113,13 +146,21 @@
                         {%
                             }else{
                         %}
-                            <a href="#" class="_verify" data-id="{%= row.id %}" data-status="审核通过">不通过</a> &nbsp;&nbsp;
+                            <a href="#" class="_verify" data-id="{%= row.id %}" data-status="审核通过">不通过</a>
                             <a href="#" class="_verify" data-id="{%= row.id %}" data-status="审核不通过">通过</a>
                         {%
                             }
                         %}
-                        &nbsp;&nbsp;
+                    </td>
+                    <td>
                     	<a href="#" class="_detail" data-id="{%= row.id %}">详情</a>
+                        {%
+                            if( row.status == "审核通过"){
+                        %}
+                        <a href="#" class="_edit" data-id="{%= row.id %}" data-row='{%= JSON.stringify(row) %}'>编辑</a>
+                        {%
+                            }
+                        %}
                     </td>
                 </tr>
                 {% }}else{ %}

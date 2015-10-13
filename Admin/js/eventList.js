@@ -179,7 +179,7 @@ define(["jquery", "commJs", 'widget/bootstrap-wysiwyg'], function (_, comm) {
                         if (row.posterImg && row.posterImg != "undefined") appendImage($("#posterImg"), row.posterImg);
                         $('#bindTopicId').val(row.bindTopicId);
 
-                        comm.status.edit(row.status);
+                        comm.status.edit(row.status, true);
 
                         resetDesc(row.desc);
                         var el = $('#editPanel');

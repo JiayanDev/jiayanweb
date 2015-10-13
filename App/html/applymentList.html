@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <!-- <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1"> -->
     <meta name="viewport" content="width=device-width, height=device-height,initial-scale=1, maximum-scale=1, user-scalable=no">
-    <title>活动介绍</title>
+    <title>报名列表</title>
 
     <!-- Bootstrap -->
     <!-- <link rel="stylesheet" href="../asset/css/bootstrap.min.css"> -->
@@ -19,33 +19,43 @@
 <style type="text/css">
     /*div */
     /*{*/
-         /*cursor: pointer;*/
+    /*cursor: pointer;*/
     /*}*/
-    body{background-color: #f6f6f6;}
     #eventIntroLink{display: block;}
+    html, body, div.page, div.content{height: 100%; padding-bottom: 0px;}
 </style>
 <body>
-    <div class="page">
-
-        <!-- 内容 -->
-        <div class="content">
-            <div class="event-panel" id="eventDescPanel">
-                <div class="event-desc-nav hd" id="eventDescNav">
-                </div>
-                
-                <div id="eventDescContent" class="bd">
-                    <div class="event-desc-content">
-                       
-                    </div>
-                </div>
+<div class="page">
+    <!-- 内容 -->
+    <div class="content">
+        <div class="event-panel none" id="applymentPanel" style="padding: 0px 12px;">
+            <div id="applymentList">
             </div>
         </div>
     </div>
-    <!-- page -->
+</div>
+<!-- page -->
 
-    <script src="http://jiayanstatics.b0.upaiyun.com/app/script/lib/require.js"></script>
-    <script type="text/javascript">
-    
+<!-- 模板 -->
+<script type="text/tpl" id="tplForApplyment">
+    <div class="event-applyment-item">
+        <div class="profile relative">
+            <a><img src="{%= o.avatar %}"></a>
+            <div class="text">
+                <p class="nickname-gray">{%= o.name||'用户' %}</p>
+                <span class="small-text gray-text-x2">{%= (o.gender=='1'?'女 ':'男 ') + o.province + o.city + ' ' + window.G_getAge(o.birthday) %}</span>
+            </div>
+            <span class="right-center absolute gray-text-x2">
+                {%= window.G_formatDate(o.createTime) %}
+            </span>
+        </div>
+    </div>
+</script>
+<!-- 各种模板 END -->
+
+<script src="http://jiayanstatics.b0.upaiyun.com/app/script/lib/require.js"></script>
+<script type="text/javascript">
+
     var BASE_URL = "http://jiayanstatics.b0.upaiyun.com/app/script";
 
     if( window.location.host.indexOf('apptest') > -1 ){
@@ -61,10 +71,10 @@
             "tmpl":"../script/lib/tmpl"
         }
     });
-    require(["eventIntro"], function(mod) {
+    require(["applymentList"], function(mod) {
         mod.setup();
     });
-    </script>
+</script>
 </body>
 
 </html>

@@ -17,10 +17,10 @@
     <link type="text/css" rel="stylesheet" href="../asset/css/topic.css" />
 </head>
 <style type="text/css">
-    div 
-    {
-         cursor: pointer;
-    }
+    /*div */
+    /*{*/
+         /*cursor: pointer;*/
+    /*}*/
 </style>
 <body>
     <div class="page">
@@ -96,7 +96,7 @@
                     var comment = o.comments[i];
             %}
                 <div class="comment-reply-item replyForPost" data-userid="{%= comment.userId %}" data-username="{%= comment.userName %}" data-id="{%= comment.id %}" id="replyPanel_{%= comment.id %}">
-                    <span class="nickname">{%= comment.userName %}</span>回复<span class="nickname">{%= comment.userName %}：</span>
+                    <span class="nickname">{%= comment.userName %}</span>回复<span class="nickname">{%= comment.toUserName %}：</span>
                     {%= comment.content %}
                 </div>
             {%

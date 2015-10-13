@@ -219,7 +219,7 @@ define(['tmpl', 'jquery'], function(tmpl, $) {
     function alert(msg, el, type) {
         // el = el || $('#msg_placeholder');
         el = el || $('body');
-        var html = '<div class="alert alert-uestc">' + msg + '</div>';
+        var html = '<div class="alert alert-uestc" style="width: 100%; position: fixed; background-color: aliceblue">' + msg + '</div>';
         var alertEl = $(html).prependTo(el);
         setTimeout(function() {
             alertEl.remove();
@@ -374,12 +374,13 @@ define(['tmpl', 'jquery'], function(tmpl, $) {
 
 
     function emptyTips(el, msg) {
-        msg = msg || '查询结果为空';
-        var tpl = ['<p style="margin:100px auto;width:70%;background-color:#DBD9D9;color:#736D6D;text-align:center;padding:15px 0;border-radius:4px;border:1px solid #ddd;">',
-            '<i class="fa fa-smile-o" style="font-size:38px;"></i>',
-            msg,
-        '</p>'].join('');
-        return el.html(tpl);
+        //msg = msg || '查询结果为空';
+        //var tpl = ['<p style="margin:100px auto;width:70%;background-color:#DBD9D9;color:#736D6D;text-align:center;padding:15px 0;border-radius:4px;border:1px solid #ddd;">',
+        //    '<i class="fa fa-smile-o" style="font-size:38px;"></i>',
+        //    msg,
+        //'</p>'].join('');
+        //return el.html(tpl);
+        return el.html('');
     }
 
     function loadingTips(el, msg) {
@@ -1092,16 +1093,56 @@ define(['tmpl', 'jquery'], function(tmpl, $) {
         $('.footer').addClass('none');
     }
 
-    window.G_formatTime = function(val){
-        var d = new Date( Math.floor( val * 1000 ) );
+    window.G_formatTime = function (val) {
+        var d = new Date(Math.floor(val * 1000));
+        return [
+                // d.getFullYear(),
+                getNumStr(d.getMonth() + 1),
+                getNumStr(d.getDate())
+            ].join('-') + ' ' + [
+                getNumStr(d.getHours()),
+                getNumStr(d.getMinutes())
+            ].join(':');
+    }
+
+    window.G_formatDate = function (val) {
+        var d = new Date(Math.floor(val * 1000));
         return [
             // d.getFullYear(),
-            d.getMonth()+1,
-            d.getDate()
-        ].join('-')+' '+[
-            d.getHours(),
-            d.getMinutes()
-        ].join(':');
+            getNumStr(d.getMonth() + 1),
+            getNumStr(d.getDate())
+        ].join('-');
+    }
+
+    window.G_getAge = function (birthday) {
+        if (!birthday) return '';
+        var age = -1;
+        var today = new Date();
+        var todayYear = today.getFullYear();
+        var todayMonth = today.getMonth() + 1;
+        var todayDay = today.getDate();
+
+        var birthday = new Date(birthday * 1000);
+        var birthdayYear = birthday.getFullYear();
+        var birthdayMonth = birthday.getMonth();
+        var birthdayDay = birthday.getDate();
+
+        if (todayMonth - birthdayMonth < 0) {
+            age = (todayYear - birthdayYear) - 1;
+        } else if (todayMonth - birthdayMonth == 0) {
+            if (todayDay - birthdayDay < 0) {
+                age = (todayYear - birthdayYear) - 1;
+            }
+        } else {
+            age = (todayYear - birthdayYear);
+        }
+
+        return age * 1 + '岁';
+    }
+
+    function getNumStr(val) {
+        if (val < 10) return '0' + val;
+        return val;
     }
 
     // call native
