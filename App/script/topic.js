@@ -1,5 +1,29 @@
-define(["commJs"], function(comm) {
+define(["commJs", "jquery"], function(comm, jQuery) {
+	(function ($) {
+		$.fn.innerText = function (msg) {
+			if (msg) {
+				if (document.body.innerText) {
+					for (var i in this) {
+						this[i].innerText = msg;
+					}
+				} else {
+					for (var i in this) {
+						this[i].innerHTML.replace(/\&lt;br\&gt;/gi, "\n").replace(/(&lt;([^&gt;]+)&gt;)/gi, "");
+					}
+				}
+				return this;
+			} else {
+				if (document.body.innerText) {
+					return this[0].innerText;
+				} else {
+					return this[0].innerHTML.replace(/\&lt;br\&gt;/gi, "\n").replace(/(&lt;([^&gt;]+)&gt;)/gi, "");
+				}
+			}
+		};
+	})(jQuery);
+
 	var cacheEventData = {};
+	var cacheUserData;
 
 	function init(){
 		var id = getId();
@@ -15,7 +39,7 @@ define(["commJs"], function(comm) {
 			return false;
 		}
 		bindEvent();
-		
+
 		var title = '话题详情';
 		title = window.location.href.indexOf('topic.html')>0?title: '日志详情';
 		comm.io.call({
@@ -40,6 +64,8 @@ define(["commJs"], function(comm) {
 					$('._nocomment').removeClass('none');
 				}
 				hideNativeLoading();
+
+				onGetShareInfo(data);
 			}
 		});
 	}
@@ -52,6 +78,33 @@ define(["commJs"], function(comm) {
 			},
 			success:function  (data) {
 				renderComment(data);
+			}
+		});
+	}
+
+	function onGetShareInfo(data) {
+		var title = '', content = '';
+		if (window.location.href.indexOf('topic.html') > 0) {
+			//var texts = $('#topicContent').innerText().split("\n");
+
+			//var texts = $('#topicContent').innerHTML.replace(/\&lt;br\&gt;/gi, "\n").replace(/(&lt;([^&gt;]+)&gt;)/gi, "");
+			//var texts = $('#topicContent').text().split("\n");
+			var texts = $('#topicContent')[0].innerText.split("\n");
+
+			if (texts.length > 0) if (texts[0].length > 20) title = texts[0].substring(0, 20); else title = texts[0];
+			if (texts.length > 1) if (texts[1].length > 20) content = texts[1].substring(0, 20); else content = texts[1];
+		} else {
+			title = data.userName + '的美丽日记' + window.G_formatDate(data.createTime);
+			if (data.content.length > 20) content = data.content.substring(20); else content = data.content;
+		}
+
+		comm.io.call({
+			action: "getShareInfo",
+			data: {
+				id: data.id,
+				title: title,
+				thumbnail: data.avatar,
+				content: content
 			}
 		});
 	}
@@ -73,17 +126,19 @@ define(["commJs"], function(comm) {
 		comm.io.call({
 			action:"getUserInfo",
 			success:"onGetUserInfo",
-			error:"onGetUserInfoError",
+			error:"onGetUserInfoError"
 		});
 	}
 
 	window.G_onGetUserInfo = function (data) {
 		if( !!data && data.code == 0 ){
+			cacheUserData = data.data;
 			var token = data.data.token;
 			comm.setToken(token);
 			loadData();
 			//alert('成功'+JSON.stringify(data));
 		}else{
+			//alert('no login');
 			comm.setToken('no login');
 			loadData();
 		}
@@ -91,10 +146,11 @@ define(["commJs"], function(comm) {
 
 	window.G_onGetUserInfoError = function  (data) {
 		alert(data);
+		comm.setToken('no login');
+		loadData();
 	}
 
 	function render (data) {
-		
 		$('#topicContent').html(data.content.replace(/\n/g, '<br />'));
 		$('#likeCount').html(data.likeCount)
 		$('#commentCount').html(data.commentCount)
@@ -109,19 +165,20 @@ define(["commJs"], function(comm) {
 			$.each( imgData, function  (i, photo) {
 				img.push('<img src="'+photo+'">');
 			});
-			
+
 			$('#topicImg').html(img.join(''));
 		}
 	}
 
 	function renderAuthor (data) {
-		var tpl = ['<a>',
-			'<img src="{AVATAR}">',
-		 '</a>',
-         '<div class="text">',
-                '<p class="nickname-gray">{USERNAME}</p>',
-                '<span class="small gray-text-x2">{GENDER} {PROVINCE}{CITY}</span>',
-        '</div>'].join('');
+        var tpl = ['<a>',
+            '<img src="{AVATAR}">',
+            '</a>',
+            '<div class="text">',
+            '<p class="nickname-gray">{USERNAME}' + comm.getRoleText(data.role) + '</p>',
+            '<span class="small gray-text-x2">{GENDER} {PROVINCE}{CITY}</span>',
+            '</div>']
+            .join('');
 
         data.gender = {1:'男', 0:'女'}[data.gender]||'';
         data.province = data.province||'';
@@ -204,6 +261,13 @@ define(["commJs"], function(comm) {
 		commentCountEl.html( ++commentCount );
 
 		if( data.subject == 'diary' || data.subject == 'topic' ){
+			if (cacheUserData) {
+				data['avatar'] = cacheUserData.avatar;
+				data['gender'] = cacheUserData.gender;
+				data['province'] = cacheUserData.province;
+				data['city'] = cacheUserData.city;
+			}
+
 			insertedEl = renderComment([data]);
 		}else{
 			insertedEl = appendOneReply( data );
@@ -326,12 +390,12 @@ define(["commJs"], function(comm) {
 	function getId () {
 		var hash = comm.hashMng();
 		var id = hash.id;
-		return id;	
+		return id;
 	}
 
 	function isDebug () {
 		var hash = comm.hashMng();
-		
+
 		return hash.debug==1;
 	}
 

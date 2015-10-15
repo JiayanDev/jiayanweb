@@ -739,6 +739,32 @@ define(["jquery", 'lib/tmpl'], function ($, tmpl) {
             ].join(':');
     }
 
+    window.G_getAge = function (birthday) {
+        if (!birthday) return '';
+        var age = -1;
+        var today = new Date();
+        var todayYear = today.getFullYear();
+        var todayMonth = today.getMonth() + 1;
+        var todayDay = today.getDate();
+        var birthday = new Date(birthday);
+
+        var birthdayYear = birthday.getFullYear();
+        var birthdayMonth = birthday.getMonth();
+        var birthdayDay = birthday.getDate();
+
+        if (todayMonth * 1 - birthdayMonth * 1 < 0) {
+            age = (todayYear * 1 - birthdayYear * 1) - 1;
+        } else {
+            if (todayDay - birthdayDay >= 0) {//alert(thisDay+'-'+brithd+"_ddd");
+                age = (todayYear * 1 - birthdayYear * 1);
+            } else {
+                age = (todayYear * 1 - birthdayYear * 1) - 1;
+            }
+        }
+
+        return age * 1;
+    }
+
     function isPhone(num) {
         var partten = /^1[3,5]\d{9}$/;
         return partten.test(num);
@@ -829,11 +855,12 @@ define(["jquery", 'lib/tmpl'], function ($, tmpl) {
     }
 
 
-    function editStatus(status) {
+    function editStatus(status, hasEnding) {
         $('#status').show();
         $('#status').empty();
         if ("发布" == status) {
             $('#status').append('<option value="审核不通过">审核不通过</option>');
+            if (hasEnding) $('#status').append('<option value="报名结束">报名结束</option>');
         } else if ("审核通过" == status) {
             $('#status').append('<option value="审核不通过">审核不通过</option>');
             $('#status').append('<option value="发布">发布</option>');

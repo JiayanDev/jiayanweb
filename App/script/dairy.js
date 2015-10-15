@@ -33,12 +33,27 @@ define(["commJs"], function(comm) {
 				daddy:8
 			},
 			success:function(data){
+				onGetShareInfo(data);
 				renderProfile(data);
 				renderHeader(data);
 				renderPost(data);
 				renderComment(data);
 				setNavigationBarTitle(data);
 				comm.utils.hideNativeLoading();
+			}
+		});
+	}
+
+	function onGetShareInfo(data) {
+		var content = '';
+		if (data.content.length > 20) content = data.content.substring(20); else content = data.content;
+		comm.io.call({
+			action: "getShareInfo",
+			data: {
+				id: getId(),
+				title: data.userName+'的美丽日记',
+				thumbnail: data.avatar,
+				content: content
 			}
 		});
 	}

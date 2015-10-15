@@ -46,7 +46,25 @@ define(["commJs"], function (comm) {
         $('body').click(function (evt) {
             var $t = $(evt.target);
 
-            if ($t.hasClass('_detail')) {
+            if ($t.hasClass('_edit')) {
+                openPanel("编辑伴美");
+
+                var id = $t.data('id');
+                var row_str = $t.attr('data-row');
+                var row = JSON.parse(row_str);
+
+                //$('#title').val(row.title);
+                //if (row.coverImg && row.coverImg != "undefined") appendImageList(row.coverImg);
+                //$('#desc').val(row.desc);
+                $('#name').val(row.name);
+                $('#status').val(row.status);
+
+                var el = $('#editPanel');
+                el.data("row", row_str);
+                el.data("id", id);
+
+                return false;
+            } else if ($t.hasClass('_detail')) {
                 comm.dialog({
                     onLoad: function (options) {
                         var id = $t.data('id');
@@ -121,12 +139,50 @@ define(["commJs"], function (comm) {
                 comm.showLoading($('#_list'));
             }
         });
+
+        $('.close').click(function (e) {
+            closePanel();
+            return false;
+        });
+
+        $('#_submit').click(function () {
+            var params = getParam();
+            var el = $('#editPanel');
+            var id = el.data('id');
+            params = $.extend(params, {id: id});
+            doSubmit("applyment/update", params, "更新成功");
+            return false;
+        });
+    }
+
+    var fields = ['status'];
+
+    function getParam() {
+        var param = {};
+        $.each(fields, function (idx, field) {
+            var val = $.trim($('#' + field).val());
+            if (val) {
+                param[field] = $.trim($('#' + field).val());
+            }
+        });
+        return param;
+    }
+
+    function doSubmit(action, param, msg) {
+        comm.io.post({
+            url: comm.config.BASEPATH + action,
+            data: param,
+            success: function () {
+                closePanel();
+                getList();
+                comm.showMsg(msg);
+            }
+        });
     }
 
     function tdContent(id, status, antiStuats) {
         var h = [
-            '<a href="#" class="_verify" data-id="' + id + '" data-status="审核' + status + '">' + antiStuats + '</a>',
-            '<a href="#" class="_detail" data-id="' + id + '">详情</a>'
+            '<a href="#" class="_verify" data-id="' + id + '" data-status="审核' + status + '">' + antiStuats + '</a>'
         ].join('&nbsp;&nbsp;');
 
         return h;
@@ -140,6 +196,24 @@ define(["commJs"], function (comm) {
                 cb && cb();
             }
         });
+    }
+
+    function openPanel(title) {
+        $("#status").get(0).selectedIndex = 0;
+        $("#panelTitle").html(title);
+        var el = $('#editPanel');
+        el.addClass('bounce').addClass('animated').removeClass('none');
+        setTimeout(function () {
+            el.removeClass('bounce').removeClass('animated')
+        }, 1000);
+    }
+
+    function closePanel() {
+        var el = $('#editPanel');
+        el.addClass('bounce').addClass('animated');
+        setTimeout(function () {
+            el.addClass('none');
+        }, 200);
     }
 
     return {
