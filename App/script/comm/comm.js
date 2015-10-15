@@ -1172,6 +1172,8 @@ define(['tmpl', 'jquery'], function(tmpl, $) {
         document.documentElement.appendChild(iframe);
         iframe.parentNode.removeChild(iframe);
         iframe = null;
+
+        //if (options['action']=='getShareInfo') window.alert(JSON.stringify(options));
     }
 
     function hideNativeLoading () {
@@ -1183,6 +1185,16 @@ define(['tmpl', 'jquery'], function(tmpl, $) {
         callNativeFun({
             action:"hideLoading"
         });
+    }
+
+    function getRoleText(role){
+        //role = 'official';
+        var roleText = '';
+
+        if (role == 'angel') roleText = '<span class="icon icon-role" style="background-image: url(../../asset/img/icon_role_angel.png);"/>';
+        else if (role == 'company') roleText = '<span class="icon icon-role" style="background-image: url(../../asset/img/icon_role_company.png);"/>';
+        else if (role == 'official') roleText = '<span class="icon icon-role" style="background-image: url(../../asset/img/icon_role_official.png);"/>';
+        return roleText;
     }
 
     return {
@@ -1243,6 +1255,7 @@ define(['tmpl', 'jquery'], function(tmpl, $) {
         toLocation: toLocation,
         swipeDel:swipeDel,
         setToken:setToken,
-        isWebKit:isWebKit
+        isWebKit:isWebKit,
+        getRoleText:getRoleText
     };
 });

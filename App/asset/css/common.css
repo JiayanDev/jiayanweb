@@ -107,7 +107,7 @@ body{font-family: "Helvetica Neue",Helvetica,Arial,"Hiragino Sans GB","Hiragino 
     margin-bottom: -4px;
     background-size: cover;
 }
-.icon2x{width: 34px;height: 34px;}
+.icon2x{width: 26px;height: 26px;}
 .icon-right{
 	background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABUAAAAVCAYAAACpF6WWAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyhpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNi1jMDY3IDc5LjE1Nzc0NywgMjAxNS8wMy8zMC0yMzo0MDo0MiAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIDIwMTUgKE1hY2ludG9zaCkiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6NTA2RDM4NkUzQTIxMTFFNThCNkE5QkFDNDg3Qjg5QjYiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6NTA2RDM4NkYzQTIxMTFFNThCNkE5QkFDNDg3Qjg5QjYiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo1MDZEMzg2QzNBMjExMUU1OEI2QTlCQUM0ODdCODlCNiIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo1MDZEMzg2RDNBMjExMUU1OEI2QTlCQUM0ODdCODlCNiIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PlZPDzkAAADFSURBVHjaYvz//z8DtQELNsFLly4RpVlPTw+rOBMDDQAhQ68CsTm1DS0E4rVArE1NQ3cBcREQbwVieYoiCg2sAmJBIN4NxNZA/JoahoLATKjBe4HYFog/UuJ9ZNABDQYQ5qKWoSBQBU0RK6lpKAhwAvEfaoQpDPQDsTQQe1PL0DogtgBidyD+QQ1Ds4E4HIgdCMU8sYZGA3EJNCm9pkbi9wPibiC2A+In1MqmLdAwvENxeYpcZJJT9DHSouQfkEKaLAAQYADHjiJYiH0MVAAAAABJRU5ErkJggg==);
 }
@@ -148,13 +148,13 @@ body{font-family: "Helvetica Neue",Helvetica,Arial,"Hiragino Sans GB","Hiragino 
   	border-radius: 0;
 }
 .btn-danger{background-color: #008AFF;color: #fff;}
-.btn.btn-primary{background-color: #ff5a60;color: #fff;}
+.btn.btn-primary{background-color: #ff5a60;color: #fff;height: 30px}
 .btn{
 	display: inline-block;
 	color: #ff5a60;
-    padding: 8px 15px;
+    padding: 6px 15px;
     margin-bottom: 0;
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 400;
     line-height: 1.42857143;
     text-align: center;
@@ -171,7 +171,7 @@ body{font-family: "Helvetica Neue",Helvetica,Arial,"Hiragino Sans GB","Hiragino 
     border: 1px solid #ff5a60;
     border-radius: 4px;
     background-color: transparent;
-    border: 1;
+    border: 1px;
 }
 
 /*input*/
@@ -182,4 +182,15 @@ body{font-family: "Helvetica Neue",Helvetica,Arial,"Hiragino Sans GB","Hiragino 
   	padding-left: 5px;
   	height: 30px;
 }
+
+.icon-role {
+	width: 42px;
+	height: 15px;
+	background-image: url(../img/icon_role_angel.png);
+	margin-bottom: -2px;
+	display: inline-block;
+	background-size: 100%;
+	margin-left: 5px;
+}
+
 

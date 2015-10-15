@@ -32,6 +32,8 @@ define(["commJs"], function (comm) {
 				render(data);
 				getUserTimeline(data);
 				comm.utils.hideNativeLoading();
+
+				onGetShareInfo(data);
 			},
 			error: function (msg) {
 				comm.utils.hideNativeLoading();
@@ -120,7 +122,6 @@ define(["commJs"], function (comm) {
 		};
 		cacheEventData['angelUserInfo'] = angelUserInfo;
 		console.log(cacheEventData);
-		onGetShareInfo(data);
 	}
 
 
@@ -128,6 +129,13 @@ define(["commJs"], function (comm) {
 		$('#applymentBtn').click(function () {
 			applyment();
 		});
+		$("#share-wechat-friends-btn").click(function () {
+			shareToWechatFriends();
+		});
+		$("#share-wechat-timeline-btn").click(function () {
+			shareToWechatTimeline();
+		});
+
 		//$('#applymentList').click(function () {
 		//	getApplymentList();
 		//});
@@ -143,6 +151,18 @@ define(["commJs"], function (comm) {
 		});
 	}
 
+	function shareToWechatFriends() {
+		comm.io.call({
+			action: "shareEventToWechatFriends"
+		});
+	}
+
+	function shareToWechatTimeline() {
+		comm.io.call({
+			action: "shareEventToWechatTimeline"
+		});
+	}
+
 	function getApplymentList() {
 		comm.io.call({
 			action: "getApplymentList",
@@ -153,13 +173,20 @@ define(["commJs"], function (comm) {
 	}
 
 	function onGetShareInfo(data) {
+		var content = '';
+		var contentCur = $('#event-desc-content-cur');
+		if (contentCur) {
+			var desc = contentCur.text();
+			if (desc.length > 20) content = desc.substring(0, 20); else content = desc.value;
+		}
+
 		comm.io.call({
 			action: "getShareInfo",
 			data: {
 				id: getId(),
-				title: '伴美活动',
+				title: data['title'],
 				thumbnail: data['coverImg'],
-				content: data['title']
+				content: content
 			}
 		});
 	}
@@ -271,7 +298,8 @@ define(["commJs"], function (comm) {
 			var cur = navHtml.length == 0 ? 'cur' : '';
 			navHtml.push('<span class="' + cur + '">' + this.key + '</span>');
 
-			contentHtml.push('<div class="event-desc-content">' + this.value + '</div>');
+			if (cur) contentHtml.push('<div id="event-desc-content-cur" class="event-desc-content">' + this.value + '</div>');
+			else contentHtml.push('<div class="event-desc-content">' + this.value + '</div>');
 		});
 
 		if (navHtml.length <= 0) {
@@ -320,6 +348,8 @@ define(["commJs"], function (comm) {
 
 	function renderStar(data) {
 		var html = [];
+		data.satisfyLevel = data.satisfyLevel ? Math.floor(data.satisfyLevel) : 0;
+		data.satisfyLevelToDoctor = data.satisfyLevelToDoctor ? Math.floor(data.satisfyLevelToDoctor) : 0;
 		for (var i = 1 * data.satisfyLevel; i > 0; i--) {
 			html.push('<i class="icon icon-star"></i>');
 		}

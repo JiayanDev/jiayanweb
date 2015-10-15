@@ -73,5 +73,7 @@ define(["commJs"], function (comm) {
 	//    return JSON.stringify(cacheData);
 	//};
 
+	window.G_getRoleText = comm.getRoleText;
+
 	return {setup: init}
 });

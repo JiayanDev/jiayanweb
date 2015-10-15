@@ -17,8 +17,8 @@ define(["commJs"], function(comm) {
 
 	function loadData (id) {
 		comm.io.get({
-			// url: comm.config.BASEPATH+"event/detail",  //s
-			url: "http://apptest.jiayantech.com/post/timeline",
+            url: comm.config.BASEPATH + "post/timeline",  //s
+			//url: "http://apptest.jiayantech.com/post/timeline",
 			data:{
 				id:id
 			},
@@ -26,7 +26,9 @@ define(["commJs"], function(comm) {
 				render(data);
 				hideNativeLoading();
 				showHeaderInfo(data);
-			}
+
+                onGetShareInfo(id, data);
+            }
 		});
 	}
 
@@ -44,6 +46,21 @@ define(["commJs"], function(comm) {
 			action: "addPost"
 		});
 	}
+
+    function onGetShareInfo(id, data) {
+        var content = '';
+        var timeline = data.timeline;
+        if (timeline.length > 0) if (timeline[0].content.length > 20) content = timeline[0].content.substring(0, 20); else content = timeline[0].content;
+        comm.io.call({
+            action: "getShareInfo",
+            data: {
+                id: id,
+                title: data.user.name + '的美丽历程',
+                thumbnail: data.user.avatar,
+                content: content
+            }
+        });
+    }
 
 	function render (data) {
 		//data.timeline = [data.timeline[0]];
@@ -70,12 +87,12 @@ define(["commJs"], function(comm) {
 	function getUserId () {
 		var hash = comm.hashMng();
 		var id = hash.id;
-		return id;	
+		return id;
 	}
 
 	function isDebug () {
 		var hash = comm.hashMng();
-		
+
 		return hash.debug==1;
 	}
 
