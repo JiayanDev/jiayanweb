@@ -75,7 +75,7 @@ body{font-family: "Helvetica Neue",Helvetica,Arial,"Hiragino Sans GB","Hiragino 
 .profile a{
     display: block;
     float: left;
-    margin-right: 15px;
+    margin-right: 6px;
 }
 .profile .nickname-gray{
 	color: #8a8a8a;

@@ -348,24 +348,25 @@ define(["commJs"], function (comm) {
 
 	function renderStar(data) {
 		var html = [];
-		data.satisfyLevel = data.satisfyLevel ? Math.floor(data.satisfyLevel) : 0;
-		data.satisfyLevelToDoctor = data.satisfyLevelToDoctor ? Math.floor(data.satisfyLevelToDoctor) : 0;
-		for (var i = 1 * data.satisfyLevel; i > 0; i--) {
-			html.push('<i class="icon icon-star"></i>');
+		var satisfyLevel = data.satisfyLevel ? Math.floor(data.satisfyLevel) : 0;
+		var satisfyLevelToDoctor = data.satisfyLevelToDoctor ? Math.floor(data.satisfyLevelToDoctor) : 0;
+		for (var i = 1 * satisfyLevel; i > 0; i--) {
+			html.push('<i class="icon icon-star icon-star-full"></i>');
 		}
-		for (var i = 5 - 1 * data.satisfyLevel; i > 0; i--) {
-			html.push('<i class="icon icon-star-empty"></i>');
+		for (var i = 5 - 1 * satisfyLevel; i > 0; i--) {
+			html.push('<i class="icon icon-star icon-star-empty"></i>');
 		}
+		html.push('<span class="num-satisfy-level">' + (data.satisfyLevel == null ? 0 : data.satisfyLevel) + '</span>');
 		$('#mltsstar').html(html.join(''));
 
 		var html = [];
-		for (var i = 1 * data.satisfyLevelToDoctor; i > 0; i--) {
-			html.push('<i class="icon icon-star"></i>');
+		for (var i = 1 * satisfyLevelToDoctor; i > 0; i--) {
+			html.push('<i class="icon icon-star icon-star-full"></i>');
 		}
-		for (var i = 5 - 1 * data.satisfyLevelToDoctor; i > 0; i--) {
-			html.push('<i class="icon icon-star-empty"></i>');
+		for (var i = 5 - 1 * satisfyLevelToDoctor; i > 0; i--) {
+			html.push('<i class="icon icon-star icon-star-empty"></i>');
 		}
-
+		html.push('<span class="num-satisfy-level">' + (data.satisfyLevelToDoctor == null ? 0 : data.satisfyLevelToDoctor) + '</span>');
 		$('#zzysstar').html(html.join(''));
 
 	}

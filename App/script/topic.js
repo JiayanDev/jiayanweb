@@ -171,14 +171,14 @@ define(["commJs", "jquery"], function(comm, jQuery) {
 	}
 
 	function renderAuthor (data) {
-        var tpl = ['<a>',
-            '<img src="{AVATAR}">',
-            '</a>',
-            '<div class="text">',
-            '<p class="nickname-gray">{USERNAME}' + comm.getRoleText(data.role) + '</p>',
-            '<span class="small gray-text-x2">{GENDER} {PROVINCE}{CITY}</span>',
-            '</div>']
-            .join('');
+		var tpl = ['<a ' + (data.role == 'angel' ? 'target="_blank" href=timeline.html?id=' + data.userId : '') + '>',
+			'<img src="{AVATAR}">',
+			'</a>',
+			'<div class="text">',
+			'<p class="nickname-gray">{USERNAME}' + comm.getRoleText(data.role) + '</p>',
+			'<span class="small gray-text-x2">{GENDER} {PROVINCE}{CITY}</span>',
+			'</div>']
+			.join('');
 
         data.gender = {1:'男', 0:'女'}[data.gender]||'';
         data.province = data.province||'';

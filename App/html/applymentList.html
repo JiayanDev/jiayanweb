@@ -40,7 +40,7 @@
 <script type="text/tpl" id="tplForApplyment">
     <div class="event-applyment-item">
         <div class="profile relative">
-            <a><img src="{%= o.avatar||'' %}"></a>
+            <a {%= G_getAngelLink(o.role, o.userId) %}><img src="{%= o.avatar||'' %}"></a>
             <div class="text">
                 <p class="nickname-gray">{%= o.name||'用户' %}{%= G_getRoleText(o.role) %}</p>
                 <span class="small-text gray-text-x2">{%= (o.gender=='1'?'女 ':'男 ') + (o.province||'') + (o.city||'') + ' ' + window.G_getAge(o.birthday) %}</span>
