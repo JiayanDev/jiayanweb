@@ -84,7 +84,20 @@ html,body{
     height: 50px;
     line-height: 50px;
     border-radius: 50%;
-    font-size: 45px;
+    font-size: 50px;
     color: #FFF;
+}
+
+.cent {
+    width: 50px;
+    height: 50px;
+    line-height: 50px;
+    font-size: 50px;
+    color: #FFF;
+    overflow: hidden;
+    border: 1px solid #FF0099;
+    text-align: center;
+    background-color: #ff5a60;
+    border-radius: 50%;
 }
 
