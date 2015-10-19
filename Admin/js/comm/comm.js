@@ -10,6 +10,8 @@ define(["jquery", 'lib/tmpl'], function ($, tmpl) {
     const CONFIG_VERSION = "configVersion";
     const PROJECT_CONFIG = "projectConfig";
 
+
+    window.G_ENV = window.location.host.indexOf('test') > 0 ? 'test' : 'release';
     var env = window.G_ENV == 'release' ? '' : 'test';
 
     const BASE_SERVER_PATH = 'http://admin' + env + '.jiayantech.com/';
@@ -773,7 +775,6 @@ define(["jquery", 'lib/tmpl'], function ($, tmpl) {
     function initWorkspace() {
         setupAdminNav();
         bindEvent();
-        window.G_ENV = window.location.host.indexOf('test') > 0 ? 'test' : 'release';
     }
 
 

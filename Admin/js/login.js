@@ -1,6 +1,7 @@
 define(["commJs"], function (comm) {
 
     function main() {
+        comm.setupWorkspace();
         bindEvent();
     }
 
