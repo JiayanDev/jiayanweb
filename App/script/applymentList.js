@@ -75,7 +75,7 @@ define(["commJs"], function (comm) {
 
 	window.G_getRoleText = comm.getRoleText;
 
-	window.G_getAngelLink = function(role, userId){
+	window.G_getAngelLink = function (role, userId) {
 		return (role == 'angel' ? 'target="_blank" href=timeline.html?id=' + userId : '');
 	};
 

@@ -42,7 +42,10 @@
         <div class="profile relative">
             <a {%= G_getAngelLink(o.role, o.userId) %}><img src="{%= o.avatar||'' %}"></a>
             <div class="text">
-                <p class="nickname-gray">{%= o.name||'用户' %}{%= G_getRoleText(o.role) %}</p>
+                <p class="nickname-gray">
+                    <a {%= G_getAngelLink(o.role, o.userId) %}>{%= o.name||'用户' %}</a>
+                    {%= G_getRoleText(o.role) %}
+                </p>
                 <span class="small-text gray-text-x2">{%= (o.gender=='1'?'女 ':'男 ') + (o.province||'') + (o.city||'') + ' ' + window.G_getAge(o.birthday) %}</span>
             </div>
             <span class="right-center absolute gray-text-x2">
@@ -58,7 +61,7 @@
 
     var BASE_URL = "http://jiayanstatics.b0.upaiyun.com/app/script";
 
-    if( window.location.host.indexOf('apptest') > -1 ){
+    if( window.location.host.indexOf('app') > -1 ){
         BASE_URL = "../script";
     }
 

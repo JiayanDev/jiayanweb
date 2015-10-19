@@ -62,7 +62,7 @@ define(["commJs"], function(comm) {
 		var tpl = [
                 '<a href="user.html?id={USERID}"><img src="{AVATAR}"></a>',
                 '<div class="text">',
-                    '<p class="nickname">{USERNAME}</p>',
+                    '<p class="nickname"><a href="user.html?id={USERID}">{USERNAME}</a></p>',
                     '<div class="small">',
                         '<span>{GENDER}</span>&nbsp;&nbsp;',
                         '<span>{CITY}</span>&nbsp;&nbsp;',
