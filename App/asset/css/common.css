@@ -149,6 +149,7 @@ body{font-family: "Helvetica Neue",Helvetica,Arial,"Hiragino Sans GB","Hiragino 
 }
 .btn-danger{background-color: #008AFF;color: #fff;}
 .btn.btn-primary{background-color: #ff5a60;color: #fff;height: 30px}
+.btn.btn-gray{background-color: transparent;color: #fff;border-color: #fff}
 .btn{
 	display: inline-block;
 	color: #ff5a60;
@@ -171,7 +172,7 @@ body{font-family: "Helvetica Neue",Helvetica,Arial,"Hiragino Sans GB","Hiragino 
     border: 1px solid #ff5a60;
     border-radius: 4px;
     background-color: transparent;
-    border: 1px;
+    /*border: 1px;*/
 }
 
 /*input*/
@@ -191,6 +192,60 @@ body{font-family: "Helvetica Neue",Helvetica,Arial,"Hiragino Sans GB","Hiragino 
 	display: inline-block;
 	background-size: 100%;
 	margin-left: 5px;
+}
+
+.bottom-info {
+	position: fixed;
+	padding: 0px;
+	bottom: 0px;
+	width: 100%;
+    height: 60px;
+    display: block;
+	background-color: black;
+	color: #FFF;
+}
+
+.left-img {
+    width: 48px;
+    height: 48px;
+	float: left;
+	margin-top: 6px;
+	margin-left: 12px;
+	border-radius: 10px;
+}
+
+.mid-content {
+	width: 100%;
+	font-size: 14px;
+    margin-left: 72px;
+	line-height: 24px;
+	color: #bdbdbd;
+}
+
+.mid-content-title {
+	font-size: 14px;
+	margin-top: 15px;
+}
+
+.mid-content-text {
+	font-size: 12px;
+}
+
+.right-content {
+	top: 0px;
+	right: 16px;
+}
+
+.right-download {
+	top: 16px;
+	right: 40px;
+}
+
+.right-img {
+	width: 14px;
+	height: 14px;
+	top: 18px;
+	right: 16px;
 }
 
 

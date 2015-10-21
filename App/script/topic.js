@@ -26,6 +26,7 @@ define(["commJs", "jquery"], function(comm, jQuery) {
 	var cacheUserData;
 
 	function init(){
+		comm.setupWorkspace();
 		var id = getId();
 		var isWebKit = comm.isWebKit();
 

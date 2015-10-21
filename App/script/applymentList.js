@@ -1,5 +1,6 @@
 define(["commJs"], function (comm) {
 	function init() {
+		comm.setupWorkspace();
 		var id = getId();
 		// hideNativeLoading();
 

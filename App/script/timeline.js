@@ -2,6 +2,7 @@ define(["commJs"], function(comm) {
 	var cacheEventData = {};
 
 	function init(){
+		comm.setupWorkspace();
 		loadTimeline();
 		bindEvent();
 	}
