@@ -7,7 +7,7 @@
 	padding: 17px 12px 14px 17px;
 }
 .event-panel:first-child{border-top: none;}
-.event-panel .title{margin-bottom: 12px;font-size: 1.1em;}
+.event-panel .title{margin-bottom: 12px;font-size: 1.0em;}
 .event-recomm-panel .title{margin-bottom: 9px;}
 .event-panel:first-child{padding: 0;}
 .event-recomm-panel{padding: 15px 0 0 0;}
@@ -31,6 +31,7 @@
     background-color: #C7C2C2;
     border-radius: 20px 0 0 20px;
     color: #FFF;
+    margin-top: 1px;
 }
 .profile .status.on{background-color: #ff5a60;}
 
@@ -172,4 +173,8 @@
 /*活动*/
 .event-header{
 	line-height: 0.0;
+}
+
+.comment-profile .icon-like{
+    display: none;
 }
