@@ -65,7 +65,9 @@ body{font-family: "Helvetica Neue",Helvetica,Arial,"Hiragino Sans GB","Hiragino 
 .small-text{font-size: .9em;line-height: .9;font-weight: normal !important;}
 .normal-text{color: #3a3a3a;}
 .gray-text-x1{color: #8a8a8a;}
-.gray-text-x2{color: #bdbdbd;}
+.gray-text-x2{
+    color: #bdbdbd;
+    font-size: 10px;}
 .highlight-text{color: #FF5A60;}
 .center{text-align: center;}
 
