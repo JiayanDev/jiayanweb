@@ -763,7 +763,7 @@ define(['tmpl', 'jquery'], function(tmpl, $) {
         var content = ['<div id="_download-panel" class="bottom-info">',
             '<img class="left-img" src="../asset/img/icon_logo.png"/>',
             '<div class="mid-content">',
-                '<p class="mid-content-title line-1x">佳妍APP</p>',
+                '<p class="line-1x mid-content-title">佳妍APP</p>',
                 '<span class="mid-content-text">抢优惠券更实惠</span>',
                 '<a href="index.html" class="btn btn-gray absolute right-download">下载APP</a>',
                 '<a id="_btn-close" class="absolute right-img"><img class="icon2x" src="../asset/img/icon_close.png"/></a>',

@@ -218,17 +218,17 @@ body{font-family: "Helvetica Neue",Helvetica,Arial,"Hiragino Sans GB","Hiragino 
 	width: 100%;
 	font-size: 14px;
     margin-left: 72px;
-	line-height: 24px;
+	line-height: 20px;
 	color: #bdbdbd;
 }
 
 .mid-content-title {
 	font-size: 14px;
-	margin-top: 15px;
+	margin-top: 8px;
 }
 
 .mid-content-text {
-	font-size: 12px;
+	font-size: 11px;
 }
 
 .right-content {

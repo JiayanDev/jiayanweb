@@ -64,19 +64,39 @@ define(["commJs"], function(comm) {
     }
 
 	function render (data) {
-		//data.timeline = [data.timeline[0]];
+		data.timeline = [data.timeline[0]];
 		comm.render({
 			tpl:'tplForTimeline',
 			data: data.timeline,
 			renderTo: $('#timeline')
 		});
 
-		$(".my-row:last").css("border-bottom", "0px");
+		resetHeight();
+
+		//$(".my-row:last").css("border-bottom", "0px");
 
 		comm.io.call({
 			action:"setNavigationBarTitle",
 			data: {"title":'个人主页'}
 		});
+	}
+
+	function resetHeight() {
+		var bodyHeight = $(window).height();
+		if (bodyHeight > 0) {
+			var timelineHeight = $("#timeline").height();
+			var offsetHeight = bodyHeight - timelineHeight;
+			if (offsetHeight > 0) {
+				var lastChild = $(".my-row:last div.my-row-content");
+				var paddingBottom = parseInt(lastChild.css('padding-bottom'));
+				lastChild.css("padding-bottom", offsetHeight < 10 ? 20 : paddingBottom + offsetHeight);
+			}
+			//alert(bodyHeight + ", " + timelineHeight);
+		} else {
+			setTimeout(function () {
+				resetHeight();
+			}, 10);
+		}
 	}
 
 	function hideNativeLoading () {

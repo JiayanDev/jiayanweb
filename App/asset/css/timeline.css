@@ -10,12 +10,15 @@ html, body {
     overflow: auto;
 }
 
+.my-row:last-child {
+    border-bottom: 0px solid #eee;
+}
+
 .my-row:fist-child .my-row-content {
     padding-top: 23px;
 }
 
 .my-row:last-child .my-row-content {
-    padding-bottom: 42px;
 }
 
 .my-row-profile {
