@@ -76,14 +76,15 @@ body{font-family: "Helvetica Neue",Helvetica,Arial,"Hiragino Sans GB","Hiragino 
     display: block;
     float: left;
     margin-right: 6px;
+    /*margin-top: -3px;*/
 }
 .profile .nickname-gray{
 	color: #8a8a8a;
 	line-height: 1;
 }
 .profile img{
-    width: 35px;
-    height: 35px;
+    width: 30px;
+    height: 30px;
     border-radius: 50%;
 }
 .profile .text{text-align: left;}
@@ -247,5 +248,4 @@ body{font-family: "Helvetica Neue",Helvetica,Arial,"Hiragino Sans GB","Hiragino 
 	top: 18px;
 	right: 16px;
 }
-
 

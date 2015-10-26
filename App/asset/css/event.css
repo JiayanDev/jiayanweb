@@ -4,7 +4,7 @@
 	background-color: #FFF;
 	/*border-top: 1px solid #d9d9d9;*/
 	/*border-bottom: 1px solid #d9d9d9;*/
-	padding: 15px 12px;
+	padding: 17px 12px 14px 17px;
 }
 .event-panel:first-child{border-top: none;}
 .event-panel .title{margin-bottom: 12px;font-size: 1.1em;}
@@ -12,7 +12,8 @@
 .event-panel:first-child{padding: 0;}
 .event-recomm-panel{padding: 15px 0 0 0;}
 .event-panel:first-child .profile{
-	padding-left: 15px;
+	padding-left: 12px;
+    height: 30px;
 }
 .event-header{
 	/*height: 258px;*/
@@ -94,13 +95,15 @@
 	height: 21px;
 }
 .go-detail{right: 12px;}
-.event-detail-panel{line-height: 2.0em;}
+.event-detail-panel{line-height: 2.0em;
+    padding-top: 9px;
+}
 .event-detail-panel .key{margin: 0 10px;}
 
-.applyment-list{margin: 15px 0 0; padding-right:45px;overflow: auto;}
+.applyment-list{margin: 9px 0 0; padding-right:45px;overflow: auto;}
 .applyment-list img,.applyment-list span{
-    width: 35px;
-    height: 35px;
+    width: 30px;
+    height: 30px;
     border-radius: 50%;
 }
 .applyment-list img{
@@ -111,7 +114,7 @@
 	display: inline-block;
 	background-color: #eee;
     text-align: center;
-    line-height: 35px;
+    line-height: 30px;
     top: 0;
     right: 0;
 }
@@ -149,13 +152,13 @@
 
 .event-desc-nav{box-sizing:border-box;}
 .event-desc-nav span{
-	padding: 9px 0 15px;
+	padding: 13px 0 11px 0;
 	text-align: center;
 	display: inline-block;
-	width: 32%;
+	width: 33.333333%;
 	box-sizing:border-box;
 }
-.event-desc-content{padding:15px 14px 10px;}
+.event-desc-content{padding:15px 14px 17px;}
 .event-desc-nav span.cur{
 	color: #ff5a60;
 	border-bottom: 2px solid #ff5a60;
@@ -164,3 +167,9 @@
 .like-panel, .right-center{right: 0;top: 15px;}
 
 .create-time{color: #B9B9B7}
+
+
+/*活动*/
+.event-header{
+	line-height: 0.0;
+}
