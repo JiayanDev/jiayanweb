@@ -220,6 +220,9 @@ define(["commJs"], function (comm) {
 				html = html.replace(/<img.*>/ig, "");
 				$('#eventTopic').html(html);
 				$('#event-topic').removeClass('none');
+			},
+			error:function(msg){
+				console.log(msg);
 			}
 		})
 	}
