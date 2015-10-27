@@ -109,6 +109,7 @@
                     <th class="th-border">内容</th>
                     <th class="th-border">图片</th>
                     <th class="th-border">创建时间</th>
+                    <th class="th-border">已删除</th>
                     <th class="th-border">状态</th>
                     <th class="th-border">操作</th>
                 </tr>
@@ -144,9 +145,10 @@
                     %}
                     </td>
                     <td>{%= window.G_formatTime(row.createTime) %}</td>
+                    <td>{%= (row.removed && row.removed == true)?'是':'否' %}</td>
                     <td name="verifyStatus">{%= row.verifyStatus %}</td>
                     <td>
-                        {% 
+                        {%
                             if( row.verifyStatus != "待审核"){
                         %}
                         <a href="#" class="_verify" data-id="{%= row.id %}" data-status="{%= row.verifyStatus %}">{%= {"不通过":"通过", "通过":"不通过"}[row.verifyStatus] %}</a>

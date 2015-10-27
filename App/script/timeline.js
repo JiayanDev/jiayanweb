@@ -64,7 +64,7 @@ define(["commJs"], function(comm) {
     }
 
 	function render (data) {
-		data.timeline = [data.timeline[0]];
+		//data.timeline = [data.timeline[0]];
 		comm.render({
 			tpl:'tplForTimeline',
 			data: data.timeline,
