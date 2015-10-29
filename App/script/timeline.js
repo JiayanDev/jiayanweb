@@ -118,10 +118,32 @@ define(["commJs"], function(comm) {
 	}
 
 	function showHeaderInfo (data) {
-		comm.io.call({
-			action:"showUserProfileHeader",
-			data: data.user
-		});
+		if (comm.isWebKit()) {
+			comm.io.call({
+				action: "showUserProfileHeader",
+				data: data.user
+			});
+		} else {
+			renderProfile(data.user);
+		}
+	}
+
+	function renderProfile (data) {
+		var tpl = [
+			'<div class="profile table-content center" id="author">',
+			'<img class="header-img" src="{AVATAR}"/>',
+			'<p class="normal-text" style="color: white">{NAME}</p>',
+			'<p class="normal-text small-text" style="color: white">{GENDER} {PROVINCE}{CITY}</p>',
+			'</div>']
+			.join('');
+
+		data.gender = {1:'男', 0:'女'}[data.gender]||'';
+		data.province = data.province||'';
+		data.city = data.city||'';
+
+		var html = comm.fillString( tpl, data);
+		$('#profilePanel').removeClass("none");
+		$('#profilePanel').html(html);
 	}
 
 	window.G_showAddPostButton = function  () {

@@ -38,6 +38,14 @@ html, body {
     border-radius: 50%;
 }
 
+.profileBg {
+    width: 100%;
+    height: 200px;
+    /*background-image: url(../img/aboutmtls.jpg);*/
+    background-color: #886DA0;
+    background-size: 100%;
+}
+
 .my-row-content-head {
     background-color: #FFF;
     padding: 13px;
@@ -118,21 +126,22 @@ html, body {
 }
 
 div.table-wrap {
-    position: fixed;
-    bottom: 17px;
-    height: 50px;
-    width: 50px;
     display: table;
     text-align: center;
-    left: 50%;
-    margin-left: -25px;
-    background-color: #ff5a60;
-    border-radius: 50%;
 }
 
 div.table-content {
-    vertical-align: middle;
     display: table-cell;
-    font-size: 50px;
-    line-height: 0px;
+    vertical-align: middle;
+    text-align: center;
+}
+
+.profile a.floatNone{
+    float: none;
+}
+
+.profile img.header-img{
+    width: 65px;
+    height: 65px;
+    border-radius: 50%;
 }

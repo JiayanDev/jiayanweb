@@ -61,6 +61,10 @@ body{font-family: "Helvetica Neue",Helvetica,Arial,"Hiragino Sans GB","Hiragino 
 .relative{position: relative;}
 .absolute{position: absolute;}
 
+.marginTop {
+	margin-top: 10px;
+}
+
 /*text*/
 .small-text{font-size: .9em;line-height: .9;font-weight: normal !important;}
 .normal-text{color: #3a3a3a;}
