@@ -765,7 +765,7 @@ define(['tmpl', 'jquery'], function(tmpl, $) {
             '<div class="mid-content">',
                 '<p class="line-1x mid-content-title">佳妍APP</p>',
                 '<span class="mid-content-text">抢优惠券更实惠</span>',
-                '<a href="index.html" class="btn btn-gray absolute right-download">下载APP</a>',
+                '<a target="_blank" href="http://apptest.jiayantech.com/appsite/index.html" class="btn btn-gray absolute right-download">下载APP</a>',
                 '<a id="_btn-close" class="absolute right-img"><img class="icon2x" src="../asset/img/icon_close.png"/></a>',
             '</div>',
             '</div>'].join('');

@@ -22,8 +22,7 @@ define(["commJs"], function(comm) {
 		comm.io.get({
 			url: comm.config.BASEPATH+"diary/detail",
 			data:{
-				headerId: id,
-				daddy:8
+				headerId: id
 			},
 			success:function(data){
 				renderProfile(data.header);

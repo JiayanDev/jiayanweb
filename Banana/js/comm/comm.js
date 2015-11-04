@@ -10,13 +10,14 @@ define(["jquery", 'lib/tmpl'], function ($, tmpl) {
     const CONFIG_VERSION = "configVersion";
     const PROJECT_CONFIG = "projectConfig";
 
+    const PROJECT = "banana";
 
     window.G_ENV = window.location.host.indexOf('test') > 0 ? 'test' : 'release';
     var env = window.G_ENV == 'release' ? '' : 'test';
 
-    const BASE_SERVER_PATH = 'http://admin' + env + '.jiayantech.com/';
-    const BASE_API_SERVER_PATH = BASE_SERVER_PATH + 'my_admin/';
-    const BASE_APP_SERVER_PATH = 'http://app' + env + '.jiayantech.com/';
+    const BASE_SERVER_PATH = 'http://' + PROJECT + env + '.jiayantech.com/';
+    const BASE_API_SERVER_PATH = BASE_SERVER_PATH;
+    //const BASE_APP_SERVER_PATH = 'http://app' + env + '.jiayantech.com/';
     const BASE_IMAGE_SERVER_SHOW_PATH = "http://jiayanimg.b0.upaiyun.com/";
 
     var $confirmEl = null,
@@ -25,26 +26,9 @@ define(["jquery", 'lib/tmpl'], function ($, tmpl) {
     function setupAdminNav() {
         require(['bootstrap'], function () {
             var nav = [
-                    {label: "管理员", url: "userList"},
-                    {label: "医院", url: "hospitalList"},
-                    {label: "医生", url: "doctorList"},
-                    {label: "日记", url: "diaryList"},
-                    {label: "话题", url: "topicList"},
-                    {label: "活动", url: "eventList"},
-                    {label: "伴美", url: "companyList"},
-                    {label: "反馈", url: "feedbackList"},
-                    {
-                        label: "运营",
-                        sub: [
-                            {
-                                url: 'homepageList',
-                                label: '首页展示'
-                            },
-                            {
-                                url: 'recommendTopicList',
-                                label: '推荐话题'
-                            }]
-                    }
+                    {label: "用户", url: "userList"},
+                    //{label: "商品", url: "goodsList"},
+                    {label: "订单", url: "orderList"}
                 ],
                 cur = getCur(nav),
                 html = [],
@@ -84,6 +68,19 @@ define(["jquery", 'lib/tmpl'], function ($, tmpl) {
             });
 
             $('#firNav').html(html.join(''));
+
+            $('#_info').click(function () {
+                confirm({
+                    el: $(this),
+                    content: "1、查询</br> 2、排序：点击表头项目进行排序</br> 3、添加</br> 4、编辑</br> 5、删除</br>",
+                    placement: "left",
+                    onYES: function(options){
+                        options.unload();
+                    }
+                });
+                return false;
+            });
+
         })
     }
 
@@ -150,11 +147,12 @@ define(["jquery", 'lib/tmpl'], function ($, tmpl) {
         var config = {};
         if (conf['url'].lastIndexOf('list') >= 0) {
             var args = getUrlArgObject();
-            if (args['pageIndex']) {
-                var data = conf['data'];
-                if (!data) data = {};
-                data['pageIndex'] = args['pageIndex'];
-            }
+            //if (args['pageIndex']) {
+            //    var data = conf['data'];
+            //    if (!data) data = {};
+            //    data['pageIndex'] = args['pageIndex'];
+            //}
+            $.extend(conf['data'], args);
         }
         $.extend(config, conf);
         $.extend(config, {
@@ -249,7 +247,50 @@ define(["jquery", 'lib/tmpl'], function ($, tmpl) {
         } else {
             // emptyTips(el);
         }
+        renderHeader();
         return el;
+    }
+
+    function renderHeader() {
+        var urlArgs = getUrlArgObject();
+        var orders = urlArgs['orders'];
+        if (!orders) {
+            orders = '[]';
+        }
+        orders = JSON.parse(orders);
+        //orders = orders.replace('[', '').replace(']', '');
+        //orders = orders ? orders.split(',') : [];
+
+        //var ascChar = "▲";
+        var descChar = " ▼";
+        for (var i = 0; i < orders.length; i++) {
+            var order = orders[i];
+            if (order) {
+                var $order = $("a[order=" + order + "]");
+                var text = $order.text() + descChar;
+                $order.text(text);
+            }
+        }
+
+        //$("a[order]").click(function () {
+        //    var order = $(this).attr('order');
+        //    comm.utils.replaceParam($.extend(getParam(), {order: order}));
+        //    return false;
+        //});
+
+        $("th a[order]").each(function () {
+            var order = $(this).attr('order');
+            var index = orders.indexOf(order);
+            if (index < 0) {
+                var newOrders = orders.concat(order);
+            } else {
+                var newOrders = orders.slice(0, index).concat(orders.length > index ? orders.slice(index + 1, orders.length) : []);
+            }
+            //urlArgs['orders'] = '[' + newOrders.join(',') + ']';
+            if (newOrders.length > 0) urlArgs['orders'] = JSON.stringify(newOrders);
+            else delete(urlArgs['orders']);
+            $(this).attr('href', getParamUrl(urlArgs));
+        });
     }
 
     function getPagination(pageCount, pageIndex) {
@@ -272,18 +313,18 @@ define(["jquery", 'lib/tmpl'], function ($, tmpl) {
         var leftShowSize = Math.min(pageIndex - 1, halfShowSize);
         var rightShowSize = Math.min(pageCount - pageIndex, halfShowSize);
         args['pageIndex'] = 1;
-        var arr = new Array('<div class="center">', '<ul class="pagination">', '<li><a href="' + (path + getUrlArgStr(args)) + '">首页</a></li>');
+        var arr = new Array("<div class='center'>", "<ul class='pagination'>", "<li><a href='" + (path + getUrlArgStr(args)) + "'>首页</a></li>");
         for (var i = pageIndex - leftShowSize; i < pageIndex + rightShowSize + 1; i++) {
             args['pageIndex'] = i;
             if (i == pageIndex) {
-                arr[i + 3] = '<li class="active"><a href="' + (path + getUrlArgStr(args)) + '">' + i + '</a></li>';
+                arr[i + 3] = "<li class='active'><a href='" + (path + getUrlArgStr(args)) + "'>" + i + "</a></li>";
             } else {
-                arr[i + 3] = '<li><a href="' + (path + getUrlArgStr(args)) + '">' + i + '</a></li>';
+                arr[i + 3] = "<li><a href='" + (path + getUrlArgStr(args)) + "'>" + i + "</a></li>";
             }
         }
         args['pageIndex'] = pageCount;
-        arr[arr.length] = '<li><a href="' + (path + getUrlArgStr(args)) + '">尾页</a></li>';
-        arr[arr.length] = '</ul></div>';
+        arr[arr.length] = "<li><a href='" + (path + getUrlArgStr(args)) + "'>尾页</a></li>";
+        arr[arr.length] = "</ul></div>";
         return arr.join('');
     }
 
@@ -307,7 +348,7 @@ define(["jquery", 'lib/tmpl'], function ($, tmpl) {
         var argsStr = '';
         if (args) {
             for (var key in args) {
-                var value = args[key];
+                var value = escape(args[key]);
                 argsStr += key + '=' + value + '&';
             }
             if (argsStr.length > 0) {
@@ -315,6 +356,17 @@ define(["jquery", 'lib/tmpl'], function ($, tmpl) {
             }
         }
         return argsStr;
+    }
+
+    function getParamUrl(param) {
+        var args = getUrlArgObject();
+        var path = window.location.pathname;
+        if (args['pageIndex']) param['pageIndex'] = args['pageIndex'];
+        return path + getUrlArgStr(param);
+    }
+
+    function replaceParam(param) {
+        window.location = getParamUrl(param);
     }
 
     function confirm(options) {
@@ -333,23 +385,19 @@ define(["jquery", 'lib/tmpl'], function ($, tmpl) {
             html: true,
             placement: options.placement || 'right'
         }).popover('show');
-        //if (options.toHide) options.el.hide();
-
-        function hide(){
-            options.el.popover('hide');
-            options.el.popover('destroy');
-            //if (options.toHide) options.el.show();
-            //setTimeout(function(){
-            //    if (options.toHide) options.el.show();
-            //},1000);
-        }
         $('._confirm_ok').click(function () {
             options.onYES && options.onYES({
-                unload: hide,
+                unload: function () {
+                    options.el.popover('hide');
+                    options.el.popover('destroy')
+                },
                 target: $(this)
             });
         });
-        $('._confirm_no').click(hide);
+        $('._confirm_no').click(function () {
+            options.el.popover('hide');
+            options.el.popover('destroy');
+        })
     }
 
     function getConfirmContent(content) {
@@ -537,9 +585,9 @@ define(["jquery", 'lib/tmpl'], function ($, tmpl) {
         var env = window.G_ENV == 'release' ? '' : 'test';
 
         get({
-            url: "http://admin" + env + ".jiayantech.com/my_admin/uploader/sign",
+            url: "http://" + PROJECT + env + ".jiayantech.com/uploader/sign",
             data: {
-                mod: options.mod || "adminupload"
+                mod: options.mod || (PROJECT + "upload")
             },
             success: function (data) {
                 cb(data);
@@ -595,9 +643,9 @@ define(["jquery", 'lib/tmpl'], function ($, tmpl) {
 
     function checkLogin(callback) {
         post({
-            url: BASE_API_SERVER_PATH + 'user/quick_login',
+            url: BASE_API_SERVER_PATH + 'admin/quick_login',
             data: {
-                configVersion: getConfigVersion()
+                //configVersion: getConfigVersion()
             },
             success: function (d, code) {
                 if (code == 0) {
@@ -612,6 +660,15 @@ define(["jquery", 'lib/tmpl'], function ($, tmpl) {
                 window.location.href = 'login.html';
             }
         })
+    }
+
+    function setupDateSel($selector, onChangeDate) {
+        comm.utils.datetimepicker({
+            el: $selector,
+            minView: 'hour',
+            format: 'yyyy - MM - dd hh:mm',
+            onChangeDate: onChangeDate
+        });
     }
 
     function datetimepicker(options) {
@@ -730,17 +787,30 @@ define(["jquery", 'lib/tmpl'], function ($, tmpl) {
         return map;
     }
 
-
     window.G_formatTime = function (val) {
         var d = new Date(Math.floor(val * 1000));
         return [
-                d.getFullYear(),
-                d.getMonth() + 1,
-                d.getDate()
+                getNumStr(d.getFullYear()),
+                getNumStr(d.getMonth() + 1),
+                getNumStr(d.getDate())
             ].join('-') + ' ' + [
-                d.getHours(),
-                d.getMinutes()
+                getNumStr(d.getHours()),
+                getNumStr(d.getMinutes())
             ].join(':');
+    };
+
+    window.G_formatDate = function (val) {
+        var d = new Date(Math.floor(val * 1000));
+        return [
+            getNumStr(d.getFullYear()),
+            getNumStr(d.getMonth() + 1),
+            getNumStr(d.getDate())
+        ].join('-');
+    }
+
+    function getNumStr(val) {
+        if (val < 10) return '0' + val;
+        return val;
     }
 
     window.G_getAge = function (birthday) {
@@ -767,7 +837,7 @@ define(["jquery", 'lib/tmpl'], function ($, tmpl) {
         }
 
         return age * 1;
-    }
+    };
 
     function isPhone(num) {
         var partten = /^1[3,5]\d{9}$/;
@@ -886,6 +956,269 @@ define(["jquery", 'lib/tmpl'], function ($, tmpl) {
         $('#status').empty();
     }
 
+    function showTdEdit($t) {
+        var id = $t.data('id');
+        var td = $t;
+        var oldText = td.text();
+
+
+        var odiv = td[0];
+        var left = odiv.getBoundingClientRect().left;
+        var top = odiv.getBoundingClientRect().top;
+
+        //alert(odiv.getBoundingClientRect().left);
+        //
+        //alert(odiv.getBoundingClientRect().top);
+
+        //var posStr = 'left:'+ odiv.getBoundingClientRect().left + ';top:'+ odiv.getBoundingClientRect().top;
+        //var input="<input style='position:absolute; "+posStr+"' type='text' value='"+oldText+"'/>";
+        ////var input = $(input);
+        ////input.css('left', odiv.getBoundingClientRect().left);
+        ////input.css('top', odiv.getBoundingClientRect().top);
+        //$('body').css('position', 'relative');
+        //$(input).appendTo($('body'));
+        ////$('body').appendChild($(input));
+
+        //var input="<input type='text' value='"+oldText+"'/>";
+        //comm.confirm({
+        //    el: $t,
+        //    content: input,
+        //    placement: "right",
+        //    toHide: false,
+        //    onYES: function (options) {
+        //        //var textareaEl = $(options.target).closest('.popover-content').find('textarea');
+        //        //var reason = textareaEl.val();
+        //        //
+        //        //verify({
+        //        //    postId: postId,
+        //        //    reason: reason,
+        //        //    status: '通过'
+        //        //}, function (argument) {
+        //        //    options.unload();
+        //        //    var td = $t.closest('td');
+        //        //    var verifyStatusTd = td.siblings("td[name='verifyStatus']");
+        //        //    verifyStatusTd.html("通过");
+        //        //    td.html(tdContent(postId, "通过", "不通过"));
+        //        //});
+        //    }
+        //});
+        ////td.hide();
+
+
+        //var td=$t;
+        //var oldText=td.text();
+        //var input=$("<input type='text' value='"+oldText+"'/>");
+        //
+        //td.popover({
+        //    title: '',
+        //    content: input,
+        //    html: true,
+        //    placement: 'right'
+        //}).popover('show');
+
+
+        //获得当前点击的对象
+        var td = $t;
+        //取出当前td的文本内容保存起来
+        var oldText = td.text();
+        //建立一个文本框，设置文本框的值为保存的值
+        var input = $("<input type='text' value='" + oldText + "'/>");
+        //将当前td对象内容设置为input
+        td.html(input);
+        //设置文本框的点击事件失效
+        input.click(function () {
+            return false;
+        });
+        //设置文本框的样式
+        input.css("border-width", "0");
+        input.css("font-size", "16px");
+        input.css("text-align", "left");
+        //input.css("position","absolute");
+        //input.css("left",left);
+        //input.css("top",top);
+        //设置文本框宽度等于td的宽度
+        //alert(td.width());
+        input.width(td.width());
+        //当文本框得到焦点时触发全选事件
+        input.trigger("focus").trigger("select");
+        //当文本框失去焦点时重新变为文本
+        input.blur(function () {
+            //var input_blur=$(this);
+            ////保存当前文本框的内容
+            //var newText=input_blur.val();
+            //td.html(newText);
+            td.html(oldText);
+        });
+        //响应键盘事件
+        input.keyup(function (event) {
+            // 获取键值
+            var keyEvent = event || window.event;
+            var key = keyEvent.keyCode;
+            //获得当前对象
+            var input_blur = $(this);
+            switch (key) {
+                case 13://按下回车键，保存当前文本框的内容
+                    var newText = input_blur.val();
+                    td.html(newText);
+                    break;
+
+                case 27://按下esc键，取消修改，把文本框变成文本
+                    td.html(oldText);
+                    break;
+            }
+        });
+    };
+
+    function showTdEditTime($t, cb) {
+        var id = $t.data('id');
+
+        //获得当前点击的对象
+        var td = $t;
+        //取出当前td的文本内容保存起来
+        var oldText = td.text();
+        //建立一个文本框，设置文本框的值为保存的值
+        var input = $("<input type='text' value='" + oldText + "'/>");
+
+
+        var inputStr = ['<div class="col-sm-4 input-group">',
+            '<input id="#editTimeSelector" type="text" class="form-control" placeholder="生日">',
+            '<div class="input-group-addon"><i class="fa fa-th"></i></div>',
+            '</div>'].join('');
+        td.html(inputStr);
+        var input = $('#editTimeSelector');
+        setupDateSel(input, function (ev) {
+            var val = ev.date.val;
+            input.attr('date-val', val);
+        });
+        //将当前td对象内容设置为input
+        //设置文本框的点击事件失效
+        input.click(function () {
+            return false;
+        });
+        //设置文本框的样式
+        input.css("border-width", "0");
+        input.css("font-size", "16px");
+        input.css("text-align", "left");
+        //input.css("position","absolute");
+        //input.css("left",left);
+        //input.css("top",top);
+        //设置文本框宽度等于td的宽度
+        //alert(td.width());
+        input.width(td.width());
+        //当文本框得到焦点时触发全选事件
+        input.trigger("focus").trigger("select");
+        //当文本框失去焦点时重新变为文本
+        input.blur(function () {
+            //var input_blur=$(this);
+            ////保存当前文本框的内容
+            //var newText=input_blur.val();
+            //td.html(newText);
+            td.html(oldText);
+        });
+        //响应键盘事件
+        input.keyup(function (event) {
+            // 获取键值
+            var keyEvent = event || window.event;
+            var key = keyEvent.keyCode;
+            //获得当前对象
+            var input_blur = $(this);
+            switch (key) {
+                case 13://按下回车键，保存当前文本框的内容
+                    //var newText = input_blur.val();
+                    //td.html(newText);
+                    var val = input_blur.attr('date-val');
+                    cb || cb(val);
+                    break;
+
+                case 27://按下esc键，取消修改，把文本框变成文本
+                    td.html(oldText);
+                    break;
+            }
+        });
+    };
+
+    var regionData;
+
+    function getArea() {
+        getJson(BASE_SERVER_PATH + 'statics/region.html', function (data) {
+            regionData = data;
+            $("#province").empty();
+            for (var key in data) {
+                var province = data[key];
+                $("#province").append("<option value='" + province.provName + "'>" + province.provName + "</option>");
+            }
+            $("#province").val(regionData[0].provName);
+            provinceChange();
+        });
+        // 切换省份
+        $("#province").change(function () {
+            provinceChange();
+        });
+        // 切换城市
+        $("#city").change(function () {
+            cityChange();
+        });
+    }
+
+    function provinceChange(cityName, regionName) {
+        if (!regionData) return;
+        $("#city").empty();
+        var index = $("#province").get(0).selectedIndex;
+        if (index=='undefined' || index < 0) {
+            $("#city").val('');
+            $("#district").val('');
+            return;
+        }
+        var cities = regionData[index].cities;
+        for (var key in cities) {
+            var city = cities[key];
+            if (key = 0) {
+                $("#city").append("<option selected='selected' value='" + city.cityName + "'>" + city.cityName + "</option>");
+            } else {
+                $("#city").append("<option value='" + city.cityName + "'>" + city.cityName + "</option>");
+            }
+        }
+        if (cityName) {
+            $('#city').val(cityName);
+        } else {
+            $('#city').val(cities[0].cityName);
+        }
+        cityChange(regionName);
+    }
+
+    function cityChange(regionName) {
+        if (!regionData) return;
+        $("#district").empty();
+        $("#district").hide();
+        var provinceIndex = $("#province").get(0).selectedIndex;
+        var index = $("#city").get(0).selectedIndex;
+        if (index=='undefined' || index < 0) {
+            $("#district").val('');
+            return;
+        }
+        var regions = regionData[provinceIndex].cities[index].regions;
+        if (regions.length > 0) {
+            $("#district").show();
+            for (var key in regions) {
+                var region = regions[key];
+                if (key = 0) {
+                    $("#district").append("<option selected='selected' value='" + region.regionName + "'>" + region.regionName + "</option>");
+                } else {
+                    $("#district").append("<option value='" + region.regionName + "'>" + region.regionName + "</option>");
+                }
+            }
+            if (regionName) {
+                $('#district').val(regionName);
+            } else {
+                $('#district').val(regions[0].regionName);
+            }
+        }
+        //else {
+        //    $("#district").hide();
+        //}
+    }
+
+
     return {
         constant: {
             HOSPITAL_ID: 1,
@@ -894,7 +1227,7 @@ define(["jquery", 'lib/tmpl'], function ($, tmpl) {
         config: {
             BASE_SERVER_PATH: BASE_SERVER_PATH,
             BASEPATH: BASE_API_SERVER_PATH,
-            BASE_APP_SERVER_PATH: BASE_APP_SERVER_PATH,
+            //BASE_APP_SERVER_PATH: BASE_APP_SERVER_PATH,
             BASE_IMAGE_PATH: BASE_IMAGE_SERVER_SHOW_PATH
         },
         io: {
@@ -905,7 +1238,15 @@ define(["jquery", 'lib/tmpl'], function ($, tmpl) {
         },
         utils: {
             setupFileLoader: setupFileLoader,
-            datetimepicker: datetimepicker
+            datetimepicker: datetimepicker,
+            showTdEdit: showTdEdit,
+            showTdEditTime: showTdEditTime,
+            getArea: getArea,
+            provinceChange: provinceChange,
+            getUrlArgObject: getUrlArgObject,
+            getUrlArgStr: getUrlArgStr,
+            getParamUrl: getParamUrl,
+            replaceParam: replaceParam
         },
         login: {
             getVersion: getConfigVersion,

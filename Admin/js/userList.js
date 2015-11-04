@@ -150,7 +150,6 @@ define(["commJs"], function (comm) {
         var id = $("#editPanel").data("id");
         var role = $('#edit-role').val();
         var data = {
-            //daddy: 8,
             id: id,
             role: role
         };

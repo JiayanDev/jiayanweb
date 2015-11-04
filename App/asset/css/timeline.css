@@ -14,7 +14,7 @@ html, body {
     border-bottom: 0px solid #eee;
 }
 
-.my-row:fist-child .my-row-content {
+.my-row:first-child .my-row-content {
     padding-top: 23px;
 }
 
@@ -41,9 +41,9 @@ html, body {
 .profileBg {
     width: 100%;
     height: 200px;
-    /*background-image: url(../img/aboutmtls.jpg);*/
-    background-color: #886DA0;
-    background-size: 100%;
+    background-image: url(../img/timeline-head-bg.jpg) ;
+    /*background-color: #886DA0;*/
+    background-size: cover;
 }
 
 .my-row-content-head {

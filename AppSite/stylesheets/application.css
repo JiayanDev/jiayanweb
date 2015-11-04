@@ -3649,13 +3649,15 @@ tbody.collapse.in {
   padding: 30px 0;
   margin-bottom: 0;
   color: white;
-  background: #2e2f41 url(../images/bg-1.png) 0 0 no-repeat;
+  /*background: #2e2f41 url(../images/bg-1.png) 0 0 no-repeat;*/
+  background: #2e2f41 0 0 no-repeat;
   background-size: cover;
   text-align: center;
 }
 .jumbotron h1,
 .jumbotron .h1 {
   color: white;
+  font-size: 34px;
 }
 .jumbotron p {
   margin-bottom: 15px;
@@ -3682,7 +3684,7 @@ tbody.collapse.in {
   }
   .jumbotron h1,
   .jumbotron .h1 {
-    font-size: 44px;
+    font-size: 40px;
   }
 }
 @media screen and (min-width: 768px) and (max-width: 320px) {
@@ -3695,7 +3697,7 @@ tbody.collapse.in {
   display: inline-block;
   margin-left: auto;
   margin-right: auto;
-  width: 250px;
+  width: 200px;
   height: auto;
   margin-top: 0px;
   margin-bottom: 15px;
@@ -3729,13 +3731,20 @@ tbody.collapse.in {
     height: auto;
   }
 }
-.jumbotron .btn-app-store {
+.btn-app-store {
   margin-top: 40px;
 }
-.jumbotron .btn-app-store .btn.btn-lg, .jumbotron .btn-app-store .btn-group-lg > .btn {
+.btn-app-store .btn.btn-lg, .btn-app-store .btn-group-lg > .btn {
   padding: 0;
 }
-.jumbotron .btn-app-store .btn img {
+
+.btn-app-store a.btn {
+  margin-left: 3px;
+  margin-right: 3px;
+  margin-top: 10px;
+}
+
+.btn-app-store .btn img {
   display: block;
   margin-left: auto;
   margin-right: auto;
@@ -6298,6 +6307,18 @@ tbody.collapse.in {
   width: 180px;
   height: 180px;
 }
+
+/*#section-1 {*/
+  /*background-color: #FCF6C0;*/
+/*}*/
+
+/*#section-2 {*/
+  /*background-color: #9acfea;*/
+/*}*/
+
+/*footer.footer-section {*/
+  /*background-color: #B9B9B7;*/
+/*}*/
 
 
 .footer{

@@ -1,0 +1,243 @@
+<!Doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>订单</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap -->
+    <!-- <link rel="stylesheet" href="http://cdn.bootcss.com/twitter-bootstrap/3.0.3/css/bootstrap.min.css"> -->
+    <link rel="stylesheet" href="../statics/css/bootstrap.min.css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="http://cdn.bootcss.com/html5shiv/3.7.0/html5shiv.min.js"></script>
+    <script src="http://cdn.bootcss.com/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+    <link href="../statics/css/font-awesome.min.css" rel="stylesheet">
+    <link href="../statics/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+    <link href="../statics/css/animate.min.css" rel="stylesheet">
+    <link href="../statics/css/admin.css" rel="stylesheet">
+</head>
+<style type="text/css"></style>
+<body>
+<div>
+    <nav class="navbar navbar-inverse navbar-lg" role="navigation"
+         style="padding: 0 180px;border-radius:0;background-color:#428BCA;min-height:10px;border-color:#428BCA;">
+        <!-- Navbar content -->
+        <div class="navbar-header" id="header">
+            <a class="navbar-brand" href="#" style="color:#fff;padding-top:15px;padding-bottom:15px;">Banana</a>
+        </div>
+        <div class="collapse navbar-collapse" style="background-color:#428BCA">
+            <ul class="nav navbar-nav" id="firNav">
+
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+        <span class="sellerInfo">
+            <a id="_info" class="info" href="#">!</a>
+            <span id="sellerName"></span>
+            <a href="#" id="logout"><i class=""></i>退出</a>
+        </span>
+    </nav>
+</div>
+
+<div class="container container-bg bounce animated none" id="editPanel" style="min-height:150px;">
+    <a class="btn btn-right close">&times;</a>
+
+    <div class="container-sm">
+        <div class="page-header">
+            <h4 id="panelTitle">添加</h4>
+        </div>
+        <form class="form-horizontal">
+            <div class="form-group">
+                <label class="col-sm-2 control-label">用户ID</label>
+
+                <div class="col-sm-4 award-input-cnt">
+                    <input id='userId' type="text" class="form-control input-sm _itemName" placeholder="用户ID">
+                </div>
+
+                <label name='not-search-item' class="col-sm-2 control-label">预约时间</label>
+
+                <div name='not-search-item' class="col-sm-4 input-group">
+                    <input id="orderTime" type="text" class="form-control input-sm _itemName" placeholder="预约时间">
+
+                    <div class="input-group-addon"><i class="fa fa-th"></i></div>
+                </div>
+            </div>
+            <div name='search-item' class="form-group">
+                <label class="col-sm-2 control-label">下单时间： 从</label>
+
+                <div class="col-sm-4 input-group award-input-cnt" style="float: left;">
+                    <input id="createTimeFrom" type="text" class="form-control input-sm _itemName" placeholder="下单时间始">
+
+                    <div class="input-group-addon"><i class="fa fa-th"></i></div>
+                </div>
+
+                <label class="col-sm-2 control-label">到</label>
+
+                <div class="col-sm-4 input-group award-input-cnt">
+                    <input id="createTimeTo" type="text" class="form-control input-sm _itemName" placeholder="下单时间终">
+
+                    <div class="input-group-addon"><i class="fa fa-th"></i></div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">有赞订单号</label>
+
+                <div class="col-sm-4 award-input-cnt">
+                    <input id='youZanNumber' type="text" class="form-control input-sm _itemName" placeholder="有赞订单号">
+                </div>
+                <label class="col-sm-2 control-label">医院订单号</label>
+
+                <div class="col-sm-4 award-input-cnt">
+                    <input id='hospitalNumber' type="text" class="form-control input-sm _itemName"
+                           placeholder="医院订单号">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">商品</label>
+
+                <div class="col-sm-4 award-input-cnt">
+                    <input id='content' type="text" class="form-control input-sm _itemName" placeholder="商品">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">单价</label>
+
+                <div class="col-sm-4 award-input-cnt">
+                    <input id='price' type="text" class="form-control input-sm _itemName" placeholder="单价">
+                </div>
+                <label class="col-sm-2 control-label">数量</label>
+
+                <div class="col-sm-4 award-input-cnt">
+                    <input id='count' type="text" class="form-control input-sm _itemName"
+                           placeholder="数量">
+                </div>
+            </div>
+        </form>
+        <div class="row right">
+            <button class="btn btn-danger" id="_submit">保存</button>
+        </div>
+        <div id="create-formMsg" class="text-danger"></div>
+    </div>
+</div>
+
+<div class="container container-bg bounce animated" id="listPanel">
+    <div>
+        <!-- 列表 -->
+        <div class="list-panel item-list-panel">
+            <!-- <button class="btn" id="addNt"><i class="icon-plus"></i>录入排队编号类型</button> -->
+            <div class="input-append" style="margin-bottom:19px;">
+                <button class="btn btn-sm" id="_search">查询</button>
+                <button class="btn btn-warning btn-sm btn-right" id="_add">添加</button>
+            </div>
+            <div id="_list">
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th class="th-border">编号</th>
+                        <th class="th-border">下单时间</th>
+                        <th class="th-border">预约时间</th>
+                        <th class="th-border">有赞单号</th>
+                        <th class="th-border">医院单号</th>
+                        <th class="th-border">用户ID</th>
+                        <th class="th-border">买家姓名</th>
+                        <th class="th-border">联系方式</th>
+                        <th class="th-border">商品</th>
+                        <th class="th-border">单价</th>
+                        <th class="th-border">数量</th>
+                        <th class="th-border">支付金额</th>
+                        <th class="th-border">订单状态</th>
+                        <th class="th-border">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td colspan="6" style="text-align:center;"><i class="fa fa-spinner fa-spin"></i>正在加载...</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!-- 排队类型管理结束 -->
+</div>
+</div>
+
+<script type="text/tpl" id="tplList">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th class="th-border">编号</th>
+                <th class="th-border">下单时间</th>
+                <th class="th-border"><a order='orderTime'>预约时间</a></th>
+                <th class="th-border"><a order='youZanNumber'>有赞单号</a></th>
+                <th class="th-border"><a order='hospitalNumber'>医院单号</a></th>
+                <th class="th-border"><a order='userId'>用户ID</a></th>
+                <th class="th-border">买家姓名</th>
+                <th class="th-border">联系方式</th>
+                <th class="th-border"><a order='content'>商品</a></th>
+                <th class="th-border"><a order='price'>单价</a></th>
+                <th class="th-border"><a order='count'>数量</a></th>
+                <th class="th-border"><a order='amount'>支付金额</a></th>
+                <th class="th-border"><a order='status'>订单状态</a></th>
+                <th class="th-border">操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            {%
+                if( !!o && o.length > 0){
+                for(var i=0,len=o.length; i< len;i++){
+                    var row = o[i];
+            %}
+            <tr>
+                <td>{%= row.id %}</td>
+                <td>{%= window.G_formatTime(row.createTime) %}</td>
+                <td>{%= window.G_formatTime(row.orderTime) %}</td>
+                <td>{%= row.youZanNumber %}</td>
+                <td>{%= row.hospitalNumber %}</td>
+                <td>{%= row.userId %}</td>
+                <td>{%= row.userName %}</td>
+                <td>{%= row.userPhone %}</td>
+                <td>{%= row.content %}</td>
+                <td>{%= row.price %}</td>
+                <td>{%= row.count %}</td>
+                <td>{%= row.amount %}</td>
+                <td>{%= row.status %}</td>
+                <td>
+                    <a href="#" class="_edit" data-id="{%= row.id %}" data-row='{%= JSON.stringify(row) %}'>编辑</a>
+                    <a href="#" class="_delete" data-id="{%= row.id %}">删除</a>
+                </td>
+            </tr>
+            {% }}else{ %}
+                <td colspan="7" style="text-align:center;">{%= typeof o.msg!= 'undefined'? o.msg:'列表为空了' %}</td>
+            {% } %}
+        </tbody>
+    </table>
+
+
+
+</script>
+
+<script src="../js/lib/md5.js"></script>
+<script src="../js/lib/require.js"></script>
+
+<script type="text/javascript">
+    require.config({
+        baseUrl: "../js",
+        paths: {
+            "jquery": "lib/jquery.min",   //@note 以JS结尾的会忽略baseUrl
+            "commJs": "comm/comm",
+            "bootstrap": "lib/bootstrap.min"
+        }
+    });
+    require(["orderList"], function (mod) {
+        mod.setup();
+    });
+</script>
+</body>
+</html>

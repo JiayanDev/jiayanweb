@@ -83,7 +83,7 @@ define(["commJs"], function (comm) {
         $('body').click(function (evt) {
             var $t = $(evt.target);
             if ($t.hasClass('_edit')) {
-                openPanel("编辑首页运营");
+                openPanel("编辑首页运营", true);
                 $('#item').hide();
 
                 var id = $t.data('id');
@@ -158,7 +158,12 @@ define(["commJs"], function (comm) {
         });
     }
 
-    function openPanel(title) {
+    function openPanel(title, showEditItem) {
+        if (showEditItem) {
+            $('[name=edit-show-item]').show();
+        } else {
+            $('[name=edit-show-item]').hide();
+        }
         resetForm();
         $("#panelTitle").html(title);
         var el = $('#editPanel');

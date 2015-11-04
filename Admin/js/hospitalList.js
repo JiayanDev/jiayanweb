@@ -109,15 +109,6 @@ define(["commJs"], function (comm) {
             }
             return false;
         });
-
-        // 切换省份
-        $("#province").change(function () {
-            provinceChange();
-        });
-        // 切换城市
-        $("#city").change(function () {
-            cityChange();
-        });
     }
 
     function getArea() {
@@ -130,6 +121,14 @@ define(["commJs"], function (comm) {
             }
             $("#province").val(regionData[0].provName);
             provinceChange();
+        });
+        // 切换省份
+        $("#province").change(function () {
+            provinceChange();
+        });
+        // 切换城市
+        $("#city").change(function () {
+            cityChange();
         });
     }
 

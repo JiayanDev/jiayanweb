@@ -1,4 +1,24 @@
 body,html{background-color: #f6f8f8;}
+
+
+@media (min-width: 1300px) {
+    .container {
+        width: 1270px;
+    }
+}
+
+@media (min-width: 1400px) {
+    .container {
+        width: 1370px;
+    }
+}
+
+/*@media (min-width: 1500px) {*/
+    /*.container {*/
+        /*width: 1470px;*/
+    /*}*/
+/*}*/
+
 .none{display: none;}
 .table>thead>tr>th.th-border{border-bottom:2px solid #333;}
 .input-bg{
@@ -103,6 +123,14 @@ body,html{background-color: #f6f8f8;}
 }
 .bounce { -webkit-animation-name: bounce; animation-name: bounce; -webkit-transform-origin: center bottom; -ms-transform-origin: center bottom; transform-origin: center bottom }
 
-._td_edit {
+._edit {
     cursor: pointer;
+}
+
+.info {
+    margin-right: 8px;
+    padding: 4px 12px;
+    font-size: 18px;
+    background-color: #265a88;
+    border-radius: 50%;
 }

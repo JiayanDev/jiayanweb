@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>登录</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap -->
+    <!-- <link rel="stylesheet" href="http://cdn.bootcss.com/twitter-bootstrap/3.0.3/css/bootstrap.min.css"> -->
+    <link rel="stylesheet" href="../statics/css/bootstrap.min.css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="http://cdn.bootcss.com/html5shiv/3.7.0/html5shiv.min.js"></script>
+    <script src="http://cdn.bootcss.com/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+    <link href="../statics/css/font-awesome.min.css" rel="stylesheet">
+    <style type="text/css">
+        @media screen and ( max-width: 568px ) {
+            .login-title {
+                display: none;
+            }
+        }
+
+        @media screen and (min-width: 668px ) {
+            .container {
+                padding-top: 105px;
+            }
+        }
+
+        .relative {
+            position: relative;
+        }
+
+        .absolute {
+            position: absolute;
+        }
+
+        .text-padding {
+            padding-left: 45px;
+        }
+
+        .icon-placeholder {
+            left: 5px;
+            top: 5px;
+            padding: 6px 0 6px 9px;
+            color: #eee;
+            font-size: 22px;
+        }
+
+        .input-bg {
+            background-color: #FFF;
+            text-align: center;
+        }
+
+        /*.login-panel{max-width: 415px;}*/
+        .login-panel {
+            max-width: 375px;
+        }
+
+        .login-title {
+            text-align: center;
+        }
+
+        .login-title h1 {
+            font-size: 2em;
+        }
+
+        .login-title p {
+            font-size: 16px;
+        }
+
+        .login-form-panel {
+            background-color: #F6F8F8;
+            /*padding: 40px 20px 25px;*/
+            padding: 50px 20px 25px;
+            border-radius: 4px;
+            box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+            -webkit-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+            -webkit-border-radius: 4px;
+        }
+
+        .login-btn {
+            margin-bottom: 30px;
+            background-color: #5A98DE;
+            border-color: #5A98DE;
+        }
+
+        .login-switch {
+            right: 5px;
+        }
+
+        span.help-block {
+            color: #dd4b39;
+        }
+
+        .none {
+            display: none;
+        }
+
+        /*.text-danger{border: 1px solid #F5B91F;}*/
+        /*.form-group input{border: 1px solid #B50000;}*/
+        span.help-block {
+            text-align: center;
+            font-size: 16px;
+        }
+
+        .login-title, .login-footer, .login-footer .login-switch {
+            color: #3b4453;
+        }
+
+        .login-switch a {
+            color: #3b4453;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .login-header {
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+
+        .icon-circle-arrow-right {
+            color: #5A98DE;
+        }
+
+        .hidden {
+            visibility: hidden;
+        }
+
+        /*弹出层*/
+        .alert-msg {
+            width: 30%;
+            position: fixed;
+            top: 40%;
+            left: 35%;
+            border-radius: 7px;
+            padding: 10px 7px;
+            font-size: 1.6em;
+            box-shadow: 5px 2px 6px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            z-index: 200;
+            background-color: #FCF6C0;
+        }
+
+        .fadein {
+            -webkit-animation: fadein 1s;
+        }
+
+        .fadeout {
+            -webkit-animation: fadeout 1s;
+        }
+
+        @-webkit-keyframes fadein {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @-webkit-keyframes fadeout {
+            from {
+                opacity: 1;
+            }
+            to {
+                opacity: 0;
+            }
+        }
+
+        .icon-ok {
+            color: #23D354;
+        }
+
+        .icon-remove {
+            color: #EE5959;
+        }
+    </style>
+</head>
+<body>
+<div class="container login-panel">
+
+    <!-- 切换操作 -->
+    <div class="login-header">
+        <div class="relative">
+          <span class="goReg" style="visibility:hidden;">
+            登&nbsp;录&nbsp;
+          </span>
+          <span class="goLogin" style="visibility:hidden;">
+            注&nbsp;册&nbsp;
+          </span>
+          <span class="absolute login-switch" id="switch">
+            <!-- <a class="goReg">注&nbsp;册&nbsp;<i class="icon-circle-arrow-right"></i></a> -->
+            <!-- <a id="goLogin"><span>重置密码</span><i class="icon-circle-arrow-right"></i></a> -->
+          </span>
+        </div>
+    </div>
+
+    <!-- 登录 -->
+    <div class="login-form-panel" id="loginForm">
+
+        <div role="form">
+            <div class="form-group relative">
+                <span class="absolute icon-placeholder"><i class="icon-envelope-alt"></i></span>
+                <input type="text" class="form-control text-padding input-lg input-bg" id="name" placeholder="登录名称">
+                <!-- <span class="help-block none text-danger" id="email_error"></span> -->
+            </div>
+            <div class="form-group relative">
+                <i class="icon-lock absolute icon-placeholder"></i>
+                <input type="password" class="form-control text-padding input-lg input-bg" id="password"
+                       placeholder="登录密码">
+                <!-- <span class="help-block none text-danger" id="password_error"></span> -->
+            </div>
+            <button type="button" class="btn btn-primary btn-lg btn-block login-btn" id="loginBtn">登&nbsp;&nbsp;录
+            </button>
+            <span class="help-block text-danger" id="loginMsg"></span>
+        </div>
+        <!-- 
+        <p class="login-footer">
+          <div class="checkbox relative">
+            <label>
+              <input type="checkbox"> 记住我
+            </label>
+          </div>
+        </p> -->
+    </div>
+
+    <!-- 重置密码 -->
+    <div class="login-form-panel none" id="resetForm">
+
+        <div role="form">
+            <div class="form-group relative">
+                <span class="absolute icon-placeholder"><i class="icon-envelope-alt"></i></span>
+                <input type="email" class="form-control text-padding input-lg input-bg" name="FName" placeholder="登录名称">
+                <!-- <span class="help-block none text-danger" id="email_error"></span> -->
+            </div>
+            <div class="form-group relative">
+                <i class="icon-lock absolute icon-placeholder"></i>
+                <input type="password" class="form-control text-padding input-lg input-bg" name="opsw"
+                       placeholder="旧的密码">
+                <!-- <span class="help-block none text-danger" id="password_error"></span> -->
+            </div>
+            <div class="form-group relative">
+                <i class="icon-lock absolute icon-placeholder"></i>
+                <input type="password" class="form-control text-padding input-lg input-bg" name="psw"
+                       placeholder="新的密码">
+                <!-- <span class="help-block none text-danger" id="password_error"></span> -->
+            </div>
+            <div class="form-group relative">
+                <i class="icon-lock absolute icon-placeholder"></i>
+                <input type="password" class="form-control text-padding input-lg input-bg" name="cpsw"
+                       placeholder="确认新密码">
+                <!-- <span class="help-block none text-danger" id="password_error"></span> -->
+            </div>
+            <button type="button" class="btn btn-primary btn-lg btn-block login-btn" id="resetBtn">重置密码</button>
+            <span class="help-block hidden text-danger" id="resetFName_Msg"></span>
+            <span class="help-block hidden text-danger" id="resetopsw_Msg"></span>
+            <span class="help-block hidden text-danger" id="resetpsw_Msg"></span>
+            <span class="help-block hidden text-danger" id="resetcpsw_Msg"></span>
+        </div>
+        <!-- 
+        <p class="login-footer">
+          <div class="checkbox relative">
+            <label>
+              <input type="checkbox"> 记住我
+            </label>
+          </div>
+        </p> -->
+    </div>
+
+</div>
+<script src="http://admin.jiayantech.com/js/lib/md5.js"></script>
+<script src="http://admin.jiayantech.com/js/lib/require.js"></script>
+
+<script type="text/javascript">
+    require.config({
+        baseUrl: "../js",
+        paths: {
+            "jquery": "lib/jquery.min",   //@note 以JS结尾的会忽略baseUrl
+            "commJs": "comm/comm",
+            "bootstrap": "lib/bootstrap.min"
+        }
+    });
+    require(["login"], function (mod) {
+        mod.main();
+    });
+</script>
+</body>
+</html>
