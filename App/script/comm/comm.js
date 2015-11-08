@@ -10,7 +10,7 @@ define(['tmpl', 'jquery'], function(tmpl, $) {
 
     var BASEPATH = 'http://app.jiayantech.com/';
     window.G_ENV='product';
-
+    window.G_default_img='../asset/img/img_header_def.png';
 
     if(window.location.host.indexOf('apptest')>-1){
        window.G_ENV = "test";

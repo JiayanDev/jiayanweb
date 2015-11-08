@@ -130,12 +130,14 @@ define(["jquery", "commJs", 'widget/bootstrap-wysiwyg'], function (_, comm) {
 
                 comm.dialog({
                     onLoad: function (options) {
-                        getList(id, function (d) {
-                            var el = renderDetail(d);
-                            options.content.append(el);
-
-                            // getQuest(id);
-                        });
+                        //getList(id, function (d) {
+                        //    var el = renderDetail(d);
+                        //    options.content.append(el);
+                        //
+                        //    // getQuest(id);
+                        //});
+                        var el = renderDetail(id);
+                        options.content.append(el);
                     },
                     title: "活动信息"
                 });
@@ -303,6 +305,12 @@ define(["jquery", "commJs", 'widget/bootstrap-wysiwyg'], function (_, comm) {
             renderTo: "#_list",
             isTableList: true
         });
+    }
+
+    function renderDetail(id) {
+        var url = comm.config.BASE_APP_SERVER_PATH + "html/eventdetail.html?id=" + id;
+        var el = $('<div style="border:2px solid #555;width:322px;height:568px;margin:0 auto;"><iframe style="width:318px;height:568px;border:none;" src="' + url + '"></div>');
+        return el;
     }
 
     function validate(param) {

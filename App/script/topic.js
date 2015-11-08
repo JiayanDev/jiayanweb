@@ -172,9 +172,10 @@ define(["commJs", "jquery"], function(comm, jQuery) {
 	}
 
 	function renderAuthor (data) {
+		if (data.avatar) data.avatar = window.G_default_img;
 		var aStr = '<a ' + (data.role == 'angel' ? 'target="_blank" href=timeline.html?id=' + data.userId : '') + '>';
 		var tpl = [aStr,
-			'<img src="{AVATAR}">',
+			'<img src="{AVATAR}" onerror="this.src=window.G_default_img">',
 			'</a>',
 			'<div class="text">',
 			'<p class="nickname-gray">',

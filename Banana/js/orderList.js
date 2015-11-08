@@ -44,7 +44,7 @@ define(["commJs"], function (comm) {
                 var row = JSON.parse(row_str);
 
                 $("#panelTitle").html("编辑订单信息    ID: " + id);
-                openPanel();
+                openPanel(2);
                 $('#_submit').text('编辑');
 
                 setForm(row, row_str);
@@ -59,7 +59,7 @@ define(["commJs"], function (comm) {
             args['pageIndex'] = '';
             args['orders'] = '';
             setForm(args);
-            openPanel(true);
+            openPanel(1);
             $('#_submit').text('查询');
             return false;
         });
@@ -150,7 +150,7 @@ define(["commJs"], function (comm) {
     }
 
     ////////////////////////////////////Form data
-    var fields = ['userId', 'youZanNumber', 'hospitalNumber', 'content', 'price', 'count'];
+    var fields = ['userId', 'youZanNumber', 'hospitalNumber', 'content', 'price', 'count', 'status'];
 
     function getParam() {
         var param = {};
@@ -208,12 +208,18 @@ define(["commJs"], function (comm) {
     }
 
     ////////////////////////////////////panel
-    function openPanel(showSearch) {
-        if (showSearch) {
-            $('[name=not-search-item]').hide();
-            $('[name=search-item]').show();
-        } else {
+    function openPanel(showFlag) {
+        if (!showFlag || showFlag==0) { //创建
             $('[name=not-search-item]').show();
+            $('[name=search-edit-item]').hide();
+            $('[name=search-item]').hide();
+        } else if (showFlag==1) { //查询
+            $('[name=not-search-item]').hide();
+            $('[name=search-edit-item]').show();
+            $('[name=search-item]').show();
+        }else if (showFlag==2) { //编辑
+            $('[name=not-search-item]').show();
+            $('[name=search-edit-item]').show();
             $('[name=search-item]').hide();
         }
         var el = $('#editPanel');

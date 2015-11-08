@@ -238,7 +238,7 @@ define(["commJs"], function (comm) {
 	function renderHeaderProfile(data) {
 		var on = data['status'] == '发布' ? 'on' : '';
 		data['showStatus'] = data['status'] == '发布' ? '招募中' : data['status'];
-		var tpl = ['<a href="#"><img src="{DOCTORAVATAR}"></a>',
+		var tpl = ['<a href="#"><img src="{DOCTORAVATAR}" onerror="this.src=window.G_default_img"></a>',
 			'<div class="relative text">',
 			'<span class="nickname">{DOCTORNAME}</span>',
 			'&nbsp;<span>{DOCTORTITLE}</span>',
@@ -281,7 +281,7 @@ define(["commJs"], function (comm) {
 
 		var i = 0;
 		!!data && data.length && $.each(data, function () {
-			html.push('<img src="' + this.userAvatar + '">');
+			html.push('<img src="' + this.userAvatar + '" onerror="this.src=window.G_default_img">');
 			if (++i >= 6) {
 				return false;
 			}

@@ -86,7 +86,7 @@
     <script type="text/tpl" id="tplComment">
     <div class="event-comment-item">
         <div class="profile comment-profile relative">
-            <a><img src="{%= o.avatar %}"></a>
+            <a><img src="{%= o.avatar %}" onerror="this.src=window.G_default_img"></a>
             <div class="text">
                 <p class="nickname line-1x">{%= o.userName %}</p>
                 <span class="small-text gray-text-x2">{%= {0:'女', 1:'男'}[o.gender]||'' %} {%= (o.province||'')+(o.city||'') %}</span>

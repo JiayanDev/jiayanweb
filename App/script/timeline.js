@@ -129,9 +129,10 @@ define(["commJs"], function(comm) {
 	}
 
 	function renderProfile (data) {
+		if (data.avatar) data.avatar = window.G_default_img;
 		var tpl = [
 			'<div class="profile table-content center" id="author">',
-			'<img class="header-img" src="{AVATAR}"/>',
+			'<img class="header-img" src="{AVATAR}" onerror="this.src=window.G_default_img"/>',
 			'<p class="normal-text" style="color: white">{NAME}</p>',
 			'<p class="normal-text small-text" style="color: white">{GENDER} {PROVINCE}{CITY}</p>',
 			'</div>']

@@ -42,7 +42,7 @@
     <script type="text/tpl" id="tplForComment">
     <div class="event-comment-item">
         <div class="profile comment-profile relative">
-            <a><img src="{%= o.userInfo.avatar %}"></a>
+            <a><img src="{%= o.userInfo.avatar %}" onerror="this.src=window.G_default_img"></a>
             <div class="text">
                 <p class="nickname-gray">{%= o.userInfo.name||o.userInfo.nickname||'用户' %}</p>
                 <span class="small-text gray-text-x2">{%= o.createTime %}</span>
