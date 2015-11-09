@@ -98,3 +98,18 @@ footer.small{
     text-align: center;
     padding:20px 0 0 0;
 }
+
+.index-section .cell{
+    width: 146px;
+    position: absolute;
+}
+
+.index-section .cell h2{
+    text-align: center;
+    font-size: 25px;
+}
+
+.index-section .cell p{
+    font-size: 15px;
+    line-height: 25px;
+}
