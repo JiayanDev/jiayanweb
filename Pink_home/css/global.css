@@ -40,7 +40,7 @@ table{border-collapse:collapse;border-spacing:0}
 td,th{padding:0}
 
 body{
-    font-family: Georgia, "Times New Roman",
+    font-family: "helvetica",
     "Microsoft YaHei", "微软雅黑",
     STXihei, "华文细黑",
     serif;
@@ -86,4 +86,15 @@ header a.jiaru{
     background: #FF8386;
     border-radius: 4px;
     color: white;
+}
+
+footer{
+    background: #FF8386;
+    color: white;
+}
+
+footer.small{
+    height: 100px;
+    text-align: center;
+    padding:20px 0 0 0;
 }
