@@ -39,3 +39,51 @@ optgroup{font-weight:bold}
 table{border-collapse:collapse;border-spacing:0}
 td,th{padding:0}
 
+body{
+    font-family: Georgia, "Times New Roman",
+    "Microsoft YaHei", "微软雅黑",
+    STXihei, "华文细黑",
+    serif;
+}
+
+.box{
+    width:1068px;
+    margin: 0 auto 0 auto;
+}
+
+header{
+    height: 102px;
+    background: url("../image/header.png") no-repeat;
+}
+
+header .navi{
+    position: absolute;
+    top:72px;
+    left:568px
+}
+
+header a{
+    display: block;
+    height: 30px;
+    width: 100px;
+    float: left;
+    color: #7E7E7E;
+    text-decoration:none;
+    text-align: center;
+    font-size: 16px;
+    line-height: 30px;
+}
+
+header a:hover,header a.now{
+    color:#FF8386;
+    border-bottom: #FF8386 solid 3px;
+    height: 27px;
+}
+
+header a.jiaru{
+    width: 80px;
+    margin-left: 20px;
+    background: #FF8386;
+    border-radius: 4px;
+    color: white;
+}
