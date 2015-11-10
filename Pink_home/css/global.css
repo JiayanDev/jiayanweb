@@ -51,6 +51,11 @@ body{
     margin: 0 auto 0 auto;
 }
 
+.bigbox{
+    width:100%;
+    margin: 0 auto 0 auto;
+}
+
 header{
     height: 102px;
     background: url("../image/header.png") no-repeat;
@@ -113,7 +118,9 @@ footer.big{
 
 .index-section .cell{
     width: 146px;
-    position: absolute;
+    /*position: absolute;*/
+    float:left;
+    margin-left: 65px;
 }
 
 .index-section .cell h2{
@@ -195,4 +202,20 @@ ul.left-nav a:hover, ul.left-nav a.now {
 
 .copyright-text {
     margin-top: 35px;
+}
+
+.cf:before,
+.cf:after {
+    content: ".";
+    display: block;
+    height: 0;
+    overflow: hidden;
+}
+.cf:after {clear: both;}
+.cf {zoom: 1;} /* IE < 8 */
+
+
+
+.slider li div img{
+    margin: 0 auto 0 auto;display: block
 }
