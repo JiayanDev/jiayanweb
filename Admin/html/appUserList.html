@@ -18,6 +18,35 @@
     <link href="../statics/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
     <link href="../statics/css/animate.min.css" rel="stylesheet">
     <link href="../statics/css/admin.css" rel="stylesheet">
+    <style type="text/css">
+    .gallery {
+        list-style-type: none;
+        margin-bottom: 10px;
+        overflow: auto;
+        padding-left: 0px;
+    }
+
+    .gallery li img {
+        height: 100px;
+    }
+
+    .gallery li {
+        float: left;
+        margin-right: 10px;
+        list-style-type: none;
+    }
+
+    .uploader-placeholder {
+        width: 50px;
+        height: 50px;
+        border: 1px dashed #333;
+    }
+
+    .uploader-placeholder i {
+        line-height: 50px;
+        font-size: 2em;
+    }
+</style>
 </head>
 <style type="text/css"></style>
 <body>
@@ -56,12 +85,31 @@
                 <div class="col-sm-4 award-input-cnt">
                     <input id='name' type="text" class="form-control input-sm _itemName" placeholder="名称">
                 </div>
-                <label class="col-sm-2 control-label">微信呢称</label>
+                <label class="col-sm-2 control-label">密码</label>
 
                 <div class="col-sm-4 award-input-cnt">
-                    <input id='wxNickName' type="text" class="form-control input-sm _itemName"
-                           placeholder="微信呢称">
+                    <input id='psw' type="text" class="form-control input-sm _itemName"
+                           placeholder="密码">
                 </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">头像</label>
+
+                <div class="col-sm-1">
+                    <div class="uploader-placeholder center">
+                        <i class="fa fa-plus"></i>
+                    </div>
+                    <input type="file" style="width:50px;height:50px;left:10px;"
+                           id="avatarImgThumberUploader" name="file" class="uploader"
+                           data-url="http://v0.api.upyun.com/jiayanimg/">
+
+                    <p class="loading none">
+                        <i class="fa fa-spin fa-spinner"></i>
+                    </p>
+
+                    <p class="fileMsg"></p>
+                </div>
+                <ul id="avatar" class="col-sm-2 gallery none"></ul>
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label">性别</label>
@@ -73,16 +121,16 @@
                     </select>
                 </div>
 
-                <label name='not-search-item' class="col-sm-2 control-label">生日</label>
+                <label class="col-sm-2 control-label">生日</label>
 
-                <div name='not-search-item' class="col-sm-4 input-group">
+                <div class="col-sm-4 input-group">
                     <input id="birthday" type="text" class="form-control input-sm _itemName" placeholder="生日">
 
                     <div class="input-group-addon"><i class="fa fa-th"></i></div>
                 </div>
-                <label name='search-item' class="col-sm-2 control-label none">生日年份</label>
+                <label class="col-sm-2 control-label none">生日年份</label>
 
-                <div name='search-item' class="col-sm-4 award-input-cnt none">
+                <div class="col-sm-4 award-input-cnt none">
                     <input id='birthYear' type="text" class="form-control input-sm _itemName"
                            placeholder="生日年份">
                 </div>
@@ -98,24 +146,24 @@
             <div class="form-group">
                 <label class="col-sm-2 control-label">省份</label>
 
-                <div class="col-sm-2">
+                <div class="col-sm-4">
                     <select id='province' class="form-control">
                     </select>
                 </div>
 
-                <label class="col-sm-1 control-label">城市</label>
+                <label class="col-sm-2 control-label">城市</label>
 
-                <div class="col-sm-3">
+                <div class="col-sm-4">
                     <select id='city' class="form-control">
                     </select>
                 </div>
 
-                <label class="col-sm-1 control-label">地区</label>
+                <!--<label class="col-sm-1 control-label">地区</label>-->
 
-                <div class="col-sm-3">
-                    <select id='district' class="form-control">
-                    </select>
-                </div>
+                <!--<div class="col-sm-3">-->
+                    <!--<select id='district' class="form-control">-->
+                    <!--</select>-->
+                <!--</div>-->
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label">职业</label>
@@ -125,10 +173,22 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-2 control-label">来源</label>
-
-                <div class="col-sm-4 award-input-cnt">
-                    <input id='source' type="text" class="form-control input-sm _itemName" placeholder="来源">
+                <label class="col-sm-2 control-label">角色</label>
+                <div class="col-sm-3">
+                    <select id='role' class="form-control">
+                        <option value="normal">normal</option>
+                        <option value="angel">angel</option>
+                        <option value="company">company</option>
+                    </select>
+                </div>
+            </div>
+            <div name="edit-item" class="form-group">
+                <label class="col-sm-2 control-label">是否删除</label>
+                <div class="col-sm-3">
+                    <select id='remove' class="form-control">
+                        <option value="1">是</option>
+                        <option value="0">否</option>
+                    </select>
                 </div>
             </div>
         </form>
@@ -154,14 +214,14 @@
                     <tr>
                         <th class="th-border">编号</th>
                         <th class="th-border">名称</th>
-                        <th class="th-border">昵称</th>
+                        <th class="th-border">头像</th>
+                        <th class="th-border">角色</th>
                         <th class="th-border">性别</th>
                         <th class="th-border">生日</th>
                         <th class="th-border">手机</th>
                         <th class="th-border">地区</th>
                         <th class="th-border">职业</th>
-                        <th class="th-border">消费总额</th>
-                        <th class="th-border">消费次数</th>
+                        <th class="th-border">是否删除</th>
                         <th class="th-border">创建时间</th>
                         <th class="th-border">操作</th>
                     </tr>
@@ -192,8 +252,7 @@
                 <th class="th-border">手机</th>
                 <th class="th-border">地区</th>
                 <th class="th-border">职业</th>
-                <th class="th-border">消费总额</th>
-                <th class="th-border">消费次数</th>
+                <th class="th-border">是否删除</th>
                 <th class="th-border">创建时间</th>
                 <th class="th-border">操作</th>
             </tr>
@@ -207,19 +266,19 @@
             <tr>
                 <td>{%= row.id %}</td>
                 <td>{%= row.name %}</td>
-                <th class="th-border">头像</th>
+                <td>
+                    <img src="{%= row.avatar || '' %}" style="width:30px;"/>
+                </td>
                 <td>{%= row.role %}</td>
                 <td>{%= {0:'女', 1:'男'}[row.gender]||'-' %}</td>
                 <td>{%= window.G_formatDate(row.birthday) %}</td>
                 <td>{%= row.phone %}</td>
                 <td>{%= row.province %}{%= row.city %}{%= row.district %}</td>
                 <td>{%= row.career %}</td>
-                <td>{%= row.consumeAmount %}</td>
-                <td>{%= row.consumeTimes %}</td>
+                <td>{%= (row.remove && row.remove == true)?'是':'否' %}</td>
                 <td>{%= window.G_formatTime(row.createTime) %}</td>
                 <td>
                     <a href="#" class="_edit" data-id="{%= row.id %}" data-row='{%= JSON.stringify(row) %}'>编辑</a>
-                    <a href="#" class="_delete" data-id="{%= row.id %}">删除</a>
                 </td>
             </tr>
             {% }}else{ %}

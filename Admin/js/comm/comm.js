@@ -951,6 +951,7 @@ define(["jquery", 'lib/tmpl'], function ($, tmpl) {
 
     function cityChange(regionName) {
         if (!regionData) return;
+        if (!$("#district")) return;
         $("#district").empty();
         $("#district").hide();
         var provinceIndex = $("#province").get(0).selectedIndex;
@@ -1001,7 +1002,8 @@ define(["jquery", 'lib/tmpl'], function ($, tmpl) {
         utils: {
             setupFileLoader: setupFileLoader,
             datetimepicker: datetimepicker,
-            getArea: getArea
+            getArea: getArea,
+            provinceChange: provinceChange
         },
         login: {
             getVersion: getConfigVersion,

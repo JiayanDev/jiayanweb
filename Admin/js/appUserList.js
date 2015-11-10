@@ -4,7 +4,8 @@
  * @todo  user admin manager
  */
 define(["commJs"], function (comm) {
-    var pickedDate;
+    var pickedDate,
+        avatar;
 
     function main() {
         comm.checkLogin(function () {
@@ -16,6 +17,7 @@ define(["commJs"], function (comm) {
         comm.setupWorkspace();
         bindEvent();
         setupDateSel();
+        setupImg();
         comm.utils.getArea();
         getList();
     }
@@ -44,24 +46,13 @@ define(["commJs"], function (comm) {
                 var row = JSON.parse(row_str);
 
                 $("#panelTitle").html("编辑用户信息    ID: " + id);
-                openPanel();
+                resetForm();
+                openPanel(true);
                 $('#_submit').text('编辑');
 
                 setForm(row, row_str);
                 return false;
             }
-        });
-
-        $('#_search').click(function () {
-            $("#panelTitle").html("查询用户信息");
-            resetForm();
-            var args = comm.utils.getUrlArgObject();
-            args['pageIndex'] = '';
-            args['orders'] = '';
-            setForm(args);
-            openPanel(true);
-            $('#_submit').text('查询');
-            return false;
         });
 
         $('#_add').click(function () {
@@ -112,6 +103,35 @@ define(["commJs"], function (comm) {
         });
     }
 
+    function setupImg() {
+        var $el = $('#avatarImgThumberUploader');
+        var $closest = $el.closest('.col-sm-1'),
+            $loadingEl = $closest.find('.loading'),
+            fileMsg = $closest.find('.fileMsg'),
+            gallery = $el.closest('.form-group').find('ul.gallery');
+
+        comm.utils.setupFileLoader({
+            el: $el,
+            beforeSubmit: function (e, data) {
+                fileMsg.html('');
+                $loadingEl.removeClass('none');
+            },
+            callback: function (resp) {
+                var imgUrl = (resp && resp.url) || null;
+                if (imgUrl) {
+                    imgUrl = comm.config.BASE_IMAGE_PATH + imgUrl;
+                    appendImage(gallery, imgUrl);
+                    $loadingEl.addClass('none');
+                } else {
+                    fileMsg.html('imgUrl==null');
+                }
+            },
+            error: function (resp) {
+                fileMsg.html((resp && resp.msg) || '文件上传失败');
+            }
+        });
+    }
+
     ////////////////////////////////////http
     function doSubmit(action, param, msg) {
         comm.io.post({
@@ -148,24 +168,43 @@ define(["commJs"], function (comm) {
         });
     }
 
+    function appendImage(imgEl, imgUrl) {
+        imgEl.removeClass("none");
+        imgEl.html('');
+        imgEl.append('<li><img src="' + imgUrl + '"' + 'style="vertical-align:middle;"></li>');
+        var id = imgEl.attr("id");
+        avatar = imgUrl;
+    }
+
+    function resetImage() {
+        $('#avatar').html('');
+        avatar = null;
+    }
+
     ////////////////////////////////////Form data
-    var fields = ['name', 'wxNickName', 'gender', 'phone', 'province', 'career', 'source', 'birthYear'];
+    var fields = ['name', 'gender', 'phone', 'province', 'city', 'career', 'role', 'remove'];
 
     function getParam() {
         var param = {};
-        $.each(fields.concat(['city', 'district']), function (idx, field) {
+        $.each(fields, function (idx, field) {
             var val = $.trim($('#' + field).val());
             if (val) param[field] = val;
         });
+        var psw = $.trim($('#psw').val());
+        if (psw) param['psw'] = md5(psw);
+
         if (pickedDate) param['birthday'] = pickedDate;
+        if (avatar) param['avatar'] = avatar;
+        //if (param['remove'] != null) param['remove'] = (param['remove'] == "true" ? true : false);
         return param;
     }
 
     function resetForm() {
-        $.each(fields.concat(['birthday', 'city', 'district']), function (idx, field) {
+        $.each(fields.concat(['birthday', 'psw']), function (idx, field) {
             $('#' + field).val('');
         });
         pickedDate = null;
+        resetImage();
         var el = $('#editPanel');
         el.data("row", "");
         el.data("id", "");
@@ -174,26 +213,26 @@ define(["commJs"], function (comm) {
     }
 
     function setForm(row, row_str) {
+        if (row['remove'] != null) row['remove'] = row['remove'] == true ? "1" : "0";
+        if (row['gender'] != null) row['gender'] = row['gender'] == 1 ? "1" : "0";
         $.each(fields, function (idx, field) {
             if ($('#' + field) && row[field]) $('#' + field).val(row[field]);
         });
         comm.utils.provinceChange(row['city'], row['district']);
         pickedDate = row['birthday'];
         if (pickedDate) $('#birthday').val(window.G_formatDate(pickedDate));
-
+        if (row.avatar) appendImage($("#avatar"), row.avatar);
         var el = $('#editPanel');
         if (row_str) el.data("row", row_str);
         if (row['id']) el.data("id", row['id']);
     }
 
     ////////////////////////////////////panel
-    function openPanel(showSearch) {
-        if (showSearch) {
-            $('[name=not-search-item]').hide();
-            $('[name=search-item]').show();
+    function openPanel(showEdit) {
+        if (showEdit) {
+            $('[name=edit-item]').show();
         } else {
-            $('[name=not-search-item]').show();
-            $('[name=search-item]').hide();
+            $('[name=edit-item]').hide();
         }
         var el = $('#editPanel');
         el.addClass('bounce').addClass('animated').removeClass('none');
