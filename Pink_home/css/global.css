@@ -1,0 +1,115 @@
+/*! normalize.css v3.0.3 | MIT License | github.com/necolas/normalize.css */html{font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}
+body{margin:0}
+article,aside,details,figcaption,figure,footer,header,hgroup,main,menu,nav,section,summary{display:block}
+audio,canvas,progress,video{display:inline-block;vertical-align:baseline}
+audio:not([controls]){display:none;height:0}
+[hidden],template{display:none}
+a{background-color:transparent}
+a:active,a:hover{outline:0}
+abbr[title]{border-bottom:1px dotted}
+b,strong{font-weight:bold}
+dfn{font-style:italic}
+h1{font-size:2em;margin:.67em 0}
+mark{background:#ff0;color:#000}
+small{font-size:80%}
+sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}
+sup{top:-0.5em}
+sub{bottom:-0.25em}
+img{border:0}
+svg:not(:root){overflow:hidden}
+figure{margin:1em 40px}
+hr{box-sizing:content-box;height:0}
+pre{overflow:auto}
+code,kbd,pre,samp{font-family:monospace,monospace;font-size:1em}
+button,input,optgroup,select,textarea{color:inherit;font:inherit;margin:0}
+button{overflow:visible}
+button,select{text-transform:none}
+button,html input[type="button"],input[type="reset"],input[type="submit"]{-webkit-appearance:button;cursor:pointer}
+button[disabled],html input[disabled]{cursor:default}
+button::-moz-focus-inner,input::-moz-focus-inner{border:0;padding:0}
+input{line-height:normal}
+input[type="checkbox"],input[type="radio"]{box-sizing:border-box;padding:0}
+input[type="number"]::-webkit-inner-spin-button,input[type="number"]::-webkit-outer-spin-button{height:auto}
+input[type="search"]{-webkit-appearance:textfield;box-sizing:content-box}
+input[type="search"]::-webkit-search-cancel-button,input[type="search"]::-webkit-search-decoration{-webkit-appearance:none}
+fieldset{border:1px solid silver;margin:0 2px;padding:.35em .625em .75em}
+legend{border:0;padding:0}
+textarea{overflow:auto}
+optgroup{font-weight:bold}
+table{border-collapse:collapse;border-spacing:0}
+td,th{padding:0}
+
+body{
+    font-family: "helvetica",
+    "Microsoft YaHei", "微软雅黑",
+    STXihei, "华文细黑",
+    serif;
+}
+
+.box{
+    width:1068px;
+    margin: 0 auto 0 auto;
+}
+
+header{
+    height: 102px;
+    background: url("../image/header.png") no-repeat;
+}
+
+header .navi{
+    position: absolute;
+    top:72px;
+    left:568px
+}
+
+header a{
+    display: block;
+    height: 30px;
+    width: 100px;
+    float: left;
+    color: #7E7E7E;
+    text-decoration:none;
+    text-align: center;
+    font-size: 16px;
+    line-height: 30px;
+}
+
+header a:hover,header a.now{
+    color:#FF8386;
+    border-bottom: #FF8386 solid 3px;
+    height: 27px;
+}
+
+header a.jiaru{
+    width: 80px;
+    margin-left: 20px;
+    background: #FF8386;
+    border-radius: 4px;
+    color: white;
+}
+
+footer{
+    background: #FF8386;
+    color: white;
+}
+
+footer.small{
+    height: 100px;
+    text-align: center;
+    padding:20px 0 0 0;
+}
+
+.index-section .cell{
+    width: 146px;
+    position: absolute;
+}
+
+.index-section .cell h2{
+    text-align: center;
+    font-size: 25px;
+}
+
+.index-section .cell p{
+    font-size: 15px;
+    line-height: 25px;
+}
