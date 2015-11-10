@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>佳妍科技</title>
     <link  rel="stylesheet" href="css/global.css" type="text/css">
+    <link  rel="stylesheet" href="js/jquery.bxslider.css" type="text/css">
 </head>
 <body>
 
@@ -18,7 +19,11 @@
 </header>
 
 <div style="height: 511px;" class="box slider">
-
+    <ul class="bxslider" id="sl" style="margin: 0">
+        <li><img src="image/index_banner1.png" /></li>
+        <li><img src="image/index_banner2.png" /></li>
+        <li><img src="image/index_banner3.png" /></li>
+    </ul>
 </div>
 
 <div class="box index-section" style="height: 400px;padding:50px 0 50px 0">
@@ -49,6 +54,21 @@
 <footer class="small box">
     <p>深圳市佳妍科技有限公司 版权所有   粤ICP备15035183号.</p>
 </footer>
-
+<script src="js/jquery-1.11.3.min.js"></script>
+<script src="js/jquery.bxslider.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('#sl').bxSlider({
+            controls:false,
+            "auto":true,
+            "pause":5000
+        });
+    });
+</script>
+<style>
+    .bx-controls{
+        margin-top: -40px;
+    }
+</style>
 </body>
 </html>
