@@ -36,7 +36,7 @@ define(["commJs"], function (comm) {
     }
 
     function renderDetail(id) {
-        var url = comm.config.BASE_APP_SERVER_PATH + "html/diary.html?id=" + id;
+        var url = comm.config.BASE_APP_SERVER_PATH + "app/html/dairy.html?id=" + id;
         var el = $('<div style="border:2px solid #555;width:322px;height:568px;margin:0 auto;"><iframe style="width:318px;height:568px;border:none;" src="' + url + '"></div>');
         return el;
     }

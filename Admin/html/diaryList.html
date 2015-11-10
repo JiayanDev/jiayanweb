@@ -18,7 +18,35 @@
     <link href="../statics/css/animate.min.css" rel="stylesheet">
     <link href="../statics/css/admin.css" rel="stylesheet">
 </head>
-<style type="text/css"></style>
+<style type="text/css">
+    .gallery {
+        list-style-type: none;
+        margin-bottom: 10px;
+        overflow: auto;
+        padding-left: 0px;
+    }
+
+    .gallery li img {
+        height: 100px;
+    }
+
+    .gallery li {
+        float: left;
+        margin-right: 10px;
+        list-style-type: none;
+    }
+
+    .uploader-placeholder {
+        width: 50px;
+        height: 50px;
+        border: 1px dashed #333;
+    }
+
+    .uploader-placeholder i {
+        line-height: 50px;
+        font-size: 2em;
+    }
+</style>
 <body>
 <div>
     <nav class="navbar navbar-inverse navbar-lg" role="navigation"
@@ -40,6 +68,56 @@
     </nav>
 </div>
 
+<div class="container container-bg bounce animated none" id="editPanel" style="min-height:150px;">
+    <a class="btn btn-right close">&times;</a>
+
+    <div class="container-sm">
+        <div class="page-header">
+            <h4 id="panelTitle">添加日记</h4>
+        </div>
+        <form class="form-horizontal">
+            <div class="form-group">
+                <label class="col-sm-2 control-label">内容</label>
+
+                <div class="col-sm-10 award-input-cnt">
+                    <input id='content' type="text" class="form-control input-sm _itemName" placeholder="内容">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">图片</label>
+                <div class="col-sm-1">
+                    <div class="uploader-placeholder center">
+                        <i class="fa fa-plus"></i>
+                    </div>
+                    <input type="file" style="width:50px;height:50px;left:10px;"
+                           id="thumberUploader" name="file" class="uploader"
+                           data-url="http://v0.api.upyun.com/jiayanimg/">
+
+                    <p class="loading none">
+                        <i class="fa fa-spin fa-spinner"></i>
+                    </p>
+
+                    <p id="fileMsg"></p>
+                </div>
+                <ul id="imageList" class="col-sm-2 gallery none"></ul>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">用户id</label>
+                <div class="col-sm-4 award-input-cnt">
+                    <input id='userId' type="text" class="form-control input-sm _itemName" placeholder="用户id">
+                </div>
+            </div>
+        </form>
+        <div class="row right">
+            <button class="btn btn-danger" id="_submit">保存</button>
+        </div>
+        <div id="formMsg" class="text-danger"></div>
+    </div>
+</div>
+
+
 <div class="container container-bg bounce animated" id="container">
     <div>
         <!-- 列表 -->
@@ -49,6 +127,7 @@
                 <input style="border:1px solid #ccc;border-radius:4px;line-height:1.8;padding-left:4px;" type="text"
                        id="diaryId" placeholder="输入ID">
                 <button class="btn btn-sm" id="angentNameBtn">查询</button>
+                <button class="btn btn-warning btn-sm btn-right" id="_add">添加</button>
             </div>
             <div id="_list">
                 <table class="table table-hover">
