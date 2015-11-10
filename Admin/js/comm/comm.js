@@ -26,6 +26,7 @@ define(["jquery", 'lib/tmpl'], function ($, tmpl) {
         require(['bootstrap'], function () {
             var nav = [
                     {label: "管理员", url: "userList"},
+                    {label: "用户", url: "appUserList"},
                     {label: "医院", url: "hospitalList"},
                     {label: "医生", url: "doctorList"},
                     {label: "日记", url: "diaryList"},
@@ -730,17 +731,30 @@ define(["jquery", 'lib/tmpl'], function ($, tmpl) {
         return map;
     }
 
-
     window.G_formatTime = function (val) {
         var d = new Date(Math.floor(val * 1000));
         return [
-                d.getFullYear(),
-                d.getMonth() + 1,
-                d.getDate()
+                getNumStr(d.getFullYear()),
+                getNumStr(d.getMonth() + 1),
+                getNumStr(d.getDate())
             ].join('-') + ' ' + [
-                d.getHours(),
-                d.getMinutes()
+                getNumStr(d.getHours()),
+                getNumStr(d.getMinutes())
             ].join(':');
+    };
+
+    window.G_formatDate = function (val) {
+        var d = new Date(Math.floor(val * 1000));
+        return [
+            getNumStr(d.getFullYear()),
+            getNumStr(d.getMonth() + 1),
+            getNumStr(d.getDate())
+        ].join('-');
+    }
+
+    function getNumStr(val) {
+        if (val < 10) return '0' + val;
+        return val;
     }
 
     window.G_getAge = function (birthday) {
@@ -886,6 +900,87 @@ define(["jquery", 'lib/tmpl'], function ($, tmpl) {
         $('#status').empty();
     }
 
+    var regionData;
+
+    function getArea() {
+        getJson(BASE_SERVER_PATH + 'statics/region.html', function (data) {
+            regionData = data;
+            $("#province").empty();
+            for (var key in data) {
+                var province = data[key];
+                $("#province").append("<option value='" + province.provName + "'>" + province.provName + "</option>");
+            }
+            $("#province").val(regionData[0].provName);
+            provinceChange();
+        });
+        // 切换省份
+        $("#province").change(function () {
+            provinceChange();
+        });
+        // 切换城市
+        $("#city").change(function () {
+            cityChange();
+        });
+    }
+
+    function provinceChange(cityName, regionName) {
+        if (!regionData) return;
+        $("#city").empty();
+        var index = $("#province").get(0).selectedIndex;
+        if (index=='undefined' || index < 0) {
+            $("#city").val('');
+            $("#district").val('');
+            return;
+        }
+        var cities = regionData[index].cities;
+        for (var key in cities) {
+            var city = cities[key];
+            if (key = 0) {
+                $("#city").append("<option selected='selected' value='" + city.cityName + "'>" + city.cityName + "</option>");
+            } else {
+                $("#city").append("<option value='" + city.cityName + "'>" + city.cityName + "</option>");
+            }
+        }
+        if (cityName) {
+            $('#city').val(cityName);
+        } else {
+            $('#city').val(cities[0].cityName);
+        }
+        cityChange(regionName);
+    }
+
+    function cityChange(regionName) {
+        if (!regionData) return;
+        $("#district").empty();
+        $("#district").hide();
+        var provinceIndex = $("#province").get(0).selectedIndex;
+        var index = $("#city").get(0).selectedIndex;
+        if (index=='undefined' || index < 0) {
+            $("#district").val('');
+            return;
+        }
+        var regions = regionData[provinceIndex].cities[index].regions;
+        if (regions.length > 0) {
+            $("#district").show();
+            for (var key in regions) {
+                var region = regions[key];
+                if (key = 0) {
+                    $("#district").append("<option selected='selected' value='" + region.regionName + "'>" + region.regionName + "</option>");
+                } else {
+                    $("#district").append("<option value='" + region.regionName + "'>" + region.regionName + "</option>");
+                }
+            }
+            if (regionName) {
+                $('#district').val(regionName);
+            } else {
+                $('#district').val(regions[0].regionName);
+            }
+        }
+        //else {
+        //    $("#district").hide();
+        //}
+    }
+
     return {
         constant: {
             HOSPITAL_ID: 1,
@@ -905,7 +1000,8 @@ define(["jquery", 'lib/tmpl'], function ($, tmpl) {
         },
         utils: {
             setupFileLoader: setupFileLoader,
-            datetimepicker: datetimepicker
+            datetimepicker: datetimepicker,
+            getArea: getArea
         },
         login: {
             getVersion: getConfigVersion,
