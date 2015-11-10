@@ -143,6 +143,7 @@ define(["commJs"], function (comm) {
                 params = $.extend(params, {id: id});
                 doSubmit("post/update", params, "更新成功");
             } else {
+                params['type'] = 'diary';
                 doSubmit("post/create", params, "添加成功");
             }
             return false;
@@ -240,7 +241,7 @@ define(["commJs"], function (comm) {
         var param = {};
         $.each(fields, function (i, key) {
             var $key = $('#' + key);
-            if ($key && $key.html()) param[key] = $key.html();
+            if ($key && $key.val()) param[key] = $key.val();
         });
         if (photoUrls.length > 0) {
             param["photoUrls"] = JSON.stringify(photoUrls);
@@ -250,9 +251,10 @@ define(["commJs"], function (comm) {
 
     function resetForm() {
         $.each(fields.concat('hospital'), function (idx, field) {
-            $('#' + field).html('');
+            $('#' + field).val('');
         });
         photoUrls = [];
+        $('#imageList').html('');
         var el = $('#editPanel');
         el.data("row", "");
         el.data("id", "");

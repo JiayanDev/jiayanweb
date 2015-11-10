@@ -126,6 +126,23 @@ footer.big{
     line-height: 25px;
 }
 
+.reset {
+    padding-top: 0;
+    margin-top: 0
+}
+
+.center {
+    text-align: center;
+}
+
+.gray-bg{
+    background-color: #eeeeee;
+}
+
+.cover {
+    width: 100%;
+    background-size: cover;
+}
 
 .left-nav {
     list-style: none;
@@ -152,9 +169,30 @@ ul.left-nav a:hover, ul.left-nav a.now {
 
 .left-nav-container {
     float: left;
-    padding-left: 50px;
+    padding-left: 80px;
+}
+
+.content {
+    padding: 50px 0 50px 0
+}
+
+.content-text {
+    margin-top: 0px;
+    margin-left: 300px;
+    margin-right: 150px;
+    font-size: 14px;
+    line-height: 22px;
+}
+
+.qr_small{
+    width: 160px;
+    height: 160px;
 }
 
 .text-small {
     font-size: 12px;
+}
+
+.copyright-text {
+    margin-top: 35px;
 }

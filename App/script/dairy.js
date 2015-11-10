@@ -59,7 +59,7 @@ define(["commJs"], function(comm) {
 	}
 
 	function renderProfile (data) {
-		if (data.avatar) data.avatar = window.G_default_img;
+		//if (!data.avatar) data.avatar = window.G_default_img;
 		var tpl = [
                 '<a href="user.html?id={USERID}"><img src="{AVATAR}" onerror="this.src=window.G_default_img"></a>',
                 '<div class="text">',
