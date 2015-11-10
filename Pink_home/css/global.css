@@ -74,8 +74,8 @@ header a{
     line-height: 30px;
 }
 
-header a:hover,header a.now{
-    color:#FF8386;
+header a:hover, header a.now{
+    color: #FF8386;
     border-bottom: #FF8386 solid 3px;
     height: 27px;
 }
@@ -105,6 +105,12 @@ footer.small{
     padding:20px 0 0 0;
 }
 
+footer.big{
+    height: 300px;
+    text-align: center;
+    padding:20px 0 0 0;
+}
+
 .index-section .cell{
     width: 146px;
     position: absolute;
@@ -118,4 +124,37 @@ footer.small{
 .index-section .cell p{
     font-size: 15px;
     line-height: 25px;
+}
+
+
+.left-nav {
+    list-style: none;
+    margin: 0px;
+}
+ul.left-nav li{
+    margin-bottom: 15px;
+}
+
+ul.left-nav a{
+    height: 30px;
+    padding-bottom: 4px;
+    color: #7E7E7E;
+    text-decoration:none;
+    text-align: center;
+    font-size: 14.5px;
+    line-height: 30px;
+}
+
+ul.left-nav a:hover, ul.left-nav a.now {
+    border-bottom: #FF8386 solid 3px;
+    height: 27px;
+}
+
+.left-nav-container {
+    float: left;
+    padding-left: 50px;
+}
+
+.text-small {
+    font-size: 12px;
 }

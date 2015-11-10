@@ -3,70 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <title>佳妍科技</title>
-    <link  rel="stylesheet" href="css/global.css" type="text/css">
-    <link  rel="stylesheet" href="js/jquery.bxslider.css" type="text/css">
+    <link rel="stylesheet" href="css/global.css" type="text/css">
 </head>
 <body>
 
 <header class="box">
     <div class="navi">
-        <a href="./index.html" class="now">首页</a>
+        <a href="./index.html">首页</a>
         <a href="./about.html">关于佳妍</a>
         <a href="./agreement.html">用户协议</a>
         <a href="./contact.html">联系我们</a>
-        <a href="./join.html" class="jiaru">加入</a>
+        <a href="./join.html" class="jiaru now">加入</a>
     </div>
 </header>
 
-<div style="height: 511px;" class="box slider">
-    <ul class="bxslider" id="sl" style="margin: 0">
-        <li><img src="image/index_banner1.png" /></li>
-        <li><img src="image/index_banner2.png" /></li>
-        <li><img src="image/index_banner3.png" /></li>
-    </ul>
-</div>
-
 <div class="box index-section" style="height: 400px;padding:50px 0 50px 0">
     <img src="image/index_icons.png" style="margin: 0 auto 0 auto;display: block"/>
+
     <div class="cell" style="left:251px;">
         <h2>高额补贴</h2>
+
         <p>资方资金雄厚，在这享受更低的折扣，在医院的最低折扣上继续打折，给用户更高额的补贴</p>
     </div>
 
     <div class="cell" style="left:458px;">
         <h2>专业</h2>
+
         <p>专业的医生，专业的平台<br>
             只做有品质的优惠活动</p>
     </div>
 
     <div class="cell" style="left:673px;">
         <h2>放心</h2>
+
         <p>平台自有专业金牌咨询师，在线交流，给你提供专业的指导，给你更好的选择建议。并且特别为术后烦恼期提供24小时专家在线问诊，细心呵护。</p>
     </div>
 
     <div class="cell" style="left:878px;">
         <h2>贴心</h2>
+
         <p>上万名美丽天使真实案例<br>
             从意向到整容结束全程了解</p>
     </div>
 </div>
 
 <footer class="small box">
-    <p>深圳市佳妍科技有限公司 版权所有   粤ICP备15035183号.</p>
+    <p>深圳市佳妍科技有限公司 版权所有 粤ICP备15035183号.</p>
 </footer>
 <script src="js/jquery-1.11.3.min.js"></script>
 <script src="js/jquery.bxslider.min.js"></script>
 <script type="text/javascript">
-    $(document).ready(function(){
+    $(document).ready(function () {
         $('#sl').bxSlider({
-            controls:false,
-            "auto":true,
-            "pause":5000
+            controls: false,
+            "auto": true,
+            "pause": 5000
         });
     });
 </script>
 <style>
-    .bx-controls{
+    .bx-controls {
         margin-top: -40px;
     }
 </style>
