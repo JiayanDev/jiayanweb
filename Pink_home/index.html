@@ -18,7 +18,7 @@
     </div>
 </header>
 
-<div style="height: 511px;background-color: #5e0d0a" class="bigbox slider" >
+<div style="height: 511px;background-color: #5e0d0a;overflow: hidden" class="bigbox slider" >
     <ul class="bxslider" id="sl" style="margin: 0">
         <li>
             <div style="width: 100%;background-color: #5e0d0a">
@@ -32,7 +32,10 @@
         </li>
         <li>
             <div style="width: 100%;background-color: #ededed">
-                <img src="image/index_banner3v2.jpg"/>
+                <div id="banner3">
+                    <a href="http://app.jiayantech.com/appsite/index.html" style="display: block;position: absolute;top:281px;left:700px;width:255px;height: 150px;"></a>
+                </div>
+                <!--<img src="image/index_banner3v2.jpg"/>-->
             </div>
         </li>
     </ul>
@@ -94,6 +97,14 @@
 
     .bx-clone {
         display: none;
+    }
+
+    #banner3{
+        background-image: url("image/index_banner3v2.jpg");
+        width: 1068px;
+        height: 514px;
+        margin: 0 auto 0 auto;
+        position: relative;
     }
 </style>
 </body>
