@@ -32,6 +32,7 @@ define(["commJs", "jquery"], function(comm, jQuery) {
 
 		if( id ){
 			if( isWebKit ){
+				loadData();
 				getUserInfo();
 			}else{
 				loadData();
@@ -136,19 +137,19 @@ define(["commJs", "jquery"], function(comm, jQuery) {
 			cacheUserData = data.data;
 			var token = data.data.token;
 			comm.setToken(token);
-			loadData();
+			//loadData();
 			//alert('成功'+JSON.stringify(data));
 		}else{
 			//alert('no login');
 			comm.setToken('no login');
-			loadData();
+			//loadData();
 		}
 	}
 
 	window.G_onGetUserInfoError = function  (data) {
 		alert(data);
 		comm.setToken('no login');
-		loadData();
+		//loadData();
 	}
 
 	function render (data) {
