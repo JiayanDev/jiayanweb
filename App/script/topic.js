@@ -24,6 +24,9 @@ define(["commJs", "jquery"], function(comm, jQuery) {
 
 	var cacheEventData = {};
 	var cacheUserData;
+	var pageType;
+	var userId;
+	pageType=window.location.href.indexOf('topic.html')>0?'topic':"diary";
 
 	function init(){
 		comm.setupWorkspace();
@@ -136,6 +139,7 @@ define(["commJs", "jquery"], function(comm, jQuery) {
 		if( !!data && data.code == 0 ){
 			cacheUserData = data.data;
 			var token = data.data.token;
+			userId=data.data.id;
 			comm.setToken(token);
 			//loadData();
 			//alert('成功'+JSON.stringify(data));
@@ -209,6 +213,40 @@ define(["commJs", "jquery"], function(comm, jQuery) {
 				var likeCount = 1*$('#likeCount').html();
 				var gap = gap * (isCancel?-1:1);
 				$('#likeCount').html(likeCount+gap);
+			}
+
+			if(eId=='report'){
+				evt.preventDefault();
+
+				//comm.io.call({
+				//	action: 'report',
+				//	data: {
+				//		'type': pageType,
+				//		"id": +getId()
+				//	}
+				//});
+
+				if (!userId) {
+					alert("请登陆后举报.");
+
+				} else {
+
+					var r = confirm("确定要举报吗?");
+					if (r) {
+						console.log('jubao');
+						comm.io.post({
+							url: comm.config.BASEPATH + "user/report",
+							data: {
+								'type': pageType,
+								"id": +getId()
+							},
+							success: function (data) {
+								alert("我们已收到您的举报.\n管理员会尽快处理您的举报.")
+							}
+						})
+					}
+				}
+
 			}
 
 			if( eId== 'commentBtn' ){

@@ -105,7 +105,7 @@ define(['tmpl', 'jquery'], function(tmpl, $) {
 
         $.extend(config, {
             type: 'POST',
-            dataType: 'json',
+            //dataType: 'json',
             beforeSend: setRequestHeader,
             success: function(d) {
                 successFn(d, conf);
@@ -118,8 +118,8 @@ define(['tmpl', 'jquery'], function(tmpl, $) {
                     alertMsg('网络繁忙');
                 }
                 (!!$el) && $el.html(oldVal).data('requesting', false);
-            },
-            contentType:'application/json'
+            }
+            //contentType:'application/json'
             // beforeSend: function(jqXHR, settings) {
             //     // jqXHR.setRequestHeader('Accept', 'application/json');
             //     // jqXHR.setRequestHeader('Content-Type', 'application/json');
@@ -135,7 +135,7 @@ define(['tmpl', 'jquery'], function(tmpl, $) {
         config.el = undefined;
         config.loadingMsg = undefined;
         // config.data && (config.data.r = Math.random());
-        config.data = JSON.stringify( config.data );
+        //config.data = JSON.stringify( config.data );
 
         var newConf = {};
 
@@ -143,7 +143,7 @@ define(['tmpl', 'jquery'], function(tmpl, $) {
             if(typeof value != 'undefined')
                 newConf[key] = value;
         });
-        // return $.ajax(newConf);
+        return $.ajax(newConf);
     }
 
     //get请求封装
