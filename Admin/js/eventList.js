@@ -219,7 +219,7 @@ define(["jquery", "commJs", 'widget/bootstrap-wysiwyg'], function (_, comm) {
         $('#_add').click(function () {
             $("#panelTitle").html("添加活动信息");
             resetForm();
-            openPanel();
+            openPanel(true);
             comm.status.hide();
         });
 
@@ -234,7 +234,12 @@ define(["jquery", "commJs", 'widget/bootstrap-wysiwyg'], function (_, comm) {
         });
     }
 
-    function openPanel() {
+    function openPanel(showCreate) {
+        if (showCreate) {
+            $('[name=create-item]').show();
+        } else {
+            $('[name=create-item]').hide();
+        }
         var el = $('#editPanel');
         el.addClass('bounce').addClass('animated').removeClass('none');
         setTimeout(function () {
@@ -339,7 +344,7 @@ define(["jquery", "commJs", 'widget/bootstrap-wysiwyg'], function (_, comm) {
         }
     };
 
-    var fields = ['userName', 'phoneNum', 'title', 'applymentLimit', 'bindTopicId', 'status'];
+    var fields = ['userId', 'userName', 'phoneNum', 'title', 'applymentLimit', 'bindTopicId', 'status'];
 
     function getParam() {
         var param = {};
