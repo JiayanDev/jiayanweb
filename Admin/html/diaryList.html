@@ -46,6 +46,18 @@
         line-height: 50px;
         font-size: 2em;
     }
+
+    .img-delete {
+        font-size: 25px;
+        vertical-align: top;
+        padding-left: 2px;
+        padding-top: 0px;
+        padding-right: 8px;
+        text-decoration: none;
+    }
+    .img-delete:link, .img-delete:hover, .img-delete:active, .img-delete:visited {
+        text-decoration: none;
+    }
 </style>
 <body>
 <div>
@@ -104,7 +116,7 @@
                 </ul>
             </div>
 
-            <div class="form-group">
+            <div name="create-item" class="form-group">
                 <label class="col-sm-2 control-label">用户id</label>
                 <div class="col-sm-4 award-input-cnt">
                     <input id='userId' type="text" class="form-control input-sm _itemName" placeholder="用户id">
@@ -141,6 +153,7 @@
                         <th class="th-border">图片</th>
                         <th class="th-border">创建时间</th>
                         <th class="th-border">状态</th>
+                        <th class="th-border">修改状态</th>
                         <th class="th-border">操作</th>
                     </tr>
                     </thead>
@@ -168,6 +181,7 @@
                     <th class="th-border">图片</th>
                     <th class="th-border">创建时间</th>
                     <th class="th-border">状态</th>
+                    <th class="th-border">修改状态</th>
                     <th class="th-border">操作</th>
                 </tr>
             </thead>
@@ -192,7 +206,7 @@
                     <td>{%= row.userName %}</td>
                     <td>{%= row.userId %}</td>
                     <td style="width:20%">{%= trim(row.content) %}</td>
-                    <td>
+                    <td style="width:220px;">
                     {%
                         row.photoes && $.each( row.photoes, function(i, url){
                     %}
@@ -216,7 +230,9 @@
                         {%
                             }
                         %}
-                        &nbsp;&nbsp;
+                    </td>
+                    <td>
+                        <a href="#" class="_edit" data-id="{%= row.id %}" data-row='{%= JSON.stringify(row) %}'>编辑</a>
                     	<a href="#" class="_detail" data-id="{%= row.id %}">详情</a>
                     </td>
                 </tr>

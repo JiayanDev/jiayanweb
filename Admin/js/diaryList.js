@@ -56,6 +56,17 @@ define(["commJs"], function (comm) {
                     title: "日记详情"
                 });
                 return false;
+            } else if ($t.hasClass('_edit')) {
+                var id = $t.data('id');
+                var row_str = $t.attr('data-row');
+                var row = JSON.parse(row_str);
+
+                resetForm();
+                openPanel("编辑日志信息    ID: " + id);
+                $('#_submit').text('编辑');
+
+                setForm(row, row_str);
+                return false;
             }
 
             if ($t.hasClass('_verify')) {
@@ -123,7 +134,8 @@ define(["commJs"], function (comm) {
         });
 
         $('#_add').click(function () {
-            openPanel("添加日记");
+            openPanel("添加日记", true);
+            $('#_submit').text('添加');
             $('#item').show();
             return false;
         });
@@ -182,14 +194,24 @@ define(["commJs"], function (comm) {
         var imgListEl = $('#imageList');
         imgListEl.removeClass("none");
         //imgListEl.html('');
-        imgListEl.append('<li><img src="' + imgUrl + '"' + 'style="vertical-align:middle;"></li>');
+        imgListEl.append('<li style="margin:2px;"><img src="' + imgUrl + '"' + 'style="vertical-align:middle;">' +
+            '<a href="#" src="' + imgUrl + '"' + 'class="img-delete">&times;</a></li>');
         photoUrls.push(imgUrl);
+
+        $("#imageList .img-delete:last").click(function () {
+            var src = $(this).attr('src');
+            var index = photoUrls.indexOf(src);
+            photoUrls.splice(index, 1);
+            $(this).parent().remove();
+            return false;
+        });
     }
 
     function tdContent(postId, status, antiStuats) {
         var h = [
-            '<a href="#" class="_verify" data-id="' + postId + '" data-status="' + status + '">' + antiStuats + '</a>',
-            '<a href="#" class="_detail" data-id="' + postId + '">详情</a>'
+            '<a href="#" class="_verify" data-id="' + postId + '" data-status="' + status + '">' + antiStuats + '</a>'
+            //,
+            //'<a href="#" class="_detail" data-id="' + postId + '">详情</a>'
         ].join('&nbsp;&nbsp;');
 
         return h;
@@ -205,7 +227,12 @@ define(["commJs"], function (comm) {
         });
     }
 
-    function openPanel(title) {
+    function openPanel(title, showCreateItem) {
+        if (showCreateItem) {
+            $('[name=create-item]').show();
+        } else {
+            $('[name=create-item]').hide();
+        }
         resetForm();
         $("#panelTitle").html(title);
         var el = $('#editPanel');
@@ -235,22 +262,23 @@ define(["commJs"], function (comm) {
         });
     }
 
-    var fields = ['content', 'userId'];
+    var fields = ['content'];
 
     function getParam() {
         var param = {};
-        $.each(fields, function (i, key) {
+        $.each(fields.concat(['userId']), function (i, key) {
             var $key = $('#' + key);
             if ($key && $key.val()) param[key] = $key.val();
         });
-        if (photoUrls.length > 0) {
-            param["photoUrls"] = JSON.stringify(photoUrls);
-        }
+        //if (photoUrls.length > 0) {
+        //    param["photoUrls"] = JSON.stringify(photoUrls);
+        //}
+        param["photoUrls"] = JSON.stringify(photoUrls);
         return param;
     }
 
     function resetForm() {
-        $.each(fields.concat('hospital'), function (idx, field) {
+        $.each(fields.concat(['userId']), function (idx, field) {
             $('#' + field).val('');
         });
         photoUrls = [];
@@ -260,6 +288,19 @@ define(["commJs"], function (comm) {
         el.data("id", "");
         el.removeAttr("data-id");
         el.removeAttr("data-row");
+    }
+
+    function setForm(row, row_str) {
+        $.each(fields, function (idx, field) {
+            if ($('#' + field) && row[field]) $('#' + field).val(row[field]);
+        });
+        for (var key in row.photoes){
+            var photo = row.photoes[key];
+            appendImageList(photo);
+        }
+        var el = $('#editPanel');
+        if (row_str) el.data("row", row_str);
+        if (row['id']) el.data("id", row['id']);
     }
 
     return {

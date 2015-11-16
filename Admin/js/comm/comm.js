@@ -732,6 +732,7 @@ define(["jquery", 'lib/tmpl'], function ($, tmpl) {
     }
 
     window.G_formatTime = function (val) {
+        if (!val) return '';
         var d = new Date(Math.floor(val * 1000));
         return [
                 getNumStr(d.getFullYear()),
@@ -744,6 +745,7 @@ define(["jquery", 'lib/tmpl'], function ($, tmpl) {
     };
 
     window.G_formatDate = function (val) {
+        if (!val) return '';
         var d = new Date(Math.floor(val * 1000));
         return [
             getNumStr(d.getFullYear()),
