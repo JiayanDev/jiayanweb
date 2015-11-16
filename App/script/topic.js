@@ -71,6 +71,9 @@ define(["commJs", "jquery"], function(comm, jQuery) {
 				hideNativeLoading();
 
 				onGetShareInfo(data);
+			},
+			error:function(data){
+				alert("您的内容可能被举报或被删除.\n技术信息:"+data);
 			}
 		});
 	}
