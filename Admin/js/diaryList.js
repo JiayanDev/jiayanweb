@@ -1,4 +1,4 @@
-define(["commJs"], function (comm) {
+define(["commJs","tipped"], function (comm,Tipped) {
 
     function main() {
         comm.checkLogin(function () {
@@ -32,6 +32,24 @@ define(["commJs"], function (comm) {
             renderTo: "#_list",
             isTableList: true
         });
+
+        Tipped.create('.hover-text', function(element) {
+            return $("<div>").css("width","500px").html(decodeURIComponent( $(element).attr('data-fulltext')).replace(/\n/g, '<br />'));
+
+            //{
+            //    title: "全文",
+            //    content: $(element).attr('data-fulltext')
+            //};
+        }, {
+            //skin: 'light'
+        });
+
+        Tipped.create('.hover-images img', function(element) {
+            return $("<img>").attr('src',$(element).attr("src")).css("width","500px");
+        }, {
+            //skin: 'light'
+        });
+
     }
 
     function renderDetail(id) {

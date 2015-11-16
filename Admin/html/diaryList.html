@@ -17,6 +17,7 @@
     <link href="../statics/css/font-awesome.min.css" rel="stylesheet">
     <link href="../statics/css/animate.min.css" rel="stylesheet">
     <link href="../statics/css/admin.css" rel="stylesheet">
+    <link href="../statics/css/tipped.css" rel="stylesheet">
 </head>
 <style type="text/css">
     .gallery {
@@ -191,8 +192,8 @@
                     <td>{%= row.id %}</td>
                     <td>{%= row.userName %}</td>
                     <td>{%= row.userId %}</td>
-                    <td style="width:20%">{%= trim(row.content) %}</td>
-                    <td>
+                    <td class="hover-text" style="width:20%" data-fulltext="{%=encodeURIComponent(row.content)%}">{%= trim(row.content) %}</td>
+                    <td class="hover-images">
                     {%
                         row.photoes && $.each( row.photoes, function(i, url){
                     %}
@@ -236,12 +237,19 @@
         paths: {
             "jquery": "lib/jquery.min",   //@note 以JS结尾的会忽略baseUrl
             "commJs": "comm/comm",
-            "bootstrap": "lib/bootstrap.min"
+            "bootstrap": "lib/bootstrap.min",
+            "tipped": "lib/tipped"
+        },
+        shim:{
+            'tipped': {
+                exports: 'Tipped'
+            }
         }
     });
     require(["diaryList"], function (mod) {
         mod.setup();
     });
 </script>
+
 </body>
 </html>
