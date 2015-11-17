@@ -151,20 +151,20 @@
             <div id="_list">
                 <table class="table table-hover">
                     <thead>
-                    <tr>
-                        <th class="th-border">编号</th>
-                        <th class="th-border">名称</th>
-                        <th class="th-border">昵称</th>
-                        <th class="th-border">性别</th>
-                        <th class="th-border">生日</th>
-                        <th class="th-border">手机</th>
-                        <th class="th-border">地区</th>
-                        <th class="th-border">职业</th>
-                        <th class="th-border">消费总额</th>
-                        <th class="th-border">消费次数</th>
-                        <th class="th-border">创建时间</th>
-                        <th class="th-border">操作</th>
-                    </tr>
+                    <!--<tr>-->
+                        <!--<th class="th-border">编号</th>-->
+                        <!--<th class="th-border">名称</th>-->
+                        <!--<th class="th-border">昵称</th>-->
+                        <!--<th class="th-border">性别</th>-->
+                        <!--<th class="th-border">生日</th>-->
+                        <!--<th class="th-border">手机</th>-->
+                        <!--<th class="th-border">地区</th>-->
+                        <!--<th class="th-border">职业</th>-->
+                        <!--<th class="th-border">消费总额</th>-->
+                        <!--<th class="th-border">消费次数</th>-->
+                        <!--<th class="th-border">创建时间</th>-->
+                        <!--<th class="th-border">操作</th>-->
+                    <!--</tr>-->
                     </thead>
                     <tbody>
                     <tr>
@@ -183,17 +183,17 @@
     <table class="table table-hover">
         <thead>
             <tr>
-                <th class="th-border">编号</th>
-                <th class="th-border"><a order='name'>名称</a></th>
-                <th class="th-border"><a order='wxNickName'>微信昵称</a></th>
-                <th class="th-border"><a order='gender'>性别</a></th>
-                <th class="th-border"><a order='birthday'>生日</a></th>
-                <th class="th-border"><a order='phone'>手机</a></th>
-                <th class="th-border"><a order='province'>地区</a></th>
-                <th class="th-border"><a order='career'>职业</a></th>
-                <th class="th-border"><a order='consumeAmount'>消费总额</a></th>
-                <th class="th-border"><a order='consumeTimes'>消费次数</a></th>
-                <th class="th-border">创建时间</th>
+                <th name="id" class="th-border">编号</th>
+                <th name="name" class="th-border"><a order='name'>名称</a></th>
+                <th name="wxNickName" class="th-border"><a order='wxNickName'>微信昵称</a></th>
+                <th name="gender" class="th-border"><a order='gender'>性别</a></th>
+                <th name="birthday" class="th-border"><a order='birthday'>生日</a></th>
+                <th name="phone" class="th-border"><a order='phone'>手机</a></th>
+                <th name="province" class="th-border"><a order='province'>地区</a></th>
+                <th name="career" class="th-border"><a order='career'>职业</a></th>
+                <th name="consumeAmount" class="th-border"><a order='consumeAmount'>消费总额</a></th>
+                <th name="consumeTimes" class="th-border"><a order='consumeTimes'>消费次数</a></th>
+                <th name="createTime" class="th-border">创建时间</th>
                 <th class="th-border">操作</th>
             </tr>
         </thead>
@@ -204,17 +204,17 @@
                     var row = o[i];
             %}
             <tr>
-                <td>{%= row.id %}</td>
-                <td>{%= row.name %}</td>
-                <td>{%= row.wxNickName %}</td>
-                <td>{%= {0:'女', 1:'男'}[row.gender]||'-' %}</td>
-                <td>{%= window.G_formatDate(row.birthday) %}</td>
-                <td>{%= row.phone %}</td>
-                <td>{%= row.province %}{%= row.city %}{%= row.district %}</td>
-                <td>{%= row.career %}</td>
-                <td>{%= row.consumeAmount %}</td>
-                <td>{%= row.consumeTimes %}</td>
-                <td>{%= window.G_formatTime(row.createTime) %}</td>
+                <td name="id">{%= row.id %}</td>
+                <td name="name">{%= row.name %}</td>
+                <td name="wxNickName">{%= row.wxNickName %}</td>
+                <td name="gender">{%= {0:'女', 1:'男'}[row.gender]||'-' %}</td>
+                <td name="birthday">{%= window.G_formatDate(row.birthday) %}</td>
+                <td name="phone">{%= row.phone %}</td>
+                <td name="province">{%= row.province %}{%= row.city %}{%= row.district %}</td>
+                <td name="career">{%= row.career %}</td>
+                <td name="consumeAmount">{%= row.consumeAmount %}</td>
+                <td name="consumeTimes">{%= row.consumeTimes %}</td>
+                <td name="createTime">{%= window.G_formatTime(row.createTime) %}</td>
                 <td>
                     <a href="#" class="_edit" data-id="{%= row.id %}" data-row='{%= JSON.stringify(row) %}'>编辑</a>
                     <a href="#" class="_delete" data-id="{%= row.id %}">删除</a>

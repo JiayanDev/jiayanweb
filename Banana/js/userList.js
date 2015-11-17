@@ -125,6 +125,8 @@ define(["commJs"], function (comm) {
         });
     }
 
+
+
     function getList(data) {
         if (!data) {
             data = {};
@@ -134,6 +136,7 @@ define(["commJs"], function (comm) {
             data: data,
             success: function (d) {
                 renderList(d);
+                fields = comm.utils.intersectFields(c_fields);
             }
         });
     }
@@ -149,7 +152,8 @@ define(["commJs"], function (comm) {
     }
 
     ////////////////////////////////////Form data
-    var fields = ['name', 'wxNickName', 'gender', 'phone', 'province', 'career', 'source', 'birthYear'];
+    const c_fields = ['name', 'wxNickName', 'gender', 'phone', 'province', 'career', 'source', 'birthYear'];
+    var fields;
 
     function getParam() {
         var param = {};
@@ -157,7 +161,8 @@ define(["commJs"], function (comm) {
             var val = $.trim($('#' + field).val());
             if (val) param[field] = val;
         });
-        if (pickedDate) param['birthday'] = pickedDate;
+        if (comm.utils.containsFields('birthday'))
+            if (pickedDate) param['birthday'] = pickedDate;
         return param;
     }
 
@@ -177,9 +182,12 @@ define(["commJs"], function (comm) {
         $.each(fields, function (idx, field) {
             if ($('#' + field) && row[field]) $('#' + field).val(row[field]);
         });
-        comm.utils.provinceChange(row['city'], row['district']);
-        pickedDate = row['birthday'];
-        if (pickedDate) $('#birthday').val(window.G_formatDate(pickedDate));
+        if (comm.utils.containsFields('city'))
+            comm.utils.provinceChange(row['city'], row['district']);
+        if (comm.utils.containsFields('birthday')){
+            pickedDate = row['birthday'];
+            if (pickedDate) $('#birthday').val(window.G_formatDate(pickedDate));
+        }
 
         var el = $('#editPanel');
         if (row_str) el.data("row", row_str);
@@ -210,7 +218,6 @@ define(["commJs"], function (comm) {
             el.addClass('none');
         }, 200);
     }
-
 
     return {
         setup: main

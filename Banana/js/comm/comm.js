@@ -248,7 +248,40 @@ define(["jquery", 'lib/tmpl'], function ($, tmpl) {
             // emptyTips(el);
         }
         renderHeader();
+
+        $("#editPanel .form-group").addClass("none");
+        $("#editPanel .form-group>label").addClass("none");
+        $("#editPanel .form-group>div").addClass("none");
+
+        $("#_list th[name]").addClass("none");
+        $("#_list td[name]").addClass("none");
+        keys = [];
+        for (var key in list[0]) {
+            keys.push(key);
+            $("#_list th[name='" + key + "']").removeClass("none");
+            $("#_list td[name='" + key + "']").removeClass("none");
+
+            $("#" + key).parent().removeClass("none");
+            $("#" + key).parent().prev().removeClass("none");
+            $("#" + key).parent().parent().removeClass("none");
+        }
+
         return el;
+    }
+
+    var keys = [];
+
+    function intersectFields(b) {
+        var flip = {};
+        var res = [];
+        for (var i = 0; i < b.length; i++) flip[b[i]] = i;
+        for (i = 0; i < keys.length; i++)
+            if (flip[keys[i]] != undefined) res.push(keys[i]);
+        return res;
+    }
+
+    function containsFields(val) {
+        return keys.indexOf(val) >= 0;
     }
 
     function renderHeader() {
@@ -788,6 +821,7 @@ define(["jquery", 'lib/tmpl'], function ($, tmpl) {
     }
 
     window.G_formatTime = function (val) {
+        if (!val) return '';
         var d = new Date(Math.floor(val * 1000));
         return [
                 getNumStr(d.getFullYear()),
@@ -800,6 +834,7 @@ define(["jquery", 'lib/tmpl'], function ($, tmpl) {
     };
 
     window.G_formatDate = function (val) {
+        if (!val) return '';
         var d = new Date(Math.floor(val * 1000));
         return [
             getNumStr(d.getFullYear()),
@@ -1246,7 +1281,9 @@ define(["jquery", 'lib/tmpl'], function ($, tmpl) {
             getUrlArgObject: getUrlArgObject,
             getUrlArgStr: getUrlArgStr,
             getParamUrl: getParamUrl,
-            replaceParam: replaceParam
+            replaceParam: replaceParam,
+            intersectFields: intersectFields,
+            containsFields: containsFields
         },
         login: {
             getVersion: getConfigVersion,
