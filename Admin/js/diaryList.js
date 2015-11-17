@@ -34,7 +34,7 @@ define(["commJs","tipped"], function (comm,Tipped) {
         });
 
         Tipped.create('.hover-text', function(element) {
-            return $("<div>").css("width","500px").html(decodeURIComponent( $(element).attr('data-fulltext')).replace(/\n/g, '<br />'));
+            return $("<div>").css("max-width","500px").html(decodeURIComponent( $(element).attr('data-fulltext')).replace(/\n/g, '<br />'));
 
             //{
             //    title: "全文",
@@ -45,7 +45,7 @@ define(["commJs","tipped"], function (comm,Tipped) {
         });
 
         Tipped.create('.hover-images img', function(element) {
-            return $("<img>").attr('src',$(element).attr("src")).css("width","500px");
+            return $("<img>").attr('src',$(element).attr("src")).css("max-width","500px").css("max-height","500px");
         }, {
             //skin: 'light'
         });
