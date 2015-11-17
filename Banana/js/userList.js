@@ -137,6 +137,17 @@ define(["commJs"], function (comm) {
             success: function (d) {
                 renderList(d);
                 fields = comm.utils.intersectFields(c_fields);
+                console.log(fields);
+                if(fields.indexOf("source")<0){
+                    $("#_add").hide();
+                    $("#firNav li").each(function(){
+                        if($(this).text()=="订单"){
+                            $(this).hide();
+                        }
+                    });
+                    $("#_list .caozuo").hide();
+                }
+
             }
         });
     }
