@@ -85,7 +85,45 @@ define(["commJs","tipped"], function (comm,Tipped) {
 
                 setForm(row, row_str);
                 return false;
+            } else if ($t.hasClass('_comment')) {
+                var id = $t.data('id');
+                comm.confirm({
+                    el: $t,
+                    content: "<textarea class='form-control' placeholder='填写评论内容'></textarea><input class='form-control' style='margin-top:5px;' placeholder='填写用户Id'></inpu>",
+                    placement: "left",
+                    onYES: function (options) {
+                        var textareaEl = $(options.target).closest('.popover-content').find('textarea');
+                        var inputEl = $(options.target).closest('.popover-content').find('input');
+                        var content = textareaEl.val();
+                        var userId = inputEl.val();
+
+                        if (!content) {
+                            comm.utils.alertMsg("请填写评论内容！");
+                            return;
+                        }
+
+                        var data = {
+                            subject: "diary",
+                            subjectId: id,
+                            content: content
+                        };
+                        if (userId) {
+                            data['userId'] = userId;
+                        }
+                        comm.io.post({
+                            url: comm.config.BASEPATH + 'post/comment',
+                            data: data,
+                            success: function () {
+                                options.unload();
+                                comm.utils.showMsg("评论成功！");
+                            }
+                        });
+                    }
+                });
+                return false;
             }
+
+
 
             if ($t.hasClass('_verify')) {
                 var status = $t.data('status');

@@ -1002,6 +1002,8 @@ define(["jquery", 'lib/tmpl'], function ($, tmpl) {
             postId: postId
         },
         utils: {
+            alertMsg: alertMsg,
+            showMsg: showMsg,
             setupFileLoader: setupFileLoader,
             datetimepicker: datetimepicker,
             getArea: getArea,
