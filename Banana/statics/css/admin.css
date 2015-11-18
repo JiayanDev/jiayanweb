@@ -3,21 +3,27 @@ body,html{background-color: #f6f8f8;}
 
 @media (min-width: 1300px) {
     .container {
-        width: 1270px;
+        width: 1200px;
     }
 }
 
 @media (min-width: 1400px) {
     .container {
-        width: 1370px;
+        width: 1300px;
     }
 }
 
-/*@media (min-width: 1500px) {*/
-    /*.container {*/
-        /*width: 1470px;*/
-    /*}*/
-/*}*/
+@media (min-width: 1500px) {
+    .container {
+        width: 1400px;
+    }
+}
+
+@media (min-width: 1600px) {
+    .container {
+        width: 1500px;
+    }
+}
 
 .none{display: none;}
 .table>thead>tr>th.th-border{border-bottom:2px solid #333;}
