@@ -137,6 +137,19 @@ define(["commJs"], function (comm) {
             success: function (d) {
                 renderList(d);
                 fields = comm.utils.intersectFields(c_fields);
+                console.log(fields);
+
+                //隐藏掉一些医院角色不需要看到的东西
+                if(fields.indexOf("source")<0){
+                    $("#_add").hide();
+                    $("#firNav li").each(function(){
+                        if($(this).text()=="订单"){
+                            $(this).hide();
+                        }
+                    });
+                    $("#_list .caozuo").hide();
+                }
+
             }
         });
     }
