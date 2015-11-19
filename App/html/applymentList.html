@@ -46,7 +46,7 @@
                     <a {%= G_getAngelLink(o.role, o.userId) %}>{%= o.name||'用户' %}</a>
                     {%= G_getRoleText(o.role) %}
                 </p>
-                <span class="small-text gray-text-x2">{%= (o.gender=='1'?'女 ':'男 ') + (o.province||'') + (o.city||'') + ' ' + window.G_getAge(o.birthday) %}</span>
+                <span class="small-text gray-text-x2">{%= (o.gender=='1'?'男 ':'女 ') + (o.province||'') + (o.city||'') + ' ' + window.G_getAge(o.birthday) %}</span>
             </div>
             <span class="right-center absolute gray-text-x2">
                 {%= window.G_formatDate(o.createTime) %}

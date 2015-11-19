@@ -90,7 +90,8 @@ define(["commJs"], function (comm) {
 			});
 
 			$('#gallery').html(imgList.join(''));
-			$('#timelinePanel a').attr('href', "timeline.html?id=" + userId)
+			$('#timelinePanel a').attr('href', "timeline.html?id=" + userId);
+			$('#timelinePanel').removeClass('none');
 		}
 	}
 

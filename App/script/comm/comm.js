@@ -1147,10 +1147,8 @@ define(['tmpl', 'jquery'], function(tmpl, $) {
 
         if (todayMonth - birthdayMonth < 0) {
             age = (todayYear - birthdayYear) - 1;
-        } else if (todayMonth - birthdayMonth == 0) {
-            if (todayDay - birthdayDay < 0) {
-                age = (todayYear - birthdayYear) - 1;
-            }
+        } else if (todayMonth - birthdayMonth == 0 && todayDay - birthdayDay < 0) {
+            age = (todayYear - birthdayYear) - 1;
         } else {
             age = (todayYear - birthdayYear);
         }
@@ -1212,6 +1210,7 @@ define(['tmpl', 'jquery'], function(tmpl, $) {
         if (role == 'angel') roleText = '<span class="icon icon-role" style="background-image: url(../../asset/img/icon_role_angel.png);"/>';
         else if (role == 'company') roleText = '<span class="icon icon-role" style="background-image: url(../../asset/img/icon_role_company.png);"/>';
         else if (role == 'official') roleText = '<span class="icon icon-role" style="background-image: url(../../asset/img/icon_role_official.png);"/>';
+        else roleText = '<span class="icon icon-role"/>';
         return roleText;
     }
 
