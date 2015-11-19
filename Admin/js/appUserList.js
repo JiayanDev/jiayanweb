@@ -15,11 +15,48 @@ define(["commJs"], function (comm) {
 
     function init() {
         comm.setupWorkspace();
+        setupCategories();
         bindEvent();
         setupDateSel();
         setupImg();
         comm.utils.getArea();
         getList();
+    }
+
+    var categoryMap = {};
+
+    function setupCategories() {
+        $("#categories").empty();
+        var topCategories = comm.login.getProjects().data;
+        for (var topKey in topCategories) {
+            var topCategory = topCategories[topKey];
+            categoryMap[topCategory.id] = topCategory.name;
+            //$("#categories").append('<optgroup label="-' + topCategory.name + '" data-max-options="2">');
+            var subCategories = topCategory.sub;
+            for (var subKey in subCategories) {
+                var sub2Category = subCategories[subKey];
+                categoryMap[sub2Category.id] = sub2Category.name;
+                //$("#categories").append('<optgroup label="-' + sub2Category.name + '" data-max-options="2" style="margin-left:15px">');
+                var categories = sub2Category.sub;
+                for (var key in categories) {
+                    var category = categories[key];
+                    categoryMap[category.id] = category.name;
+                    $("#categories").append("<option value='" + category.id + "'>" + topCategory.name + ">>" + sub2Category.name + ">>" + category.name + "</option>");
+                }
+                //$("#categories").append('</optgroup>');
+            }
+            //$("#categories").append('</optgroup>');
+        }
+    }
+
+    function getCategoryNames(categoryIds) {
+        if (!categoryIds) {return;}
+        var categoryNames = "";
+        $.each(categoryIds, function () {
+            var categoryId = this;
+            categoryNames += categoryMap[categoryId + ""]+"; ";
+        });
+        return categoryNames;
     }
 
     ////////////////////////////////////event
@@ -195,16 +232,24 @@ define(["commJs"], function (comm) {
 
         if (pickedDate) param['birthday'] = pickedDate;
         if (avatar) param['avatar'] = avatar;
+
+        var categoryIds = [];
+        $("#categories option:selected").each(function () {
+            categoryIds.push(1 * $(this).val());
+        });
+        if (categoryIds.length > 0) param["categoryIds"] = JSON.stringify(categoryIds);
+
         //if (param['remove'] != null) param['remove'] = (param['remove'] == "true" ? true : false);
         return param;
     }
 
     function resetForm() {
-        $.each(fields.concat(['birthday', 'psw']), function (idx, field) {
+        $.each(fields.concat(['birthday', 'psw', 'categories']), function (idx, field) {
             $('#' + field).val('');
         });
         pickedDate = null;
         resetImage();
+        $('#categories option').removeAttr("selected");
         var el = $('#editPanel');
         el.data("row", "");
         el.data("id", "");
@@ -222,6 +267,17 @@ define(["commJs"], function (comm) {
         pickedDate = row['birthday'];
         if (pickedDate) $('#birthday').val(window.G_formatDate(pickedDate));
         if (row.avatar) appendImage($("#avatar"), row.avatar);
+
+        $("#categories option").each(function () {
+            $(this).removeAttr("selected");
+        });
+        var categoryIds = row.categoryIds;
+        if (categoryIds && categoryIds.length > 0) {
+            for (var key in categoryIds) {
+                $("#categories option[value=" + categoryIds[key] + "]").attr("selected", "selected");
+            }
+        }
+
         var el = $('#editPanel');
         if (row_str) el.data("row", row_str);
         if (row['id']) el.data("id", row['id']);
@@ -249,6 +305,8 @@ define(["commJs"], function (comm) {
             el.addClass('none');
         }, 200);
     }
+
+    window.G_getCategoryNames = getCategoryNames;
 
 
     return {
