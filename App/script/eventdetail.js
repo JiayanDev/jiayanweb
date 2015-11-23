@@ -334,7 +334,7 @@ define(["commJs"], function (comm) {
 		if (commentLength > 2) {
 			data.commentList.length = 2;
 		}
-		var $el = $('<div></div');
+		var $el = $('<div></div>');
 		comm.render({
 			tpl: 'tplForComment',
 			data: data.commentList,
