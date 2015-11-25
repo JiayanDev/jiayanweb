@@ -25,9 +25,27 @@ $(function () {
 
     if (is_weixn()){
         $('.btn').click(function () {
-            alert("Çëµã»÷ÓÒÉÏ·½µÄ²Ëµ¥£¬Ñ¡Ôñµ½ÆäËûä¯ÀÀÆ÷´ò¿ª£¡");
+            alert("è¯·ç‚¹å‡»å³ä¸Šæ–¹çš„èœå•ï¼Œé€‰æ‹©åˆ°å…¶ä»–æµè§ˆå™¨æ‰“å¼€ï¼");
             return false;
         });
+    }
+
+    //else if (is_ios()) {
+    //    window.location.replace($('#btn-itunes').attr('href'));
+    //}
+
+    function is_android(){
+        if (/android|linux/i.test(navigator.userAgent)){
+            return true;
+        }
+        return false;
+    }
+
+    function is_ios(){
+        if (/ipad|iphone|mac/i.test(navigator.userAgent)){
+            return true;
+        }
+        return false;
     }
 
     function is_weixn(){
