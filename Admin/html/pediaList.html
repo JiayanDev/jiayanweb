@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>用户</title>
+    <title>百科</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Bootstrap -->
     <!-- <link rel="stylesheet" href="http://cdn.bootcss.com/twitter-bootstrap/3.0.3/css/bootstrap.min.css"> -->
@@ -23,6 +23,8 @@
     <script type="text/javascript" src="../statics/jstree/_lib/jquery.cookie.js"></script>
     <script type="text/javascript" src="../statics/jstree/_lib/jquery.hotkeys.js"></script>
     <script type="text/javascript" src="../statics/jstree/jquery.jstree.js"></script>
+    <script src="../statics/jstree/js/jstree.min.js"></script>
+
     <link type="text/css" rel="stylesheet" href="../statics/jstree/_docs/!style.css"/>
 
     <style type="text/css">
@@ -92,15 +94,9 @@
                 <div class="col-sm-4 award-input-cnt">
                     <input id='name' type="text" class="form-control input-sm _itemName" placeholder="名称">
                 </div>
-                <label class="col-sm-2 control-label">密码</label>
-
-                <div class="col-sm-4 award-input-cnt">
-                    <input id='psw' type="text" class="form-control input-sm _itemName"
-                           placeholder="密码">
-                </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-2 control-label">头像</label>
+                <label class="col-sm-2 control-label">图标</label>
 
                 <div class="col-sm-1">
                     <div class="uploader-placeholder center">
@@ -119,93 +115,9 @@
                 <ul id="avatar" class="col-sm-2 gallery none"></ul>
             </div>
             <div class="form-group">
-                <label class="col-sm-2 control-label">性别</label>
+                <label class="col-sm-2 control-label">分类</label>
+                <div id="categories" class="col-sm-10">
 
-                <div class="col-sm-4">
-                    <select id='gender' class="form-control input-sm _itemName">
-                        <option value="0">女</option>
-                        <option value="1">男</option>
-                    </select>
-                </div>
-
-                <label class="col-sm-2 control-label">生日</label>
-
-                <div class="col-sm-4 input-group">
-                    <input id="birthday" type="text" class="form-control input-sm _itemName" placeholder="生日">
-
-                    <div class="input-group-addon"><i class="fa fa-th"></i></div>
-                </div>
-                <label class="col-sm-2 control-label none">生日年份</label>
-
-                <div class="col-sm-4 award-input-cnt none">
-                    <input id='birthYear' type="text" class="form-control input-sm _itemName"
-                           placeholder="生日年份">
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label class="col-sm-2 control-label">手机</label>
-
-                <div class="col-sm-4 award-input-cnt">
-                    <input id='phone' type="text" class="form-control input-sm _itemName" placeholder="手机">
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label">省份</label>
-
-                <div class="col-sm-4">
-                    <select id='province' class="form-control">
-                    </select>
-                </div>
-
-                <label class="col-sm-2 control-label">城市</label>
-
-                <div class="col-sm-4">
-                    <select id='city' class="form-control">
-                    </select>
-                </div>
-
-                <!--<label class="col-sm-1 control-label">地区</label>-->
-
-                <!--<div class="col-sm-3">-->
-                <!--<select id='district' class="form-control">-->
-                <!--</select>-->
-                <!--</div>-->
-            </div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label">职业</label>
-
-                <div class="col-sm-4 award-input-cnt">
-                    <input id='career' type="text" class="form-control input-sm _itemName" placeholder="职业">
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label">角色</label>
-
-                <div class="col-sm-3">
-                    <select id='role' class="form-control">
-                        <option value="normal">normal</option>
-                        <option value="angel">angel</option>
-                        <option value="company">company</option>
-                    </select>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label">项目</label>
-
-                <div class="col-sm-10">
-                    <select id="categories" class="form-control" multiple=”multiple” style="height: 100px">
-                    </select>
-                </div>
-            </div>
-            <div name="edit-item" class="form-group">
-                <label class="col-sm-2 control-label">是否删除</label>
-
-                <div class="col-sm-3">
-                    <select id='remove' class="form-control">
-                        <option value="1">是</option>
-                        <option value="0">否</option>
-                    </select>
                 </div>
             </div>
         </form>
@@ -217,157 +129,102 @@
 </div>
 
 <div class="container container-bg bounce animated" id="listPanel">
-    <div class="panel-body">
-        <div class="row">
-            <div id="category-tree" class="col-md-3 jstree jstree-2 jstree-default" style="height:100px;">
-                <ul>
-                    <li>
-                        <a href="#">眼部</a>
-                        <ul>
-                            <li>
-                                <a href="#">双眼皮</a>
-                            </li>
-                            <li>
-                                <a href="#">开眼角</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="#">鼻部</a>
-                        <ul>
-                            <li>
-                                <a href="#">隆鼻</a>
-                            </li>
-                            <li>
-                                <a href="#">缩鼻</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="#">面部轮廓</a>
-                    </li>
-                    <li>
-                        <a href="#">胸部</a>
-                    </li>
-                </ul>
+    <div>
+        <!-- 列表 -->
+        <div class="list-panel item-list-panel">
+            <!-- <button class="btn" id="addNt"><i class="icon-plus"></i>录入排队编号类型</button> -->
+            <div class="input-append" style="margin-bottom:19px;">
+                <span class="btn btn-sm" id="_search"><!--查询--></span>
+                <button class="btn btn-warning btn-sm btn-right" id="_add">添加</button>
             </div>
-            <div class="col-md-9">
-                <div class="table-responsive">
-                    <table class="table table-bordered table-hover table-striped table-condensed">
-                        <thead>
-                        <tr>
-                            <th style="width: 100px;">详情信息</th>
-                            <th>值</th>
-                        </tr>
-                        </thead>
-                        <tbody id="goodsTypeDetail">
+            <div class="row">
+                <div class="col-md-4">
+                    <h1 class="text-left">分类/项目树结构</h1>
+                    <div id="category-tree" class="jstree jstree-2 jstree-default">
+                        <ul>
+                            <li>
+                                <a href="#">眼部</a>
+                                <ul>
+                                    <li>
+                                        <a href="#">双眼皮</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">开眼角</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="#">鼻部</a>
+                                <ul>
+                                    <li>
+                                        <a href="#">隆鼻</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">缩鼻</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="#">面部轮廓</a>
+                            </li>
+                            <li>
+                                <a href="#">胸部</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <div class="table-responsive">
+                        <h1 class="text-left">分类/项目详情</h1>
+                        <table class="table table-bordered table-hover table-striped table-condensed">
+                            <thead>
+                            <tr>
+                                <th style="width: 100px;">列名</th>
+                                <th>列值</th>
+                            </tr>
+                            </thead>
+                            <tbody id="category-detail">
 
-                        </tbody>
-                    </table>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
-
     </div>
 </div>
 </div>
-<script type="text/javascript" class="source below">
-    $(function () {
-        // TO CREATE AN INSTANCE
-        // select the tree container using jQuery
-        $("#category-tree")
-            // call `.jstree` with the options object
-                .jstree({
-                    // the `plugins` array allows you to configure the active plugins on this instance
-                    "plugins": ["themes", "html_data", "ui", "crrm", "hotkeys"],
-                    // each plugin you have included can have its own config object
-                    "core": {"initially_open": ["phtml_1"]}
-                    // it makes sense to configure a plugin only if overriding the defaults
-                })
-            // EVENTS
-            // each instance triggers its own events - to process those listen on the container
-            // all events are in the `.jstree` namespace
-            // so listen for `function_name`.`jstree` - you can function names from the docs
-                .bind("loaded.jstree", function (event, data) {
-                    // you get two params - event & data - check the core docs for a detailed description
-                })
-                .bind("select_node.jstree", function (event, data) {
-                    // `data.rslt.obj` is the jquery extended node that was clicked
-                    alert(data.rslt.obj.attr("id"));
-                })
-            // 2) if not using the UI plugin - the Anchor tags work as expected
-            //    so if the anchor has a HREF attirbute - the page will be changed
-            //    you can actually prevent the default, etc (normal jquery usage)
-                .delegate("a", "click", function (event, data) {
-                    event.preventDefault();
-                    alert('delegate');
-                })
-    });
+
+<!-- 模板 -->
+<script type="text/tpl" id="tplForCategory">
+    <tr>
+        <td>编号</td>
+        <td>{%= o.id %}</td>
+    </tr>
+    <tr>
+        <td>名称</td>
+        <td>{%= o.name %}</td>
+    </tr>
+    <tr>
+        <td>介绍</td>
+        <td>{%= o.content | '好漂亮的双眼皮' %}</td>
+    </tr>
+    <tr>
+        <td>操作</td>
+        <td>
+            <a href="#" class="_edit" data-id="{%= o.id %}" data-row='{%= JSON.stringify(o) %}'>编辑</a>
+            <a href="#" class="_edit" data-id="{%= o.id %}" data-row='{%= JSON.stringify(o) %}'>详情</a>
+            <a href="#" class="_edit" data-id="{%= row.id %}" data-row='{%= JSON.stringify(row) %}'>添加</a>
+            <a href="#" class="_edit" data-id="{%= o.id %}">删除</a>
+        </td>
+    </tr>
 </script>
-<script type="text/tpl" id="tplList">
-    <table class="table table-hover">
-        <thead>
-            <tr>
-                <th class="th-border">编号</th>
-                <th class="th-border">名称</th>
-                <th class="th-border">头像</th>
-                <th class="th-border">角色</th>
-                <th class="th-border">性别</th>
-                <th class="th-border">生日</th>
-                <th class="th-border">手机</th>
-                <th class="th-border">地区</th>
-                <th class="th-border">职业</th>
-                <th class="th-border">项目</th>
-                <th class="th-border">是否删除</th>
-                <th class="th-border">创建时间</th>
-                <th class="th-border">操作</th>
-            </tr>
-        </thead>
-        <tbody>
-            {%
-                if( !!o && o.length > 0){
-                for(var i=0,len=o.length; i< len;i++){
-                    var row = o[i];
-            %}
-            <tr>
-                <td>{%= row.id %}</td>
-                <td>{%= row.name %}</td>
-                <td>
-                    <img src="{%= row.avatar || '' %}" style="width:30px;"/>
-                </td>
-                <td>{%= row.role %}</td>
-                <td>{%= {0:'女', 1:'男'}[row.gender]||'-' %}</td>
-                <td>{%= window.G_formatDate(row.birthday) %}</td>
-                <td>{%= row.phone %}</td>
-                <td>{%= row.province %}{%= row.city %}{%= row.district %}</td>
-                <td>{%= row.career %}</td>
-                <td style="width:120px">{%= window.G_getCategoryNames(row.categoryIds) %}</td>
-                <td>{%= (row.remove && row.remove == true)?'是':'否' %}</td>
-                <td>{%= window.G_formatTime(row.createTime) %}</td>
-                <td>
-                    <a href="#" class="_edit" data-id="{%= row.id %}" data-row='{%= JSON.stringify(row) %}'>编辑</a>
-                </td>
-            </tr>
-            {% }}else{ %}
-                <td colspan="7" style="text-align:center;">{%= typeof o.msg!= 'undefined'? o.msg:'列表为空了' %}</td>
-            {% } %}
-        </tbody>
-    </table>
-
-
-
-
-
-
-
-</script>
-
 
 <script src="../js/lib/md5.js"></script>
-<script src="../statics/jstree/js/jstree.min.js"></script>
 <script src="../js/lib/require.js"></script>
 
 <script type="text/javascript">
+    var jstree = $.fn.jstree;
     require.config({
         baseUrl: "../js",
         paths: {
@@ -376,7 +233,8 @@
             "bootstrap": "lib/bootstrap.min"
         }
     });
-    require(["pediaList"], function (mod) {
+    require(["pediaList", "jquery"], function (mod, jquery) {
+        jquery.fn.jstree = jstree;
         mod.setup();
     });
 </script>

@@ -15,46 +15,121 @@ define(["commJs"], function (comm) {
 
     function init() {
         comm.setupWorkspace();
+        categories2Map();
         setupCategories();
+        setupCategoryTree();
         bindEvent();
         setupDateSel();
         setupImg();
-        comm.utils.getArea();
         getList();
     }
 
     var categoryMap = {};
 
-    function setupCategories() {
-        $("#categories").empty();
+    function categories2Map() {
         var topCategories = comm.login.getProjects().data;
         for (var topKey in topCategories) {
             var topCategory = topCategories[topKey];
-            categoryMap[topCategory.id] = topCategory.name;
-            //$("#categories").append('<optgroup label="-' + topCategory.name + '" data-max-options="2">');
+            categoryMap[topCategory.id] = topCategory;
             var subCategories = topCategory.sub;
             for (var subKey in subCategories) {
                 var sub2Category = subCategories[subKey];
-                categoryMap[sub2Category.id] = sub2Category.name;
-                //$("#categories").append('<optgroup label="-' + sub2Category.name + '" data-max-options="2" style="margin-left:15px">');
+                categoryMap[sub2Category.id] = sub2Category;
                 var categories = sub2Category.sub;
                 for (var key in categories) {
                     var category = categories[key];
-                    categoryMap[category.id] = category.name;
-                    $("#categories").append("<option value='" + category.id + "'>" + topCategory.name + ">>" + sub2Category.name + ">>" + category.name + "</option>");
+                    categoryMap[category.id] = category;
                 }
-                //$("#categories").append('</optgroup>');
             }
-            //$("#categories").append('</optgroup>');
         }
     }
 
+    function setupCategories() {
+        $("#categories").empty();
+        //$("#categories").append('<label class="col-sm-2 control-label">分类</label>');
+        renderCategories(comm.login.getProjects().data);
+    }
+
+    function renderCategories(data) {
+        $("#categories").append(setupCategoryList(data).join(''));
+        $("#categories select:last").val('');
+        $("#categories select:last").change(function () {
+            $(this).parent().nextAll().remove();
+            var category = categoryMap[$(this).val()];
+            if (category.sub) renderCategories(category.sub);
+        });
+    }
+
+    function setupCategoryList(categoryList) {
+        var strArr = [];
+        strArr.push('<div class="col-sm-4">');
+        strArr.push('<select class="form-control" style="margin-bottom: 5px">');
+        for (var key in categoryList) {
+            var category = categoryList[key];
+            strArr.push('<option value="' + category.id + '">' + category.name + '</option>');
+        }
+        strArr.push('</select>');
+        strArr.push('</div>');
+        return strArr;
+    }
+
+    function setupCategoryTree() {
+        var tree = appendCategoryTree(comm.login.getProjects().data);
+        $("#category-tree").empty();
+        $("#category-tree").append(tree.join(''));
+        $("#category-tree").jstree({
+            "plugins": ["themes", "html_data", "ui", "crrm", "hotkeys"],
+            "core": {/**"initially_open": ["phtml_1"], **/ animation: 50}
+        }).bind("loaded.jstree", function (event, data) {
+
+        }).bind("select_node.jstree", function (event, data) {
+            var $t = $(event.target);
+            //var $t = data.rslt.obj;
+            var id = $t.data('id');
+            var row_str = $t.attr('data-row');
+            var row = JSON.parse(row_str);
+            renderCategory(row);
+            return false;
+        }).delegate("a", "click", function (event, data) {
+            //event.preventDefault();
+            var $t = $(event.target);
+            //var $t = data.rslt.obj;
+            var id = $t.data('id');
+            var row_str = $t.attr('data-row');
+            var row = JSON.parse(row_str);
+            renderCategory(row);
+            return false;
+        });
+    }
+
+    function appendCategoryTree(tree) {
+        var strArr = [];
+        strArr.push('<ul>');
+        for (var key in tree) {
+            var value = tree[key];
+            strArr.push('<li>');
+
+            var row = {};
+            $.extend(row, value);
+            if (row.sub) delete row.sub;
+            var row_str = JSON.stringify(row);
+            strArr.push("<a href='#' data-id='" + row.id + "' data-row='" + row_str + "'>" + value.name + "</a>");
+
+            if (value.sub) strArr = strArr.concat(appendCategoryTree(value.sub));
+            strArr.push('</li>');
+        }
+        strArr.push('</ul>');
+        return strArr;
+    }
+
     function getCategoryNames(categoryIds) {
-        if (!categoryIds) {return;}
+        if (!categoryIds) {
+            return;
+        }
         var categoryNames = "";
         $.each(categoryIds, function () {
             var categoryId = this;
-            categoryNames += categoryMap[categoryId + ""]+"; ";
+            categoryNames += categoryMap[categoryId + ""].name + "; ";
         });
         return categoryNames;
     }
@@ -124,62 +199,6 @@ define(["commJs"], function (comm) {
                 doSubmit("app/user/create", params, "添加成功");
             }
             return false;
-        });
-
-
-
-
-        // 树形结构
-        //$("#goodsTypeTree").jstree();
-        $("#goodsTypeTree").on("activate_node.jstree",function(e,data){
-            var detail=data.node.li_attr.detail;
-            var extend=data.node.li_attr.extend;
-            //alert(extend);
-            if(detail){
-                detail=$.parseJSON(detail);
-                //detail.extend=$.parseJSON(extend);
-                detail.extend=extend?extend:"";
-                // 填充数据
-                $("#goodsTypeDetail").empty().attr("gst-id",detail.id).attr("gst-parent-id",detail.parent_id)
-                    .append("<tr><td>名称:</td><td name='name'>"+detail.name+"</td></tr>")
-                    .append("<tr><td>状态:</td><td name='status' value='"+detail.status+"'>"+(detail.status==0?"有效":"无效")+"</td></tr>")
-                    .append("<tr><td>描述:</td><td name='description' param='"+detail.extend+"' icon='"+detail.icon+"' pic='"+detail.pic+"'>"+detail.description+"</td></tr>")
-                    .append("<tr><td>操作:</td><td><a class='gst-edit' data-toggle='collapse' data-parent='#gst-condition-area' href='#gst-edit-condition' > 编辑 </a> ,<a class='goodsTypeDelete' href=''>删除</a></td></tr>");
-                // 关闭编辑对话框
-                $("#gst-edit-condition").removeClass('in');
-                // 绑定删除事件
-                $(".goodsTypeDelete").unbind("click").click(function(){
-                    if (!confirm("确认要删除？")) {
-                        return false;
-                    }
-                    var id=$(this).closest("tbody").attr("gst-id");
-                    var url=webContextPath+"/admin/goods/type/delete.json";
-                    Util.post(url,{id:id},function(entity){
-                        if(entity.status==0){
-                            reloadActivePage(null,goodsTypeMangerLoad);
-                        }else{
-                            alert(entity.msg);
-                        }
-                    },function(){
-                        alert("网络异常，请稍后重试");
-                    });
-                    return false;
-                });
-                // 编辑填充数据
-                $(".gst-edit").click(function(){
-                    // 赋值
-                    $($(this).attr("href")).find("[name='name']").val($(this).closest("tbody").find("[name='name']").text());
-                    $($(this).attr("href")).find("[name='parent']").val($(this).closest("tbody").attr("gst-parent-id"));
-                    $($(this).attr("href")).find("[name='status']").val($(this).closest("tbody").find("[name='status']").attr("value"));
-                    $($(this).attr("href")).find("[name='description']").val($(this).closest("tbody").find("[name='description']").text());
-                    $($(this).attr("href")).find("[name='param']").val($(this).closest("tbody").find("[name='description']").attr("param"));
-                    $($(this).attr("href")).find("[name='pic-icon-icon']").attr("pic", $(this).closest("tbody").find("[name='description']").attr("icon"));
-                    $($(this).attr("href")).find("[name='pic-icon-pic']").attr("pic", $(this).closest("tbody").find("[name='description']").attr("pic"));
-
-                    $("#btn-gst-admin-edit").attr("gst-id",$(this).closest("tbody").attr("gst-id"));
-                });
-
-            }
         });
     }
 
@@ -252,6 +271,15 @@ define(["commJs"], function (comm) {
     }
 
     ////////////////////////////////////Render
+    function renderCategory(category) {
+        var $el = $('#category-detail');
+        comm.renderEl({
+            tpl: 'tplForCategory',
+            data: category,
+            renderTo: $el
+        });
+    }
+
     function renderList(d) {
         comm.render({
             tpl: "tplList",
