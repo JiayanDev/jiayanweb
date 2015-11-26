@@ -1,11 +1,12 @@
 /**
  * @author janson
- * @date    2015-11-10
+ * @date    2015-08-11
  * @todo  user admin manager
  */
 define(["commJs"], function (comm) {
-    var pickedDate,
-        avatar;
+    const DIR = 'pedia';
+
+    var pickedDate;
 
     function main() {
         comm.checkLogin(function () {
@@ -15,123 +16,10 @@ define(["commJs"], function (comm) {
 
     function init() {
         comm.setupWorkspace();
-        categories2Map();
-        setupCategories();
-        setupCategoryTree();
         bindEvent();
         setupDateSel();
-        setupImg();
+        comm.utils.getArea();
         getList();
-    }
-
-    var categoryMap = {};
-
-    function categories2Map() {
-        var topCategories = comm.login.getProjects().data;
-        for (var topKey in topCategories) {
-            var topCategory = topCategories[topKey];
-            categoryMap[topCategory.id] = topCategory;
-            var subCategories = topCategory.sub;
-            for (var subKey in subCategories) {
-                var sub2Category = subCategories[subKey];
-                categoryMap[sub2Category.id] = sub2Category;
-                var categories = sub2Category.sub;
-                for (var key in categories) {
-                    var category = categories[key];
-                    categoryMap[category.id] = category;
-                }
-            }
-        }
-    }
-
-    function setupCategories() {
-        $("#categories").empty();
-        //$("#categories").append('<label class="col-sm-2 control-label">分类</label>');
-        renderCategories(comm.login.getProjects().data);
-    }
-
-    function renderCategories(data) {
-        $("#categories").append(setupCategoryList(data).join(''));
-        $("#categories select:last").val('');
-        $("#categories select:last").change(function () {
-            $(this).parent().nextAll().remove();
-            var category = categoryMap[$(this).val()];
-            if (category.sub) renderCategories(category.sub);
-        });
-    }
-
-    function setupCategoryList(categoryList) {
-        var strArr = [];
-        strArr.push('<div class="col-sm-4">');
-        strArr.push('<select class="form-control" style="margin-bottom: 5px">');
-        for (var key in categoryList) {
-            var category = categoryList[key];
-            strArr.push('<option value="' + category.id + '">' + category.name + '</option>');
-        }
-        strArr.push('</select>');
-        strArr.push('</div>');
-        return strArr;
-    }
-
-    function setupCategoryTree() {
-        var tree = appendCategoryTree(comm.login.getProjects().data);
-        $("#category-tree").empty();
-        $("#category-tree").append(tree.join(''));
-        $("#category-tree").jstree({
-            "plugins": ["themes", "html_data", "ui", "crrm", "hotkeys"],
-            "core": {/**"initially_open": ["phtml_1"], **/ animation: 50}
-        }).bind("loaded.jstree", function (event, data) {
-
-        }).bind("select_node.jstree", function (event, data) {
-            var $t = $(event.target);
-            //var $t = data.rslt.obj;
-            var id = $t.data('id');
-            var row_str = $t.attr('data-row');
-            var row = JSON.parse(row_str);
-            renderCategory(row);
-            return false;
-        }).delegate("a", "click", function (event, data) {
-            //event.preventDefault();
-            var $t = $(event.target);
-            //var $t = data.rslt.obj;
-            var id = $t.data('id');
-            var row_str = $t.attr('data-row');
-            var row = JSON.parse(row_str);
-            renderCategory(row);
-            return false;
-        });
-    }
-
-    function appendCategoryTree(tree) {
-        var strArr = [];
-        strArr.push('<ul>');
-        for (var key in tree) {
-            var value = tree[key];
-            strArr.push('<li>');
-
-            var row = {};
-            $.extend(row, value);
-            if (row.sub) delete row.sub;
-            var row_str = JSON.stringify(row);
-            strArr.push("<a href='#' data-id='" + row.id + "' data-row='" + row_str + "'>" + value.name + "</a>");
-
-            if (value.sub) strArr = strArr.concat(appendCategoryTree(value.sub));
-            strArr.push('</li>');
-        }
-        strArr.push('</ul>');
-        return strArr;
-    }
-
-    function getCategoryNames(categoryIds) {
-        if (!categoryIds) {
-            return;
-        }
-        var categoryNames = "";
-        $.each(categoryIds, function () {
-            var categoryId = this;
-            categoryNames += categoryMap[categoryId + ""].name + "; ";
-        });
-        return categoryNames;
     }
 
     ////////////////////////////////////event
@@ -148,7 +36,7 @@ define(["commJs"], function (comm) {
                     content: '确定删除该该用户吗？',
                     placement: 'left',
                     onYES: function () {
-                        comm.io.postId('app/user/remove', id, getList);
+                        comm.io.postId('user/remove', id, getList);
                     }
                 });
                 return false;
@@ -158,13 +46,24 @@ define(["commJs"], function (comm) {
                 var row = JSON.parse(row_str);
 
                 $("#panelTitle").html("编辑用户信息    ID: " + id);
-                resetForm();
-                openPanel(true);
+                openPanel();
                 $('#_submit').text('编辑');
 
                 setForm(row, row_str);
                 return false;
             }
+        });
+
+        $('#_search').click(function () {
+            $("#panelTitle").html("查询用户信息");
+            resetForm();
+            var args = comm.utils.getUrlArgObject();
+            args['pageIndex'] = '';
+            args['orders'] = '';
+            setForm(args);
+            openPanel(true);
+            $('#_submit').text('查询');
+            return false;
         });
 
         $('#_add').click(function () {
@@ -193,10 +92,10 @@ define(["commJs"], function (comm) {
                 var row_str = el.data('row');
                 var row = JSON.parse(row_str);
                 params = $.extend(params, {id: id});
-                doSubmit("app/user/update", params, "更新成功");
+                doSubmit("user/update", params, "更新成功");
             } else {
                 var params = getParam();
-                doSubmit("app/user/create", params, "添加成功");
+                doSubmit("user/create", params, "添加成功");
             }
             return false;
         });
@@ -215,35 +114,6 @@ define(["commJs"], function (comm) {
         });
     }
 
-    function setupImg() {
-        var $el = $('#avatarImgThumberUploader');
-        var $closest = $el.closest('.col-sm-1'),
-            $loadingEl = $closest.find('.loading'),
-            fileMsg = $closest.find('.fileMsg'),
-            gallery = $el.closest('.form-group').find('ul.gallery');
-
-        comm.utils.setupFileLoader({
-            el: $el,
-            beforeSubmit: function (e, data) {
-                fileMsg.html('');
-                $loadingEl.removeClass('none');
-            },
-            callback: function (resp) {
-                var imgUrl = (resp && resp.url) || null;
-                if (imgUrl) {
-                    imgUrl = comm.config.BASE_IMAGE_PATH + imgUrl;
-                    appendImage(gallery, imgUrl);
-                    $loadingEl.addClass('none');
-                } else {
-                    fileMsg.html('imgUrl==null');
-                }
-            },
-            error: function (resp) {
-                fileMsg.html((resp && resp.msg) || '文件上传失败');
-            }
-        });
-    }
-
     ////////////////////////////////////http
     function doSubmit(action, param, msg) {
         comm.io.post({
@@ -257,29 +127,36 @@ define(["commJs"], function (comm) {
         });
     }
 
+
+
     function getList(data) {
         if (!data) {
             data = {};
         }
         comm.io.get({
-            url: comm.config.BASEPATH + 'app/user/list',
+            url: comm.config.BASEPATH + 'user/list',
             data: data,
             success: function (d) {
                 renderList(d);
+                fields = comm.utils.intersectFields(c_fields);
+                console.log(fields);
+
+                //隐藏掉一些医院角色不需要看到的东西
+                if(fields.indexOf("source")<0){
+                    $("#_add").hide();
+                    $("#firNav li").each(function(){
+                        if($(this).text()=="订单"){
+                            $(this).hide();
+                        }
+                    });
+                    $("#_list .caozuo").hide();
+                }
+
             }
         });
     }
 
     ////////////////////////////////////Render
-    function renderCategory(category) {
-        var $el = $('#category-detail');
-        comm.renderEl({
-            tpl: 'tplForCategory',
-            data: category,
-            renderTo: $el
-        });
-    }
-
     function renderList(d) {
         comm.render({
             tpl: "tplList",
@@ -289,51 +166,26 @@ define(["commJs"], function (comm) {
         });
     }
 
-    function appendImage(imgEl, imgUrl) {
-        imgEl.removeClass("none");
-        imgEl.html('');
-        imgEl.append('<li><img src="' + imgUrl + '"' + 'style="vertical-align:middle;"></li>');
-        var id = imgEl.attr("id");
-        avatar = imgUrl;
-    }
-
-    function resetImage() {
-        $('#avatar').html('');
-        avatar = null;
-    }
-
     ////////////////////////////////////Form data
-    var fields = ['name', 'gender', 'phone', 'province', 'city', 'career', 'role', 'remove'];
+    const c_fields = ['name', 'wxNickName', 'gender', 'phone', 'province', 'career', 'source', 'birthYear'];
+    var fields;
 
     function getParam() {
         var param = {};
-        $.each(fields, function (idx, field) {
+        $.each(fields.concat(['city', 'district']), function (idx, field) {
             var val = $.trim($('#' + field).val());
             if (val) param[field] = val;
         });
-        var psw = $.trim($('#psw').val());
-        if (psw) param['psw'] = md5(psw);
-
-        if (pickedDate) param['birthday'] = pickedDate;
-        if (avatar) param['avatar'] = avatar;
-
-        var categoryIds = [];
-        $("#categories option:selected").each(function () {
-            categoryIds.push(1 * $(this).val());
-        });
-        if (categoryIds.length > 0) param["categoryIds"] = JSON.stringify(categoryIds);
-
-        //if (param['remove'] != null) param['remove'] = (param['remove'] == "true" ? true : false);
+        if (comm.utils.containsFields('birthday'))
+            if (pickedDate) param['birthday'] = pickedDate;
         return param;
     }
 
     function resetForm() {
-        $.each(fields.concat(['birthday', 'psw', 'categories']), function (idx, field) {
+        $.each(fields.concat(['birthday', 'city', 'district']), function (idx, field) {
             $('#' + field).val('');
         });
         pickedDate = null;
-        resetImage();
-        $('#categories option').removeAttr("selected");
         var el = $('#editPanel');
         el.data("row", "");
         el.data("id", "");
@@ -342,24 +194,14 @@ define(["commJs"], function (comm) {
     }
 
     function setForm(row, row_str) {
-        if (row['remove'] != null) row['remove'] = row['remove'] == true ? "1" : "0";
-        if (row['gender'] != null) row['gender'] = row['gender'] == 1 ? "1" : "0";
         $.each(fields, function (idx, field) {
             if ($('#' + field) && row[field]) $('#' + field).val(row[field]);
         });
-        comm.utils.provinceChange(row['city'], row['district']);
-        pickedDate = row['birthday'];
-        if (pickedDate) $('#birthday').val(window.G_formatDate(pickedDate));
-        if (row.avatar) appendImage($("#avatar"), row.avatar);
-
-        $("#categories option").each(function () {
-            $(this).removeAttr("selected");
-        });
-        var categoryIds = row.categoryIds;
-        if (categoryIds && categoryIds.length > 0) {
-            for (var key in categoryIds) {
-                $("#categories option[value=" + categoryIds[key] + "]").attr("selected", "selected");
-            }
+        if (comm.utils.containsFields('city'))
+            comm.utils.provinceChange(row['city'], row['district']);
+        if (comm.utils.containsFields('birthday')){
+            pickedDate = row['birthday'];
+            if (pickedDate) $('#birthday').val(window.G_formatDate(pickedDate));
         }
 
         var el = $('#editPanel');
@@ -368,11 +210,13 @@ define(["commJs"], function (comm) {
     }
 
     ////////////////////////////////////panel
-    function openPanel(showEdit) {
-        if (showEdit) {
-            $('[name=edit-item]').show();
+    function openPanel(showSearch) {
+        if (showSearch) {
+            $('[name=not-search-item]').hide();
+            $('[name=search-item]').show();
         } else {
-            $('[name=edit-item]').hide();
+            $('[name=not-search-item]').show();
+            $('[name=search-item]').hide();
         }
         var el = $('#editPanel');
         el.addClass('bounce').addClass('animated').removeClass('none');
@@ -389,9 +233,6 @@ define(["commJs"], function (comm) {
             el.addClass('none');
         }, 200);
     }
-
-    window.G_getCategoryNames = getCategoryNames;
-
 
     return {
         setup: main

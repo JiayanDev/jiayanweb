@@ -116,14 +116,41 @@ define(["commJs","tipped"], function (comm,Tipped) {
                             success: function () {
                                 options.unload();
                                 comm.utils.showMsg("评论成功！");
+                                getList();
+                            }
+                        });
+                    }
+                });
+                return false;
+            } else if ($t.hasClass('_like')) {
+                var id = $t.data('id');
+                comm.confirm({
+                    el: $t,
+                    content: "<input class='form-control' placeholder='填写用户Id'></inpu>",
+                    placement: "left",
+                    onYES: function (options) {
+                        var inputEl = $(options.target).closest('.popover-content').find('input');
+                        var userId = inputEl.val();
+
+                        var data = {
+                            postId: id
+                        };
+                        if (userId) {
+                            data['userId'] = userId;
+                        }
+                        comm.io.post({
+                            url: comm.config.BASEPATH + 'post/like',
+                            data: data,
+                            success: function () {
+                                options.unload();
+                                comm.utils.showMsg("点赞成功！");
+                                getList();
                             }
                         });
                     }
                 });
                 return false;
             }
-
-
 
             if ($t.hasClass('_verify')) {
                 var status = $t.data('status');

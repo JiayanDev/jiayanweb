@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>百科列表</title>
+    <title>百科目录</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Bootstrap -->
     <!-- <link rel="stylesheet" href="http://cdn.bootcss.com/twitter-bootstrap/3.0.3/css/bootstrap.min.css"> -->
@@ -18,36 +18,58 @@
     <link href="../statics/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
     <link href="../statics/css/animate.min.css" rel="stylesheet">
     <link href="../statics/css/admin.css" rel="stylesheet">
+
+    <script type="text/javascript" src="../statics/jstree/_lib/jquery.js"></script>
+    <script type="text/javascript" src="../statics/jstree/_lib/jquery.cookie.js"></script>
+    <script type="text/javascript" src="../statics/jstree/_lib/jquery.hotkeys.js"></script>
+    <script type="text/javascript" src="../statics/jstree/jquery.jstree.js"></script>
+    <script src="../statics/jstree/js/jstree.min.js"></script>
+
+    <link type="text/css" rel="stylesheet" href="../statics/jstree/_docs/!style.css"/>
+
+    <style type="text/css">
+        .gallery {
+            list-style-type: none;
+            margin-bottom: 10px;
+            overflow: auto;
+            padding-left: 0px;
+        }
+
+        .gallery li img {
+            height: 100px;
+        }
+
+        .gallery li {
+            float: left;
+            margin-right: 10px;
+            list-style-type: none;
+        }
+
+        .uploader-placeholder {
+            width: 50px;
+            height: 50px;
+            border: 1px dashed #333;
+        }
+
+        .uploader-placeholder i {
+            line-height: 50px;
+            font-size: 2em;
+        }
+
+        .tree-icon {
+            margin-left: 5px;
+            height:25px;
+        }
+        .tree-hot {
+            top: 0;
+            vertical-align: top;
+            margin-top: 0;
+            margin-left: 5px;
+            height:10px;
+        }
+    </style>
 </head>
-<style type="text/css">
-    .gallery {
-        list-style-type: none;
-        margin-bottom: 10px;
-        overflow: auto;
-        padding-left: 0px;
-    }
-
-    .gallery li img {
-        height: 100px;
-    }
-
-    .gallery li {
-        float: left;
-        margin-right: 10px;
-        list-style-type: none;
-    }
-
-    .uploader-placeholder {
-        width: 50px;
-        height: 50px;
-        border: 1px dashed #333;
-    }
-
-    .uploader-placeholder i {
-        line-height: 50px;
-        font-size: 2em;
-    }
-</style>
+<style type="text/css"></style>
 <body>
 <div>
     <nav class="navbar navbar-inverse navbar-lg" role="navigation"
@@ -156,75 +178,85 @@
         <div class="list-panel item-list-panel">
             <!-- <button class="btn" id="addNt"><i class="icon-plus"></i>录入排队编号类型</button> -->
             <div class="input-append" style="margin-bottom:19px;">
-                <!--<button class="btn btn-sm" id="_search">查询</button>-->
+                <span class="btn btn-sm" id="_search"><!--查询--></span>
                 <button class="btn btn-warning btn-sm btn-right" id="_add">添加</button>
             </div>
-            <div id="_list">
-                <table class="table table-hover">
-                    <thead>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td colspan="6" style="text-align:center;"><i class="fa fa-spinner fa-spin"></i>正在加载...</td>
-                    </tr>
-                    </tbody>
-                </table>
+            <div class="row">
+                <div class="col-md-4">
+                    <h1 class="text-left">分类/项目树结构</h1>
+                    <div id="category-tree" class="jstree jstree-2 jstree-default">
+
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <div class="table-responsive">
+                        <h1 class="text-left">分类/项目详情</h1>
+                        <table class="table table-bordered table-hover table-striped table-condensed">
+                            <thead>
+                            <tr>
+                                <th style="width: 100px;">列名</th>
+                                <th>列值</th>
+                            </tr>
+                            </thead>
+                            <tbody id="category-detail">
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-    <!-- 排队类型管理结束 -->
 </div>
 </div>
 
-<script type="text/tpl" id="tplList">
-    <table class="table table-hover">
-        <thead>
-            <tr>
-                <th class="th-border">编号</th>
-                <th class="th-border">名称</th>
-                <th class="th-border">图标</th>
-                <th class="th-border">简介</th>
-                <th class="th-border">关键词</th>
-                <th class="th-border">是否热门</th>
-                <th class="th-border">创建时间</th>
-                <th class="th-border">操作</th>
-            </tr>
-        </thead>
-        <tbody>
-            {%
-                if( !!o && o.length > 0){
-                for(var i=0,len=o.length; i< len;i++){
-                    var row = o[i];
-            %}
-            <tr>
-                <td>{%= row.id %}</td>
-                <td>{%= row.name %}</td>
-                <td>
-                    <img src="{%= row.icon || '' %}" style="width:30px;"/>
-                </td>
-                <td>{%= row.introduction %}</td>
-                <td>{%= row.keywords %}</td>
-                <td>{%= (o.isHot && o.isHot == true)?'是':'否' %}</td>
-                <td>{%= window.G_formatTime(row.createTime) %}</td>
-                <td data-id="{%= row.id %}" data-row='{%= JSON.stringify(row) %}'>
-                    <a href="#" class="_edit">编辑</a>&nbsp;
-                    <a href="#" class="_detail">详情</a>&nbsp;
-                    <!--<a href="#" class="_add">添加</a>-->
-                    <a href="#" class="_delete">删除</a>&nbsp;
-                    <a href="#" class="_delete_forever">永久删除</a>
-                </td>
-            </tr>
-            {% }}else{ %}
-                <td colspan="7" style="text-align:center;">{%= typeof o.msg!= 'undefined'? o.msg:'列表为空了' %}</td>
-            {% } %}
-        </tbody>
-    </table>
+<!-- 模板 -->
+<script type="text/tpl" id="tplForCategory">
+    <tr>
+        <td>编号</td>
+        <td>{%= o.id %}</td>
+    </tr>
+    <tr>
+        <td>名称</td>
+        <td>{%= o.name %}</td>
+    </tr>
+    <tr>
+        <td>图标</td>
+        <td><img src="{%= o.icon || '' %}" style="height:40px;"/></td>
+    </tr>
+    <tr>
+        <td>简介</td>
+        <td>{%= o.introduction %}</td>
+    </tr>
+    <tr>
+        <td>关键词</td>
+        <td>{%= o.keywords %}</td>
+    </tr>
+    <tr>
+        <td>是否热门</td>
+        <td>{%= (o.isHot && o.isHot == true)?'是':'否' %}</td>
+    </tr>
+    <tr>
+        <td>创建时间</td>
+        <td>{%= window.G_formatTime(o.createTime) %}</td>
+    </tr>
+    <tr>
+        <td>操作</td>
+        <td data-id="{%= o.id %}" data-row='{%= JSON.stringify(o) %}'>
+            <a href="#" class="_edit">编辑</a>&nbsp;
+            <a href="#" class="_detail">详情</a>&nbsp;
+            <!--<a href="#" class="_add">添加</a>-->
+            <a href="#" class="_delete">删除</a>&nbsp;
+            <a href="#" class="_delete_forever">永久删除</a>
+        </td>
+    </tr>
 </script>
 
 <script src="../js/lib/md5.js"></script>
 <script src="../js/lib/require.js"></script>
 
 <script type="text/javascript">
+    var jstree = $.fn.jstree;
     require.config({
         baseUrl: "../js",
         paths: {
@@ -233,7 +265,8 @@
             "bootstrap": "lib/bootstrap.min"
         }
     });
-    require(["pediaComm"], function (mod) {
+    require(["pediaComm", "jquery"], function (mod, jquery) {
+        jquery.fn.jstree = jstree;
         mod.setup();
     });
 </script>

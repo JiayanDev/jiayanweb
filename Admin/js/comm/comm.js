@@ -46,7 +46,18 @@ define(["jquery", 'lib/tmpl'], function ($, tmpl) {
                                 label: '推荐话题'
                             }]
                     },
-                    {label: "百科", url: "pediaList"}
+                    {
+                        label: "百科",
+                        sub: [
+                            {
+                                url: 'pediaTree',
+                                label: '百科目录'
+                            },
+                            {
+                                url: 'pediaList',
+                                label: '百科列表'
+                            }]
+                    }
                 ],
                 cur = getCur(nav),
                 html = [],
@@ -259,6 +270,7 @@ define(["jquery", 'lib/tmpl'], function ($, tmpl) {
             html = [],
             el,
             data = config.data;
+
 
         var h = tmpl(tpl, data);
         html.push(h);
