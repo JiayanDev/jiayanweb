@@ -10,7 +10,7 @@ define(["commJs"], function (comm) {
     function main() {
         comm.checkLogin(function () {
             init();
-        })
+        });
     }
 
     function init() {
@@ -227,6 +227,8 @@ define(["commJs"], function (comm) {
             var val = $.trim($('#' + field).val());
             if (val) param[field] = val;
         });
+        if($('#avoidSameName').is(":checked")) param['avoidSameName'] = $('#avoidSameName').val();
+
         var psw = $.trim($('#psw').val());
         if (psw) param['psw'] = md5(psw);
 
@@ -247,6 +249,8 @@ define(["commJs"], function (comm) {
         $.each(fields.concat(['birthday', 'psw', 'categories']), function (idx, field) {
             $('#' + field).val('');
         });
+        $('#avoidSameName').removeAttr("checked");
+
         pickedDate = null;
         resetImage();
         $('#categories option').removeAttr("selected");
