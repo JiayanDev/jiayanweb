@@ -138,6 +138,71 @@ define(["commJs"], function (comm) {
                 //el.data("id", id);
 
                 return false;
+            } else if ($t.hasClass('_comment')) {
+                var id = $t.data('id');
+                comm.confirm({
+                    el: $t,
+                    content: "<textarea class='form-control' placeholder='填写评论内容'></textarea><input class='form-control' style='margin-top:5px;' placeholder='填写用户Id'></inpu>",
+                    placement: "left",
+                    onYES: function (options) {
+                        var textareaEl = $(options.target).closest('.popover-content').find('textarea');
+                        var inputEl = $(options.target).closest('.popover-content').find('input');
+                        var content = textareaEl.val();
+                        var userId = inputEl.val();
+
+                        if (!content) {
+                            comm.utils.alertMsg("请填写评论内容！");
+                            return;
+                        }
+
+                        var data = {
+                            subject: "topic",
+                            subjectId: id,
+                            content: content
+                        };
+                        if (userId) {
+                            data['userId'] = userId;
+                        }
+                        comm.io.post({
+                            url: comm.config.BASEPATH + 'post/comment',
+                            data: data,
+                            success: function () {
+                                options.unload();
+                                comm.utils.showMsg("评论成功！");
+                                getList();
+                            }
+                        });
+                    }
+                });
+                return false;
+            } else if ($t.hasClass('_like')) {
+                var id = $t.data('id');
+                comm.confirm({
+                    el: $t,
+                    content: "<input class='form-control' placeholder='填写用户Id'></inpu>",
+                    placement: "left",
+                    onYES: function (options) {
+                        var inputEl = $(options.target).closest('.popover-content').find('input');
+                        var userId = inputEl.val();
+
+                        var data = {
+                            postId: id
+                        };
+                        if (userId) {
+                            data['userId'] = userId;
+                        }
+                        comm.io.post({
+                            url: comm.config.BASEPATH + 'post/like',
+                            data: data,
+                            success: function () {
+                                options.unload();
+                                comm.utils.showMsg("点赞成功！");
+                                getList();
+                            }
+                        });
+                    }
+                });
+                return false;
             }
 
             // 审核

@@ -13,7 +13,7 @@ html {
 }
 
 body {
-    font-size: 14px;
+    font-size: 15px;
     line-height: 22px;
     color: #666;
     font-family: "Roboto", Helvetica, Arial, Sans-Serif;
@@ -42,7 +42,7 @@ a {
     position: absolute;
 }
 
-.box{
+.box {
     padding: 10px 20px;
     background-color: white;
 }
@@ -56,11 +56,15 @@ a {
 }
 
 .text-theme {
-    color: #FF8386;
+    color: #FFA099;
 }
 
-.f-width{
-    width: 100%
+.a-width {
+    width: auto;
+}
+
+.f-width {
+    width: 100%;
 }
 
 .f-height {
@@ -71,7 +75,7 @@ a {
     float: right
 }
 
-.f-left{
+.f-left {
     float: left
 }
 
@@ -79,7 +83,7 @@ a {
     float: none !important
 }
 
-.text-center{
+.text-center {
     text-align: center
 }
 
@@ -88,17 +92,15 @@ a {
     margin-right: auto !important
 }
 
-
 .border {
     background-color: #f6f6f6;
-    border:1px solid lightgray;
+    border: 1px solid lightgray;
     border-radius: 2px;
 }
 
-.border-bottom{
+.border-bottom {
     border-bottom: solid 1px rgba(0, 0, 0, 0.1)
 }
-
 
 .border-right {
     border-right: solid 1px rgba(0, 0, 0, 0.1)
@@ -108,7 +110,7 @@ a {
     text-transform: uppercase
 }
 
-.clearfix{
+.clearfix {
     clear: both;
     *zoom: 1
 }
@@ -124,36 +126,36 @@ a {
     *zoom: 1
 }
 
-.block{
+.block {
     display: block
 }
 
 .table-list > li {
     width: 25%;
-    height: 120px
+    height: 120px;
 }
 
-.table-list a:hover{
+.table-list a:hover {
     color: #66c6c6
 }
 
-.table-list .active{
+.table-list .active {
     background: #343434
 }
 
-.table-list .active [data-icon]:before{
+.table-list .active [data-icon]:before {
     color: #66c6c6
 }
 
-.table{
-    display: table
+.table {
+    display: table;
 }
 
-.t-cell{
-    display: table-cell
+.t-cell {
+    display: table-cell;
 }
 
-.vertical-middle{
+.vertical-middle {
     vertical-align: middle
 }
 
@@ -170,6 +172,7 @@ input.search-control, input.search-control:focus, input.search-control:active {
     margin-top: 30px;
     font-size: 18px;
     border-radius: 20px;
+    outline: none;
 }
 
 a.absolute.icon-search {
@@ -180,5 +183,26 @@ a.absolute.icon-search {
 a.absolute.icon-search img {
     height: 30px;
 }
+
+.badge-hot-mid {
+    float: left;
+    width: 20px;
+    height: 20px;
+    left: 55%;
+    overflow: visible;
+}
+
+.badge-hot-right {
+    position: absolute;
+    float: right;
+    width: 20px;
+    height: 20px;
+    right: 0;
+    top: 0;
+    margin-right: -8px;
+    margin-top: -8px;
+    overflow: visible;
+}
+
 
 

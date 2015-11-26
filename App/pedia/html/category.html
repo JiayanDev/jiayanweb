@@ -13,11 +13,13 @@
             background-color: #f6f6f6;
         }
         .box {
-            padding: 10px 15px;
+            padding: 0 15px 10px;
+            overflow: auto;
         }
         .category-header {
-            margin-top: 20px;
+            margin-top: 27px;
             margin-left: 5px;
+            margin-bottom: 15px;
         }
         .category-img {
             height: 45px;
@@ -27,18 +29,18 @@
             margin-left: 5px;
         }
         .category-content {
-            margin-top: 10px;
+            margin-top: 0;
+            margin-bottom: 0;
         }
         .category-item {
             padding: 5px 10px;
-            margin: 10px 5px;
+            margin: 0 5px 15px;
         }
         .interest-header {
-            margin-top: 15px;
-            margin-left: 5px;
+            margin: 21px 5px;
         }
         .interest-content {
-            margin-top: 15px;
+            margin-top: 0;
         }
     </style>
 </head>
@@ -53,7 +55,8 @@
         </div>
 
         <ul class="f-width clearfix category-content">
-            <li class="block f-left category-item border">
+            <li class="relative block f-left category-item border">
+                <img class="absolute badge-hot-right" src="../asset/img/icon_hot.png">
                 <a class="text-default" href="categorydetail.html">切割双眼皮</a>
             </li>
             <li class="block f-left category-item border">
@@ -76,7 +79,7 @@
     <div class="box divider">
         <div class="text-theme interest-header">可能感兴趣项目</div>
         <ul class="f-width clearfix interest-content">
-            <li class="block f-left category-item border">
+            <li class="relative block f-left category-item border">
                 <a class="text-default" href="categorydetail.html">切割双眼皮</a>
             </li>
             <li class="block f-left category-item border">
