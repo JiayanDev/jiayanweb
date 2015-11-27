@@ -9,10 +9,9 @@ define(["commJs"], function (comm) {
 
     function init() {
         comm.setupWorkspace();
-        getTree();
     }
 
-    function getTree() {
+    function getTree(id) {
         comm.io.get({
             url: comm.config.BASEPATH + DIR + '/tree',
             data: {},

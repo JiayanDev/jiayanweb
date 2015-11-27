@@ -494,6 +494,8 @@ define(['tmpl', 'jquery'], function(tmpl, $) {
             data = [data];
         }
 
+        if (!$.isArray(data)) data = [data];
+
         $.each(data, function() {
             var h = tmpl(tpl, this);
             html.push(h);
