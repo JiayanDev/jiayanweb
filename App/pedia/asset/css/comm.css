@@ -204,5 +204,11 @@ a.absolute.icon-search img {
     overflow: visible;
 }
 
+.rotate-180 {
+    -moz-transform: rotate(180deg);
+    -webkit-transform: rotate(180deg);
+    filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+}
+
 
 

@@ -34,7 +34,19 @@ define(["commJs"], function (comm) {
     function bindEvent() {
         $('body').click(function (evt) {
             var $t = $(evt.target);
-            if ($t.hasClass('_delete')) {
+            if ($t.hasClass('_detail')) {
+                var id = $t.parent().data('id');
+                var row_str = $t.parent().attr('data-row');
+                var row = JSON.parse(row_str);
+                comm.dialog({
+                    onLoad: function (options) {
+                        var el = renderDetail(id);
+                        options.content.append(el);
+                    },
+                    title: row.name
+                });
+                return false;
+            } else if ($t.hasClass('_delete')) {
                 var id = $t.parent().data('id');
                 comm.confirm({
                     el: $t,
@@ -254,6 +266,7 @@ define(["commJs"], function (comm) {
             var $t = $(event.target);
             //var $t = data.rslt.obj;
             var id = $t.data('id');
+            if (!id) id = $t.parent().data('id');
             //var row_str = $t.attr('data-row');
             //var row = JSON.parse(row_str);
 
@@ -276,7 +289,7 @@ define(["commJs"], function (comm) {
             if (row.sub) delete row.sub;
             var row_str = JSON.stringify(row);
 
-            var img = ('<img src="' + row.icon + '" class="tree-icon"/>') + ((row.isHot && row.isHot == true) ? '<img class="tree-hot" src="../statics/img/icon_hot.png"/>' : '');
+            var img = (row.icon?'<img src="' + row.icon + '" class="tree-icon"/>':'') + ((row.isHot && row.isHot == true) ? '<img class="tree-hot" src="../statics/img/icon_hot.png"/>' : '');
 
             strArr.push("<a style='height:25px;' href='#' data-id='" + row.id + "' data-row='" + row_str + "'>" + value.name + img + "</a>");
 
@@ -335,6 +348,12 @@ define(["commJs"], function (comm) {
     function resetImage() {
         $('#icon').html('');
         icon = null;
+    }
+
+    function renderDetail(id) {
+        var url = comm.config.BASE_APP_SERVER_PATH + "pedia/html/itemdetail.html?id=" + id;
+        var el = $('<div style="border:2px solid #555;width:322px;height:568px;margin:0 auto;"><iframe style="width:318px;height:568px;border:none;" src="' + url + '"></div>');
+        return el;
     }
 
     ////////////////////////////////////Form data
