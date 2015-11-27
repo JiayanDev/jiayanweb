@@ -160,6 +160,7 @@
 	box-sizing:border-box;
 }
 .event-desc-content{padding:15px 14px 17px;}
+.event-desc-content img{max-width: 100%}
 .event-desc-nav span.cur{
 	color: #ff5a60;
 	border-bottom: 2px solid #ff5a60;
