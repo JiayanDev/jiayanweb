@@ -5,18 +5,15 @@ define(["commJs"], function (comm) {
     function init() {
         comm.setupWorkspace();
         loadCategoryData();
-        loadSuggestData();
+        //loadSuggestData();
     }
 
     function loadCategoryData() {
         comm.io.get({
-            url: 'http://apptest.jiayantech.com/',
-            //url: comm.config.BASEPATH + "event/applyment/list",
-            data: {
-                eventId: 1087
-            },
+            url: comm.config.BASEPATH + "pedia/tree",
             success: function (data) {
-                renderCategoryList(data);
+                renderCategoryList(data.data);
+                renderSuggestList(data.recommend);
             },
             error: function (msg) {
                 comm.utils.alertMsg("加载出错");
@@ -24,21 +21,21 @@ define(["commJs"], function (comm) {
         });
     }
 
-    function loadSuggestData() {
-        comm.io.get({
-            url: 'http://apptest.jiayantech.com/event/applyment/list',
-            //url: comm.config.BASEPATH + "event/applyment/list",
-            data: {
-                eventId: 1087
-            },
-            success: function (data) {
-                renderSuggestList(data);
-            },
-            error: function (msg) {
-                comm.utils.alertMsg("加载出错");
-            }
-        });
-    }
+    //function loadSuggestData() {
+    //    comm.io.get({
+    //        url: 'http://apptest.jiayantech.com/event/applyment/list',
+    //        //url: comm.config.BASEPATH + "event/applyment/list",
+    //        data: {
+    //            eventId: 1087
+    //        },
+    //        success: function (data) {
+    //            renderSuggestList(data);
+    //        },
+    //        error: function (msg) {
+    //            comm.utils.alertMsg("加载出错");
+    //        }
+    //    });
+    //}
 
     function renderSuggestList(suggestItems) {
         var suggestLength = suggestItems === null ? 0 : suggestItems.length;

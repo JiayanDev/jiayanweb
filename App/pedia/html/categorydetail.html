@@ -103,6 +103,39 @@
         </ul>
     </div>
 </div>
+
+<!-- 模板 -->
+<script type="text/tpl" id="tplForCategory">
+    <p>
+        {%= o.detail
+    </p>
+
+</script>
+<!-- 各种模板 END -->
+
+<script src="http://jiayanstatics.b0.upaiyun.com/app/script/lib/require.js"></script>
+<script type="text/javascript">
+
+    var BASE_URL = "http://jiayanstatics.b0.upaiyun.com/app/script";
+
+    if (window.location.host.indexOf('app') > -1) {
+        BASE_URL = "../script";
+    }
+
+    require.config({
+        baseUrl: "../script",
+        paths: {
+            // "zepto": "../script/lib/zepto", //@note 以JS结尾的会忽略baseUrl
+            "jquery": "../../script/lib/jquery.min", //@note 以JS结尾的会忽略baseUrl
+            "commJs": "../../script/comm/comm",
+            "tmpl": "../../script/lib/tmpl"
+        }
+    });
+    require(["index"], function (mod) {
+        mod.setup();
+    });
+</script>
+
 </body>
 
 </html>
