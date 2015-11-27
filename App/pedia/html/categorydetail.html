@@ -105,10 +105,13 @@
 </div>
 
 <!-- 模板 -->
-<script type="text/tpl" id="tplForCategory">
+<script type="text/tpl" id="tplForCategoryDetail">
     <p>
-        {%= o.detail
+        {%= o.content %}
     </p>
+
+</script>
+<script type="text/tpl" id="tplForSuggestItem">
 
 </script>
 <!-- 各种模板 END -->
@@ -131,7 +134,7 @@
             "tmpl": "../../script/lib/tmpl"
         }
     });
-    require(["index"], function (mod) {
+    require(["categorydetail"], function (mod) {
         mod.setup();
     });
 </script>

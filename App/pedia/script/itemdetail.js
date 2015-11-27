@@ -1,6 +1,9 @@
 /**
  * Created by liangzili on 15/11/27.
  */
+/**
+ * Created by liangzili on 15/11/27.
+ */
 
 define(["commJs"], function (comm) {
     function init() {
@@ -17,7 +20,7 @@ define(["commJs"], function (comm) {
     }
 
     function loadDetail(id) {
-        comm.get({
+        comm.io.get({
             url: comm.config.BASEPATH + "pedia/item/detail",
             data:{
                 id: id
@@ -35,11 +38,11 @@ define(["commJs"], function (comm) {
         if(!data) return;
         var $el = $('<div></div>');
         comm.render({
-            tpl: 'tplFor',
+            tpl: 'tplForItemDetail',
             data: data,
             renderTo: $el
         });
-        $('#suggest-items').html('').append($el.children());
+        $('#detail').html('').append($el.children());
     }
 
     function getId() {
@@ -47,5 +50,7 @@ define(["commJs"], function (comm) {
         var id = hash.id;
         return id;
     }
+
+    return {setup: init};
 })
 ;
