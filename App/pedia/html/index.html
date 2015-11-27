@@ -72,7 +72,7 @@
         <a class="centerize device-btn table f-width f-height text-default" href="category.html?id={%= o.id %}">
             <div class="relative t-cell f-height vertical-middle text-center">
                 {%= window.G_getHotTag(o.isHot) %}
-                <img class="table-pic block centerize" src="../asset/img/icon_chest.png" alt="{%= o.name %}">
+                <img class="table-pic block centerize" src="{%= o.icon %}" onerror="javascript:this.src='../asset/img/icon_chest.png'" alt="{%= o.name %}">
                 <span class="f-width">{%= o.name %}</span>
             </div>
         </a>
