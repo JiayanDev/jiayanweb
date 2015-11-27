@@ -1,10 +1,12 @@
-define(["commJs"], function (comm) {
+define(["commJs", "pediaCommJs"], function (comm, pediaComm) {
+
 	function init() {
 		comm.setupWorkspace();
 		var name = getName();
 		// hideNativeLoading();
 
 		if (name) {
+			$('#_search').val(name);
 			loadData(name);
 		} else {
 			// 提示不存在
@@ -37,9 +39,7 @@ define(["commJs"], function (comm) {
 	}
 
 	function bindEvent() {
-		$('#applymentBtn').click(function () {
-			applyment();
-		});
+		pediaComm.bindSearchEvent();
 	}
 
 	function render(list) {
@@ -59,7 +59,7 @@ define(["commJs"], function (comm) {
 
 	function getName() {
 		var hash = comm.hashMng();
-		var name = hash.name;
+		var name = hash.name?unescape(hash.name):name;
 		return name;
 	}
 

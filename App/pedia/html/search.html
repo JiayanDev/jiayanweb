@@ -44,14 +44,14 @@
     <div class="box text-center">
         <div class="relative">
             <input id="_search" type="text" class="f-width search-control border" placeholder="输入搜索关键字">
-            <a class="absolute icon-search" href="search.html"><img src="../asset/img/icon_search.png"/></a>
+            <a id="_btn-search" class="absolute icon-search" href="search.html"><img src="../asset/img/icon_search.png"/></a>
         </div>
-        <div class="suggest-items">
-            <a class="text-theme" href="#">廋脸针</a>&nbsp;
-            <a class="text-theme" href="#">廋脸针</a>&nbsp;
-            <a class="text-theme" href="#">廋脸针</a>&nbsp;
-            <a class="text-theme" href="#">廋脸针</a>
-        </div>
+        <!--<div class="suggest-items">-->
+            <!--<a class="text-theme" href="#">廋脸针</a>&nbsp;-->
+            <!--<a class="text-theme" href="#">廋脸针</a>&nbsp;-->
+            <!--<a class="text-theme" href="#">廋脸针</a>&nbsp;-->
+            <!--<a class="text-theme" href="#">廋脸针</a>-->
+        <!--</div>-->
     </div>
     <div class="background-white">
         <ul id="searchList" class="f-width clearfix">
@@ -85,7 +85,8 @@
             // "zepto": "../script/lib/zepto", //@note 以JS结尾的会忽略baseUrl
             "jquery": "../../script/lib/jquery.min", //@note 以JS结尾的会忽略baseUrl
             "commJs": "../../script/comm/comm",
-            "tmpl":"../../script/lib/tmpl"
+            "tmpl":"../../script/lib/tmpl",
+            "pediaCommJs": "./comm"
         }
     });
     require(["searchList"], function(mod) {

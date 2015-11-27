@@ -790,6 +790,7 @@ define(['tmpl', 'jquery'], function(tmpl, $) {
                 var temp = val.split('=');
                 if (temp.length == 2) {
                     map[temp[0]] = temp[1];
+                    //map[temp[0]] = unescape(temp[1]);
                 }
             });
         }
