@@ -4,6 +4,8 @@
  * @todo  user admin manager
  */
 define(["commJs"], function (comm) {
+    const DIR = 'pedia';
+
     var pickedDate;
 
     function main() {
@@ -142,11 +144,11 @@ define(["commJs"], function (comm) {
                 //隐藏掉一些医院角色不需要看到的东西
                 if(fields.indexOf("source")<0){
                     $("#_add").hide();
-                    //$("#firNav li").each(function(){
-                    //    if($(this).text()=="订单"){
-                    //        $(this).hide();
-                    //    }
-                    //});
+                    $("#firNav li").each(function(){
+                        if($(this).text()=="订单"){
+                            $(this).hide();
+                        }
+                    });
                     $("#_list .caozuo").hide();
                 }
 

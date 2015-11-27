@@ -45,6 +45,18 @@ define(["jquery", 'lib/tmpl'], function ($, tmpl) {
                                 url: 'recommendTopicList',
                                 label: '推荐话题'
                             }]
+                    },
+                    {
+                        label: "百科",
+                        sub: [
+                            {
+                                url: 'pediaTree',
+                                label: '百科目录'
+                            },
+                            {
+                                url: 'pediaList',
+                                label: '百科列表'
+                            }]
                     }
                 ],
                 cur = getCur(nav),
@@ -249,6 +261,29 @@ define(["jquery", 'lib/tmpl'], function ($, tmpl) {
             el.html(html.join('') + getPagination(pageCount));
         } else {
             // emptyTips(el);
+        }
+        return el;
+    }
+
+    function renderEl(config) {
+        var tpl = config.tpl,
+            html = [],
+            el,
+            data = config.data;
+
+
+        var h = tmpl(tpl, data);
+        html.push(h);
+
+        if (typeof config.renderTo == 'string') {
+            el = $(config.renderTo);
+        } else {
+            el = config.renderTo;
+        }
+        if (html.length > 0) {
+            el.html(html.join(''));
+        } else {
+            emptyTips(el);
         }
         return el;
     }
@@ -1020,6 +1055,7 @@ define(["jquery", 'lib/tmpl'], function ($, tmpl) {
             updater: updater
         },
         render: render,
+        renderEl: renderEl,
         dialog: dialog,
         confirm: confirm,
         showLoading: showLoading,

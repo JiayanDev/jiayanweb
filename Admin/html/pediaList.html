@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>用户</title>
+    <title>百科列表</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Bootstrap -->
     <!-- <link rel="stylesheet" href="http://cdn.bootcss.com/twitter-bootstrap/3.0.3/css/bootstrap.min.css"> -->
@@ -18,7 +18,8 @@
     <link href="../statics/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
     <link href="../statics/css/animate.min.css" rel="stylesheet">
     <link href="../statics/css/admin.css" rel="stylesheet">
-    <style type="text/css">
+</head>
+<style type="text/css">
     .gallery {
         list-style-type: none;
         margin-bottom: 10px;
@@ -47,8 +48,6 @@
         font-size: 2em;
     }
 </style>
-</head>
-<style type="text/css"></style>
 <body>
 <div>
     <nav class="navbar navbar-inverse navbar-lg" role="navigation"
@@ -84,27 +83,17 @@
 
                 <div class="col-sm-4 award-input-cnt">
                     <input id='name' type="text" class="form-control input-sm _itemName" placeholder="名称">
-
-                    <div class="col-sm-8 checkbox" style="margin-left: 5px">
-                        <input type="checkbox" id="avoidSameName" value="1">避免用户名重复
-                    </div>
-                </div>
-                <label class="col-sm-2 control-label">密码</label>
-
-                <div class="col-sm-4 award-input-cnt">
-                    <input id='psw' type="text" class="form-control input-sm _itemName"
-                           placeholder="密码">
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-2 control-label">头像</label>
+                <label class="col-sm-2 control-label">图标</label>
 
                 <div class="col-sm-1">
                     <div class="uploader-placeholder center">
                         <i class="fa fa-plus"></i>
                     </div>
                     <input type="file" style="width:50px;height:50px;left:10px;"
-                           id="avatarImgThumberUploader" name="file" class="uploader"
+                           id="iconImgThumberUploader" name="file" class="uploader"
                            data-url="http://v0.api.upyun.com/jiayanimg/">
 
                     <p class="loading none">
@@ -113,94 +102,44 @@
 
                     <p class="fileMsg"></p>
                 </div>
-                <ul id="avatar" class="col-sm-2 gallery none"></ul>
+                <ul id="icon" class="col-sm-2 gallery none"></ul>
             </div>
             <div class="form-group">
-                <label class="col-sm-2 control-label">性别</label>
+                <label class="col-sm-2 control-label">关键词</label>
 
-                <div class="col-sm-4">
-                    <select id='gender' class="form-control input-sm _itemName">
-                        <option value="0">女</option>
-                        <option value="1">男</option>
-                    </select>
-                </div>
-
-                <label class="col-sm-2 control-label">生日</label>
-
-                <div class="col-sm-4 input-group">
-                    <input id="birthday" type="text" class="form-control input-sm _itemName" placeholder="生日">
-
-                    <div class="input-group-addon"><i class="fa fa-th"></i></div>
-                </div>
-                <label class="col-sm-2 control-label none">生日年份</label>
-
-                <div class="col-sm-4 award-input-cnt none">
-                    <input id='birthYear' type="text" class="form-control input-sm _itemName"
-                           placeholder="生日年份">
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label class="col-sm-2 control-label">手机</label>
-
-                <div class="col-sm-4 award-input-cnt">
-                    <input id='phone' type="text" class="form-control input-sm _itemName" placeholder="手机">
+                <div class="col-sm-10 award-input-cnt">
+                    <input id='keywords' type="text" class="form-control input-sm _itemName" placeholder="关键词 使用 ' , ' 隔开">
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-2 control-label">省份</label>
+                <label class="col-sm-2 control-label">简介</label>
 
-                <div class="col-sm-4">
-                    <select id='province' class="form-control">
-                    </select>
-                </div>
-
-                <label class="col-sm-2 control-label">城市</label>
-
-                <div class="col-sm-4">
-                    <select id='city' class="form-control">
-                    </select>
-                </div>
-
-                <!--<label class="col-sm-1 control-label">地区</label>-->
-
-                <!--<div class="col-sm-3">-->
-                    <!--<select id='district' class="form-control">-->
-                    <!--</select>-->
-                <!--</div>-->
-            </div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label">职业</label>
-
-                <div class="col-sm-4 award-input-cnt">
-                    <input id='career' type="text" class="form-control input-sm _itemName" placeholder="职业">
+                <div class="col-sm-10 award-input-cnt">
+                    <input id='introduction' type="text" class="form-control input-sm _itemName" placeholder="简介">
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-2 control-label">角色</label>
+                <label class="col-sm-2 control-label">父分类</label>
+                <div id="parent" class="col-sm-9" style="padding-left: 0;">
+
+                </div>
+                <a id="_parent-reset" href="#" class="col-sm-1">重置</a>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">是否热门</label>
                 <div class="col-sm-3">
-                    <select id='role' class="form-control">
-                        <option value="normal">normal</option>
-                        <option value="angel">angel</option>
-                        <option value="company">company</option>
-                    </select>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label">项目</label>
-
-                <div class="col-sm-10">
-                    <select id="categories" class="form-control" multiple=”multiple” style="height: 100px">
-                    </select>
-                </div>
-            </div>
-            <div name="edit-item" class="form-group">
-                <label class="col-sm-2 control-label">是否删除</label>
-                <div class="col-sm-3">
-                    <select id='remove' class="form-control">
-                        <option value="1">是</option>
+                    <select id='isHot' class="form-control">
                         <option value="0">否</option>
+                        <option value="1">是</option>
                     </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">内容</label>
+                <div class="col-sm-10">
+                    <div id="richEditorToolBar">
+                    </div>
+                    <div id="content" style="margin-top:15px;border:1px solid #ddd;border-radius:4px;height:400px;padding:5px;overflow:auto;">输入百科详细内容</div>
                 </div>
             </div>
         </form>
@@ -217,27 +156,12 @@
         <div class="list-panel item-list-panel">
             <!-- <button class="btn" id="addNt"><i class="icon-plus"></i>录入排队编号类型</button> -->
             <div class="input-append" style="margin-bottom:19px;">
-                <button class="btn btn-sm" id="_search">查询</button>
+                <!--<button class="btn btn-sm" id="_search">查询</button>-->
                 <button class="btn btn-warning btn-sm btn-right" id="_add">添加</button>
             </div>
             <div id="_list">
                 <table class="table table-hover">
                     <thead>
-                    <tr>
-                        <th class="th-border">编号</th>
-                        <th class="th-border">名称</th>
-                        <th class="th-border">头像</th>
-                        <th class="th-border">角色</th>
-                        <th class="th-border">性别</th>
-                        <th class="th-border">生日</th>
-                        <th class="th-border">手机</th>
-                        <th class="th-border">地区</th>
-                        <th class="th-border">职业</th>
-                        <th class="th-border">项目</th>
-                        <th class="th-border">是否删除</th>
-                        <th class="th-border">创建时间</th>
-                        <th class="th-border">操作</th>
-                    </tr>
                     </thead>
                     <tbody>
                     <tr>
@@ -258,15 +182,10 @@
             <tr>
                 <th class="th-border">编号</th>
                 <th class="th-border">名称</th>
-                <th class="th-border">头像</th>
-                <th class="th-border">角色</th>
-                <th class="th-border">性别</th>
-                <th class="th-border">生日</th>
-                <th class="th-border">手机</th>
-                <th class="th-border">地区</th>
-                <th class="th-border">职业</th>
-                <th class="th-border">项目</th>
-                <th class="th-border">是否删除</th>
+                <th class="th-border">图标</th>
+                <th class="th-border">简介</th>
+                <th class="th-border">关键词</th>
+                <th class="th-border">是否热门</th>
                 <th class="th-border">创建时间</th>
                 <th class="th-border">操作</th>
             </tr>
@@ -281,19 +200,18 @@
                 <td>{%= row.id %}</td>
                 <td>{%= row.name %}</td>
                 <td>
-                    <img src="{%= row.avatar || '' %}" style="width:30px;"/>
+                    <img src="{%= row.icon || '' %}" style="width:30px;"/>
                 </td>
-                <td>{%= row.role %}</td>
-                <td>{%= {0:'女', 1:'男'}[row.gender]||'-' %}</td>
-                <td>{%= window.G_formatDate(row.birthday) %}</td>
-                <td>{%= row.phone %}</td>
-                <td>{%= row.province %}{%= row.city %}{%= row.district %}</td>
-                <td>{%= row.career %}</td>
-                <td style="width:120px">{%= window.G_getCategoryNames(row.categoryIds) %}</td>
-                <td>{%= (row.remove && row.remove == true)?'是':'否' %}</td>
+                <td>{%= row.introduction %}</td>
+                <td>{%= row.keywords %}</td>
+                <td>{%= (o.isHot && o.isHot == true)?'是':'否' %}</td>
                 <td>{%= window.G_formatTime(row.createTime) %}</td>
-                <td>
-                    <a href="#" class="_edit" data-id="{%= row.id %}" data-row='{%= JSON.stringify(row) %}'>编辑</a>
+                <td data-id="{%= row.id %}" data-row='{%= JSON.stringify(row) %}'>
+                    <a href="#" class="_edit">编辑</a>&nbsp;
+                    <a href="#" class="_detail">详情</a>&nbsp;
+                    <!--<a href="#" class="_add">添加</a>-->
+                    <a href="#" class="_delete">删除</a>&nbsp;
+                    <a href="#" class="_delete_forever">永久删除</a>
                 </td>
             </tr>
             {% }}else{ %}
@@ -301,10 +219,6 @@
             {% } %}
         </tbody>
     </table>
-
-
-
-
 </script>
 
 <script src="../js/lib/md5.js"></script>
@@ -319,7 +233,7 @@
             "bootstrap": "lib/bootstrap.min"
         }
     });
-    require(["appUserList"], function (mod) {
+    require(["pediaComm"], function (mod) {
         mod.setup();
     });
 </script>
