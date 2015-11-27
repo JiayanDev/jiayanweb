@@ -44,45 +44,55 @@
     <div class="box text-center">
         <div class="relative">
             <input id="_search" type="text" class="f-width search-control border" placeholder="输入搜索关键字">
-            <a class="absolute icon-search" href="search.html"><img src="../asset/img/icon_search.png"/></a>
+            <a id="_btn-search" class="absolute icon-search" href="search.html"><img src="../asset/img/icon_search.png"/></a>
         </div>
-        <div class="suggest-items">
-            <a class="text-theme" href="#">廋脸针</a>&nbsp;
-            <a class="text-theme" href="#">廋脸针</a>&nbsp;
-            <a class="text-theme" href="#">廋脸针</a>&nbsp;
-            <a class="text-theme" href="#">廋脸针</a>
-        </div>
+        <!--<div class="suggest-items">-->
+            <!--<a class="text-theme" href="#">廋脸针</a>&nbsp;-->
+            <!--<a class="text-theme" href="#">廋脸针</a>&nbsp;-->
+            <!--<a class="text-theme" href="#">廋脸针</a>&nbsp;-->
+            <!--<a class="text-theme" href="#">廋脸针</a>-->
+        <!--</div>-->
     </div>
     <div class="background-white">
-        <ul class="f-width clearfix">
-            <li class="block category-item border-bottom">
-                <a href="itemdetail.html">
-                    <div class="text-theme">切开割双眼皮<img src="../asset/img/icon_more.png"/></div>
-                    <p class="text-default">适用人群：单眼皮、倒睫及双眼皮手术</p>
-                </a>
-            </li>
-            <li class="block category-item border-bottom">
-                <a href="itemdetail.html">
-                    <div class="text-theme">切开割双眼皮<img src="../asset/img/icon_more.png"/></div>
-                    <p class="text-default">适用人群：单眼皮、倒睫及双眼皮手术</p>
-                </a>
-            </li>
-            <li class="block category-item border-bottom">
-                <a href="itemdetail.html">
-                    <div class="text-theme">切开割双眼皮<img src="../asset/img/icon_more.png"/></div>
-                    <p class="text-default">适用人群：单眼皮、倒睫及双眼皮手术</p>
-                </a>
-            </li>
-            <li class="block category-item border-bottom">
-                <a href="itemdetail.html">
-                    <div class="text-theme">切开割双眼皮<img src="../asset/img/icon_more.png"/></div>
-                    <p class="text-default">适用人群：单眼皮、倒睫及双眼皮手术</p>
-                </a>
-            </li>
-
+        <ul id="searchList" class="f-width clearfix">
         </ul>
     </div>
 </div>
-</body>
 
+<!-- 模板 -->
+<script type="text/tpl" id="tplForSearch">
+    <li class="block category-item border-bottom">
+        <a href="itemdetail.html?id={%= o.id %}">
+            <div class="text-theme">{%= o.name %}<img src="../asset/img/icon_more.png"/></div>
+            <p class="text-default">{%= o.introduction %}</p>
+        </a>
+    </li>
+</script>
+<!-- 各种模板 END -->
+
+<script src="http://jiayanstatics.b0.upaiyun.com/app/script/lib/require.js"></script>
+<script type="text/javascript">
+
+    var BASE_URL = "http://jiayanstatics.b0.upaiyun.com/app/script";
+
+    if( window.location.host.indexOf('app') > -1 ){
+        BASE_URL = "../script";
+    }
+
+    require.config({
+        baseUrl: "../script",
+        paths: {
+            // "zepto": "../script/lib/zepto", //@note 以JS结尾的会忽略baseUrl
+            "jquery": "../../script/lib/jquery.min", //@note 以JS结尾的会忽略baseUrl
+            "commJs": "../../script/comm/comm",
+            "tmpl":"../../script/lib/tmpl",
+            "pediaCommJs": "./comm"
+        }
+    });
+    require(["searchList"], function(mod) {
+        mod.setup();
+    });
+</script>
+
+</body>
 </html>

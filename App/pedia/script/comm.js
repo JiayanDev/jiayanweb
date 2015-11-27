@@ -33,15 +33,24 @@ define(["commJs"], function (comm) {
         }
     }
 
-    //window.G_getRoleText = comm.getRoleText;
-    //
-    //window.G_getAngelLink = function (role, userId) {
-    //    return (role == 'angel' ? 'target="_blank" href=timeline.html?id=' + userId : '');
-    //};
+    function bindSearchEvent() {
+        $('#_btn-search').click(function () {
+            var name = $('#_search').val();
+            if (!name) {
+                comm.utils.alertMsg('«Î ‰»Îπÿº¸◊÷£°');
+                return false
+            }
+            var href = $(this).attr('href') + '?name=' + escape(name);
+            window.location.href = href;
+            //loadData(name);
+            return false
+        });
+    }
 
     return {
         setup: init,
         categoryData: categoryData,
-        categoryMap: categoryMap
+        categoryMap: categoryMap,
+        bindSearchEvent: bindSearchEvent
     }
 });

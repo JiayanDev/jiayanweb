@@ -1,9 +1,10 @@
 /**
  * Created by liangzili on 15/11/25.
  */
-define(["commJs"], function (comm) {
+define(["commJs", "pediaCommJs"], function (comm, pediaComm) {
     function init() {
         comm.setupWorkspace();
+        bindEvent();
         loadCategoryData();
         //loadSuggestData();
     }
@@ -19,6 +20,10 @@ define(["commJs"], function (comm) {
                 comm.utils.alertMsg("加载出错");
             }
         });
+    }
+
+    function bindEvent() {
+        pediaComm.bindSearchEvent();
     }
 
     //function loadSuggestData() {
