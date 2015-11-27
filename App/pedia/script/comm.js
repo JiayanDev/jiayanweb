@@ -1,5 +1,5 @@
 /**
- * Created by ½¡ĞË on 2015/11/26.
+ * Created by å¥å…´ on 2015/11/26.
  */
 define(["commJs"], function (comm) {
     const DIR = 'pedia';
@@ -37,7 +37,7 @@ define(["commJs"], function (comm) {
         $('#_btn-search').click(function () {
             var name = $('#_search').val();
             if (!name) {
-                comm.utils.alertMsg('ÇëÊäÈë¹Ø¼ü×Ö£¡');
+                comm.utils.alertMsg('è¯·è¾“å…¥å…³é”®å­—ï¼');
                 return false
             }
             var href = $(this).attr('href') + '?name=' + escape(name);
