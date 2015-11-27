@@ -24,6 +24,12 @@
             margin-right: 10px;
         }
 
+        .truncate {
+            max-width: 20px;
+            white-space: nowrap;
+            text-overflow: clip;
+        }
+
         /*global icon style*/
         .css3-icon {
             font-size: 20px;
@@ -47,118 +53,56 @@
             <input id="_search" type="text" class="f-width search-control border" placeholder="输入搜索关键字">
             <a class="absolute icon-search" href="search.html"><img src="../asset/img/icon_search.png"/></a>
         </div>
-        <div class="suggest-items">
-            <a class="text-theme" href="#">廋脸针</a>&nbsp;
-            <a class="text-theme" href="#">廋脸针</a>&nbsp;
-            <a class="text-theme" href="#">廋脸针</a>&nbsp;
-            <a class="text-theme" href="#">廋脸针</a>
+        <div class="suggest-items" id="suggest-items">
         </div>
     </div>
-    <ul class="table-list clearfix category-list">
-        <li class="block f-left">
-            <a class="centerize table relative f-width f-height text-default" href="category.html">
-                <div class="t-cell f-height vertical-middle text-center">
-                    <div class="relative">
-                        <img class="table-pic block centerize css3-icon" src="../asset/img/icon_face.png" alt="面部轮廓">
-                        <!--<img class="table-pic absolute" style="width:20px; right: 0px;top: 0px;"-->
-                             <!--src="../asset/img/icon_add.png" alt="面部轮廓">-->
-                    </div>
-                    <span class="f-width">面部轮廓</span>
-                </div>
-            </a>
-        </li>
-        <li class="block f-left">
-            <a class="centerize device-btn table f-width f-height text-default" href="category.html">
-                <div class="relative t-cell f-height vertical-middle text-center">
-                    <img class="absolute badge-hot-mid" src="../asset/img/icon_hot.png">
-                    <img class="table-pic block centerize" src="../asset/img/icon_chest.png" alt="胸部">
-                    <span class="f-width">胸部</span>
-                </div>
-            </a>
-        </li>
-        <li class="block f-left">
-            <a class="centerize device-btn table f-width f-height text-default" href="category.html">
-                <div class="relative t-cell f-height vertical-middle text-center">
-                    <img class="absolute badge-hot-mid" src="../asset/img/icon_hot.png">
-                    <img class="table-pic block centerize" src="../asset/img/icon_face.png" alt="面部轮廓">
-                    <span class="f-width">面部轮廓</span>
-                </div>
-            </a>
-        </li>
-        <li class="block f-left">
-            <a class="centerize device-btn table f-width f-height text-default" href="category.html">
-                <div class="relative t-cell f-height vertical-middle text-center">
-                    <img class="table-pic block centerize" src="../asset/img/icon_chest.png" alt="胸部">
-                    <span class="f-width">胸部</span>
-                </div>
-            </a>
-        </li>
-        <li class="block f-left">
-            <a class="centerize device-btn table f-width f-height text-default" href="category.html">
-                <div class="t-cell f-height vertical-middle text-center">
-                    <img class="table-pic block centerize" src="../asset/img/icon_face.png" alt="面部轮廓">
-                    <span class="f-width">面部轮廓</span>
-                </div>
-            </a>
-        </li>
-        <li class="block f-left">
-            <a class="centerize device-btn table f-width f-height text-default" href="category.html">
-                <div class="relative t-cell f-height vertical-middle text-center">
-                    <img class="table-pic block centerize" src="../asset/img/icon_chest.png" alt="胸部">
-                    <span class="f-width">胸部</span>
-                </div>
-            </a>
-        </li>
-        <li class="block f-left">
-            <a class="centerize device-btn table f-width f-height text-default" href="category.html">
-                <div class="relative t-cell f-height vertical-middle text-center">
-                    <img class="table-pic block centerize" src="../asset/img/icon_face.png" alt="面部轮廓">
-                    <span class="f-width">面部轮廓</span>
-                </div>
-            </a>
-        </li>
-        <li class="block f-left">
-            <a class="centerize device-btn table f-width f-height text-default" href="category.html">
-                <div class="relative t-cell f-height vertical-middle text-center">
-                    <img class="table-pic block centerize" src="../asset/img/icon_chest.png" alt="胸部">
-                    <span class="f-width">胸部</span>
-                </div>
-            </a>
-        </li>
-        <li class="block f-left">
-            <a class="centerize device-btn table f-width f-height text-default" href="category.html">
-                <div class="relative t-cell f-height vertical-middle text-center">
-                    <img class="table-pic block centerize" src="../asset/img/icon_face.png" alt="面部轮廓">
-                    <span class="f-width">面部轮廓</span>
-                </div>
-            </a>
-        </li>
-        <li class="block f-left">
-            <a class="centerize device-btn table f-width f-height text-default" href="category.html">
-                <div class="relative t-cell f-height vertical-middle text-center">
-                    <img class="table-pic block centerize" src="../asset/img/icon_chest.png" alt="胸部">
-                    <span class="f-width">胸部</span>
-                </div>
-            </a>
-        </li>
-        <li class="block f-left">
-            <a class="centerize device-btn table f-width f-height text-default" href="category.html">
-                <div class="relative t-cell f-height vertical-middle text-center">
-                    <img class="table-pic block centerize" src="../asset/img/icon_face.png" alt="面部轮廓">
-                    <span class="f-width">面部轮廓</span>
-                </div>
-            </a>
-        </li>
-        <li class="block f-left">
-            <a class="centerize device-btn table f-width f-height text-default" href="category.html">
-                <div class="relative t-cell f-height vertical-middle text-center">
-                    <img class="table-pic block centerize" src="../asset/img/icon_chest.png" alt="胸部">
-                    <span class="f-width">胸部</span>
-                </div>
-            </a>
-        </li>
+    <ul class="table-list clearfix category-list" id="category-list">
     </ul>
 </div>
+
+<!-- 模板 -->
+<script type="text/tpl" id="tplForSuggest">
+    <a class="text-theme" href="#">{%= o.name %}</a><span>&nbsp</span>;
+</script>
+<!-- 各种模板 END -->
+
+<!-- 模板 -->
+<script type="text/tpl" id="tplForCategory">
+   <li class="block f-left">
+        <a class="centerize device-btn table f-width f-height text-default" href="category.html">
+            <div class="relative t-cell f-height vertical-middle text-center">
+                {%= window.G_getHotTag(!o.isHot) %}
+                <img class="table-pic block centerize" src="../asset/img/icon_chest.png" alt="{%= o.name %}">
+                <span class="f-width">{%= o.name %}</span>
+            </div>
+        </a>
+    </li>
+</script>
+<!-- 各种模板 END -->
+
+<script src="http://jiayanstatics.b0.upaiyun.com/app/script/lib/require.js"></script>
+<script type="text/javascript">
+
+    var BASE_URL = "http://jiayanstatics.b0.upaiyun.com/app/script";
+
+    if( window.location.host.indexOf('app') > -1 ){
+        BASE_URL = "../script";
+    }
+
+    require.config({
+        baseUrl: "../script",
+        paths: {
+            // "zepto": "../script/lib/zepto", //@note 以JS结尾的会忽略baseUrl
+            "jquery": "../../script/lib/jquery.min", //@note 以JS结尾的会忽略baseUrl
+            "commJs": "../../script/comm/comm",
+            "tmpl":"../../script/lib/tmpl"
+        }
+    });
+    require(["index"], function(mod) {
+        mod.setup();
+    });
+</script>
+
 </body>
 
 </html>
