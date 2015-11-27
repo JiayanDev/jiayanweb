@@ -19,10 +19,40 @@
 <body>
 
 <div>
-    <div class="box">
-        割双眼皮又叫切开重睑法，是一种永久性的重睑术，它是通过切口，去除松弛的皮肤、眼轮匝肌及肥厚的脂肪，在直视下直接皮肤同眼轮匝肌或提上睑肌腱膜缝合到一起，形成重睑。割双眼皮需切开皮肤，创伤略大，但通过切口可做上睑结构的调整，效果可靠、持久，适合于各种情况下的单睑。常见的双眼皮手术还有埋线法、精雕翘睫双眼皮、无痕翘睫法双眼皮、无痕重睑术、韩式双眼皮等。...</p>
+    <div class="box" id="detail">
+
     </div>
 </div>
+
+<script type="text/tpl" id="tplForItemDetail">
+    <p>
+        {%= o.content %}
+    </p>
+</script>
+<!-- 各种模板 END -->
+
+<script src="http://jiayanstatics.b0.upaiyun.com/app/script/lib/require.js"></script>
+<script type="text/javascript">
+
+    var BASE_URL = "http://jiayanstatics.b0.upaiyun.com/app/script";
+
+    if (window.location.host.indexOf('app') > -1) {
+        BASE_URL = "../script";
+    }
+
+    require.config({
+        baseUrl: "../script",
+        paths: {
+            // "zepto": "../script/lib/zepto", //@note 以JS结尾的会忽略baseUrl
+            "jquery": "../../script/lib/jquery.min", //@note 以JS结尾的会忽略baseUrl
+            "commJs": "../../script/comm/comm",
+            "tmpl": "../../script/lib/tmpl"
+        }
+    });
+    require(["itemdetail"], function (mod) {
+        mod.setup();
+    });
+</script>
 </body>
 
 </html>

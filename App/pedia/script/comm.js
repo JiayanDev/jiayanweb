@@ -1,5 +1,5 @@
 /**
- * Created by ���� on 2015/11/26.
+ * Created by 健兴 on 2015/11/26.
  */
 define(["commJs"], function (comm) {
     const DIR = 'pedia';
@@ -9,10 +9,9 @@ define(["commJs"], function (comm) {
 
     function init() {
         comm.setupWorkspace();
-        getTree();
     }
 
-    function getTree() {
+    function getTree(id) {
         comm.io.get({
             url: comm.config.BASEPATH + DIR + '/tree',
             data: {},
@@ -33,15 +32,24 @@ define(["commJs"], function (comm) {
         }
     }
 
-    //window.G_getRoleText = comm.getRoleText;
-    //
-    //window.G_getAngelLink = function (role, userId) {
-    //    return (role == 'angel' ? 'target="_blank" href=timeline.html?id=' + userId : '');
-    //};
+    function bindSearchEvent() {
+        $('#_btn-search').click(function () {
+            var name = $('#_search').val();
+            if (!name) {
+                comm.utils.alertMsg('请输入关键字！');
+                return false
+            }
+            var href = $(this).attr('href') + '?name=' + escape(name);
+            window.location.href = href;
+            //loadData(name);
+            return false
+        });
+    }
 
     return {
         setup: init,
         categoryData: categoryData,
-        categoryMap: categoryMap
+        categoryMap: categoryMap,
+        bindSearchEvent: bindSearchEvent
     }
 });
