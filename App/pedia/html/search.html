@@ -56,6 +56,7 @@
     <div class="background-white">
         <ul id="searchList" class="f-width clearfix">
         </ul>
+        <div id="_list-msg" style="text-align:center; display: none">查找不到相关词条</div>
     </div>
 </div>
 
@@ -80,6 +81,7 @@
     }
 
     require.config({
+        urlArgs: "_version=2",
         baseUrl: "../script",
         paths: {
             // "zepto": "../script/lib/zepto", //@note 以JS结尾的会忽略baseUrl

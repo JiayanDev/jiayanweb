@@ -24,21 +24,21 @@ define(["commJs"], function (comm) {
     }
 
     function loadData(id) {
-        getDetail(id);
+        //getDetail(id);
         getTree(id);
     }
 
-    function getDetail(id) {
-        comm.io.get({
-            url: comm.config.BASEPATH + "pedia/item/detail",
-            data:{
-                id: id
-            },
-            success: function(data){
-                renderDetail(data);
-            }
-        });
-    }
+    //function getDetail(id) {
+    //    comm.io.get({
+    //        url: comm.config.BASEPATH + "pedia/item/detail",
+    //        data:{
+    //            id: id
+    //        },
+    //        success: function(data){
+    //            renderDetail(data);
+    //        }
+    //    });
+    //}
 
     function getTree(id) {
         comm.io.get({
@@ -47,6 +47,7 @@ define(["commJs"], function (comm) {
                 id: id
             },
             success: function(data){
+                renderDetail(data.detail);
                 renderList(data.data);
             }
         });

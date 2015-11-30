@@ -44,6 +44,13 @@ define(["commJs"], function (comm) {
             //loadData(name);
             return false
         });
+        $('body').keydown(function (e) {
+            var curKey = e.which;
+            if (curKey == 13) {
+                $('#_btn-search').click();
+                return false;
+            }
+        });
     }
 
     return {

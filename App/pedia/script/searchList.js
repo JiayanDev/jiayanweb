@@ -45,8 +45,11 @@ define(["commJs", "pediaCommJs"], function (comm, pediaComm) {
 	function render(list) {
 		var length = list.length;
 
-		if (!length)return;
-
+		if (!length) {
+			$('#_list-msg').show();
+			return;
+		}
+		$('#_list-msg').hide();
 		var $el = $('<div></div>');
 		comm.render({
 			tpl: 'tplForSearch',

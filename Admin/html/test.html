@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>bootstrap学习 by 司徒正美</title>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+
+    <link rel="stylesheet" href="http://files.cnblogs.com/rubylouvre/bootstrap.css"/>
+    <script src="http://files.cnblogs.com/rubylouvre/jquery1.83.js" > </script>
+    <!--<script src="http://files.cnblogs.com/rubylouvre/bootstrap-transition.js"></script>-->
+    <script src="http://files.cnblogs.com/rubylouvre/bootstrap-tab.js"></script>
+    <!--<script src="http://files.cnblogs.com/rubylouvre/bootstrap-button.js"></script>-->
+
+
+    <script>
+        $(function () {
+            var log = function(s){
+                window.console && console.log(s)
+            }
+            $('.nav-tabs a:last').tab('show')
+            $('a[data-toggle="tab"]').on('show', function (e) {
+                log(e);
+                alert(e);
+            })
+            $('a[data-toggle="tab"]').on('shown', function (e) {
+                log(e.target) // activated tab
+                log(e.relatedTarget) // previous tab
+                //alert(e);
+            })
+        })
+    </script>
+</head>
+<body>
+<ul  class="nav nav-tabs">
+    <li class="active"><a href="#home" data-toggle="tab">首页</a></li>
+    <li><a href="#profile" data-toggle="tab">介绍</a></li>
+    <li><a href="#messages" data-toggle="tab">消息</a></li>
+    <li><a href="#settings" data-toggle="tab">设置</a></li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane active" id="home">111</div>
+    <div class="tab-pane" id="profile">2222</div>
+    <div class="tab-pane" id="messages">333</div>
+    <div class="tab-pane" id="settings">444.</div>
+</div>
+
+</body>
+</html>
