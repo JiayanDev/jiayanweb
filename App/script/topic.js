@@ -106,6 +106,8 @@ define(["commJs", "jquery"], function(comm, jQuery) {
 			if (data.content.length > 20) content = data.content.substring(20); else content = data.content;
 		}
 
+		comm.setWeixinShareMeta(title,data.avatar,content);
+
 		comm.io.call({
 			action: "getShareInfo",
 			data: {
@@ -115,6 +117,8 @@ define(["commJs", "jquery"], function(comm, jQuery) {
 				content: content
 			}
 		});
+
+
 	}
 
 	function renderComment (data) {
