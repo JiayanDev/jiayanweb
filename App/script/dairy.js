@@ -46,7 +46,7 @@ define(["commJs"], function(comm) {
 
 	function onGetShareInfo(data) {
 		var content = '';
-		if (data.content.length > 20) content = data.content.substring(20); else content = data.content;
+		if (data.content.length > 20) content = data.content.substring(0,20); else content = data.content;
 
 		comm.setWeixinShareMeta(data.userName+'的美丽日记',data.avatar,content);
 
