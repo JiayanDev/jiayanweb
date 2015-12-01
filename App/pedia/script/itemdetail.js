@@ -25,6 +25,10 @@ define(["commJs"], function (comm) {
             success: function(data){
                 render(data);
                 comm.utils.hideNativeLoading();
+                comm.io.call({
+                    action:"setNavigationBarTitle",
+                    data: {"title": data.name}
+                });
             },
             error: function(msg){
                 comm.utils.hideNativeLoading();
