@@ -7,7 +7,8 @@ define(["jquery", "commJs", 'widget/bootstrap-wysiwyg'], function (_, comm) {
     var submitBtn = $('#_submit'),
         formMsgEl = $('#formMsg'),
         imgs = {},
-        pickedDate;
+        pickedDate,
+        desc = null;
 
     function main() {
         comm.checkLogin(function () {
@@ -232,6 +233,12 @@ define(["jquery", "commJs", 'widget/bootstrap-wysiwyg'], function (_, comm) {
                 height: 400
             });
         });
+        $('a[name="detail-tab"]').click(function () {
+            checkDesc();
+            saveDescItem();
+            setDescItem($(this));
+            return true;
+        });
     }
 
     function openPanel(showCreate) {
@@ -372,30 +379,37 @@ define(["jquery", "commJs", 'widget/bootstrap-wysiwyg'], function (_, comm) {
     }
 
     function getDesc() {
-        var desc = [];
-
-        $('._detailItem').each(function () {
-            var $item = $(this);
-
-            desc.push({
-                key: $item.find('._detailKey').val(),
-                value: $item.find('._detailValue').html()
-            });
-        });
+        checkDesc();
+        saveDescItem();
         return JSON.stringify(desc);
     }
 
-    function resetDesc(desc) {
+    function resetDesc(descStr) {
+        !!descStr && (desc = JSON.parse(descStr));
+        checkDesc();
+        $('#_detail-tabs li').removeClass('active');
+        $('#_detail-tabs li:first').addClass('active');
+        setDescItem($('#_detail-tabs .active a'));
+    }
 
-        !!desc && (desc=JSON.parse(desc));
-        $('._detailItem').each(function (i, item) {
-            var $item = $(this);
+    function checkDesc() {
+        if (!desc) {
+            desc = [{key: '', value: ''}, {key: '', value: ''}, {key: '', value: ''}];
+        }
+    }
 
-            itemValue = !!desc && desc.length > i ? desc[i] : {};
+    function saveDescItem(){
+        var href = $('#_detail-tabs .active a').attr('href');
+        var index = Number(href);
+        desc[index].key = $('#_detail_content ._detailKey').val();
+        desc[index].value = $('#_detail_content ._detailValue').html();
+    }
 
-            $item.find('._detailKey').val(itemValue.key || '');
-            $item.find('._detailValue').html(itemValue.value || '');
-        });
+    function setDescItem($tab){
+        var href = $tab.attr('href');
+        var index = Number(href);
+        $('#_detail_content ._detailKey').val(desc[index].key);
+        $('#_detail_content ._detailValue').html(desc[index].value);
     }
 
     function resetForm() {

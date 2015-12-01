@@ -1,7 +1,7 @@
 /**
  * @author janson
  * @date    2015-11-26
- * @todo  user admin manager
+ * @todo  manager
  */
 define(["commJs"], function (comm) {
     const DIR = 'pedia',
@@ -176,7 +176,7 @@ define(["commJs"], function (comm) {
             data: {},
             success: function (d) {
                 categoryData = d;
-                categories2Map(d);
+                comm.pedia.categories2Map(categoryMap, d);
                 setupParentCategories(d);
                 if (type == TREE) setupCategoryTree(d);
             }
@@ -232,16 +232,6 @@ define(["commJs"], function (comm) {
             renderTo: "#_list",
             isTableList: true
         });
-    }
-
-    function categories2Map(data, parentId) {
-        for (var key in data) {
-            var category = data[key];
-            if (parentId) category['parentId'] = parentId;
-            categoryMap[category.id] = category;
-            var sub = category.sub;
-            if (sub) categories2Map(sub, category.id);
-        }
     }
 
     function setupCategoryTree(data) {
@@ -311,31 +301,9 @@ define(["commJs"], function (comm) {
 
     function setupParentCategories(data) {
         $("#parent").empty();
-        renderParentCategoryList(data);
+        comm.pedia.renderParentCategoryList($("#parent"), data, categoryMap);
     }
 
-    function renderParentCategoryList(data) {
-        $("#parent").append(setupParentCategoryList(data).join(''));
-        $("#parent select:last").val('');
-        $("#parent select:last").change(function () {
-            $(this).parent().nextAll().remove();
-            var category = categoryMap[$(this).val()];
-            if (category.sub && category.sub.length > 0) renderParentCategoryList(category.sub);
-        });
-    }
-
-    function setupParentCategoryList(categoryList) {
-        var strArr = [];
-        strArr.push('<div class="col-sm-4">');
-        strArr.push('<select class="form-control" style="margin-bottom: 5px">');
-        for (var key in categoryList) {
-            var category = categoryList[key];
-            strArr.push('<option value="' + category.id + '">' + category.name + '</option>');
-        }
-        strArr.push('</select>');
-        strArr.push('</div>');
-        return strArr;
-    }
 
     function appendImage(imgEl, imgUrl) {
         imgEl.removeClass("none");
@@ -434,7 +402,7 @@ define(["commJs"], function (comm) {
         $.each(parentIds, function (idx, parentId) {
             $("#parent select:last").val(parentId);
             data = categoryMap[parentId];
-            if (data.sub && data.sub.length > 0) renderParentCategoryList(data.sub);
+            if (data.sub && data.sub.length > 0) comm.pedia.renderParentCategoryList($("#parent"), data.sub, categoryMap);
         });
 
         $('#content').html(row.content);

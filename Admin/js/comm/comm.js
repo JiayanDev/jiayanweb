@@ -56,6 +56,10 @@ define(["jquery", 'lib/tmpl'], function ($, tmpl) {
                             {
                                 url: 'pediaList',
                                 label: '百科列表'
+                            },
+                            {
+                                url: 'interestList',
+                                label: '感兴趣列表'
                             }]
                     }
                 ],
@@ -1019,6 +1023,40 @@ define(["jquery", 'lib/tmpl'], function ($, tmpl) {
         //}
     }
 
+
+    function renderParentCategoryList($parent, data, categoryMap) {
+        $parent.append(getParentCategoryListStrArr(data).join(''));
+        $parent.find("select:last").val('');
+        $parent.find("select:last").change(function () {
+            $(this).parent().nextAll().remove();
+            var category = categoryMap[$(this).val()];
+            if (category.sub && category.sub.length > 0) renderParentCategoryList($parent, category.sub, categoryMap);
+        });
+    }
+
+    function getParentCategoryListStrArr(categoryList) {
+        var strArr = [];
+        strArr.push('<div class="col-sm-4">');
+        strArr.push('<select class="form-control" style="margin-bottom: 5px">');
+        for (var key in categoryList) {
+            var category = categoryList[key];
+            strArr.push('<option value="' + category.id + '">' + category.name + '</option>');
+        }
+        strArr.push('</select>');
+        strArr.push('</div>');
+        return strArr;
+    }
+
+    function categories2Map(categoryMap, data, parentId) {
+        for (var key in data) {
+            var category = data[key];
+            if (parentId) category['parentId'] = parentId;
+            categoryMap[category.id] = category;
+            var sub = category.sub;
+            if (sub) categories2Map(categoryMap, sub, category.id);
+        }
+    }
+
     return {
         constant: {
             HOSPITAL_ID: 1,
@@ -1071,6 +1109,10 @@ define(["jquery", 'lib/tmpl'], function ($, tmpl) {
         status: {
             hide: hideStatus,
             edit: editStatus
+        },
+        pedia: {
+            renderParentCategoryList: renderParentCategoryList,
+            categories2Map: categories2Map
         }
     }
 });

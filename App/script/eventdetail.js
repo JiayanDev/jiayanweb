@@ -182,6 +182,8 @@ define(["commJs"], function (comm) {
 			if (desc.length > 20) content = desc.substring(0, 20); else content = desc.value;
 		}
 
+		comm.setWeixinShareMeta(data['title'],data['coverImg'],content);
+
 		comm.io.call({
 			action: "getShareInfo",
 			data: {
