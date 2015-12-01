@@ -67,6 +67,70 @@
             margin-left: 5px;
             height:10px;
         }
+
+
+        .BQBox {
+            overflow: auto;
+            zoom: 1;
+            background-color: #f5f7fa;
+            -khtml-border-radius: 5px;
+            -webkit-border-radius: 5px;
+            -moz-border-radius: 5px;
+            border-radius: 5px;
+            line-height: 26px;
+            padding: 5px;
+        }
+
+        .BQBox a {
+            padding: 5px;
+            border: 1px solid #dce1e6;
+            -khtml-border-radius: 3px;
+            -webkit-border-radius: 3px;
+            -moz-border-radius: 3px;
+            border-radius: 3px;
+            background-color: #FFF;
+            color: #999;
+            font-size: 12px;
+            margin-right: 5px;
+        }
+        .BQBox a:hover {
+            text-decoration: none;
+            color: #d97a08;
+        }
+        .BQBox a {
+            text-decoration: none;
+            color: #eca046;
+        }
+
+        .BQBox a i {
+            margin-left: 2px;
+            font-size: 16px;
+        }
+
+        .f-width {
+            width: 100%;
+        }
+
+        .f-height {
+            height: 100%
+        }
+
+        .block {
+            display: block
+        }
+
+
+        .relative {
+            position: relative;
+        }
+
+        .f-right {
+            float: right
+        }
+
+        .f-left {
+            float: left
+        }
     </style>
 </head>
 <style type="text/css"></style>
@@ -156,6 +220,46 @@
                     </select>
                 </div>
             </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">感兴趣词条</label>
+
+                <div class="col-sm-10">
+                    <div class="BQBox">
+                        <ul class="f-width clearfix" id="recommendItems" style="padding: 5px;">
+                            <li class="relative block f-left">
+                                <a href="#" value="风雪">风雪<i>×</i></a>
+                            </li>
+                            <li class="relative block f-left">
+                                <a href="#" value="风雪">风雪<i>×</i></a>
+                            </li>
+                            <li class="relative block f-left">
+                                <a href="#" value="风雪">风雪<i>×</i></a>
+                            </li>
+                            <li class="relative block f-left">
+                                <a href="#" value="风雪">风雪<i>×</i></a>
+                            </li>
+                            <li class="relative block f-left">
+                                <a href="#" value="风雪">风雪<i>×</i></a>
+                            </li>
+                            <li class="relative block f-left">
+                                <a href="#" value="风雪">风雪<i>×</i></a>
+                            </li>
+                            <li class="relative block f-left">
+                                <a href="#" value="风雪">风雪<i>×</i></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <label class="col-sm-2 control-label"></label>
+
+                <div id="recommendItem-select" class="col-sm-9" style="margin-top:5px; padding-left: 0;">
+
+                </div>
+                <a id="_recommendItem-ok" href="#" class="col-sm-1" style="margin-top:10px;">确定</a>
+            </div>
+
+
             <div class="form-group">
                 <label class="col-sm-2 control-label">内容</label>
                 <div class="col-sm-10">

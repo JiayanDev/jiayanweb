@@ -80,7 +80,16 @@ define(["commJs"], function (comm) {
 
                 setForm(row, row_str);
                 return false;
+            } else if ($t.hasClass('recommendItem-tag')) {
+                var parent = $t.parent();
+                parent.remove();
+                return false;
+            } else if ($t.parent().hasClass('recommendItem-tag')) {
+                var parent = $t.parent().parent();
+                parent.remove();
+                return false;
             }
+
         });
 
         $('#_add').click(function () {
@@ -98,6 +107,21 @@ define(["commJs"], function (comm) {
 
         $('#_parent-reset').click(function (e) {
             setupParentCategories(categoryData);
+            return false;
+        });
+
+        $('#_recommendItem-ok').click(function (e) {
+            var id = getParentId($("#recommendItem-select"));
+
+            var $el = $('#recommendItems a[value="' + id + '"]');
+            if ($el.size() > 0) {
+                comm.alertMsg('该词条已经选择了！');
+                return false;
+            }
+
+            var strArr = [];
+            if (id) buildRecommendItem(strArr, id);
+            $('#recommendItems').append(strArr.join(''));
             return false;
         });
 
@@ -178,6 +202,7 @@ define(["commJs"], function (comm) {
                 categoryData = d;
                 comm.pedia.categories2Map(categoryMap, d);
                 setupParentCategories(d);
+                setuprecommendItemCategories(d);
                 if (type == TREE) setupCategoryTree(d);
             }
         });
@@ -235,32 +260,40 @@ define(["commJs"], function (comm) {
     }
 
     function setupCategoryTree(data) {
+        $('#category-detail').empty();
+
         var tree = appendCategoryTree(data);
         $("#category-tree").empty();
         $("#category-tree").append(tree.join(''));
         $("#category-tree").jstree({
             "plugins": ["themes", "html_data", "ui", "crrm", "hotkeys"],
             "core": {/**"initially_open": ["phtml_1"], **/ animation: 50}
-        }).bind("loaded.jstree", function (event, data) {
-
-        }).bind("select_node.jstree", function (event, data) {
-            var $t = $(event.target);
-            //var $t = data.rslt.obj;
-            var id = $t.data('id');
-            var row_str = $t.attr('data-row');
-            var row = JSON.parse(row_str);
-            renderCategory(row);
-            return false;
+        //}).bind("loaded.jstree", function (event, data) {
+        //
+        //}).bind("select_node.jstree", function (event, data) {
+        //    var $t = $(event.target);
+        //    //var $t = data.rslt.obj;
+        //    var id = $t.data('id');
+        //    var row_str = $t.attr('data-row');
+        //    var row = JSON.parse(row_str);
+        //    renderCategory(row);
+        //    return false;
         }).delegate("a", "click", function (event, data) {
             //event.preventDefault();
             var $t = $(event.target);
             //var $t = data.rslt.obj;
             var id = $t.data('id');
-            if (!id) id = $t.parent().data('id');
-            //var row_str = $t.attr('data-row');
-            //var row = JSON.parse(row_str);
+            if (!id) {
+                $t = $t.parent();
+                id = $t.data('id');
+            }
+            var row_str = $t.attr('data-row');
+            var row = JSON.parse(row_str);
 
             detail(id, function(data){
+                if (data.isHot == null || data.isHot == 'undefined') {
+                    data.isHot = row.isHot;
+                }
                 renderCategory(data);
             });
             return false;
@@ -304,6 +337,11 @@ define(["commJs"], function (comm) {
         comm.pedia.renderParentCategoryList($("#parent"), data, categoryMap);
     }
 
+    function setuprecommendItemCategories(data) {
+        $("#recommendItem-select").empty();
+        comm.pedia.renderParentCategoryList($("#recommendItem-select"), data, categoryMap);
+    }
+
 
     function appendImage(imgEl, imgUrl) {
         imgEl.removeClass("none");
@@ -340,17 +378,19 @@ define(["commJs"], function (comm) {
 
         if (icon) param['icon'] = icon;
 
-        var parentId;
-        $("#parent select").each(function (idx, select) {
-            var val = $.trim($(select).val());
-            if (val) parentId = val;
-            else return false;
-        });
+        var parentId = getParentId($("#parent"));
         if (parentId) param['parentId'] = parentId;
 
         var isHot = $('#isHot').val();
         if (isHot) param['isHot'] = isHot;
         //if (isHot != null) if (isHot == 0) param['isHot'] = 'false'; else if (isHot == 1) param['isHot'] = 'true';
+
+        var recommendItemIds = [];
+        $('#recommendItems a').each(function () {
+            recommendItemIds.push(Number($(this).attr('value')));
+        });
+
+        param['recommendItemIds'] = JSON.stringify(recommendItemIds);
 
         var content = $('#content').html();
         if (content) param['content'] = content;
@@ -364,6 +404,7 @@ define(["commJs"], function (comm) {
         });
         resetImage();
         setupParentCategories(categoryData);
+        $('#recommendItems').html('');
         $('#content').html('');
 
         var el = $('#editPanel');
@@ -405,11 +446,41 @@ define(["commJs"], function (comm) {
             if (data.sub && data.sub.length > 0) comm.pedia.renderParentCategoryList($("#parent"), data.sub, categoryMap);
         });
 
+        setRecommendItems(row.recommendItems);
         $('#content').html(row.content);
 
         var el = $('#editPanel');
         if (row_str) el.data("row", row_str);
         if (row['id']) el.data("id", row['id']);
+    }
+
+    function getParentId($parent){
+        var parentId = null;
+        $parent.find("select").each(function (idx, select) {
+            var val = $.trim($(select).val());
+            if (val) parentId = val;
+            else return false;
+        });
+        return parentId;
+    }
+
+    function setRecommendItems(idList) {
+        $('#recommendItems').html('');
+        if (!idList) return;
+        var strArr = [];
+        $.each(idList, function (i, id) {
+            buildRecommendItem(strArr, id);
+        });
+        $('#recommendItems').html(strArr.join(''));
+    }
+
+    function buildRecommendItem(strArr, id) {
+        strArr.push('<li class="relative block f-left">');
+        var category = categoryMap[id];
+        var name;
+        if (category == null) name = id; else name = category.name;
+        strArr.push('<a class="recommendItem-tag" href="#" value="' + id + '">' + name + '<i>×</i></a>');
+        strArr.push('</li>');
     }
 
     ////////////////////////////////////panel
