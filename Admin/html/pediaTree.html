@@ -341,6 +341,10 @@
         <td>{%= (o.isHot && o.isHot == true)?'是':'否' %}</td>
     </tr>
     <tr>
+        <td>感兴趣词条</td>
+        <td>{%= window.G_getRecommendItems(o.recommendItems) %}</td>
+    </tr>
+    <tr>
         <td>创建时间</td>
         <td>{%= window.G_formatTime(o.createTime) %}</td>
     </tr>
@@ -351,7 +355,7 @@
             <a href="#" class="_detail">详情</a>&nbsp;
             <!--<a href="#" class="_add">添加</a>-->
             <a href="#" class="_delete">删除</a>&nbsp;
-            <a href="#" class="_delete_forever">永久删除</a>
+            <!--<a href="#" class="_delete_forever">永久删除</a>-->
         </td>
     </tr>
 </script>
@@ -362,6 +366,7 @@
 <script type="text/javascript">
     var jstree = $.fn.jstree;
     require.config({
+        urlArgs: "_version=2",
         baseUrl: "../js",
         paths: {
             "jquery": "lib/jquery.min",   //@note 以JS结尾的会忽略baseUrl

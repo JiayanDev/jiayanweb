@@ -464,14 +464,17 @@ define(["commJs"], function (comm) {
         return parentId;
     }
 
-    function setRecommendItems(idList) {
-        $('#recommendItems').html('');
-        if (!idList) return;
+    function buildRecommendItems(idList) {
+        if (!idList) return '';
         var strArr = [];
         $.each(idList, function (i, id) {
             buildRecommendItem(strArr, id);
         });
-        $('#recommendItems').html(strArr.join(''));
+        return strArr.join('');
+    }
+
+    function setRecommendItems(idList) {
+        $('#recommendItems').html(buildRecommendItems(idList));
     }
 
     function buildRecommendItem(strArr, id) {
@@ -505,6 +508,20 @@ define(["commJs"], function (comm) {
             el.addClass('none');
         }, 200);
     }
+
+    function getRecommendItems(idList) {
+        if (!idList) return '';
+        var strArr = [];
+        $.each(idList, function (i, id) {
+            var category = categoryMap[id];
+            var name;
+            if (category == null) name = id; else name = category.name;
+            strArr.push(name);
+        });
+        return strArr.join(' ');
+    }
+
+    window.G_getRecommendItems = getRecommendItems;
 
     return {
         setup: main

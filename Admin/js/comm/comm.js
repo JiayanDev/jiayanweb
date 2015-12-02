@@ -56,10 +56,6 @@ define(["jquery", 'lib/tmpl'], function ($, tmpl) {
                             {
                                 url: 'pediaList',
                                 label: '百科列表'
-                            },
-                            {
-                                url: 'interestList',
-                                label: '感兴趣列表'
                             }]
                     }
                 ],
@@ -526,7 +522,10 @@ define(["jquery", 'lib/tmpl'], function ($, tmpl) {
     function setupRichEditorToolBar(options) {
         var tpl = ['<div class="btn-toolbar" data-role="editor-toolbar" data-target="' + options.targetElementSel + '">',
             '<div class="btn-group">',
-            '<a class="btn btn-default" data-edit="fontSize 5" title="标题（大字）">标题</a>',
+            '<a class="btn btn-default" data-edit="fontSize 6" title="标题1">标题1</a>',
+            '<a class="btn btn-default" data-edit="fontSize 5" title="标题2">标题2</a>',
+            '<a class="btn btn-default" data-edit="fontSize 4" title="标题3">标题3</a>',
+            '<a class="btn btn-default" data-edit="fontSize 3" title="标题4">标题4</a>',
             '<a class="btn btn-default" data-edit="fontSize 2" title="正文">正文</a>',
             '</div>',
             '<div class="btn-group">',
