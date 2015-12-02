@@ -15,9 +15,11 @@ define(["commJs", "pediaCommJs"], function (comm, pediaComm) {
             success: function (data) {
                 renderCategoryList(data.data);
                 renderSuggestList(data.recommend);
+                comm.utils.hideNativeLoading();
             },
             error: function (msg) {
                 comm.utils.alertMsg("加载出错");
+                comm.utils.hideNativeLoading();
             }
         });
     }

@@ -1,9 +1,6 @@
 /**
  * Created by liangzili on 15/11/27.
  */
-/**
- * Created by liangzili on 15/11/27.
- */
 
 define(["commJs"], function (comm) {
     function init() {
@@ -27,9 +24,14 @@ define(["commJs"], function (comm) {
             },
             success: function(data){
                 render(data);
+                comm.utils.hideNativeLoading();
+                comm.io.call({
+                    action:"setNavigationBarTitle",
+                    data: {"title": data.name}
+                });
             },
             error: function(msg){
-
+                comm.utils.hideNativeLoading();
             }
         });
     }

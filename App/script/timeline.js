@@ -52,6 +52,9 @@ define(["commJs"], function(comm) {
         var content = '';
         var timeline = data.timeline;
         if (timeline.length > 0) if (timeline[0].content.length > 20) content = timeline[0].content.substring(0, 20); else content = timeline[0].content;
+
+		comm.setWeixinShareMeta(data.userName+'的美丽历程',data.user.avatar,content);
+
         comm.io.call({
             action: "getShareInfo",
             data: {

@@ -24,9 +24,14 @@ define(["commJs"], function (comm) {
             },
             success: function (data) {
                 render(data);
+                comm.utils.hideNativeLoading();
+                comm.io.call({
+                    action:"setNavigationBarTitle",
+                    data: {"title": data.name}
+                });
             },
             error: function (msg) {
-
+                comm.utils.hideNativeLoading();
             }
         });
     }
@@ -35,6 +40,8 @@ define(["commJs"], function (comm) {
         renderCategory(data.data);
         renderHeader(data.detail);
         renderRecommend(data.recommend);
+        document.title = data.detail.name;
+
     }
 
     function renderHeader(header){
@@ -64,7 +71,7 @@ define(["commJs"], function (comm) {
         var $el = $('<div></div>');
         comm.render({
             tpl: 'tplForCategory',
-            data: category,
+            data: recommend,
             renderTo: $el
         });
         $('#interest-content').html('').append($el.children());
