@@ -368,10 +368,20 @@
     require.config({
         urlArgs: "_version=2",
         baseUrl: "../js",
+        shim: {
+            'ckeditor-core':{
+                exports: 'CKEDITOR'
+            },
+            'ckeditor-jquery':{
+                deps:['jquery','ckeditor-core']
+            }
+        },
         paths: {
             "jquery": "lib/jquery.min",   //@note 以JS结尾的会忽略baseUrl
             "commJs": "comm/comm",
-            "bootstrap": "lib/bootstrap.min"
+            "bootstrap": "lib/bootstrap.min",
+            'ckeditor-core':'lib/ckeditor/ckeditor',
+            'ckeditor-jquery':'lib/ckeditor/adapters/jquery'
         }
     });
     require(["pediaComm", "jquery"], function (mod, jquery) {
