@@ -63,7 +63,7 @@
 <!-- 模板 -->
 <script type="text/tpl" id="tplForSearch">
     <li class="block category-item border-bottom">
-        <a href="itemdetail.html?id={%= o.id %}">
+        <a href="{%= window.G_getHrefLink(o.depth, o.id) %}">
             <div class="text-theme">{%= o.name %}<img src="../asset/img/icon_more.png"/></div>
             <p class="text-default">{%= o.introduction %}</p>
         </a>
