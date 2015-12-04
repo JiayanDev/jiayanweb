@@ -393,7 +393,8 @@ define(["commJs","ckeditorsetup",'ckeditor-core'], function (comm,ckeditorsetup,
 
         param['recommendItemIds'] = JSON.stringify(recommendItemIds);
 
-        var content = $('#content').html();
+        //var content = $('#content').html();
+        var content =CKEDITOR.instances['content'].getData();
         if (content) param['content'] = content;
 
         return param;

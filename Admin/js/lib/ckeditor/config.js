@@ -24,4 +24,5 @@ CKEDITOR.editorConfig = function( config ) {
 
     config.removeButtons = 'NewPage,Preview,Print,Templates,SelectAll,Scayt,Form,Checkbox,Radio,TextField,Textarea,Select,Button,ImageButton,HiddenField,BidiLtr,BidiRtl,Language,Flash,PageBreak,Iframe';
     config.contentsCss = '../statics/css/pedia-content-ineditor.css';
+    config.allowedContent =  true;
 };
