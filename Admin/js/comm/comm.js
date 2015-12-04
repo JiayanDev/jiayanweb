@@ -51,11 +51,15 @@ define(["jquery", 'lib/tmpl'], function ($, tmpl) {
                         sub: [
                             {
                                 url: 'pediaTree',
-                                label: '百科目录'
+                                label: '词条目录'
                             },
                             {
                                 url: 'pediaList',
-                                label: '百科列表'
+                                label: '词条列表'
+                            },
+                            {
+                                url: 'pediaSearchRecList',
+                                label: '搜索推荐'
                             }]
                     }
                 ],
