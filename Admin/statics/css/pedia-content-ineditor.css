@@ -1,24 +1,38 @@
-#detail{
+body{
     font-size: 15px;
 }
 
 h1{
     color:#333;
-    font-size: 18px;
+    font-size: 25px;
     font-weight: bold;
-    line-height: 32px;
+    line-height: 44px;
 }
 
 
 h2{
     color:#333;
-    font-size: 15px;
+    font-size: 18px;
     font-weight: bold;
-    line-height: 26px;
+    line-height: 36px;
 }
 
 
 h3{
+    color:#333;
+    font-size: 16px;
+    font-weight: normal;
+    line-height: 30px;
+}
+
+h4{
+    color:#333;
+    font-size: 15px;
+    font-weight: normal;
+    line-height: 25px;
+}
+
+h5{
     color:#333;
     font-size: 15px;
     font-weight: normal;
