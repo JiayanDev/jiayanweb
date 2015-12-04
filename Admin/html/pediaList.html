@@ -186,6 +186,8 @@
                 <th class="th-border">简介</th>
                 <th class="th-border">关键词</th>
                 <th class="th-border">是否热门</th>
+                <th class="th-border">感兴趣词条</th>
+                <th class="th-border">浏览次数</th>
                 <th class="th-border">创建时间</th>
                 <th class="th-border">操作</th>
             </tr>
@@ -204,7 +206,9 @@
                 </td>
                 <td style="width:300px">{%= row.introduction %}</td>
                 <td>{%= row.keywords %}</td>
-                <td>{%= (o.isHot && o.isHot == true)?'是':'否' %}</td>
+                <td>{%= (row.isHot && row.isHot == true)?'是':'否' %}</td>
+                <td style="width:200px">{%= window.G_getRecommendItems(row.recommendItems) %}</td>
+                <td>{%= row.visitTimes %}</td>
                 <td>{%= window.G_formatTime(row.createTime) %}</td>
                 <td data-id="{%= row.id %}" data-row='{%= JSON.stringify(row) %}'>
                     <a href="#" class="_edit">编辑</a>&nbsp;

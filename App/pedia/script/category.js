@@ -70,7 +70,7 @@ define(["commJs"], function (comm) {
         if (!recommend) return;
         var $el = $('<div></div>');
         comm.render({
-            tpl: 'tplForCategory',
+            tpl: 'tplForInterest',
             data: recommend,
             renderTo: $el
         });
@@ -88,6 +88,21 @@ define(["commJs"], function (comm) {
      */
     window.G_getHotTag = function (isHot) {
         return isHot ? '<img class="absolute badge-hot-right" src="../asset/img/icon_hot.png">' : "";
+    }
+
+    /**
+     * @return {string}
+     */
+    window.G_getHrefLink = function (depth, id) {
+        if (depth) {
+            if (depth.length == 1) {
+                return 'category.html?id=' + id;
+            }
+            if (depth.length == 2) {
+                return 'categorydetail.html?id=' + id;
+            }
+        }
+        return 'itemdetail.html?id=' + id;
     }
 
     return {setup: init};
