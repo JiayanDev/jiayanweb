@@ -3,7 +3,7 @@
  * @date    2015-11-10
  * @todo  user admin manager
  */
-define(["commJs"], function (comm) {
+define(["commJs","ckeditorsetup"], function (comm,ckeditorsetup) {
     const DIR = 'pedia';
     var categoryData,
         categoryMap = {},
@@ -124,10 +124,12 @@ define(["commJs"], function (comm) {
     }
 
     function setupRichEditor() {
-        comm.setupRichEditor({
-            target: $('#content'),
-            toolbarContainer: $('#richEditorToolBar')
-        });
+        //comm.setupRichEditor({
+        //    target: $('#content'),
+        //    toolbarContainer: $('#richEditorToolBar')
+        //});
+
+        ckeditorsetup.setup('content');
     }
 
     ////////////////////////////////////http

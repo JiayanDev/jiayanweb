@@ -3,7 +3,7 @@
  * @date    2015-11-26
  * @todo  manager
  */
-define(["commJs"], function (comm) {
+define(["commJs","ckeditorsetup",'ckeditor-core'], function (comm,ckeditorsetup,CKEDITOR) {
     const DIR = 'pedia',
         TREE = 'Tree',
         LIST = 'List';
@@ -172,10 +172,11 @@ define(["commJs"], function (comm) {
     }
 
     function setupRichEditor() {
-        comm.setupRichEditor({
-            target: $('#content'),
-            toolbarContainer: $('#richEditorToolBar')
-        });
+        //comm.setupRichEditor({
+        //    target: $('#content'),
+        //    toolbarContainer: $('#richEditorToolBar')
+        //});
+        ckeditorsetup.setup('content');
     }
 
     ////////////////////////////////////http
@@ -447,7 +448,8 @@ define(["commJs"], function (comm) {
         });
 
         setRecommendItems(row.recommendItems);
-        $('#content').html(row.content);
+        //$('#content').html(row.content);
+        CKEDITOR.instances['content'].setData(row.content);
 
         var el = $('#editPanel');
         if (row_str) el.data("row", row_str);

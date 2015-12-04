@@ -1,0 +1,51 @@
+#detail{
+    font-size: 15px;
+}
+
+h1{
+    color:#333;
+    font-size: 18px;
+    font-weight: bold;
+    line-height: 32px;
+}
+
+
+h2{
+    color:#333;
+    font-size: 15px;
+    font-weight: bold;
+    line-height: 26px;
+}
+
+
+h3{
+    color:#333;
+    font-size: 15px;
+    font-weight: normal;
+    line-height: 22px;
+}
+
+section .intro-tit,section .point-tit{
+    color:#333;
+    text-align: left;
+    font-size: 18px;
+    line-height:32px;
+    /*border-bottom: #ccc 1px solid;*/
+    /*margin-bottom: 0.4em;*/
+
+}
+
+i{
+    font-style: normal;
+}
+
+li{
+    list-style: none;
+}
+#detail>section{
+    /*padding: 15px 0 15px 0;*/
+    /*border-bottom: #ccc 1px solid;*/
+}
+#detail>section .point-tit:not(:first-child){
+    /*padding: 15px 0 0 0;*/
+}
