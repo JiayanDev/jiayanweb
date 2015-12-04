@@ -62,7 +62,7 @@
 
 <!-- 模板 -->
 <script type="text/tpl" id="tplForSuggest">
-    <a class="text-theme" href="#">{%= o.name %}</a><span>&nbsp</span>;
+    <a class="text-theme" href="{%= window.G_getHrefLink(o.depth, o.id) %}">{%= o.name %}</a><span>&nbsp</span>;
 </script>
 <!-- 各种模板 END -->
 

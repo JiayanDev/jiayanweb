@@ -14,12 +14,21 @@ define(["commJs", "pediaCommJs"], function (comm, pediaComm) {
             url: comm.config.BASEPATH + "pedia/tree",
             success: function (data) {
                 renderCategoryList(data.data);
-                renderSuggestList(data.recommend);
+                //renderSuggestList(data.recommend);
                 comm.utils.hideNativeLoading();
             },
             error: function (msg) {
                 comm.utils.alertMsg("加载出错");
                 comm.utils.hideNativeLoading();
+            }
+        });
+        comm.io.get({
+            url: comm.config.BASEPATH + "pedia/search/recommend/list",
+            success: function (data) {
+                renderSuggestList(data);
+            },
+            error: function (msg) {
+                comm.utils.alertMsg("建议列表加载出错");
             }
         });
     }

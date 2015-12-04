@@ -53,6 +53,21 @@ define(["commJs"], function (comm) {
         });
     }
 
+    /**
+     * @return {string}
+     */
+    window.G_getHrefLink = function (depth, id) {
+        if (depth) {
+            if (depth.length == 1) {
+                return 'category.html?id=' + id;
+            }
+            if (depth.length == 2) {
+                return 'categorydetail.html?id=' + id;
+            }
+        }
+        return 'itemdetail.html?id=' + id;
+    }
+
     return {
         setup: init,
         categoryData: categoryData,

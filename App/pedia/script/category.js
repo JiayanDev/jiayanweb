@@ -2,7 +2,7 @@
  * Created by liangzili on 15/11/27.
  */
 
-define(["commJs"], function (comm) {
+define(["commJs", "pediaCommJs"], function (comm, pediaComm) {
     function init() {
         comm.setupWorkspace();
         var id = getId();
@@ -88,21 +88,6 @@ define(["commJs"], function (comm) {
      */
     window.G_getHotTag = function (isHot) {
         return isHot ? '<img class="absolute badge-hot-right" src="../asset/img/icon_hot.png">' : "";
-    }
-
-    /**
-     * @return {string}
-     */
-    window.G_getHrefLink = function (depth, id) {
-        if (depth) {
-            if (depth.length == 1) {
-                return 'category.html?id=' + id;
-            }
-            if (depth.length == 2) {
-                return 'categorydetail.html?id=' + id;
-            }
-        }
-        return 'itemdetail.html?id=' + id;
     }
 
     return {setup: init};
