@@ -134,6 +134,13 @@
                     </select>
                 </div>
             </div>
+            <div name="edit-item" class="form-group">
+                <label class="col-sm-2 control-label">日记Ids</label>
+
+                <div class="col-sm-10 award-input-cnt">
+                    <input id='recommendPostIds' type="text" class="form-control input-sm _itemName" placeholder="日记Ids 使用 ' , ' 隔开">
+                </div>
+            </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label">内容</label>
                 <div class="col-sm-10">
@@ -231,7 +238,7 @@
 
 <script type="text/javascript">
     require.config({
-        urlArgs: "_version=3",
+        urlArgs: "_version=4",
         baseUrl: "../js",
         shim: {
             'ckeditor-core':{

@@ -7,7 +7,10 @@
     <meta name="viewport"
           content="width=device-width, height=device-height,initial-scale=1, maximum-scale=1, user-scalable=no">
     <title>医美百科</title>
+    <link type="text/css" rel="stylesheet" href="../../asset/css/common.css" />
+    <link type="text/css" rel="stylesheet" href="../../asset/css/topic.css" />
     <link type="text/css" rel="stylesheet" href="../asset/css/comm.css"/>
+
     <style type="text/css">
         body {
             background-color: #f6f6f6;
@@ -77,6 +80,28 @@
             content: url(../asset/img/icon_arrow_right.png);
         }
 
+        .diary-item {
+            padding-bottom: 10px;
+        }
+        .diary-content {
+            margin-left: 35px;
+        }
+        .category-names {
+        }
+        .category-names:before {
+            content: url(../../asset/img/ic_category.png);
+            padding-right: 5px;
+
+        }
+        .topic-img img{
+            height: 94px;
+        }
+        .ic_male{
+            background-image: url(../../asset/img/ic_male.png);
+        }
+        .ic_female{
+             background-image: url(../../asset/img/ic_female.png);
+        }
     </style>
 </head>
 
@@ -88,8 +113,13 @@
         <ul class="f-width clearfix category-content" id="category-content">
         </ul>
     </div>
+    <!--<div class="box reset divider">-->
+        <!--<div class="text-theme interest-header border-bottom">案例</div>-->
+        <!--<ul class="f-width clearfix interest-content" id="interest-content">-->
+        <!--</ul>-->
+    <!--</div>-->
     <div class="box reset divider">
-        <div class="text-theme interest-header border-bottom">可能感兴趣项目</div>
+        <div class="text-theme interest-header border-bottom">案例</div>
         <ul class="f-width clearfix interest-content" id="interest-content">
         </ul>
     </div>
@@ -102,15 +132,52 @@
      </li>
 </script>
 <script type="text/tpl" id="tplForInterest">
-    <li class="relative block item border-bottom">
-        <a href="{%= window.G_getHrefLink(o.depth, o.id) %}">
-            <div class="item-text text-default">
-                <div class="item-title"><b>{%= o.name %}</b></div>
-                <div class="item-content">{%= o.introduction || '...' %}</div>
+    <li class="diary-item relative border-bottom">
+    <a target="_blank" href="/html/diary.html?id={%= o.id %}">
+        <div class="topic-panel">
+            <div>
+                <div class="profile comment-profile relative">
+                    <a target="_blank" href="/html/timeline.html?id={%= o.userId %}">
+                        <img src="{%= o.avatar %}" onerror="this.src=window.G_default_img">
+                    </a>
+                    <div class="text">
+                        <p>
+                            <a class="text-theme" target="_blank" href="/html/timeline.html?id={%= o.userId %}">{%= o.userName %}</a>
+                            <span class="icon icon-role" class="{%= {0:'ic_female', 1:'ic_male'}[o.gender]||'' %}"></span>
+
+                            <!--<span class="icon icon-role" style="background-image: url(../../asset/img/icon_role_angel.png);"></span>-->
+                        </p>
+                        <!--<span class="small gray-text-x2">男 北京崇文</span>-->
+                    </div>
+                    <div class="gray-text-x2 absolute date">{%= window.G_formatDate(o.createTime) %}</div>
+                </div>
             </div>
-            <img class="absolute" src="{%= o.icon || '' %}">
-            <i class="absolute icon-font-arrow-right"></i>
-        </a>
+
+            <div class="diary-content">
+                <div class="category-names gray-text-x2">{%= window.G_getCategoryNames(o.prevCategoryList) %}</div>
+
+                <!-- 内容 -->
+                <div class="topic-detail">{%= o.content %}</div>
+
+                <div class="topic-img">
+                    {%
+                        !o.photoes && (o.photoes = []);
+                        for ( var i = 0; i < o.photoes.length; i++) {
+                            var photo = o.photoes[i];
+                    %}
+                        <img src="{%=photo%}">
+                    {%
+                        }
+                    %}
+                </div>
+            </div>
+
+            <div class="gray-text-x2 absolute right-bottom">
+                <span>{%= o.likeCount %}</span>人赞过&nbsp;
+                <span>{%= o.commentCount %}</span>人评论过
+            </div>
+        </div>
+    </a>
     </li>
 </script>
 <script type="text/tpl" id="tplForHeader">

@@ -242,6 +242,11 @@ body{font-family: "Helvetica Neue",Helvetica,Arial,"Hiragino Sans GB","Hiragino 
 	right: 16px;
 }
 
+.right-bottom {
+	bottom: 10px;
+	right: 16px;
+}
+
 .right-download {
 	top: 16px;
 	right: 40px;

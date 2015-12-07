@@ -374,7 +374,6 @@ define(["commJs","ckeditorsetup",'ckeditor-core'], function (comm,ckeditorsetup,
         });
 
         var keywords = $("#keywords").val();
-
         if (keywords) param['keywords'] = JSON.stringify(keywords.replace('，', ',').split(','));
 
         if (icon) param['icon'] = icon;
@@ -386,12 +385,19 @@ define(["commJs","ckeditorsetup",'ckeditor-core'], function (comm,ckeditorsetup,
         if (isHot) param['isHot'] = isHot;
         //if (isHot != null) if (isHot == 0) param['isHot'] = 'false'; else if (isHot == 1) param['isHot'] = 'true';
 
-        var recommendItemIds = [];
-        $('#recommendItems a').each(function () {
-            recommendItemIds.push(Number($(this).attr('value')));
-        });
+        //var recommendItemIds = [];
+        //$('#recommendItems a').each(function () {
+        //    recommendItemIds.push(Number($(this).attr('value')));
+        //});
+        //param['recommendItemIds'] = JSON.stringify(recommendItemIds);
 
-        param['recommendItemIds'] = JSON.stringify(recommendItemIds);
+        var recommendPostIds = $("#recommendPostIds").val();
+        if (recommendPostIds) {
+            recommendPostIds = JSON.parse('[' + recommendPostIds.replace('，', ',') + ']');
+            param['recommendPostIds'] = JSON.stringify(recommendPostIds);
+        }else {
+            param['recommendPostIds'] = JSON.stringify([]);
+        }
 
         //var content = $('#content').html();
         var content =CKEDITOR.instances['content'].getData();
@@ -401,12 +407,12 @@ define(["commJs","ckeditorsetup",'ckeditor-core'], function (comm,ckeditorsetup,
     }
 
     function resetForm() {
-        $.each(fields.concat(['keywords', 'isHot']), function (idx, field) {
+        $.each(fields.concat(['keywords', 'isHot', 'recommendPostIds']), function (idx, field) {
             $('#' + field).val('');
         });
         resetImage();
         setupParentCategories(categoryData);
-        $('#recommendItems').html('');
+        //$('#recommendItems').html('');
         $('#content').html('');
 
         var el = $('#editPanel');
@@ -448,7 +454,13 @@ define(["commJs","ckeditorsetup",'ckeditor-core'], function (comm,ckeditorsetup,
             if (data.sub && data.sub.length > 0) comm.pedia.renderParentCategoryList($("#parent"), data.sub, categoryMap);
         });
 
-        setRecommendItems(row.recommendItems);
+        //setRecommendItems(row.recommendItems);
+
+        var recommendPostIds = row['recommendPosts'];
+        if (recommendPostIds != null) {
+            $("#recommendPostIds").val(recommendPostIds.join(','));
+        }
+
         //$('#content').html(row.content);
         CKEDITOR.instances['content'].setData(row.content);
 
@@ -491,11 +503,11 @@ define(["commJs","ckeditorsetup",'ckeditor-core'], function (comm,ckeditorsetup,
 
     ////////////////////////////////////panel
     function openPanel(showEdit) {
-        //if (showEdit) {
-        //    $('[name=edit-item]').show();
-        //} else {
-        //    $('[name=edit-item]').hide();
-        //}
+        if (showEdit) {
+            $('[name=edit-item]').show();
+        } else {
+            $('[name=edit-item]').hide();
+        }
         var el = $('#editPanel');
         el.addClass('bounce').addClass('animated').removeClass('none');
         setTimeout(function () {
@@ -525,6 +537,11 @@ define(["commJs","ckeditorsetup",'ckeditor-core'], function (comm,ckeditorsetup,
     }
 
     window.G_getRecommendItems = getRecommendItems;
+
+    window.G_getRecommendPosts = function (idList) {
+        if (!idList) return '';
+        return idList.join(', ');
+    };
 
     return {
         setup: main

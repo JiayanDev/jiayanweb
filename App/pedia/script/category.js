@@ -88,7 +88,21 @@ define(["commJs", "pediaCommJs"], function (comm, pediaComm) {
      */
     window.G_getHotTag = function (isHot) {
         return isHot ? '<img class="absolute badge-hot-right" src="../asset/img/icon_hot.png">' : "";
-    }
+    };
+
+    /**
+     * @return {string}
+     */
+    window.G_getCategoryNames = function (list) {
+        var nameArr = [];
+        if(list)
+            $.each(list, function (item) {
+                nameArr.push(item.name);
+            });
+        return nameArr.join(' ');
+    };
+
+    window.G_default_img='../../asset/img/img_header_def.png';
 
     return {setup: init};
 })
