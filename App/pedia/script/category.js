@@ -75,6 +75,12 @@ define(["commJs", "pediaCommJs"], function (comm, pediaComm) {
             renderTo: $el
         });
         $('#interest-content').html('').append($el.children());
+
+        $('.diary-item').click(function(){
+            var href = $(this).attr('href');
+            window.location.href = href;
+            return false;
+        });
     }
 
     function getId() {
