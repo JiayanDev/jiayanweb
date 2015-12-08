@@ -27,7 +27,7 @@ define(["commJs", "pediaCommJs"], function (comm, pediaComm) {
                 comm.utils.hideNativeLoading();
                 comm.io.call({
                     action:"setNavigationBarTitle",
-                    data: {"title": data.name}
+                    data: {"title": data.detail.name}
                 });
             },
             error: function (msg) {
