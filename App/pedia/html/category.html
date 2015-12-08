@@ -155,6 +155,7 @@
                         <p>
                             <span class="text-theme" target="_blank" href="/html/timeline.html?id={%= o.userId %}">{%= o.userName %}</span>
                             <span class="icon icon-gender {%= {0:'ic_female', 1:'ic_male'}[o.gender]||'' %}"></span>
+                            {%= window.G_getRoleText(o.role) %}
                         </p>
                     </div>
                     <div class="gray-text-x2 absolute date">{%= window.G_formatDate(o.createTime) %}</div>

@@ -110,6 +110,8 @@ define(["commJs", "pediaCommJs"], function (comm, pediaComm) {
 
     window.G_default_img='../../asset/img/img_header_def.png';
 
+    window.G_getRoleText = comm.getRoleText;
+
     return {setup: init};
 })
 ;
