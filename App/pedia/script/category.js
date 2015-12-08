@@ -76,11 +76,11 @@ define(["commJs", "pediaCommJs"], function (comm, pediaComm) {
         });
         $('#interest-content').html('').append($el.children());
 
-        $('.diary-item').click(function(){
-            var href = $(this).attr('href');
-            window.location.href = href;
-            return false;
-        });
+        //$('.diary-item').click(function(){
+        //    var href = $(this).attr('href');
+        //    window.location.href = href;
+        //    return false;
+        //});
     }
 
     function getId() {
