@@ -89,8 +89,17 @@
         .category-names {
         }
         .category-names:before {
-            content: url(../../asset/img/ic_category.png);
-            padding-right: 5px;
+            background-image: url(../../asset/img/ic_category.png);
+            background-size: 16px 16px;
+            width: 16px;
+            height: 16px;
+            content:"";
+            display: inline-block;
+
+
+            /*content: url(../../asset/img/ic_category.png);*/
+            margin-right: 5px;
+            /*width: 16px;*/
 
         }
         .topic-img img{
@@ -104,8 +113,8 @@
             /* margin-top: -3px; */
         }
         .icon-gender {
-            width: 18px;
-            height: 18px;
+            width: 16px;
+            height: 16px;
             margin-bottom: -4px;
             display: inline-block;
             background-size: 100%;
@@ -129,7 +138,7 @@
         </ul>
     </div>
 
-    <div class="box reset divider">
+    <div class="box reset divider" id="anlimen" style="display: none;">
         <div class="text-theme interest-header border-bottom">案例</div>
         <ul class="f-width clearfix interest-content" id="interest-content">
         </ul>

@@ -17,10 +17,10 @@ define(["commJs"], function (comm) {
 
         bindEvent(id);
 
-        comm.io.call({
-            action: "setNavigationBarTitle",
-            data: {"title": '百科分类详情'}
-        });
+        //comm.io.call({
+        //    action: "setNavigationBarTitle",
+        //    data: {"title": '百科分类详情'}
+        //});
     }
 
     function loadData(id) {

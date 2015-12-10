@@ -27,7 +27,7 @@ define(["commJs", "pediaCommJs"], function (comm, pediaComm) {
                 comm.utils.hideNativeLoading();
                 comm.io.call({
                     action:"setNavigationBarTitle",
-                    data: {"title": data.name}
+                    data: {"title": data.detail.name}
                 });
             },
             error: function (msg) {
@@ -67,7 +67,9 @@ define(["commJs", "pediaCommJs"], function (comm, pediaComm) {
     }
 
     function renderRecommend(recommend){
-        if (!recommend) return;
+        if (!recommend || ($.isArray(recommend) && recommend.length==0)){
+            return;
+        }
         var $el = $('<div></div>');
         comm.render({
             tpl: 'tplForInterest',
@@ -75,6 +77,7 @@ define(["commJs", "pediaCommJs"], function (comm, pediaComm) {
             renderTo: $el
         });
         $('#interest-content').html('').append($el.children());
+        $("#anlimen").show();
 
         //$('.diary-item').click(function(){
         //    var href = $(this).attr('href');
