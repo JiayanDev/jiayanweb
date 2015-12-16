@@ -10,7 +10,7 @@ define(["commJs", "pediaCommJs"], function (comm, pediaComm) {
     }
 
     function loadCategoryData() {
-        comm.io.get({
+        var ajax1=comm.io.get({
             url: comm.config.BASEPATH + "pedia/tree",
             success: function (data) {
                 renderCategoryList(data.data);
@@ -22,7 +22,7 @@ define(["commJs", "pediaCommJs"], function (comm, pediaComm) {
                 comm.utils.hideNativeLoading();
             }
         });
-        comm.io.get({
+        var ajax2=comm.io.get({
             url: comm.config.BASEPATH + "pedia/search/recommend/list",
             success: function (data) {
                 renderSuggestList(data);
@@ -30,6 +30,9 @@ define(["commJs", "pediaCommJs"], function (comm, pediaComm) {
             error: function (msg) {
                 comm.utils.alertMsg("建议列表加载出错");
             }
+        });
+        $.when(ajax1,ajax2).done(function(){
+           comm.preloadNextPageWithUrl("category.html");
         });
     }
 

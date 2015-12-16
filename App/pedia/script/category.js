@@ -17,7 +17,7 @@ define(["commJs", "pediaCommJs"], function (comm, pediaComm) {
     }
 
     function loadDetail(id) {
-        comm.io.get({
+        var ajax1=comm.io.get({
             url: comm.config.BASEPATH + "pedia/tree",
             data: {
                 id: id
@@ -34,6 +34,10 @@ define(["commJs", "pediaCommJs"], function (comm, pediaComm) {
                 comm.utils.hideNativeLoading();
             }
         });
+        $.when(ajax1).done(function(){
+            comm.preloadNextPageWithUrl("categorydetail.html");
+        });
+
     }
 
     function render(data) {

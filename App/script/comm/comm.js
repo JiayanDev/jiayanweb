@@ -1345,6 +1345,20 @@ define(['tmpl', 'jquery'], function(tmpl, $) {
         //);
     }
 
+
+
+    function preloadNextPageWithUrl(url){
+        $("<iframe>").attr("src",url).css({
+            width:"1px",
+            height:"1px",
+            opacity:"0.001",
+            position:"absolute",
+            top:"0px",left:"0px",
+            border:"0"
+
+        }).appendTo($("body"));
+    }
+
     return {
         io: {
             post: post,
@@ -1406,7 +1420,9 @@ define(['tmpl', 'jquery'], function(tmpl, $) {
         isWebKit:isWebKit,
         getRoleText:getRoleText,
         setWeixinShareMeta:setWeixinShareMeta,
-        isInsideWeixin:isInsideWeixin
+        isInsideWeixin:isInsideWeixin,
+        preloadNextPageWithUrl:preloadNextPageWithUrl
+
 
     };
 });

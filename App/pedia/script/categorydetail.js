@@ -41,7 +41,7 @@ define(["commJs"], function (comm) {
     //}
 
     function getTree(id) {
-        comm.io.get({
+        var ajax1=comm.io.get({
             url: comm.config.BASEPATH + "pedia/tree",
             data:{
                 id: id
@@ -50,6 +50,10 @@ define(["commJs"], function (comm) {
                 renderDetail(data.detail);
                 renderList(data.data);
             }
+        });
+
+        $.when(ajax1).done(function(){
+            comm.preloadNextPageWithUrl("itemdetail.html");
         });
     }
 
