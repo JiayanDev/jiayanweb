@@ -1348,7 +1348,14 @@ define(['tmpl', 'jquery'], function(tmpl, $) {
 
 
     function preloadNextPageWithUrl(url){
-        $("<iframe>").attr("src",url).css({
+        var addParamUrl=url;
+        var toAdd="intention=caching"; // 为了app能够识别这是为了缓存而不是跳转
+        if(addParamUrl.indexOf("?")>-1){
+            addParamUrl+="&"+toAdd;
+        }else{
+            addParamUrl+="?"+toAdd;
+        }
+        $("<iframe>").attr("src",addParamUrl).css({
             width:"1px",
             height:"1px",
             opacity:"0.001",
