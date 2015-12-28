@@ -18,6 +18,7 @@ define(["commJs"], function (comm) {
         getArea();
         getList();
         bindEvent();
+        setupRichEditor();
         setupFileLoader();
     }
 
@@ -56,7 +57,7 @@ define(["commJs"], function (comm) {
                 var row = JSON.parse(row_str);
 
                 $('#name').val(row.name);
-                $('#introduction').val(row.introduction);
+                $('#introduction').html(row.introduction?row.introduction:'');
                 $('#type').val(row.type);
                 if (row.businessHourFrom!=null && row.businessHourFrom!='') {
                     var values = row.businessHourFrom.split(':');
@@ -123,6 +124,13 @@ define(["commJs"], function (comm) {
                 doSubmit("hospital/create", params, "添加成功");
             }
             return false;
+        });
+    }
+
+    function setupRichEditor() {
+        comm.setupRichEditor({
+            target: $('#introduction'),
+            toolbarContainer: $('#richEditorToolBar')
         });
     }
 
@@ -315,7 +323,7 @@ define(["commJs"], function (comm) {
         }
     };
 
-    var fields = ['name', 'introduction', 'type', 'province', 'city', 'district', 'addr', 'contactPhone'];
+    var fields = ['name', 'type', 'province', 'city', 'district', 'addr', 'contactPhone'];
 
     function getParam() {
         var param = {};
@@ -326,6 +334,8 @@ define(["commJs"], function (comm) {
             }
         });
         param["pictures"] = JSON.stringify(pictures);
+
+        param['introduction'] = $.trim($('#introduction').html());
 
         var businessHourFrom = checkNum('businessHourFrom', 0, 23);
         if (businessHourFrom == null) return;
@@ -350,7 +360,18 @@ define(["commJs"], function (comm) {
         if (businessHourFrom!='') param["businessHourFrom"] = window.G_getNumStr(Number(businessHourFrom)) + ':' + window.G_getNumStr(Number(businessMinFrom));
         if (businessHourTo!='') param["businessHourTo"] = window.G_getNumStr(Number(businessHourTo)) + ':' + window.G_getNumStr(Number(businessMinTo));
 
+        if (businessHourFrom!='' && businessHourTo!=''){
+            if (toMin(businessHourTo, businessMinTo) < toMin(businessHourFrom, businessMinFrom)){
+                alert('工作的结束时间必须大于开始时间！');
+                return;
+            }
+        }
+
         return validate(param);
+    }
+
+    function toMin(hour, min) {
+        return (Number(hour) * 60 + Number(min));
     }
 
     function checkNum(field, min, max) {
@@ -369,6 +390,7 @@ define(["commJs"], function (comm) {
             $('#' + field).val('');
         });
         pictures = [];
+        $('#introduction').html('');
         $('#imageList').html('');
         $('#province').val(regionData[0].provName);
         provinceChange();

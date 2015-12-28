@@ -75,16 +75,26 @@
                     <input id='name' type="text" class="form-control input-sm _itemName" placeholder="名称">
                 </div>
                 <label class="col-sm-2 control-label">类型</label>
-
                 <div class="col-sm-4 award-input-cnt">
-                    <input id='type' type="text" class="form-control input-sm _itemName" maxlength="10" placeholder="类型">
+                    <select id='type' class="form-control">
+                        <option value="民营美容医院">民营美容医院</option>
+                        <option value="民营美容医院1">民营美容医院1</option>
+                    </select>
                 </div>
             </div>
+            <!--<div class="form-group">-->
+                <!--<label class="col-sm-2 control-label">简介</label>-->
+
+                <!--<div class="col-sm-10 award-input-cnt">-->
+                    <!--<input id='introduction' type="text" class="form-control input-sm _itemName" maxlength="100" placeholder="简介（100字以内）">-->
+                <!--</div>-->
+            <!--</div>-->
             <div class="form-group">
                 <label class="col-sm-2 control-label">简介</label>
-
-                <div class="col-sm-10 award-input-cnt">
-                    <input id='introduction' type="text" class="form-control input-sm _itemName" maxlength="100" placeholder="简介（100字以内）">
+                <div class="col-sm-10">
+                    <div id="richEditorToolBar">
+                    </div>
+                    <div id="introduction" style="margin-top:15px;border:1px solid #ddd;border-radius:4px;height:400px;padding:5px;overflow:auto;">输入活动现场描述</div>
                 </div>
             </div>
             <div class="form-group">
@@ -261,6 +271,7 @@
 
 <script type="text/javascript">
     require.config({
+        urlArgs: "_version=5",
         baseUrl: "../js",
         paths: {
             "jquery": "lib/jquery.min",   //@note 以JS结尾的会忽略baseUrl
