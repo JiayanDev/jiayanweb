@@ -55,6 +55,7 @@ define(["commJs"], function (comm) {
                 var row = JSON.parse(row_str);
 
                 $('#name').val(row.name);
+                setPictures(row.pictures);
                 $('#province').val(row.province);
                 provinceChange(row.city, row.district);
                 //$('#city').val(row.city);
@@ -109,6 +110,58 @@ define(["commJs"], function (comm) {
             }
             return false;
         });
+    }
+
+    function setupFileLoader() {
+        var $loadingEl = $('.loading'),
+            fileMsg = $('#fileMsg');
+
+        comm.utils.setupFileLoader({
+            el: '#thumberUploader',
+            beforeSubmit: function (e, data) {
+                fileMsg.html('');
+                $loadingEl.removeClass('none');
+            },
+            callback: function (resp) {
+                var imgUrl = (resp && resp.url) || null;
+                if (imgUrl) {
+                    imgUrl = comm.config.BASE_IMAGE_PATH + imgUrl;
+                    appendImageList(imgUrl);
+                    $loadingEl.addClass('none');
+                } else {
+                    fileMsg.html('imgUrl==null');
+                }
+            },
+            error: function (resp) {
+                fileMsg.html((resp && resp.msg) || '文件上传失败');
+            }
+        });
+    }
+
+    var pictures = [];
+
+    function appendImageList(imgUrl) {
+        var imgListEl = $('#imageList');
+        imgListEl.removeClass("none");
+        //imgListEl.html('');
+        imgListEl.append('<li style="margin:2px;"><img src="' + imgUrl + '"' + 'style="vertical-align:middle;">' +
+            '<a href="#" src="' + imgUrl + '"' + 'class="img-delete">&times;</a></li>');
+        pictures.push(imgUrl);
+
+        $("#imageList .img-delete:last").click(function () {
+            var src = $(this).attr('src');
+            var index = pictures.indexOf(src);
+            pictures.splice(index, 1);
+            $(this).parent().remove();
+            return false;
+        });
+    }
+
+    function setPictures(pictures) {
+        for (var key in pictures) {
+            var picture = pictures[key];
+            appendImageList(picture);
+        }
     }
 
     function getArea() {
@@ -258,6 +311,7 @@ define(["commJs"], function (comm) {
                 param[field] = $.trim($('#' + field).val());
             }
         });
+        param["pictures"] = JSON.stringify(pictures);
         return validate(param);
     }
 
@@ -268,6 +322,8 @@ define(["commJs"], function (comm) {
         $.each(fields, function (idx, field) {
             $('#' + field).val('');
         });
+        pictures = [];
+        $('#imageList').html('');
         $('#province').val(regionData[0].provName);
         provinceChange();
         var el = $('#editPanel');

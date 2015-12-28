@@ -55,6 +55,39 @@
                     <input id='name' type="text" class="form-control input-sm _itemName" placeholder="名称">
                 </div>
             </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">简介</label>
+
+                <div class="col-sm-4 award-input-cnt">
+                    <input id='introduction' type="text" class="form-control input-sm _itemName" maxlength="10" placeholder="简介（100字以内）">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">类型</label>
+
+                <div class="col-sm-4 award-input-cnt">
+                    <input id='type' type="text" class="form-control input-sm _itemName" maxlength="10" placeholder="类型">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">图片</label>
+                <div class="col-sm-1">
+                    <div class="uploader-placeholder center">
+                        <i class="fa fa-plus"></i>
+                    </div>
+                    <input type="file" style="width:50px;height:50px;left:10px;"
+                           id="thumberUploader" name="file" class="uploader"
+                           data-url="http://v0.api.upyun.com/jiayanimg/">
+
+                    <p class="loading none">
+                        <i class="fa fa-spin fa-spinner"></i>
+                    </p>
+
+                    <p id="fileMsg"></p>
+                </div>
+                <ul id="imageList" class="gallery none">
+                </ul>
+            </div>
 
             <div class="form-group">
                 <label class="col-sm-2 control-label">省份</label>
@@ -93,17 +126,6 @@
                     <input id='contactPhone' type="text" class="form-control input-sm _itemName" placeholder="联系电话">
                 </div>
             </div>
-
-            <!--<div class="form-group">-->
-                <!--<label class="col-sm-2 control-label">状态</label>-->
-
-                <!--<div class="col-sm-3">-->
-                    <!--<select id='status' class="form-control">-->
-                        <!--<option>通过</option>-->
-                        <!--<option>不通过</option>-->
-                    <!--</select>-->
-                <!--</div>-->
-            <!--</div>-->
         </form>
         <div class="row right">
             <button class="btn btn-danger" id="_submit">保存</button>
