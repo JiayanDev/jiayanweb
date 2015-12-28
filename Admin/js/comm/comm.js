@@ -796,6 +796,8 @@ define(["jquery", 'lib/tmpl'], function ($, tmpl) {
         ].join('-');
     }
 
+    window.G_getNumStr = getNumStr;
+
     function getNumStr(val) {
         if (val < 10) return '0' + val;
         return val;

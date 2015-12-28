@@ -1163,6 +1163,8 @@ define(['tmpl', 'jquery'], function(tmpl, $) {
         return age * 1 + '岁';
     }
 
+    window.G_getNumStr = getNumStr;
+
     function getNumStr(val) {
         if (val < 10) return '0' + val;
         return val;

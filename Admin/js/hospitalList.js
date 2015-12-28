@@ -18,6 +18,7 @@ define(["commJs"], function (comm) {
         getArea();
         getList();
         bindEvent();
+        setupFileLoader();
     }
 
     function getList() {
@@ -55,6 +56,18 @@ define(["commJs"], function (comm) {
                 var row = JSON.parse(row_str);
 
                 $('#name').val(row.name);
+                $('#introduction').val(row.introduction);
+                $('#type').val(row.type);
+                if (row.businessHourFrom!=null && row.businessHourFrom!='') {
+                    var values = row.businessHourFrom.split(':');
+                    $('#businessHourFrom').val(values[0]);
+                    if (values.length>1) $('#businessMinFrom').val(values[1]);
+                }
+                if (row.businessHourTo!=null && row.businessHourTo!='') {
+                    var values = row.businessHourTo.split(':');
+                    $('#businessHourTo').val(values[0]);
+                    if (values.length>1) $('#businessMinTo').val(values[1]);
+                }
                 setPictures(row.pictures);
                 $('#province').val(row.province);
                 provinceChange(row.city, row.district);
@@ -98,6 +111,7 @@ define(["commJs"], function (comm) {
 
         $('#_submit').click(function () {
             var params = getParam();
+            if (!params) return false;
             var el = $('#editPanel');
             var id = el.data('id');
             if (id) {
@@ -301,7 +315,7 @@ define(["commJs"], function (comm) {
         }
     };
 
-    var fields = ['name', 'province', 'city', 'district', 'addr', 'contactPhone'];
+    var fields = ['name', 'introduction', 'type', 'province', 'city', 'district', 'addr', 'contactPhone'];
 
     function getParam() {
         var param = {};
@@ -312,14 +326,46 @@ define(["commJs"], function (comm) {
             }
         });
         param["pictures"] = JSON.stringify(pictures);
+
+        var businessHourFrom = checkNum('businessHourFrom', 0, 23);
+        if (businessHourFrom == null) return;
+
+        var businessMinFrom = checkNum('businessMinFrom', 0, 59);
+        if (businessHourFrom != '' && businessMinFrom == '') {
+            alert('时间格式错误！');
+            return;
+        }
+        if (businessMinFrom == null) return;
+
+        var businessHourTo = checkNum('businessHourTo', 0, 23);
+        if (businessHourTo == null) return;
+
+        var businessMinTo = checkNum('businessMinTo', 0, 59);
+        if (businessMinTo == null) return;
+        if (businessHourTo != '' && businessMinTo == '') {
+            alert('时间格式错误！');
+            return;
+        }
+
+        if (businessHourFrom!='') param["businessHourFrom"] = window.G_getNumStr(Number(businessHourFrom)) + ':' + window.G_getNumStr(Number(businessMinFrom));
+        if (businessHourTo!='') param["businessHourTo"] = window.G_getNumStr(Number(businessHourTo)) + ':' + window.G_getNumStr(Number(businessMinTo));
+
         return validate(param);
     }
 
+    function checkNum(field, min, max) {
+        var val = $('#' + field).val();
+        if (val==''){
+            return '';
+        }
+        if (val=='' || val < min || val > max) {
+            alert('时间格式错误！');
+            return null;
+        } else return val;
+    }
+
     function resetForm() {
-        //$.each(fields.concat('status'), function (idx, field) {
-        //    $('#' + field).val('');
-        //});
-        $.each(fields, function (idx, field) {
+        $.each(fields.concat(['businessHourFrom', 'businessMinFrom', 'businessHourTo', 'businessMinTo']), function (idx, field) {
             $('#' + field).val('');
         });
         pictures = [];
