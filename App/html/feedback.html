@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1"> -->
+    <meta name="viewport"
+          content="width=device-width, height=device-height,initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>意见反馈</title>
+
+    <style type="text/css">
+        html, body {
+            width: 100%;
+            height: 100%;
+        }
+
+        html, body, div {
+            padding: 0;
+            margin: 0;
+        }
+
+        textarea, input, textarea:focus, input:focus, textarea:active, input:active {
+            margin: 0;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            border: none;
+            outline: none;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .none {
+            display: none;
+        }
+
+        .f-width {
+            width: 100%;
+        }
+
+        .f-height {
+            height: 100%;
+        }
+
+        .margin-top-20 {
+            margin-top: 20px;
+        }
+
+        .margin-top {
+            margin-top: 30px;
+        }
+
+        .page {
+            color: #808080;
+            line-height: 2em;
+            font-size: 1em;
+            background-color: gainsboro
+        }
+
+        .panel {
+            padding-left: 10px;
+            padding-right: 10px;
+            background-color: white;
+        }
+
+        .button-parent {
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+
+        .btn.btn-primary {
+            background-color: #ff5a60;
+            color: #fff;
+            height: 35px
+        }
+
+        .btn {
+            display: inline-block;
+            color: #ff5a60;
+            padding: 6px 15px;
+            margin-bottom: 0;
+            font-size: 13px;
+            font-weight: 400;
+            line-height: 1.42857143;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: middle;
+            -ms-touch-action: manipulation;
+            touch-action: manipulation;
+            cursor: pointer;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            background-image: none;
+            border: 1px solid #ff5a60;
+            border-radius: 4px;
+            background-color: transparent;
+            /*border: 1px;*/
+        }
+    </style>
+    <script type="text/javascript">
+        function submit() {
+            document.getElementById("_form").style.display = "none";
+            document.getElementById("_msg").style.display = "block";
+        }
+    </script>
+</head>
+<body class="f-height f-width page">
+<div class="f-height f-width">
+    <!--<form id="_form" method="POST" action="xxx.cgi">-->
+    <div id="_form">
+        <div class="panel">
+            <textarea class="f-width" rows=5 placeholder="你的宝贵意见是我们前进的动力"></textarea>
+        </div>
+        <div class="panel margin-top-20">
+            <input class="f-width" type="text" placeholder="请留下你的手机号码/QQ(选填)">
+        </div>
+        <div class="margin-top button-parent">
+            <button id="_submit" class="f-width btn btn-primary" onclick="submit()">提交</button>
+        </div>
+    </div>
+    <h1 id="_msg" class="f-width none">提交成功</h1>
+</div>
+</body>
+</html>
