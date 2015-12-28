@@ -24,6 +24,12 @@ body,html{background-color: #f6f8f8;}
     }
 }
 
+@media (max-width: 767px){
+    .navbar-inverse .navbar-nav .open .dropdown-menu>li>a {
+        color: #ededed;
+    }
+}
+
 .none{display: none;}
 .table>thead>tr>th.th-border{border-bottom:2px solid #333;}
 .input-bg{
