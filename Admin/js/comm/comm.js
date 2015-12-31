@@ -61,6 +61,18 @@ define(["jquery", 'lib/tmpl'], function ($, tmpl) {
                                 url: 'pediaSearchRecList',
                                 label: '搜索推荐'
                             }]
+                    },
+                    {
+                        label: "报价系统",
+                        sub: [
+                            {
+                                url: 'goodsItemList',
+                                label: '商品'
+                            },
+                            {
+                                url: 'goodsOrderList',
+                                label: '订单'
+                            }]
                     }
                 ],
                 cur = getCur(nav),
@@ -167,11 +179,12 @@ define(["jquery", 'lib/tmpl'], function ($, tmpl) {
         var config = {};
         if (conf['url'].lastIndexOf('list') >= 0) {
             var args = getUrlArgObject();
-            if (args['pageIndex']) {
-                var data = conf['data'];
-                if (!data) data = {};
-                data['pageIndex'] = args['pageIndex'];
-            }
+            //if (args['pageIndex']) {
+            //    var data = conf['data'];
+            //    if (!data) data = {};
+            //    data['pageIndex'] = args['pageIndex'];
+            //}
+            $.extend(conf['data'], args);
         }
         $.extend(config, conf);
         $.extend(config, {
@@ -347,7 +360,8 @@ define(["jquery", 'lib/tmpl'], function ($, tmpl) {
         var argsStr = '';
         if (args) {
             for (var key in args) {
-                var value = args[key];
+                //var value = args[key];
+                var value = escape(args[key]);
                 argsStr += key + '=' + value + '&';
             }
             if (argsStr.length > 0) {
@@ -355,6 +369,17 @@ define(["jquery", 'lib/tmpl'], function ($, tmpl) {
             }
         }
         return argsStr;
+    }
+
+    function getParamUrl(param) {
+        var args = getUrlArgObject();
+        var path = window.location.pathname;
+        if (args['pageIndex']) param['pageIndex'] = args['pageIndex'];
+        return path + getUrlArgStr(param);
+    }
+
+    function replaceParam(param) {
+        window.location = getParamUrl(param);
     }
 
     function confirm(options) {
@@ -1085,7 +1110,11 @@ define(["jquery", 'lib/tmpl'], function ($, tmpl) {
             setupFileLoader: setupFileLoader,
             datetimepicker: datetimepicker,
             getArea: getArea,
-            provinceChange: provinceChange
+            provinceChange: provinceChange,
+            getUrlArgObject: getUrlArgObject,
+            getUrlArgStr: getUrlArgStr,
+            getParamUrl: getParamUrl,
+            replaceParam: replaceParam
         },
         login: {
             getVersion: getConfigVersion,

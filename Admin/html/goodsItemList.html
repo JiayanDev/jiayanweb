@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>医院</title>
+    <title>报价系统-商品</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Bootstrap -->
     <!-- <link rel="stylesheet" href="http://cdn.bootcss.com/twitter-bootstrap/3.0.3/css/bootstrap.min.css"> -->
@@ -15,24 +15,40 @@
     <script src="http://cdn.bootcss.com/respond.js/1.3.0/respond.min.js"></script>
     <![endif]-->
     <link href="../statics/css/font-awesome.min.css" rel="stylesheet">
+    <link href="../statics/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
     <link href="../statics/css/animate.min.css" rel="stylesheet">
     <link href="../statics/css/admin.css" rel="stylesheet">
     <style type="text/css">
-        .col-sm-1-small{
-            width: 2.07070707%;
+        .gallery {
+            list-style-type: none;
+            margin-bottom: 10px;
+            overflow: auto;
+            padding-left: 0px;
         }
-        .col-sm-1-mid{
-            width: 7.34141414%;
+
+        .gallery li img {
+            height: 100px;
         }
-        .padding-left-0{
-            padding-left: 0;
+
+        .gallery li {
+            float: left;
+            margin-right: 10px;
+            list-style-type: none;
         }
-        .padding-right-0{
-            padding-right: 0;
+
+        .uploader-placeholder {
+            width: 50px;
+            height: 50px;
+            border: 1px dashed #333;
+        }
+
+        .uploader-placeholder i {
+            line-height: 50px;
+            font-size: 2em;
         }
     </style>
 </head>
-
+<style type="text/css"></style>
 <body>
 <div>
     <nav class="navbar navbar-inverse navbar-lg" role="navigation"
@@ -53,7 +69,8 @@
             </ul>
         </div>
         <!-- /.navbar-collapse -->
-         <span class="sellerInfo">
+        <span class="sellerInfo">
+            <a id="_info" class="info" href="#">!</a>
             <span id="sellerName"></span>
             <a href="#" id="logout"><i class=""></i>退出</a>
          </span>
@@ -61,42 +78,40 @@
 </div>
 
 <div class="container container-bg bounce animated none" id="editPanel" style="min-height:150px;">
-    <a class="btn btn-right close">X</a>
+    <a class="btn btn-right close">&times;</a>
 
     <div class="container-sm">
         <div class="page-header">
-            <h4 id="panelTitle">添加医院</h4>
+            <h4 id="panelTitle">添加</h4>
         </div>
         <form class="form-horizontal">
             <div class="form-group">
-                <label class="col-sm-2 control-label">名称</label>
+                <label class="col-sm-2 control-label">标题</label>
 
-                <div class="col-sm-4 award-input-cnt">
-                    <input id='name' type="text" class="form-control input-sm _itemName" placeholder="名称">
-                </div>
-                <label class="col-sm-2 control-label">类型</label>
-                <div class="col-sm-4 award-input-cnt">
-                    <select id='type' class="form-control">
-                        <option value="民营美容医院">民营美容医院</option>
-                        <option value="民营美容医院1">民营美容医院1</option>
-                    </select>
+                <div class="col-sm-10 award-input-cnt">
+                    <input id='title' type="text" class="form-control input-sm _itemName" placeholder="标题">
                 </div>
             </div>
-            <!--<div class="form-group">-->
-                <!--<label class="col-sm-2 control-label">简介</label>-->
-
-                <!--<div class="col-sm-10 award-input-cnt">-->
-                    <!--<input id='introduction' type="text" class="form-control input-sm _itemName" maxlength="100" placeholder="简介（100字以内）">-->
-                <!--</div>-->
-            <!--</div>-->
             <div class="form-group">
-                <label class="col-sm-2 control-label">简介</label>
-                <div class="col-sm-10">
-                    <div id="richEditorToolBar">
+                <label class="col-sm-2 control-label">小图</label>
+
+                <div class="col-sm-1">
+                    <div class="uploader-placeholder center">
+                        <i class="fa fa-plus"></i>
                     </div>
-                    <div id="introduction" style="margin-top:15px;border:1px solid #ddd;border-radius:4px;height:400px;padding:5px;overflow:auto;">输入医院简介</div>
+                    <input type="file" style="width:50px;height:50px;left:10px;"
+                           id="thumbnailImgThumberUploader" name="file" class="uploader"
+                           data-url="http://v0.api.upyun.com/jiayanimg/">
+
+                    <p class="loading none">
+                        <i class="fa fa-spin fa-spinner"></i>
+                    </p>
+
+                    <p class="fileMsg"></p>
                 </div>
+                <ul id="thumbnailImg" class="col-sm-2 gallery none"></ul>
             </div>
+
             <div class="form-group">
                 <label class="col-sm-2 control-label">图片</label>
                 <div class="col-sm-1">
@@ -104,7 +119,7 @@
                         <i class="fa fa-plus"></i>
                     </div>
                     <input type="file" style="width:50px;height:50px;left:10px;"
-                           id="thumberUploader" name="file" class="uploader"
+                           id="photoesImgThumberUploader" name="file" class="uploader"
                            data-url="http://v0.api.upyun.com/jiayanimg/">
 
                     <p class="loading none">
@@ -113,71 +128,79 @@
 
                     <p id="fileMsg"></p>
                 </div>
-                <ul id="imageList" class="gallery none">
+                <ul id="photoes" class="gallery none">
                 </ul>
             </div>
-            <div class="form-group" id="timeSelector">
-                <label class="col-sm-2 control-label">工作时间</label>
-
-                <div class="col-sm-2 award-input-cnt padding-right-0">
-                    <input id='businessHourFrom' type="number" min="00" max="23" maxlength="2" class="form-control input-sm _itemName" placeholder="小时">
-                </div>
-                <label class="col-sm-1 control-label col-sm-1-small">:</label>
-                <div class="col-sm-2 award-input-cnt padding-left-0 padding-right-0">
-                    <input id='businessMinFrom' type="number" min="00" max="59" maxlength="2" class="form-control input-sm _itemName" placeholder="分钟">
-                </div>
-
-                <label class="col-sm-1 control-label col-sm-1-mid">到</label>
-                <div class="col-sm-2 award-input-cnt padding-right-0">
-                    <input id='businessHourTo' type="number" min="00" max="23" maxlength="2" class="form-control input-sm _itemName" placeholder="小时">
-                </div>
-                <label class="col-sm-1 control-label col-sm-1-small">:</label>
-                <div class="col-sm-2 award-input-cnt padding-left-0 padding-right-0">
-                    <input id='businessMinTo' type="number" min="00" max="59" maxlength="2" class="form-control input-sm _itemName" placeholder="分钟">
-                </div>
-            </div>
             <div class="form-group">
-                <label class="col-sm-2 control-label">省份</label>
-
-                <div class="col-sm-2">
-                    <select id='province' class="form-control">
-                    </select>
-                </div>
-
-                <label class="col-sm-1 control-label">城市</label>
-
-                <div class="col-sm-3">
-                    <select id='city' class="form-control">
-                    </select>
-                </div>
-
-                <label class="col-sm-1 control-label">地区</label>
-
-                <div class="col-sm-3">
-                    <select id='district' class="form-control">
-                    </select>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label class="col-sm-2 control-label">地址</label>
-
-                <div class="col-sm-10 award-input-cnt">
-                    <input id='addr' type="text" class="form-control input-sm _itemName" placeholder="地址">
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label">联系电话</label>
+                <label class="col-sm-2 control-label">医院名称</label>
 
                 <div class="col-sm-4 award-input-cnt">
-                    <input id='contactPhone' type="text" class="form-control input-sm _itemName" placeholder="联系电话">
+                    <input id='hospitalName' type="text" class="form-control input-sm _itemName" placeholder="医院名称">
+                </div>
+                <label class="col-sm-2 control-label">医院Id</label>
+
+                <div class="col-sm-4 award-input-cnt">
+                    <input id='hospitalId' type="text" class="form-control input-sm _itemName" placeholder="医院Id">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">医生名称</label>
+
+                <div class="col-sm-4 award-input-cnt">
+                    <input id='doctorName' type="text" class="form-control input-sm _itemName" placeholder="医生名称">
+                </div>
+                <label class="col-sm-2 control-label">医生Id</label>
+
+                <div class="col-sm-4 award-input-cnt">
+                    <input id='doctorId' type="text" class="form-control input-sm _itemName" placeholder="医生Id">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">原价格</label>
+
+                <div class="col-sm-4 award-input-cnt">
+                    <input id='orgPrice' type="number" class="form-control input-sm _itemName" placeholder="原价格">
+                </div>
+                <label class="col-sm-2 control-label">价格</label>
+
+                <div class="col-sm-4 award-input-cnt">
+                    <input id='price' type="number" class="form-control input-sm _itemName" placeholder="价格">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">补贴</label>
+
+                <div class="col-sm-4 award-input-cnt">
+                    <input id='allowance' type="number" class="form-control input-sm _itemName" placeholder="补贴">
+                </div>
+            </div>
+            <div name="edit-item" class="form-group">
+                <label class="col-sm-2 control-label">状态</label>
+                <div class="col-sm-4">
+                    <select id='status' class="form-control">
+                        <option value="待审核">待审核</option>
+                        <option value="通过">通过</option>
+                        <option value="不通过">不通过</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">内容</label>
+
+                <div class="col-sm-10">
+                    <div id="richEditorToolBar">
+                    </div>
+                    <div id="content"
+                         style="margin-top:15px;border:1px solid #ddd;border-radius:4px;height:400px;padding:5px;overflow:auto;">
+                        输入商品内容
+                    </div>
                 </div>
             </div>
         </form>
         <div class="row right">
             <button class="btn btn-danger" id="_submit">保存</button>
         </div>
-        <div id="formMsg" class="text-danger"></div>
+        <div id="create-formMsg" class="text-danger"></div>
     </div>
 </div>
 
@@ -187,25 +210,13 @@
         <div class="list-panel item-list-panel">
             <!-- <button class="btn" id="addNt"><i class="icon-plus"></i>录入排队编号类型</button> -->
             <div class="input-append" style="margin-bottom:19px;">
-                <input style="border:1px solid #ccc;border-radius:4px;line-height:1.8;padding-left:4px;" type="text"
-                       id="hospitalId" placeholder="输入ID">
-                <button class="btn btn-sm" id="btnSearch">查询</button>
+                <button class="btn btn-sm" id="_search">查询</button>
                 <button class="btn btn-warning btn-sm btn-right" id="_add">添加</button>
             </div>
             <div id="_list">
                 <table class="table table-hover">
                     <thead>
                     <tr>
-                        <th class="th-border">编号</th>
-                        <th class="th-border">名称</th>
-                        <th class="th-border">类型</th>
-                        <th class="th-border">省份</th>
-                        <th class="th-border">城市</th>
-                        <th class="th-border">地区</th>
-                        <th class="th-border">地址</th>
-                        <th class="th-border">联系电话</th>
-                        <th class="th-border">状态</th>
-                        <th class="th-border">操作</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -226,14 +237,15 @@
         <thead>
             <tr>
                 <th class="th-border">编号</th>
-                <th class="th-border">名称</th>
-                <th class="th-border">类型</th>
-                <th class="th-border">省份</th>
-                <th class="th-border">城市</th>
-                <th class="th-border">地区</th>
-                <th class="th-border">地址</th>
-                <th class="th-border">联系电话</th>
+                <th class="th-border">标题</th>
+                <th class="th-border">小图</th>
+                <th class="th-border">医院</th>
+                <th class="th-border">医生</th>
+                <th class="th-border">原价格</th>
+                <th class="th-border">价格</th>
+                <th class="th-border">补贴</th>
                 <th class="th-border">状态</th>
+                <th class="th-border">创建时间</th>
                 <th class="th-border">操作</th>
             </tr>
         </thead>
@@ -245,16 +257,20 @@
             %}
             <tr>
                 <td>{%= row.id %}</td>
-                <td>{%= row.name %}</td>
-                <td>{%= row.type %}</td>
-                <td>{%= row.province %}</td>
-                <td>{%= row.city %}</td>
-                <td>{%= row.district %}</td>
-                <td>{%= row.addr %}</td>
-                <td>{%= row.contactPhone %}</td>
+                <td>{%= row.title %}</td>
+                <td>
+                    <img src="{%= row.thumbnailImg|| '' %}" style="width:30px;"/>
+                </td>
+                <td>{%= row.hospitalName %}</td>
+                <td>{%= row.doctorName %}</td>
+                <td>{%= row.orgPrice %}</td>
+                <td>{%= row.price %}</td>
+                <td>{%= row.allowance %}</td>
                 <td>{%= row.status %}</td>
+                <td>{%= window.G_formatTime(row.createTime) %}</td>
                 <td>
                     <a href="#" class="_edit" data-id="{%= row.id %}" data-row='{%= JSON.stringify(row) %}'>编辑</a>
+                    <!--<a href="#" class="_detail" data-id="{%= row.id %}"'>详情</a>-->
                 </td>
             </tr>
             {% }}else{ %}
@@ -263,7 +279,6 @@
         </tbody>
     </table>
 
-
 </script>
 
 <script src="../js/lib/md5.js"></script>
@@ -271,7 +286,6 @@
 
 <script type="text/javascript">
     require.config({
-        urlArgs: "_version=5",
         baseUrl: "../js",
         paths: {
             "jquery": "lib/jquery.min",   //@note 以JS结尾的会忽略baseUrl
@@ -279,7 +293,7 @@
             "bootstrap": "lib/bootstrap.min"
         }
     });
-    require(["hospitalList"], function (mod) {
+    require(["goodsItemList"], function (mod) {
         mod.setup();
     });
 </script>
