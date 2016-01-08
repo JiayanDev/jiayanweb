@@ -72,6 +72,18 @@ define(["jquery", 'lib/tmpl'], function ($, tmpl) {
                             {
                                 url: 'goodsOrderList',
                                 label: '订单'
+                            },
+                            {
+                                url: 'goodsPosterList',
+                                label: 'Banner'
+                            },
+                            {
+                                url: 'goodsHotItemList',
+                                label: '推荐类目'
+                            },
+                            {
+                                url: 'goodsCityList',
+                                label: '城市'
                             }]
                     }
                 ],
