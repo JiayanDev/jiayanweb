@@ -27,13 +27,22 @@ define(["commJs"], function (comm) {
                 comm.utils.showTdEdit($t);
                 return false;
             } else if ($t.hasClass('_delete')) {
-                var id = $t.data('id');
+                var city = $t.data('row');
                 comm.confirm({
                     el: $t,
                     content: '确定删除该城市吗？',
                     placement: 'left',
                     onYES: function () {
-                        comm.io.postId(PATH_DIR + '/remove', id, getList);
+                        var data = {
+                            city: city
+                        };
+                        comm.io.post({
+                            url: comm.config.BASEPATH + PATH_DIR + '/remove',
+                            data: data,
+                            success: function () {
+                                getList();
+                            }
+                        });
                     }
                 });
                 return false;

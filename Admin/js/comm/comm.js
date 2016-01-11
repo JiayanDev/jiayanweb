@@ -109,11 +109,15 @@ define(["jquery", 'lib/tmpl'], function ($, tmpl) {
                     var subList = [];
                     var active = '';
 
+                    var menu = this;
                     $.each(this.sub, function () {
                         if (active != 'active') {
                             active = cur == this.url ? 'active' : '';
                         }
                         var subActive = cur == this.url ? ' √' : '';
+                        if (cur == this.url) {
+                            menu.label += ' | ' + this.label;
+                        }
                         subList.push(fillString(tplSub, $.extend(this, {active: subActive})));
                     });
 

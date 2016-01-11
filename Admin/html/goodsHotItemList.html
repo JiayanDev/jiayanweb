@@ -130,6 +130,7 @@
                 <td>{%= window.G_formatTime(row.createTime) %}</td>
                 <td>
                     <a href="#" class="_edit" data-id="{%= row.id %}" data-row='{%= JSON.stringify(row) %}'>编辑</a>
+                    <a href="#" class="_delete" data-id="{%= row.id %}">删除</a>
                 </td>
             </tr>
             {% }}else{ %}
