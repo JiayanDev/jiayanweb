@@ -78,6 +78,11 @@
             "jqueryBxslider": "./libs/jquery.bxslider", //@note bxslider
             "commJs": "../../script/comm/comm",
             "tmpl":"../../script/lib/tmpl"
+        },
+        shim:{
+            'jqueryBxslider': {
+                deps: ['jquery']
+            }
         }
     });
     require(["index"], function(mod) {
