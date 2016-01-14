@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <title>佳妍科技</title>
+    <link rel="stylesheet" href="script/libs/jquery.bxslider.css" type="text/css">
+    <script type="text/javascript" src="../script/lib/jquery.min.js"></script>
+    <script type="text/javascript" src="script/libs/jquery.bxslider.js"></script>
+    <style type="text/css">
+        .bx-prev{
+            width:12px; height:26px;
+            background:#f00;text-indent: -999999px;z-index: 999;
+            position: absolute; float:left; left:455px; top:110px;
+        }
+        .bx-next{
+            width:12px; height:26px;
+            background:#f00; text-indent: -999999px;
+            z-index: 999;
+            position: absolute; top:110px;left:-15px;
+        }
+    </style>
+    <script type="text/javascript">
+        $(function(){
+            $('#marquee').bxSlider({
+                /*mode:'vertical', //默认的是水平*/
+                displaySlideQty:1,//显示li的个数
+                moveSlideQty: 1,//移动li的个数
+                captions: true,//自动控制
+                auto: true,
+                controls: false//隐藏左右按钮
+            });
+        });
+    </script>
+</head>
+<body>
+
+<div style="width:450px; height:296px; float:left; overflow:hidden; margin-left:200px;">
+    <ul id="marquee">
+        <li>
+            <img src="../asset/img/aboutmtls.jpg" alt="banner_美容"
+                 style="width:450px; height:296px;">
+        </li>
+        <li>
+            <img src="../asset/img/aboutmtls.jpg" alt="banner_美容"
+                 style="width:450px; height:296px;">
+        </li>
+    </ul>
+</div>
+
+
+</body>
+</html>
