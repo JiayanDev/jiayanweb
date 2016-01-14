@@ -7,7 +7,7 @@
     <meta name="viewport"
           content="width=device-width, height=device-height,initial-scale=1, maximum-scale=1, user-scalable=no">
     <title></title>
-    <link rel="stylesheet" href="script/libs/jquery.bxslider.css" type="text/css">
+    <link rel="stylesheet" href="../script/plugin/bxslider/jquery.bxslider.css" type="text/css">
     <link type="text/css" rel="stylesheet" href="../asset/css/common.css"/>
     <link type="text/css" rel="stylesheet" href="css/baojiacomm.css"/>
 
@@ -16,33 +16,27 @@
     <!--<script type="text/javascript" src="script/libs/jquery.bxslider.js"></script>-->
 
     <style type="text/css">
+
     </style>
 </head>
 <body>
 
-<div class="index-native-like-header">
-    <a class="city-select">
-        <span class="city-name"></span>
+<div class="relative index-native-like-header">
+    <a class="absolute city-select">
+        <span class="city-name">深圳</span>
         <i class="dropdown-icon"></i>
     </a>
-
-    <input type="search" class="index-search" placeholder="搜索">
-
-    <a class="user-button">
-
-    </a>
-
+    <input class="search-control border" type="search" placeholder="搜索">
+    <a class="absolute user-button"></a>
 </div>
 
-<div id="slider" style="width:450px; height:296px; float:left; overflow:hidden; margin-left:200px;">
+<div id="slider" class="slider-box">
     <ul id="marquee">
         <li>
-            <img src="../asset/img/aboutmtls.jpg" alt="banner_美容"
-                 style="width:450px; height:296px;">
+            <img class="header-img" src="img/test/img_header.png" alt="banner_美容">
         </li>
         <li>
-            <img src="../asset/img/aboutmtls.jpg" alt="banner_美容"
-                 style="width:450px; height:296px;">
+            <img class="header-img" src="img/test/img_header.png" alt="banner_美容">
         </li>
     </ul>
 </div>
@@ -70,24 +64,23 @@
     }
 
     require.config({
-        urlArgs: "_version=151214",
+        urlArgs: "_version=1",
         baseUrl: "./script",
         paths: {
             // "zepto": "../script/lib/zepto", //@note 以JS结尾的会忽略baseUrl
-            "jquery": "../script/lib/jquery.min", //@note 以JS结尾的会忽略baseUrl
-            "jqueryBxslider": "./libs/jquery.bxslider", //@note bxslider
-            "commJs": "../script/comm/comm",
-            "tmpl":"../script/lib/tmpl"
+            "jquery": "../../script/lib/jquery.min", //@note 以JS结尾的会忽略baseUrl
+            "bxslider": "../../script/plugin/bxslider/jquery.bxslider", //@note bxslider
+            "commJs": "../../script/comm/comm",
+            "tmpl":"../../script/lib/tmpl"
         },
         shim:{
-            'jqueryBxslider': {
+            'bxslider': {
                 deps: ['jquery']
             }
         }
     });
     require(["index"], function(mod) {
         mod.setup();
-
     });
 </script>
 
