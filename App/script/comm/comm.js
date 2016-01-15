@@ -203,6 +203,21 @@ define(['tmpl', 'jquery'], function(tmpl, $) {
         }
     }
 
+    function getTokenPost(){
+        post({
+            url:BASEPATH + "app/init",
+            data:{deviceToken:"WEB_TEST",configVersion:"0"},
+            success:function(data){
+                console.log("data:  ",data);
+                if(data.token){
+                    localStorage.setItem(AUTHORIZATION, data.token);
+                }
+            }
+        })
+    }
+
+    window.gtoken=getTokenPost;
+
     function getToken() {
         return localStorage.getItem(AUTHORIZATION, '');
     }
