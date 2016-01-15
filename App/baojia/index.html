@@ -8,6 +8,7 @@
           content="width=device-width, height=device-height,initial-scale=1, maximum-scale=1, user-scalable=no">
     <title></title>
     <link rel="stylesheet" href="../script/plugin/bxslider/jquery.bxslider.css" type="text/css">
+    <link rel="stylesheet" href="../script/plugin/slick/slick.css" type="text/css">
     <link type="text/css" rel="stylesheet" href="../asset/css/common.css"/>
     <link type="text/css" rel="stylesheet" href="css/baojiacomm.css"/>
 
@@ -31,13 +32,13 @@
 </div>
 
 <div id="slider" class="slider-box">
-    <ul id="marquee">
-        <!--<li>
+    <ul id="marquee" style="height: 80px;">
+        <li>
             <img class="header-img" src="img/test/img_header.png" alt="banner_美容">
         </li>
         <li>
             <img class="header-img" src="img/test/img_header.png" alt="banner_美容">
-        </li>-->
+        </li>
     </ul>
 </div>
 
@@ -72,11 +73,15 @@
             // "zepto": "../script/lib/zepto", //@note 以JS结尾的会忽略baseUrl
             "jquery": "../../script/lib/jquery.min", //@note 以JS结尾的会忽略baseUrl
             "bxslider": "../../script/plugin/bxslider/jquery.bxslider", //@note bxslider
+            "slick": "../../script/plugin/slick/slick",
             "commJs": "../../script/comm/comm",
             "tmpl":"../../script/lib/tmpl"
         },
         shim:{
             'bxslider': {
+                deps: ['jquery']
+            },
+            'slick': {
                 deps: ['jquery']
             }
         }

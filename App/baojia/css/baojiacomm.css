@@ -59,7 +59,11 @@ img.header-img {
 
 .slider-box {
     height: 296px;
-    float: left;
+    /*float: left;*/
     overflow: hidden;
+}
+
+.slider-box img{
+    /*height: 296px;*/
 }
 
