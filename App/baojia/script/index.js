@@ -2,6 +2,7 @@
  * Created by zcw_RMBP13 on 16/1/13.
  */
 define(["commJs", "bxslider"], function (comm, bxslider) {
+    var get=comm.io.get;
 
     function init() {
         comm.setupWorkspace();
@@ -10,33 +11,46 @@ define(["commJs", "bxslider"], function (comm, bxslider) {
     }
 
     function loadData() {
-        //var ajax1=comm.io.get({
-        //    url: comm.config.BASEPATH + "pedia/tree",
-        //    success: function (data) {
-        //        renderCategoryList(data.data);
-        //        //renderSuggestList(data.recommend);
-        //        comm.utils.hideNativeLoading();
-        //    },
-        //    error: function (msg) {
-        //        comm.utils.alertMsg("加载出错");
-        //        comm.utils.hideNativeLoading();
-        //    }
-        //});
-        //var ajax2=comm.io.get({
-        //    url: comm.config.BASEPATH + "pedia/search/recommend/list",
-        //    success: function (data) {
-        //        renderSuggestList(data);
-        //    },
-        //    error: function (msg) {
-        //        comm.utils.alertMsg("建议列表加载出错");
-        //    }
-        //});
+        var ajax1=get({
+            url: comm.config.BASEPATH + "pc/homepage/poster_item/list",
+            success: function (data) {
+
+
+                renderHeaderSlider(data);
+            },
+            error: function (msg) {
+                comm.utils.alertMsg("加载出错");
+                comm.utils.hideNativeLoading();
+            }
+        });
+
+
         //$.when(ajax1,ajax2).done(function(){
         //    comm.preloadNextPageWithUrl("category.html");
         //});
     }
 
-    function bindEvent() {
+
+    function getLinkOfItem(item){
+
+
+        return "javascript:;";
+    }
+
+    function renderHeaderSlider(items){
+        $.each(items, function (one) {
+            var li = $("<li>").append(
+                $("<a>").attr("href", getLinkOfItem(one)).append(
+                    $("<img>").attr("src", one.coverImg)
+                        .addClass("header-img")
+                )
+            );
+            $('#marquee').append(li);
+
+        });
+
+
+
         $('#marquee').bxSlider({
             /*mode:'vertical', //默认的是水平*/
             displaySlideQty:1,//显示li的个数
@@ -45,6 +59,10 @@ define(["commJs", "bxslider"], function (comm, bxslider) {
             auto: true,
             controls: false//隐藏左右按钮
         });
+    }
+
+    function bindEvent() {
+
     }
 
 
