@@ -200,6 +200,7 @@ define(['tmpl', 'jquery'], function(tmpl, $) {
             request.setRequestHeader(AUTHORIZATION, token);
         } else {
             //window.location = 'login.html';
+            getTokenPost();
         }
     }
 

@@ -1,7 +1,7 @@
 /**
  * Created by zcw_RMBP13 on 16/1/13.
  */
-define(["commJs", "bxslider"], function (comm, bxslider) {
+define(["commJs", "slick"], function (comm, bxslider) {
     var get=comm.io.get;
 
     function init() {
@@ -39,7 +39,7 @@ define(["commJs", "bxslider"], function (comm, bxslider) {
 
     function renderHeaderSlider(items){
         $.each(items, function (one) {
-            var li = $("<li>").append(
+            var li = $("<div>").append(
                 $("<a>").attr("href", getLinkOfItem(one)).append(
                     $("<img>").attr("src", one.coverImg)
                         .addClass("header-img")
@@ -51,13 +51,25 @@ define(["commJs", "bxslider"], function (comm, bxslider) {
 
 
 
-        $('#marquee').bxSlider({
-            /*mode:'vertical', //默认的是水平*/
-            displaySlideQty:1,//显示li的个数
-            moveSlideQty: 1,//移动li的个数
-            captions: true,//自动控制
-            auto: true,
-            controls: false//隐藏左右按钮
+        $('#marquee').slick({
+            arrows:false,
+            dots:true,
+            cssEase:"cubic-bezier(.02, .01, .47, 1)",
+            easing:"swing",
+            edgeFriction:0,
+            swipeToSlide:true,
+            speed:300,
+            responsive:true,
+            mobileFirst:true
+
+
+
+            ///*mode:'vertical', //默认的是水平*/
+            //displaySlideQty:1,//显示li的个数
+            //moveSlideQty: 1,//移动li的个数
+            //captions: true,//自动控制
+            //auto: true,
+            //controls: false//隐藏左右按钮
         });
     }
 

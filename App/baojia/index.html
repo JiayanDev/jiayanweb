@@ -9,6 +9,7 @@
     <title></title>
     <link rel="stylesheet" href="../script/plugin/bxslider/jquery.bxslider.css" type="text/css">
     <link rel="stylesheet" href="../script/plugin/slick/slick.css" type="text/css">
+    <link rel="stylesheet" href="../script/plugin/slick/slick-theme.css" type="text/css">
     <link type="text/css" rel="stylesheet" href="../asset/css/common.css"/>
     <link type="text/css" rel="stylesheet" href="css/baojiacomm.css"/>
 
@@ -32,14 +33,14 @@
 </div>
 
 <div id="slider" class="slider-box">
-    <ul id="marquee" style="height: 80px;">
-        <li>
+    <div id="marquee">
+        <div>
             <img class="header-img" src="img/test/img_header.png" alt="banner_美容">
-        </li>
-        <li>
+        </div>
+        <div>
             <img class="header-img" src="img/test/img_header.png" alt="banner_美容">
-        </li>
-    </ul>
+        </div>
+    </div>
 </div>
 
 
@@ -67,7 +68,7 @@
     }
 
     require.config({
-        urlArgs: "_version=1",
+        urlArgs: "_version=1.15.16",
         baseUrl: "./script",
         paths: {
             // "zepto": "../script/lib/zepto", //@note 以JS结尾的会忽略baseUrl

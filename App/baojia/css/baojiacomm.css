@@ -35,8 +35,8 @@ input.search-control, input.search-control:focus, input.search-control:active {
     border: 1px solid #b94a48;
     outline: none;
     background-color: #b94a48;
-    margin-left: 100px;
-    margin-right: 100px;
+    /*margin-left: 100px;*/
+    /*margin-right: 100px;*/
     min-width: 0;
 }
 
