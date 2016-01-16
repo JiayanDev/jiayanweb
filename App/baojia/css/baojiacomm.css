@@ -3,11 +3,12 @@
     padding: 5px;
     height: 40px;
     background-color: #FF8386;
+    overflow: hidden;
 }
 
 .city-select {
-    top: 10px;
-    left: 5px;
+    top: 14px;
+    left: 10px;
 }
 
 .city-name {
@@ -18,8 +19,8 @@
 .dropdown-icon {
     background: url(../img/icon_drop.png) no-repeat;
     background-size: cover;
-    width: 40px;
-    height: 20px;
+    width: 20px;
+    height: 10px;
     margin-left: 5px;
     margin-top: 5px;
     display: inline-block;
@@ -35,7 +36,7 @@ input.search-control, input.search-control:focus, input.search-control:active {
     border: 1px solid #b94a48;
     outline: none;
     background-color: #b94a48;
-    /*margin-left: 100px;*/
+    margin-left: 80px;
     /*margin-right: 100px;*/
     min-width: 0;
 }
@@ -45,7 +46,7 @@ input.search-control, input.search-control:focus, input.search-control:active {
     background: url(../img/icon_user.png) no-repeat;
     background-size: cover;
     top: 0;
-    right: 0;
+    right: -10px;
     width: 80px;
     height: 40px;
     display: inline-block;

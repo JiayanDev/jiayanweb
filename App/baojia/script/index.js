@@ -16,13 +16,15 @@ define(["commJs", "slick"], function (comm, bxslider) {
             success: function (data) {
 
 
-                renderHeaderSlider(data);
+                //renderHeaderSlider(data);
             },
             error: function (msg) {
                 comm.utils.alertMsg("加载出错");
                 comm.utils.hideNativeLoading();
             }
         });
+
+        renderHeaderSlider([]);
 
 
         //$.when(ajax1,ajax2).done(function(){
@@ -45,22 +47,22 @@ define(["commJs", "slick"], function (comm, bxslider) {
                         .addClass("header-img")
                 )
             );
-            $('#marquee').append(li);
+            //$('#marquee').append(li);
 
         });
 
 
 
         $('#marquee').slick({
-            arrows:false,
+            //arrows:true,
             dots:true,
             cssEase:"cubic-bezier(.02, .01, .47, 1)",
             easing:"swing",
             edgeFriction:0,
-            swipeToSlide:true,
-            speed:300,
-            responsive:true,
-            mobileFirst:true
+            //swipeToSlide:true,
+            speed:300
+            //responsive:true,
+            //mobileFirst:true
 
 
 
